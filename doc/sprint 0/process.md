@@ -2,7 +2,15 @@
 
 We primarily used Facebook Messenger to communicate as a group. This proved to be an effective method to check up on progress, make minor decisions, and determine the best times for our in-person group meetings.
 
-At the beginning of the sprint, we made some rough estimates as to how long each portion of the sprint would take to complete. Using these estimates, we determined that each person the amount of time each person would be responsible, and then we separated the task accordingly.
+At the beginning of the sprint, we made some rough estimates as to how long each portion of the sprint would take to complete. Using these estimates, we determined that each person the amount of time each person would be responsible, and then we separated the tasks accordingly.
+
+Three people were assigned to create a user experience mockup/prototype as this required the most amount of time to complete. Using UXPin, Richard, Jason H., and Swarup were able to work on this mockup together.
+
+Jackie was assigned to completing the competition and summary documents. Logan was assigned to completing the personas and writing the process document after the details of it were discussed as a group.
+
+Jason C. and Hemant were responsible for completing the user stories and product backlog. Finally, everyone decided on what "done" meant, but Jason C. was responsible for the write-up.
+
+In the next phase, we will split into front end and backend teams in order to begin development of Planit; we have tentatively decided that there will be three front-end developers and four back-end developers.
 
 ## Tools
 
