@@ -2,7 +2,7 @@
 
 We primarily used Facebook Messenger to communicate as a group. This proved to be an effective method to check up on progress, make minor decisions, and determine the best times for our in-person group meetings.
 
-At the beginning of the sprint, we made some rough estimates as to how long each portion of the sprint would take to complete. Using these estimates, we determined that each person the amount of time each person would be responsible, and then we separated the tasks accordingly.
+At the beginning of the sprint, we made some rough estimates as to how long each portion of the sprint would take to complete. Using these estimates, we determined the amount of time each person would be responsible for, and then we separated the tasks accordingly.
 
 Three people were assigned to create a user experience mockup/prototype as this required the most amount of time to complete. Using UXPin, Richard, Jason H., and Swarup were able to work on this mockup together.
 
