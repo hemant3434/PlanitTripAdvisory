@@ -4,6 +4,8 @@ We primarily used Facebook Messenger to communicate as a group. This proved to b
 
 At the beginning of the sprint, we made some rough estimates as to how long each portion of the sprint would take to complete. Using these estimates, we determined the amount of time each person would be responsible for, and then we separated the tasks accordingly.
 
+Because all seven of us will be filling the role of developer for this project (our product owner is Lora and Flora, and our scrum master is our TA), I will instead be defining what we worked on in sprint 0 and our plan for the next phase of the project.
+
 Three people were assigned to create a user experience mockup/prototype as this required the most amount of time to complete. Using UXPin, Richard, Jason H., and Swarup were able to work on this mockup together.
 
 Jackie was assigned to completing the competition and summary documents. Logan was assigned to completing the personas and writing the process document after the details of it were discussed as a group.
