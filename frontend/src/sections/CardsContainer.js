@@ -23,7 +23,8 @@ export default function CardsContainer() {
       <Content>
         <List>
           <ListItem>
-            <ImageCard />
+            <ImageCard title="Toronto" image={require("../images/toronto.jpg")} text="lmao"/>
+            <ImageCard title="Scarborough" image={require("../images/toronto.jpg")} text="HAHA"/>
           </ListItem>
         </List>
       </Content>
