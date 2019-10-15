@@ -42,7 +42,11 @@ class MapPicker extends React.Component {
                         coordinate={this.state.region}
                         />
                         <MapView.Circle
-                        center = {}
+                        center={{latitude: this.state.region.latitude, longitude: this.state.region.longitude}}
+                        radius={20}
+                        strokeWidth={2}
+                        strokeColor="#3399ff"
+                        fillColor="#80bfff"
                         />
                     </MapView>
                 </ScrollView>
