@@ -2,12 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import MapPicker from './components/MapPicker';
 import CardsContainer from './sections/CardsContainer';
+import Calendar from './components/Calendar';
 
 export default function App() {
   return (
     <View style={styles.container}>
       <Text>PLAN YO SHIT</Text>
       <CardsContainer />
+      <Calendar />
     </View>
   );
 }
