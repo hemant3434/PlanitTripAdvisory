@@ -11,16 +11,20 @@
   },
   "dependencies": {
     "expo": "^35.0.0",
+    "native-base": "^2.13.8",
     "react": "16.8.3",
     "react-art": "^16.10.2",
     "react-dom": "^16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
+    "react-native-maps": "^0.26.1",
+    "react-native-elements": "^1.2.6",
     "react-native-web": "^0.11.7",
     "react-router-dom": "^5.1.2",
     "react-router-native": "^5.1.2",
     "react-scripts": "^3.2.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
     "babel-preset-expo": "^7.0.0"
   },
   "private": true,
