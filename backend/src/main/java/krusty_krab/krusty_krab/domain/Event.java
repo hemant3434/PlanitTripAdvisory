@@ -1,11 +1,12 @@
 package krusty_krab.krusty_krab.domain;
 
+import java.sql.Time;
 import java.util.List;
 
 public class Event {
 
 	private String name;
-	private String date;
+	private Time date;
 	private String location;
 	private List<String> activies;
 	private int rating;
@@ -14,7 +15,7 @@ public class Event {
 	public Event() {
 	}
 	
-	public Event(String name, String date, String location, List<String> activities, int rating, double cost) {
+	public Event(String name, Time date, String location, List<String> activities, int rating, double cost) {
 		this.name = name;
 		this.date = date;
 		this.location = location;
@@ -27,7 +28,7 @@ public class Event {
 		return this.name;
 	}
 	
-	public String date() {
+	public Time date() {
 		return this.date;
 	}
 	
