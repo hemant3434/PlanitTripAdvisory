@@ -28,13 +28,14 @@ class MapPicker extends React.Component {
                 contentContainerStyle={styles.scrollview}
                 >
                     <MapView
-                    provider={this.props.provider}
+                    provider="google"
                     style={styles.map}
-                    scrollEnabled={false}
-                    zoomEnabled={false}
+                    scrollEnabled={true}
+                    zoomEnabled={true}
                     pitchEnabled={false}
                     rotateEnabled={false}
                     initialRegion={this.state.region}
+                    onRegionChange={(e) => this.state.region = e.nativeEvent}
                     >
                         {/* <Marker
                         title="This is a title"
@@ -48,6 +49,7 @@ class MapPicker extends React.Component {
                         strokeColor="#3399ff"
                         fillColor="#80bfff"
                         />
+                        
                     </MapView>
                 </ScrollView>
             </View>
@@ -55,10 +57,6 @@ class MapPicker extends React.Component {
         );
     }
 }
-
-MapPicker.propTypes = {
-    provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
     container: {
