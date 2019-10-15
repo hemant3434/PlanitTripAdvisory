@@ -1,27 +1,27 @@
 package krusty_krab.krusty_krab.domain;
 
-import java.util.List;
+import java.sql.Time;
 
 public class Transportation {
 
-    private double time;
+    private Time time;
     private String distance;
     private double cost;
 
     public Transportation() {
     }
 
-    public Transportation(double time, String distance, double cost) {
+    public Transportation(Time time, String distance, double cost) {
         this.time = time;
         this.distance = distance;
         this.cost = cost;
     }
 
-    public double getTime() {
+    public Time getTime() {
         return time;
     }
 
-    public void setTime(double time) {
+    public void setTime(Time time) {
         this.time = time;
     }
 
