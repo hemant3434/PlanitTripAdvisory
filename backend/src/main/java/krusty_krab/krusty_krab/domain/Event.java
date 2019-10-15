@@ -23,5 +23,27 @@ public class Event {
 		this.cost = cost;
 	}
 	
-	public 
+	public String getName() {
+		return this.name;
+	}
+	
+	public String date() {
+		return this.date;
+	}
+	
+	public String location() {
+		return this.location;
+	}
+	
+	public List<String> getActivities() {
+		return this.activies;
+	}
+	
+	public int getRating() {
+		return this.rating;
+	}
+	
+	public double getCost() {
+		return this.cost;
+	}
 }
