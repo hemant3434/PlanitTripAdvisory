@@ -8,6 +8,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>PLAN YO SHIT</Text>
+      <MapPicker />
       <CardsContainer />
       <Calendar />
     </View>
