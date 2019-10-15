@@ -7,6 +7,7 @@ public class Transportation {
     private Time time;
     private String distance;
     private double cost;
+    private String method;
 
     public Transportation() {
     }
@@ -39,5 +40,13 @@ public class Transportation {
 
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 }
