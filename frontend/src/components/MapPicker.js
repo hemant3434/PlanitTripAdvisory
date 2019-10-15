@@ -36,14 +36,14 @@ class MapPicker extends React.Component {
                     rotateEnabled={false}
                     initialRegion={this.state.region}
                     >
-                        <Marker
+                        {/* <Marker
                         title="This is a title"
                         description="This is a description"
                         coordinate={this.state.region}
-                        />
+                        /> */}
                         <MapView.Circle
                         center={{latitude: this.state.region.latitude, longitude: this.state.region.longitude}}
-                        radius={20}
+                        radius={1000}
                         strokeWidth={2}
                         strokeColor="#3399ff"
                         fillColor="#80bfff"
