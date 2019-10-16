@@ -15,6 +15,7 @@ import {
   Body
 } from "native-base";
 import ImageCard from './../components/Cards/ImageCard';
+import TravelCard from './../components/Cards/TravelCard';
 
 export default function CardsContainer() {
   return (
@@ -23,7 +24,9 @@ export default function CardsContainer() {
       contentContainerStyle={styles.scrollview}
       >
           <ImageCard title="Toronto" image={require("../images/toronto.jpg")} text="lmao"/>
+          <TravelCard title="Car" icon="flight-takeoff" subtitle="69 mins"/>
           <ImageCard title="Scarborough" image={require("../images/toronto.jpg")} text="lmao"/>
+          <TravelCard title="Plane" icon="flight-takeoff" subtitle="33 mins"/>
           <ImageCard title="China" image={require("../images/toronto.jpg")} text="420"/>
       </ScrollView>
   );

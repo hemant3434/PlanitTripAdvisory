@@ -2,24 +2,22 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
 
-class ImageCard extends Component{
+class TravelCard extends Component{
   constructor(props){
     super(props)
   }
 
   render(props){
     return (
-      <Card
+      <Card><ListItem
         title={this.props.title}
-        image={this.props.image}>
-        <Text style={{marginBottom: 10}}>{this.props.text}</Text>
-        <Button
-        icon={<Icon name='code' color='#ffffff' />}
-        buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-        title='VIEW EVENT' />
-      </Card>
+        leftIcon={{ name: this.props.icon }}
+        subtitle={this.props.subtitle}
+        chevron
+        /></Card>
+
     );
   }
 }
 
-export default ImageCard;
+export default TravelCard;
