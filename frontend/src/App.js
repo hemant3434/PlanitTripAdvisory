@@ -9,7 +9,6 @@ export default function App() {
     <View style={styles.container}>
       <Text>PLAN YO SHIT</Text>
       <CardsContainer />
-      <Calendar />
     </View>
   );
 }
