@@ -3,14 +3,20 @@ import { StyleSheet, Text, View } from 'react-native';
 import MapPicker from './components/MapPicker';
 import CardsContainer from './sections/CardsContainer';
 import Calendar from './components/Calendar';
+import BottomNav from './components/Navigation/BottomNav';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>PLAN YO SHIT</Text>
-      <CardsContainer />
-    </View>
-  );
+
+export default class HybridApp extends React.Component {
+
+  render(){
+    return (
+      <View style={styles.container}>
+        <Text>PLAN YO SHIT</Text>
+        <CardsContainer />
+        <BottomNav />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
