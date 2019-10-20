@@ -8,7 +8,8 @@ XiangQian "Richard" Hong</br>
 Gnanaswarup Srinivasan</br>
 Hemant Bhanot</br>
 
-User Story: As Bob (a businessman), I want the app to be able to display my itinerary, so I can see my entire day laid out in front of me</br></br>
+##**User Story being handled in this sprint**##</br>
+As Bob (a businessman), I want the app to be able to display my itinerary, so I can see my entire day laid out in front of me</br></br>
 
 BACKEND </br></br>
 
