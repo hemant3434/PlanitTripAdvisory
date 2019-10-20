@@ -29,9 +29,13 @@ Hemant Bhanot
   - `story 1` Develop Transportation Card(s)
   - `story 1` Pull Data From Backend
 
-**Logan Chester**
+**Logan Chester**:
   - `story 2` Set date of travel
   - `story 2` Set the time of day for travel
+  
+**Gnanaswarup Srinivasan**:
+  - `story 3` Set location of travel
+  - `story 3` Create map preview card with location marker
   
 ## Backend Tasks:
 ---
