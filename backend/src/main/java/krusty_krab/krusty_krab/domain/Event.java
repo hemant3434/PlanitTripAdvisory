@@ -8,7 +8,7 @@ public class Event {
 	private String name;
 	private Time date;
 	private String location;
-	private List<String> activies;
+	private List<String> activities;
 	private int rating;
 	private double cost;
 	
@@ -19,7 +19,7 @@ public class Event {
 		this.name = name;
 		this.date = date;
 		this.location = location;
-		this.activies = activities;
+		this.activities = activities;
 		this.rating = rating;
 		this.cost = cost;
 	}
@@ -28,16 +28,16 @@ public class Event {
 		return this.name;
 	}
 	
-	public Time date() {
+	public Time getDate() {
 		return this.date;
 	}
 	
-	public String location() {
+	public String getLocation() {
 		return this.location;
 	}
 	
 	public List<String> getActivities() {
-		return this.activies;
+		return this.activities;
 	}
 	
 	public int getRating() {

@@ -1,7 +1,9 @@
 package krusty_krab.krusty_krab.controller;
 
+import java.sql.Time;
 import java.util.*;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import krusty_krab.krusty_krab.domain.Event;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
 
@@ -31,5 +33,22 @@ public class MainController {
     Map<String, Object> map = new HashMap<String, Object>();
 
     return ResponseEntity.ok().body(map);
+  }
+
+  @GetMapping("/getItinerary")
+  public ResponseEntity<?> getItinerary(@RequestBody Map<String, Object> body) {
+
+    Time startTime = new Time(0);
+    Time endTime = new Time(10);
+
+    List<String> activities = new ArrayList();
+    activities.add("c");
+    Time time = new Time(1);
+    Event e = new Event("a", time, "b", activities, 1, 1.0);
+
+    List<Event> itin = new ArrayList();
+    itin.add(e);
+
+    return ResponseEntity.ok().body(itin);
   }
 }
