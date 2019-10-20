@@ -1,4 +1,4 @@
-# Participants
+## Participants
 
 Gnanaswarup Srinivasan
 
@@ -14,7 +14,7 @@ Logan Chester
 
 XiangQian "Richard" Hong
 
-# User Stories:
+## Sprint Backlog:
 ---
 1. As Bob (a businessman), I want the app to be able to display my itinerary, so I can see my entire day laid out in front of me.
 
