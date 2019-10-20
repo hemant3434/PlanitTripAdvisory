@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Itinerary from './pages/Itinerary';
 
 
 import { createAppContainer } from 'react-navigation';
@@ -76,6 +77,14 @@ const bottomTabNavigator = createBottomTabNavigator(
     },
     Notifications: {
       screen: NotificationsScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="search" size={25} color={tintColor} />
+        )
+      }
+    },
+    Itinerary: {
+      screen: Itinerary,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="search" size={25} color={tintColor} />
