@@ -16,31 +16,31 @@ export default class HybridApp extends React.Component {
   }
 }
 
-class HomeScreen extends React.Component {
-  render() {
-    return(
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text> This is my Home screen </Text>
-      </View>
-    );
-  }
-}
-
 class ExploreScreen extends React.Component {
   render() {
     return(
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#d0d0d0'}}>
-        <Text> This is my Explore screen </Text>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Text> ExploreScreen </Text>
       </View>
     );
   }
 }
 
-class NotificationsScreen extends React.Component {
+class MapScreen extends React.Component {
+  render() {
+    return(
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#d0d0d0'}}>
+        <Text> MapScreen </Text>
+      </View>
+    );
+  }
+}
+
+class TripsScreen extends React.Component {
   render() {
     return(
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff'}}>
-        <Text> This is my Notifications screen </Text>
+        <Text> TripsScreen </Text>
       </View>
     );
   }
@@ -50,7 +50,7 @@ class ProfileScreen extends React.Component {
   render() {
     return(
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#d0d0d0'}}>
-        <Text> This is my Profile screen </Text>
+        <Text> ProfileScreen </Text>
       </View>
     );
   }
@@ -59,27 +59,27 @@ class ProfileScreen extends React.Component {
 
 const bottomTabNavigator = createBottomTabNavigator(
   {
-    Home: {
-      screen: HomeScreen,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => (
-          <Icon name="home" size={25} color={tintColor} />
-        )
-      }
-    },
     Explore: {
       screen: ExploreScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="comments" size={25} color={tintColor} />
+          <Icon name="search" size={25} color={tintColor} />
         )
       }
     },
-    Notifications: {
-      screen: NotificationsScreen,
+    Map: {
+      screen: MapScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="search" size={25} color={tintColor} />
+          <Icon name="map" size={25} color={tintColor} />
+        )
+      }
+    },
+    Trips: {
+      screen: TripsScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="location" size={25} color={tintColor} />
         )
       }
     },
@@ -101,7 +101,7 @@ const bottomTabNavigator = createBottomTabNavigator(
     },
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Explore',
     tabBarOptions: {
       activeTintColor: '#eb6e3d'
     }
