@@ -40,10 +40,13 @@ Hemant Bhanot
 ## Backend Tasks:
 ---
 
-**Jason Hu**: `story 1` Event details are gathered from Google Maps API</br>
-**Jason Hu**: `story 1` Events are only included if they satisfy the Time/date, Location, Max distance </br>
-**Hemant**: `story 1` Events are only included if they satisfy the open time, and Types of activities filters specified previously by user </br>
-**Hemant**: `story 1` Travel time between events are gathered from the Google Maps API </br>
+**Jason Hu**: 
+  - `story 1` Event details are gathered from Google Maps API
+  - `story 1` Events are only included if they satisfy the Time/date, Location, Max distance
+  
+**Hemant**: 
+  - `story 1` Events are only included if they satisfy the open time, and Types of activities filters specified previously by user
+  - `story 1` Travel time between events are gathered from the Google Maps API </br>
 
 **Jason**: 
 - `story 1` Total cost of events and travel does not exceed Budget specified previously by user
