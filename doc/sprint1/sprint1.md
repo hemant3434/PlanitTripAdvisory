@@ -16,11 +16,17 @@ XiangQian "Richard" Hong
 
 ## Sprint Backlog:
 ---
-1. As Bob (a businessman), I want the app to be able to display my itinerary, so I can see my entire day laid out in front of me.
+`story 1`
+  - As Bob (a businessman), I want the app to be able to display my itinerary, so I can see my entire day laid out in front of me.
+  - Point Estimate: 21
 
-2. As Bob (a businessman), I want to set when I would be travelling so I can make sure I don't have intervening business plans that will be affected by the trip.
+`story 2`
+  - As Bob (a businessman), I want to set when I would be travelling so I can make sure I don't have intervening business plans that will be affected by the trip.
+  - Point Estimate: 2
 
-3. As Joseph (a traveller), I want to set where I would be traveling to make sure I am not making the same type of trip or visiting the same place or area again because I want to explore as much as I possibly can.
+`story 3`
+  - As Joseph (a traveller), I want to set where I would be traveling to make sure I am not making the same type of trip or visiting the same place or area again because I want to explore as much as I possibly can.
+  - Point Estimate: 2
 
 ## Frontend Tasks:
 ---
