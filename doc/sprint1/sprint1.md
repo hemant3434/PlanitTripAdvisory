@@ -1,11 +1,17 @@
 # Participants
 
 Logan Chester
+
 Jason Conte
+
 Jason Hu
+
 Jackie Tran
+
 XiangQian "Richard" Hong
+
 Gnanaswarup Srinivasan
+
 Hemant Bhanot
 
 # User Stories:
