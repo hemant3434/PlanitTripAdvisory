@@ -19,6 +19,8 @@
     "react-native-calendars": "^1.212.0",
     "react-native-elements": "^1.2.6",
     "react-native-maps": "^0.26.1",
+    "react-native-modal-datetime-picker": "^7.6.0",
+    "react-native-submit-button": "^1.0.5",
     "react-native-tabs": "^1.0.9",
     "react-native-web": "^0.11.7",
     "react-router-dom": "^5.1.2",

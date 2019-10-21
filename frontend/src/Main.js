@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Itinerary from './pages/Itinerary';
+import DateTime from './pages/DateTime';
 
 
 import { createAppContainer } from 'react-navigation';
@@ -88,6 +89,14 @@ const bottomTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="search" size={25} color={tintColor} />
+        )
+      }
+    },
+    DateTime: {
+      screen: DateTime,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="calendar" size={25} color={tintColor} />
         )
       }
     },
