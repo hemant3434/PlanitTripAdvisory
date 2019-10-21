@@ -88,4 +88,15 @@ public class MainController {
 
     return ResponseEntity.ok().body(itin.getItin());
   }
+  
+  @PutMapping("/changeTime")
+  public void changeTime(@RequestBody Itinerary body) {
+      itin.setStartTime(body.getStartTime());
+      itin.setEndTime(body.getEndTime());
+  }
+  
+  @PutMapping("/changeLocation")
+  public void changeLocation(@RequestBody Itinerary body) {
+      itin.setLocation(body.getLocation());
+  }
 }

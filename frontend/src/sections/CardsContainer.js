@@ -14,22 +14,46 @@ import {
   Right,
   Body
 } from "native-base";
-import ImageCard from './../components/Cards/ImageCard';
-import TravelCard from './../components/Cards/TravelCard';
+import EventCard from './../components/Cards/EventCard';
 
-export default function CardsContainer() {
-  return (
-      <ScrollView
-      style={StyleSheet.absoluteFill}
-      contentContainerStyle={styles.scrollview}
-      >
-          <ImageCard title="Toronto" image={require("../images/toronto.jpg")} text="lmao"/>
-          <TravelCard title="Car" icon="flight-takeoff" subtitle="69 mins"/>
-          <ImageCard title="Scarborough" image={require("../images/toronto.jpg")} text="lmao"/>
-          <TravelCard title="Plane" icon="flight-takeoff" subtitle="33 mins"/>
-          <ImageCard title="China" image={require("../images/toronto.jpg")} text="420"/>
-      </ScrollView>
-  );
+const tmp = [{
+  type: "event",
+  title: "soccer",
+  image: require("../images/toronto.jpg"),
+  description: "some text"
+},
+{
+  type: "transportation",
+  title: "car",
+  subtitle: "30 minutes",
+  icon: "flight-takeoff"
+},
+{
+  type: "event",
+  title: "soccer",
+  image: require("../images/toronto.jpg"),
+  description: "some text"
+}];
+
+export default class CardsContainer extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      Itinerary: tmp
+    }
+  }
+
+
+  render(props){
+    return (
+        <ScrollView
+        style={StyleSheet.absoluteFill}
+        contentContainerStyle={styles.scrollview}
+        >
+        { this.state.Itinerary.map(o => <EventCard common={o}/>) }
+        </ScrollView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
