@@ -58,12 +58,11 @@ XiangQian "Richard" Hong
 - `story 1` Total cost of events and travel does not exceed Budget specified previously by user
 - `story 1` Events in itinerary are chosen to minimize the amount of empty time between events
 - `story 1` Itinerary takes into account travel time, and will not include events that cannot be reached in time from the previous event
-- `story 2` Store time and date
-- `story 3` Store location
+- `story 1` Any events of the same type as an event rated poorly in the past by the user are given less preference than normal events
+- `story 1` Events with good global ratings given preference over events with poor global ratings
 
 **Jackie Tran**: 
-- `story 1` Any events of the same type as an event rated well in the past by the user are given more preference than normal events
-- `story 1` Jackie: Any events of the same type as an event rated poorly in the past by the user are given less preference than normal events
-- `story 1` Jackie: Events with good global ratings given preference over events with poor global ratings
+- `story 2` Store time and date
+- `story 3` Store location
 
 
