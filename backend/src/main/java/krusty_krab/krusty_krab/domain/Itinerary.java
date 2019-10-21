@@ -1,42 +1,121 @@
 package krusty_krab.krusty_krab.domain;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Itinerary {
-    List<ItineraryItem> itin = new ArrayList();
+
+    private Time startTime;
+    private Time endTime;
+    private String home;
+    private String location;
+    private float maxDist;
+    private List<String> activities;
+    private float budget;
+    private List<ItineraryItem> itin = new ArrayList();
+
+    public float minScore = 5.0f;
+    public GoogleMaps gm = new GoogleMaps();
 
     public Itinerary() {}
 
-    public Itinerary(List<ItineraryItem> itin) {
-        this.itin = itin;
-    }
+    private Event getNextBestEvent(Time curTime, String curLoc){
 
-    private List<Event> getEvents(Time date, Time startTime, Time endTime, String location, float maxDist, List<String> activities, float budget){
-        List<Event> events = new ArrayList();
+        List<Event> events = this.gm.getEvents(curTime, this.getEndTime(), curLoc, this.getLocation(), this.getMaxDist(), this.getActivities(), this.getBudget());
 
-        List<String> activ = new ArrayList();
-        activ.add("c");
-        Time time = new Time(1);
-        //String name, Time date, String location, List<String> activities, int rating, float price, String title, Time startTime, Time endTime
-        Event e1 = new Event("a", time, "b", activ, 1, 1.0f, "Museum", new Time(2), new Time(4));
-        Event e2 = new Event("a", time, "b", activ, 1, 1.0f, "Museum", new Time(2), new Time(4));
+        // If no events left that satisfy filters
+        if(events.isEmpty()) {
+            throw new NoSuchElementException();
+        }
 
-        events.add(e1);
-        events.add(e2);
-
-        return events;
-    }
-
-    private Event getNextBestEvent(Time date, Time startTime, Time endTime, String curLoc, float maxDist, List<String>activities, float budget){
-        //3 rating, 5 time between events, 1 maxDist, 1 budget
-        List<Event> events = this.getEvents(date, startTime, endTime, curLoc, maxDist, activities, budget);
         Event bestEvent = events.get(0);
 
         for(Event e: events){
-            if(e.getScore(startTime, curLoc) > bestEvent.getScore(startTime, curLoc)){bestEvent = e;}
+            if(e.getScore(curTime, curLoc) > bestEvent.getScore(curTime, curLoc)){bestEvent = e;}
         }
         return bestEvent;
+    }
+
+    public void createItinerary(){
+        Time curTime = getStartTime();
+        String curLoc = getHome();
+        try{
+            Event nextEvent = getNextBestEvent(curTime, curLoc);
+
+            while(nextEvent.getScore(curTime, curLoc) > minScore){
+                Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getLocation());
+                this.itin.add(transp);
+                this.itin.add(nextEvent);
+                curLoc = nextEvent.getLocation();
+                curTime = curTime.add(transp.getTime()).add(nextEvent.getExpectedLength());
+                nextEvent = getNextBestEvent(curTime, curLoc);
+            }
+        }
+        catch(NoSuchElementException e){}
+    }
+
+    public List<ItineraryItem> getItin() {
+        return itin;
+    }
+
+    public Time getStartTime() {
+        return startTime;
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public String getHome() {
+        return home;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public float getMaxDist() {
+        return maxDist;
+    }
+
+    public List<String> getActivities() {
+        return activities;
+    }
+
+    public float getBudget() {
+        return budget;
+    }
+
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setHome(String home) {
+        this.home = home;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setMaxDist(float maxDist) {
+        this.maxDist = maxDist;
+    }
+
+    public void setActivities(List<String> activities) {
+        this.activities = activities;
+    }
+
+    public void setBudget(float budget) {
+        this.budget = budget;
+    }
+
+    public void setItin(List<ItineraryItem> itin) {
+        this.itin = itin;
     }
 }

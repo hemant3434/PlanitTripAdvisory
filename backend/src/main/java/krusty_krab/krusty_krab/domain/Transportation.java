@@ -1,7 +1,5 @@
 package krusty_krab.krusty_krab.domain;
 
-import java.sql.Time;
-
 public class Transportation extends ItineraryItem {
 
     private Time time;
@@ -10,8 +8,8 @@ public class Transportation extends ItineraryItem {
     public Transportation() {
     }
 
-    public Transportation(Time time, float distance, String title, float price, Time startTime, Time endTime) {
-        super("Transportation", title, price, startTime, endTime);
+    public Transportation(Time time, float distance, String title, float price, Time startTime, Time endTime, Time expectedLength) {
+        super("Transportation", title, price, startTime, endTime, expectedLength);
         this.time = time;
         this.distance = distance;
     }

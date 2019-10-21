@@ -1,7 +1,5 @@
 package krusty_krab.krusty_krab.domain;
 
-import java.sql.Time;
-
 public class ItineraryItem {
 
     private String type;
@@ -9,16 +7,18 @@ public class ItineraryItem {
     private float price;
     private Time startTime;
     private Time endTime;
+    private Time expectedLength;
 
     public ItineraryItem() {
     }
 
-    public ItineraryItem(String type, String title, float price, Time startTime, Time endTime) {
+    public ItineraryItem(String type, String title, float price, Time startTime, Time endTime, Time expectedLength) {
         this.type = type;
         this.title = title;
         this.price = price;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.expectedLength = expectedLength;
     }
 
     public String getType() {
@@ -39,6 +39,10 @@ public class ItineraryItem {
 
     public Time getEndTime() {
         return endTime;
+    }
+
+    public Time getExpectedLength() {
+        return expectedLength;
     }
 
     public void setType(String type) {

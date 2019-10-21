@@ -1,11 +1,8 @@
 package krusty_krab.krusty_krab.controller;
 
-import java.sql.Time;
 import java.util.*;
 
-import krusty_krab.krusty_krab.domain.Event;
-import krusty_krab.krusty_krab.domain.ItineraryItem;
-import krusty_krab.krusty_krab.domain.Transportation;
+import krusty_krab.krusty_krab.domain.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
 
@@ -17,6 +14,8 @@ public class MainController {
       + "_lAhUmx4UKHSOLDy4QjRx6BAgBEAQ&url=https%3A%2F%2Fwww.fanthatracks.com%2Fnews"
       + "%2Fmisc%2Fstar-wars-is-everywhere-021-hello-there%2F&psig=AOvVaw3rX7UoWqkc6toLU"
       + "iEGB24b&ust=1571261300777966";
+
+  Itinerary itin = new Itinerary();
   
   @GetMapping("/getDummy1")
   public ResponseEntity<?> getDummy1(@RequestBody Map<String, Object> body) {
@@ -40,18 +39,21 @@ public class MainController {
   @GetMapping("/getItinerary")
   public ResponseEntity<?> getItinerary(@RequestBody Map<String, Object> body) {
 
-    Time startTime = new Time(0);
-    Time endTime = new Time(10);
+    itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
+    itin.setEndTime(new Time(2019, 10, 25, 20, 00, true));
+    itin.setHome("University of Toronto Scarborough");
+    itin.setLocation("Toronto");
+    itin.setMaxDist(20);
 
+    List<String> activities = new ArrayList();
+    activities.add("aquarium");
+    activities.add("art gallery");
 
+    itin.setActivities(activities);
+    itin.setBudget(200);
 
-    //Time time, String distance, double cost, String title, float price, Time startTime, Time endTime) {
-    Transportation t = new Transportation(new Time(2), 200f, "Car", 0f, new Time(3), new Time(6));
+    itin.createItinerary();
 
-    List<ItineraryItem> itin = new ArrayList();
-    itin.add(e);
-    itin.add(t);
-
-    return ResponseEntity.ok().body(itin);
+    return ResponseEntity.ok().body(itin.getItin());
   }
 }

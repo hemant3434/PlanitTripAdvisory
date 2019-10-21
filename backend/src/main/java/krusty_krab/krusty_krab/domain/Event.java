@@ -1,6 +1,5 @@
 package krusty_krab.krusty_krab.domain;
 
-import java.sql.Time;
 import java.util.List;
 
 public class Event extends ItineraryItem{
@@ -10,12 +9,13 @@ public class Event extends ItineraryItem{
 	private String location;
 	private List<String> activities;
 	private int rating;
+	public GoogleMaps gm = new GoogleMaps();
 	
 	public Event() {
 	}
 	
-	public Event(String name, Time date, String location, List<String> activities, int rating, float price, String title, Time startTime, Time endTime) {
-		super("Event", title, price, startTime, endTime);
+	public Event(String name, Time date, String location, List<String> activities, int rating, float price, String title, Time startTime, Time endTime, Time expectedLength) {
+		super("Event", title, price, startTime, endTime, expectedLength);
 		this.name = name;
 		this.date = date;
 		this.location = location;
@@ -43,22 +43,29 @@ public class Event extends ItineraryItem{
 		return this.rating;
 	}
 
-	public float getScore(Time startTime, String location){
+	public float getScore(Time curTime, String curLoc){
 	    int ratingWeight = 3;
 	    int waitTimeWeight = 5;
 	    int maxDistWeight = 1;
 	    int budgetWeight = 1;
 
-        float rating, waitTime, maxDist, budget;
+        float rating, waitTime, dist, price;
+		Transportation transp = this.gm.getTransportation(curLoc, getLocation());
+
         rating = this.getRating();
-        if(this.getStartTime().before(startTime)){
+
+        if(this.getStartTime().getDifference(transp.getTime()).isLessThan(curTime)){
             waitTime = 0;
         }
         else{
-            waitTime = this.getStartTime().getTime()-startTime.getTime();
+            waitTime = this.getStartTime().getDifference(curTime).toMinutes();
         }
 
-        return ratingWeight*rating + waitTimeWeight*waitTime + maxDistWeight*maxDist + budgetWeight*budget;
+        dist = transp.getDistance();
+
+        price = this.getPrice();
+
+        return ratingWeight*rating + waitTimeWeight*waitTime + maxDistWeight*dist + budgetWeight*price;
 
     }
 
