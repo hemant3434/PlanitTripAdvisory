@@ -23,14 +23,14 @@ export default function DateTimeContainer() {
       style={StyleSheet.absoluteFill}
       contentContainerStyle={styles.scrollview}
       >
-          <Calendar style={styles.header}/>
+          <Calendar style={styles.calendar}/>
           <TimePicker />
       </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  calendar: {
     alignItems: 'center',
     backgroundColor: '#fff',
     justifyContent: 'center',
