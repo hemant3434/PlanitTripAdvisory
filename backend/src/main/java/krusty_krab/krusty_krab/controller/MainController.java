@@ -94,4 +94,9 @@ public class MainController {
       itin.setStartTime(body.getStartTime());
       itin.setEndTime(body.getEndTime());
   }
+  
+  @PutMapping("/changeLocation")
+  public void changeLocation(@RequestBody Itinerary body) {
+      itin.setLocation(body.getLocation());
+  }
 }
