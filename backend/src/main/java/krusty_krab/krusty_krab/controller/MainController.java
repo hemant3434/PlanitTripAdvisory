@@ -49,7 +49,7 @@ public class MainController {
 
     itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
     itin.setEndTime(new Time(2019, 10, 25, 20, 00, true));
-    itin.setHome("University of Toronto Scarborough");
+    itin.setHome("Union Station");
     itin.setLocation("Toronto");
     itin.setMaxDist(maxDist);
 
@@ -61,11 +61,11 @@ public class MainController {
     itin.setBudget(budget);
     Event e = this.itin.getNextBestEvent(new Time(2019, 10, 25, 10, 0, true), "Union Station");
 
-    //itin.createItinerary();
+    itin.createItinerary();
     map.put("A", e);
 
-    return ResponseEntity.ok().body(map);
-    //return ResponseEntity.ok().body(itin.getItin());
+    //return ResponseEntity.ok().body(map);
+    return ResponseEntity.ok().body(itin.getItin());
   }
 
   @GetMapping("/getItinerary")

@@ -15,7 +15,7 @@ public class Itinerary {
     private float budget;
     private List<ItineraryItem> itin = new ArrayList();
 
-    public float minScore = 5.0f;
+    public float minScore = 0.0f;
     public GoogleMaps gm = new GoogleMaps();
 
     public Itinerary() {}
@@ -44,6 +44,7 @@ public class Itinerary {
         String curLoc = getHome();
         try{
             Event nextEvent = getNextBestEvent(curTime, curLoc);
+            //this.itin.add(nextEvent);
 
             while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > minScore){
                 Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getLocation(), curTime);
@@ -52,6 +53,7 @@ public class Itinerary {
                 curLoc = nextEvent.getLocation();
                 curTime = curTime.add(transp.getExpectedLength()).add(nextEvent.getExpectedLength());
                 nextEvent = getNextBestEvent(curTime, curLoc);
+                break;
             }
         }
         catch(NoSuchElementException e){}
