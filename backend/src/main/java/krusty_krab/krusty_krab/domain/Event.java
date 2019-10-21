@@ -4,69 +4,60 @@ import java.util.List;
 
 public class Event extends ItineraryItem{
 
-	private String name;
-	private Time date;
 	private String location;
-	private List<String> activities;
+	private String activity;
 	private int rating;
-	public GoogleMaps gm = new GoogleMaps();
 	
 	public Event() {
 	}
 	
-	public Event(String name, Time date, String location, List<String> activities, int rating, float price, String title, Time startTime, Time endTime, Time expectedLength) {
+	public Event(String title, String location, String activity, int rating, float price, Time startTime, Time endTime, Time expectedLength) {
 		super("Event", title, price, startTime, endTime, expectedLength);
-		this.name = name;
-		this.date = date;
 		this.location = location;
-		this.activities = activities;
+		this.activity = activity;
 		this.rating = rating;
 	}
-	
-	public String getName() {
-		return this.name;
-	}
-	
-	public Time getDate() {
-		return this.date;
-	}
-	
-	public String getLocation() {
-		return this.location;
-	}
-	
-	public List<String> getActivities() {
-		return this.activities;
-	}
-	
-	public int getRating() {
-		return this.rating;
-	}
 
-	public float getScore(Time curTime, String curLoc){
+	public float getScore(Time curTime, String curLoc, GoogleMaps gm, float maxDist, float budget){
 	    int ratingWeight = 3;
 	    int waitTimeWeight = 5;
 	    int maxDistWeight = 1;
 	    int budgetWeight = 1;
 
+	    int ratingMax = 5;
+	    int waitTimeMax = 360;
+	    float maxDistMax = maxDist;
+	    float budgetMax = budget;
+
         float rating, waitTime, dist, price;
-		Transportation transp = this.gm.getTransportation(curLoc, getLocation());
+		Transportation transp = gm.getTransportation(curLoc, getLocation(), curTime);
 
         rating = this.getRating();
 
-        if(this.getStartTime().getDifference(transp.getTime()).isLessThan(curTime)){
+        if(this.getStartTime().toMinutes() - transp.getEndTime().toMinutes() < curTime.toMinutes()){
             waitTime = 0;
         }
         else{
-            waitTime = this.getStartTime().getDifference(curTime).toMinutes();
+            waitTime = this.getStartTime().toMinutes() - curTime.toMinutes();
         }
 
         dist = transp.getDistance();
 
         price = this.getPrice();
 
-        return ratingWeight*rating + waitTimeWeight*waitTime + maxDistWeight*dist + budgetWeight*price;
+        return ratingWeight/ratingMax*rating + 1/waitTimeWeight/waitTimeMax*waitTime + 1/maxDistWeight/maxDistMax*dist + 1/budgetWeight/budgetMax*price;
 
     }
 
+	public String getLocation() {
+		return location;
+	}
+
+	public String getActivity() {
+		return activity;
+	}
+
+	public int getRating() {
+		return rating;
+	}
 }
