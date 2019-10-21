@@ -15,12 +15,12 @@ public class Itinerary {
     private float budget;
     private List<ItineraryItem> itin = new ArrayList();
 
-    public float minScore = 5.0f;
+    public float minScore = 0.0f;
     public GoogleMaps gm = new GoogleMaps();
 
     public Itinerary() {}
 
-    private Event getNextBestEvent(Time curTime, String curLoc){
+    public Event getNextBestEvent(Time curTime, String curLoc){
 
         List<Event> events = this.gm.getEvents(curTime, this.getEndTime(), curLoc, this.getLocation(), this.getMaxDist(), this.getActivities(), this.getBudget());
 
@@ -32,7 +32,9 @@ public class Itinerary {
         Event bestEvent = events.get(0);
 
         for(Event e: events){
-            if(e.getScore(curTime, curLoc) > bestEvent.getScore(curTime, curLoc)){bestEvent = e;}
+            if(e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget())){bestEvent = e;}
+            //System.out.println(e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()));
+            //System.out.println(bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()));
         }
         return bestEvent;
     }
@@ -42,14 +44,16 @@ public class Itinerary {
         String curLoc = getHome();
         try{
             Event nextEvent = getNextBestEvent(curTime, curLoc);
+            //this.itin.add(nextEvent);
 
-            while(nextEvent.getScore(curTime, curLoc) > minScore){
-                Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getLocation());
+            while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > minScore){
+                Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getLocation(), curTime);
                 this.itin.add(transp);
                 this.itin.add(nextEvent);
                 curLoc = nextEvent.getLocation();
-                curTime = curTime.add(transp.getTime()).add(nextEvent.getExpectedLength());
+                curTime = curTime.add(transp.getExpectedLength()).add(nextEvent.getExpectedLength());
                 nextEvent = getNextBestEvent(curTime, curLoc);
+                break;
             }
         }
         catch(NoSuchElementException e){}
