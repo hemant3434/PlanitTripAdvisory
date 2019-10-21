@@ -4,6 +4,8 @@ import java.sql.Time;
 import java.util.*;
 
 import krusty_krab.krusty_krab.domain.Event;
+import krusty_krab.krusty_krab.domain.ItineraryItem;
+import krusty_krab.krusty_krab.domain.Transportation;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
 
@@ -41,13 +43,14 @@ public class MainController {
     Time startTime = new Time(0);
     Time endTime = new Time(10);
 
-    List<String> activities = new ArrayList();
-    activities.add("c");
-    Time time = new Time(1);
-    Event e = new Event("a", time, "b", activities, 1, 1.0);
 
-    List<Event> itin = new ArrayList();
+
+    //Time time, String distance, double cost, String title, float price, Time startTime, Time endTime) {
+    Transportation t = new Transportation(new Time(2), 200f, "Car", 0f, new Time(3), new Time(6));
+
+    List<ItineraryItem> itin = new ArrayList();
     itin.add(e);
+    itin.add(t);
 
     return ResponseEntity.ok().body(itin);
   }

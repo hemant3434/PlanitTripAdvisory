@@ -2,20 +2,18 @@ package krusty_krab.krusty_krab.domain;
 
 import java.sql.Time;
 
-public class Transportation {
+public class Transportation extends ItineraryItem {
 
     private Time time;
-    private String distance;
-    private double cost;
-    private String method;
+    private float distance;
 
     public Transportation() {
     }
 
-    public Transportation(Time time, String distance, double cost) {
+    public Transportation(Time time, float distance, String title, float price, Time startTime, Time endTime) {
+        super("Transportation", title, price, startTime, endTime);
         this.time = time;
         this.distance = distance;
-        this.cost = cost;
     }
 
     public Time getTime() {
@@ -26,27 +24,11 @@ public class Transportation {
         this.time = time;
     }
 
-    public String getDistance() {
+    public float getDistance() {
         return distance;
     }
 
-    public void setDistance(String distance) {
+    public void setDistance(float distance) {
         this.distance = distance;
-    }
-
-    public double getCost() {
-        return cost;
-    }
-
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
     }
 }
