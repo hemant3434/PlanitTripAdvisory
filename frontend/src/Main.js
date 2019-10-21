@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Itinerary from './pages/Itinerary';
 
-
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -79,7 +78,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       screen: TripsScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="location" size={25} color={tintColor} />
+          <Icon name="paper-plane" size={25} color={tintColor} />
         )
       }
     },
@@ -103,7 +102,7 @@ const bottomTabNavigator = createBottomTabNavigator(
   {
     initialRouteName: 'Explore',
     tabBarOptions: {
-      activeTintColor: '#eb6e3d'
+      activeTintColor: '#F6828C'
     }
   }
 );

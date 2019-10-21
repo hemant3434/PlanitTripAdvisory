@@ -14,22 +14,25 @@ import {
   Right,
   Body
 } from "native-base";
-import ImageCard from './../components/Cards/ImageCard';
-import TravelCard from './../components/Cards/TravelCard';
+import EventCard from './../components/Cards/EventCard';
 
-export default function CardsContainer() {
-  return (
-      <ScrollView
-      style={StyleSheet.absoluteFill}
-      contentContainerStyle={styles.scrollview}
-      >
-          <ImageCard title="Toronto" image={require("../images/toronto.jpg")} text="lmao"/>
-          <TravelCard title="Car" icon="flight-takeoff" subtitle="69 mins"/>
-          <ImageCard title="Scarborough" image={require("../images/toronto.jpg")} text="lmao"/>
-          <TravelCard title="Plane" icon="flight-takeoff" subtitle="33 mins"/>
-          <ImageCard title="China" image={require("../images/toronto.jpg")} text="420"/>
-      </ScrollView>
-  );
+export default class CardsContainer() {
+  constructor(props){
+    super(props);
+    const Itinerary = props.Itinerary.map(o => <EventCard props={o}/>)
+  }
+
+
+  render(props){
+    return (
+        <ScrollView
+        style={StyleSheet.absoluteFill}
+        contentContainerStyle={styles.scrollview}
+        >
+        { Itinerary }
+        </ScrollView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
