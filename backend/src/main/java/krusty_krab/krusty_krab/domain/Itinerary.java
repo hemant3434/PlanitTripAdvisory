@@ -14,6 +14,7 @@ public class Itinerary {
     private List<String> activities;
     private float budget;
     private List<ItineraryItem> itin = new ArrayList();
+    private List<String> visitedEvents = new ArrayList();
 
     public float minScore = 0.0f;
     public GoogleMaps gm = new GoogleMaps();
@@ -28,14 +29,16 @@ public class Itinerary {
         if(events.isEmpty()) {
             throw new NoSuchElementException();
         }
-
         Event bestEvent = events.get(0);
 
         for(Event e: events){
-            if(e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget())){bestEvent = e;}
-            //System.out.println(e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()));
-            //System.out.println(bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()));
+            //if((!this.getVisitedEvents().contains(e.getLocation())) && (e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()))){
+            if(e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget())){
+                bestEvent = e;
+            }
         }
+
+        //this.visitedEvents.add(bestEvent.getLocation());
         return bestEvent;
     }
 
@@ -121,5 +124,9 @@ public class Itinerary {
 
     public void setItin(List<ItineraryItem> itin) {
         this.itin = itin;
+    }
+
+    public List<String> getVisitedEvents() {
+        return visitedEvents;
     }
 }

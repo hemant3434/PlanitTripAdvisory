@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class GoogleMaps {
 
+    private List<String> visitedEvents = new ArrayList();
 
     public GoogleMaps() {
 
@@ -36,13 +37,26 @@ public class GoogleMaps {
         Event e1 = new Event("Ripley's Aquarium", "Ripley's Aquarium", "aquarium", 5, 20, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0, 0, 2, 0, true));
         Event e2 = new Event("CN Tower", "CN Tower", "lookout", 4, 40, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0, 0, 2, 0, true));
 
-        events.add(e1);
+
         //events.add(e2);
+
+        if(!getVisitedEvents().contains(e1.getLocation())){
+            events.add(e1);
+            this.visitedEvents.add(e1.getLocation());
+        }
+        if(!getVisitedEvents().contains(e2.getLocation())){
+            events.add(e2);
+            this.visitedEvents.add(e2.getLocation());
+        }
 
         return events;
     }
 
-    public Event getEvent(String loc){
-        return new Event();
+    public List<String> getVisitedEvents() {
+        return visitedEvents;
+    }
+
+    public void setVisitedEvents(List<String> visitedEvents) {
+        this.visitedEvents = visitedEvents;
     }
 }

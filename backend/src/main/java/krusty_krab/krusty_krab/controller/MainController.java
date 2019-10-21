@@ -59,10 +59,10 @@ public class MainController {
 
     itin.setActivities(activities);
     itin.setBudget(budget);
-    Event e = this.itin.getNextBestEvent(new Time(2019, 10, 25, 10, 0, true), "Union Station");
+    //Event e = this.itin.getNextBestEvent(new Time(2019, 10, 25, 10, 0, true), "Union Station");
 
     itin.createItinerary();
-    map.put("A", e);
+    //map.put("A", e);
 
     //return ResponseEntity.ok().body(map);
     return ResponseEntity.ok().body(itin.getItin());
