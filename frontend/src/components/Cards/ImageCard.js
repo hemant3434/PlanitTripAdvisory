@@ -7,7 +7,7 @@ class ImageCard extends Component{
     super(props)
   }
 
-  render(props){
+  render(){
     return (
       <Card
         title={this.props.title}

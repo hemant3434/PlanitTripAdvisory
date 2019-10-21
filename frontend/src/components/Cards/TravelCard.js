@@ -15,7 +15,6 @@ class TravelCard extends Component{
         subtitle={this.props.subtitle}
         chevron
         /></Card>
-
     );
   }
 }

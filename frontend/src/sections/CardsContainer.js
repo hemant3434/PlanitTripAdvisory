@@ -16,10 +16,31 @@ import {
 } from "native-base";
 import EventCard from './../components/Cards/EventCard';
 
-export default class CardsContainer() {
+const tmp = [{
+  type: "event",
+  title: "soccer",
+  image: require("../images/toronto.jpg"),
+  description: "some text"
+},
+{
+  type: "transportation",
+  title: "car",
+  subtitle: "30 minutes",
+  icon: "flight-takeoff"
+},
+{
+  type: "event",
+  title: "soccer",
+  image: require("../images/toronto.jpg"),
+  description: "some text"
+}];
+
+export default class CardsContainer extends React.Component{
   constructor(props){
     super(props);
-    const Itinerary = props.Itinerary.map(o => <EventCard props={o}/>)
+    this.state = {
+      Itinerary: tmp
+    }
   }
 
 
@@ -29,7 +50,7 @@ export default class CardsContainer() {
         style={StyleSheet.absoluteFill}
         contentContainerStyle={styles.scrollview}
         >
-        { Itinerary }
+        { this.state.Itinerary.map(o => <EventCard common={o}/>) }
         </ScrollView>
     );
   }
