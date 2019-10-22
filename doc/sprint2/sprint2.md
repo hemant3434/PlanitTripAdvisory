@@ -48,3 +48,26 @@ XiangQian "Richard" Hong
 
 - Point Estimate: 2
 
+## Frontend Tasks:
+---
+**Richard Hong**:
+
+**Logan Chester**:
+
+**Gnanaswarup Srinivasan**:
+  
+## Backend Tasks:
+---
+
+**Jason Hu**: 
+  
+**Hemant Bhanot**: 
+  - `story 1` Events are only included if they satisfy the open time, and Types of activities filters specified previously by user
+  - `story 1` Travel time between events are gathered from the Google Maps API </br>
+
+**Jason Conte**: 
+- `story 1` Total cost of events and travel does not exceed Budget specified previously by user
+- `story 1` Itinerary takes into account travel time, and will not include events that cannot be reached in time from the previous event
+- `story 1` Any events of the same type as an event rated poorly in the past by the user are given less preference than normal events
+
+**Jackie Tran**: 
