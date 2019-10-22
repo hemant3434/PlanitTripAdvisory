@@ -38,7 +38,7 @@ public class GoogleMaps {
         Event e2 = new Event("cn tower", "cn tower", "lookout", 4, 40, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0, 0, 2, 0, true),"../images/toronto.jpg", "If Quebec is Canada's ass...");
 
         events.add(e1);
-        //events.add(e2);
+        events.add(e2);
 
         return events;
     }

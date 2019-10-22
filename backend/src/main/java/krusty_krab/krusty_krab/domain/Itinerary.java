@@ -25,17 +25,17 @@ public class Itinerary {
 
         List<Event> events = this.gm.getEvents(curTime, this.getEndTime(), curLoc, this.getLocation(), this.getMaxDist(), this.getActivities(), this.getBudget());
 
-        // If no events left that satisfy filters
-        if(events.isEmpty()) {
-            throw new NoSuchElementException();
-        }
         Event bestEvent = events.get(0);
 
         for(Event e: events){
+            System.out.println(e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()));
+            System.out.println(bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()));
             if((!this.getVisitedEvents().contains(e.getLocation())) && (e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()))){
-            //if(e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget())){
                 bestEvent = e;
             }
+        }
+        if(this.getVisitedEvents().contains(bestEvent.getLocation())){
+            throw new NoSuchElementException();
         }
 
         this.visitedEvents.add(bestEvent.getLocation());
@@ -47,12 +47,15 @@ public class Itinerary {
         String curLoc = getHome();
         try{
             Event nextEvent = getNextBestEvent(curTime, curLoc);
+            //System.out.println(nextEvent.getTitle());
 
             while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > minScore){
                 Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getLocation(), curTime);
                 this.itin.add(transp);
                 this.itin.add(nextEvent);
+                System.out.println(curLoc);
                 curLoc = nextEvent.getLocation();
+                System.out.println(curLoc);
                 curTime = curTime.add(transp.getExpectedLength()).add(nextEvent.getExpectedLength());
                 nextEvent = getNextBestEvent(curTime, curLoc);
                 break;

@@ -96,13 +96,21 @@ public class Time {
 
     public String toString(){
         String result;
-        if(this.isPositive()){
-            result = getHour() + ":" + getMinute() + " " + getDay() + "/" + getMonth() + "/" + getYear();
+        String negToken;
+        String zeroToken;
+        if(!this.isPositive()){
+            negToken = "-";
         }
         else{
-            result = "-" + getHour() + ":" + getMinute() + " " + getDay() + "/" + getMonth() + "/" + getYear();
+            negToken = "";
         }
-        return result;
+        if(getMinute() < 10){
+            zeroToken = "0";
+        }
+        else{
+            zeroToken = "";
+        }
+        return negToken + getHour() + ":" + zeroToken + getMinute() + " " + getDay() + "/" + getMonth() + "/" + getYear();
     }
 
     public int getYear() {
