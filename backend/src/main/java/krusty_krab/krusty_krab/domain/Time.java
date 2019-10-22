@@ -25,6 +25,7 @@ public class Time {
         return this.getMinute() + 60 * this.getHour() + 60 * 24 * this.getDay() + 60 * 24 * 31 * this.getMonth() + 60 * 24 * 31 * 12 * this.getYear();
     }
 
+    // Adds 2 times together
     public Time add(Time t){
         int minute = t.getMinute() + this.getMinute();
         int hour = t.getHour() + this.getHour();
@@ -51,6 +52,7 @@ public class Time {
         return new Time(year, month, day, hour, minute, true);
     }
 
+    // Subtracts 2nd time from 1st time
     public Time getDifference(Time t){
         int minute = t.getMinute() - this.getMinute();
         int hour = t.getHour() - this.getHour();
