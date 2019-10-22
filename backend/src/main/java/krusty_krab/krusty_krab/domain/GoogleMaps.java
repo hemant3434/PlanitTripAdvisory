@@ -34,7 +34,7 @@ public class GoogleMaps {
     public List<Event> getEvents(Time startTime, Time endTime, String curLoc, String location, float maxDist, List<String> activities, float budget){
         List<Event> events = new ArrayList();
 
-        Event e1 = new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0, 0, 2, 0, true), "../images/toronto.jpg", "There be fish");
+        Event e1 = new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish");
         Event e2 = new Event("cn tower", "cn tower", "lookout", 4, 40, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0, 0, 2, 0, true),"../images/toronto.jpg", "If Quebec is Canada's ass...");
 
         events.add(e1);
