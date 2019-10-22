@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Itinerary {
-
     private Time startTime;
     private Time endTime;
     private String home;
@@ -15,7 +14,6 @@ public class Itinerary {
     private float budget;
     private List<ItineraryItem> itin = new ArrayList();
     private List<String> visitedEvents = new ArrayList();
-
     public float minScore = 0.0f;
     public GoogleMaps gm = new GoogleMaps();
 
@@ -28,12 +26,13 @@ public class Itinerary {
         Event bestEvent = events.get(0);
 
         for(Event e: events){
-            System.out.println(e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()));
-            System.out.println(bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()));
+            //System.out.println(e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()));
+            //System.out.println(bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()));
             if((!this.getVisitedEvents().contains(e.getLocation())) && (e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()))){
                 bestEvent = e;
             }
         }
+        //System.out.println(bestEvent.getLocation());
         if(this.getVisitedEvents().contains(bestEvent.getLocation())){
             throw new NoSuchElementException();
         }
@@ -53,12 +52,9 @@ public class Itinerary {
                 Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getLocation(), curTime);
                 this.itin.add(transp);
                 this.itin.add(nextEvent);
-                System.out.println(curLoc);
                 curLoc = nextEvent.getLocation();
-                System.out.println(curLoc);
                 curTime = curTime.add(transp.getExpectedLength()).add(nextEvent.getExpectedLength());
                 nextEvent = getNextBestEvent(curTime, curLoc);
-                break;
             }
         }
         catch(NoSuchElementException e){}
