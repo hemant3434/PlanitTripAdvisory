@@ -32,13 +32,13 @@ public class Itinerary {
         Event bestEvent = events.get(0);
 
         for(Event e: events){
-            //if((!this.getVisitedEvents().contains(e.getLocation())) && (e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()))){
-            if(e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget())){
+            if((!this.getVisitedEvents().contains(e.getLocation())) && (e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()))){
+            //if(e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget())){
                 bestEvent = e;
             }
         }
 
-        //this.visitedEvents.add(bestEvent.getLocation());
+        this.visitedEvents.add(bestEvent.getLocation());
         return bestEvent;
     }
 
@@ -47,7 +47,6 @@ public class Itinerary {
         String curLoc = getHome();
         try{
             Event nextEvent = getNextBestEvent(curTime, curLoc);
-            //this.itin.add(nextEvent);
 
             while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > minScore){
                 Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getLocation(), curTime);
