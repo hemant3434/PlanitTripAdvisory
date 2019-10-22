@@ -34,7 +34,6 @@ public class Itinerary {
                 bestEvent = e;
             }
         }
-        //System.out.println(bestEvent.getLocation());
         if(this.getVisitedEvents().contains(bestEvent.getLocation())){
             throw new NoSuchElementException();
         }
@@ -48,18 +47,27 @@ public class Itinerary {
         String curLoc = getHome();
         try{
             Event nextEvent = getNextBestEvent(curTime, curLoc);
-            //System.out.println(nextEvent.getTitle());
+            System.out.println(nextEvent.getTitle());
 
             while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > minScore){
+
                 Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getLocation(), curTime);
+                transp.setStartTime(curTime);
+                curTime = curTime.add(transp.getExpectedLength());
+                nextEvent.setStartTime(curTime);
+
                 this.itin.add(transp);
                 this.itin.add(nextEvent);
                 curLoc = nextEvent.getLocation();
-                curTime = curTime.add(transp.getExpectedLength()).add(nextEvent.getExpectedLength());
+                curTime = curTime.add(nextEvent.getExpectedLength());
                 nextEvent = getNextBestEvent(curTime, curLoc);
             }
         }
         catch(NoSuchElementException e){}
+        Transportation transp = this.gm.getTransportation(curLoc, getHome(), curTime);
+        transp.setStartTime(curTime);
+
+        this.itin.add(transp);
     }
 
     public List<ItineraryItem> getItin() {
