@@ -30,27 +30,27 @@ public class GoogleMaps {
         
         
         if((loc1.equals("cn tower") && loc2.equals("ripley's aquarium")) || (loc2.equals("cn tower") && loc1.equals("ripley's aquarium")) ){
-          return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
+          return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 8, true)), new Time(0, 0, 0, 0, 8, true), "flight-takeoff", "8 minutes");
         }
         
         if((loc1.equals("Canadian National Exhibition") && loc2.equals("ripley's aquarium")) || (loc2.equals("Canadian National Exhibition") && loc1.equals("ripley's aquarium")) ){
-          return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
+          return new Transportation(2, "bus", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
         }
         
         if((loc1.equals("Eaton Centre") && loc2.equals("ripley's aquarium")) || (loc2.equals("Eaton Centre") && loc1.equals("ripley's aquarium")) ){
-          return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
+          return new Transportation(3, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 13, true)), new Time(0, 0, 0, 0, 13, true), "flight-takeoff", "13 minutes");
         }
         
         if((loc1.equals("Canadian National Exhibition") && loc2.equals("cn tower")) || (loc2.equals("Canadian National Exhibition") && loc1.equals("cn tower")) ){
-          return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
+          return new Transportation(3, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 30, true)), new Time(0, 0, 0, 0, 30, true), "flight-takeoff", "30 minutes");
         }
         
         if((loc1.equals("Eaton Centre") && loc2.equals("cn tower")) || (loc2.equals("Eaton Centre") && loc1.equals("cn tower")) ){
-          return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
+          return new Transportation(4, "bus", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 10, true)), new Time(0, 0, 0, 0, 10, true), "flight-takeoff", "10 minutes");
         }
         
         if((loc1.equals("Canadian National Exhibition") && loc2.equals("Eaton Centre")) || (loc2.equals("Canadian National Exhibition") && loc1.equals("Eaton Centre")) ){
-          return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
+          return new Transportation(1, "bus", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 25, true)), new Time(0, 0, 0, 0, 25, true), "flight-takeoff", "25 minutes");
         }
         
         return new Transportation();
