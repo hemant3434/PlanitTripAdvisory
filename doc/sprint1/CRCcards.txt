@@ -79,7 +79,7 @@ Collaborators:
 
 
 Class name: Event
-	Parent class: ItineraryItem
+Parent class: ItineraryItem
 Subclasses:
 Responsibilities:
 	*Knows its location
