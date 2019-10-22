@@ -16,8 +16,13 @@ class MapPicker extends React.Component {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0922 * ASPECT_RATIO,
             },
-            radius: 500,
+            // radius: 500,
         };
+    }
+
+    onRegionChange = (region) => {
+        this.setState({ region });
+        console.log(this.state.region);
     }
 
     render () {
@@ -35,7 +40,7 @@ class MapPicker extends React.Component {
                     pitchEnabled={false}
                     rotateEnabled={false}
                     initialRegion={this.state.region}
-                    onRegionChange={(e) => this.state.region = e.nativeEvent}
+                    onRegionChange={this.onRegionChange}
                     >
                         {/* <Marker
                         title="This is a title"
@@ -46,8 +51,8 @@ class MapPicker extends React.Component {
                         center={{latitude: this.state.region.latitude, longitude: this.state.region.longitude}}
                         radius={1000}
                         strokeWidth={2}
-                        strokeColor="#3399ff"
-                        fillColor="#80bfff"
+                        strokeColor="#rgba(51,153,255,1)"
+                        fillColor="rgba(128,191,255,0.5)"
                         />
                         
                     </MapView>
