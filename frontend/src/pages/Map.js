@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import MapPicker from './../components/MapPicker';
 import SubmitButton from './../components/SubmitButton';
 
-export default class DateTime extends React.Component {
+export default class Map extends React.Component {
   render(){
     return(
       <View style={styles.container}>
