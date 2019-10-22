@@ -32,37 +32,21 @@ public class MainController {
   @GetMapping("/getItinerary")
   public ResponseEntity<?> getItinerary() {
 
-    int maxDist = 20;
-    int budget = 200;
-    
     Map<String, Object> map = new HashMap<String, Object>();
-    //Event e1 = new Event("Ripley's Aquarium", "Ripley's Aquarium", "aquarium", 5, 20, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0, 0, 2, 0, true));
-    //Event e2 = new Event("CN Tower", "CN Tower", "lookout", 4, 40, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0, 0, 2, 0, true));
 
-    //System.out.println(e1.getScore(new Time(2019, 10, 25, 9, 0, true), "Union Station", this.gm, maxDist, budget));
-    //System.out.println(e2.getScore(new Time(2019, 10, 25, 9, 0, true), "Union Station", this.gm, maxDist, budget));
-    //System.out.println(e1.getScore(new Time(2019, 10, 25, 9, 0, true), "Spadina", this.gm, maxDist, budget));
-    //System.out.println(e2.getScore(new Time(2019, 10, 25, 9, 0, true), "Spadina", this.gm, maxDist, budget));
-    //Transportation t = gm.getTransportation("Union Station", "Ripley's Aquarium", new Time(2019, 10, 25, 8, 0, true));
-
+    //Sends dummy data for the user filters into the itinerary class
     itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
     itin.setEndTime(new Time(2019, 10, 25, 20, 00, true));
     itin.setHome("union station");
     itin.setLocation("toronto");
-    itin.setMaxDist(maxDist);
-
+    itin.setMaxDist(20);
     List<String> activities = new ArrayList();
     activities.add("aquarium");
     activities.add("art gallery");
-
     itin.setActivities(activities);
-    itin.setBudget(budget);
-    //Event e = this.itin.getNextBestEvent(new Time(2019, 10, 25, 10, 0, true), "Union Station");
+    itin.setBudget(200);
 
     itin.createItinerary();
-    //map.put("A", e);
-
-    //return ResponseEntity.ok().body(map);
     return ResponseEntity.ok().body(itin.getItin());
   }
   

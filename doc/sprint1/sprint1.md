@@ -19,6 +19,7 @@ XiangQian "Richard" Hong
 `story 1`
   - As Bob (a businessman), I want the app to be able to display my itinerary, so I can see my entire day laid out in front of me.
   - Point Estimate: 21
+  - The size of this story and number of tasks prevented the story from being completed (although it is close). We have decided to complete the final 3 tasks in sprint 2.
 
 `story 2`
   - As Bob (a businessman), I want to set when I would be travelling so I can make sure I don't have intervening business plans that will be affected by the trip.
