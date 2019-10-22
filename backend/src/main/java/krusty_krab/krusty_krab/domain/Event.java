@@ -35,6 +35,8 @@ public class Event extends ItineraryItem{
 
         float rating, waitTime, dist, price;
 		Transportation transp = gm.getTransportation(curLoc, getLocation(), curTime);
+		//System.out.println(curLoc);
+		//System.out.println(getLocation());
 
         rating = this.getRating();
 
