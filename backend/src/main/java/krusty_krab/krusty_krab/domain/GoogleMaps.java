@@ -39,16 +39,7 @@ public class GoogleMaps {
 
 
         //events.add(e2);
-
-        if(!getVisitedEvents().contains(e1.getLocation())){
-            events.add(e1);
-            this.visitedEvents.add(e1.getLocation());
-        }
-        if(!getVisitedEvents().contains(e2.getLocation())){
-            events.add(e2);
-            this.visitedEvents.add(e2.getLocation());
-        }
-
+        
         return events;
     }
 
