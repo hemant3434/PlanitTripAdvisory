@@ -7,15 +7,19 @@ public class Event extends ItineraryItem{
 	private String location;
 	private String activity;
 	private int rating;
+	private String image;
+	private String description;
 	
 	public Event() {
 	}
 	
-	public Event(String title, String location, String activity, int rating, float price, Time startTime, Time endTime, Time expectedLength) {
-		super("Event", title, price, startTime, endTime, expectedLength);
+	public Event(String title, String location, String activity, int rating, float price, Time startTime, Time endTime, Time expectedLength, String image, String description) {
+		super("event", title, price, startTime, endTime, expectedLength);
 		this.location = location;
 		this.activity = activity;
 		this.rating = rating;
+		this.image = image;
+		this.description = description;
 	}
 
 	public float getScore(Time curTime, String curLoc, GoogleMaps gm, float maxDist, float budget){
@@ -59,5 +63,13 @@ public class Event extends ItineraryItem{
 
 	public int getRating() {
 		return rating;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 }
