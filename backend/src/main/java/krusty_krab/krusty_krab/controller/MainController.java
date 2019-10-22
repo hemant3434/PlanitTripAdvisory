@@ -30,7 +30,7 @@ public class MainController {
   }
 
   @GetMapping("/getItinerary")
-  public ResponseEntity<?> getItinerary(@RequestBody Map<String, Object> body) {
+  public ResponseEntity<?> getItinerary() {
 
     int maxDist = 20;
     int budget = 200;
