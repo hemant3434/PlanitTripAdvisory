@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import Itinerary from './pages/Itinerary';
 import DateTime from './pages/DateTime';
 
+import Multi from './components/Navigation/CreateItinerary';
+
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -60,7 +62,7 @@ class ProfileScreen extends React.Component {
 const bottomTabNavigator = createBottomTabNavigator(
   {
     Explore: {
-      screen: ExploreScreen,
+      screen: Multi,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="search" size={25} color={tintColor} />
