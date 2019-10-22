@@ -1,0 +1,118 @@
+Class name: MainController
+Parent class:
+Subclasses:
+Responsibilities:
+	*Can get an itinerary
+Collaborators:
+	*Itinerary
+	*GoogleMaps
+
+
+Class name: Itinerary
+Parent class:
+Subclasses:
+Responsibilities:
+	*Knows its start time
+	*Knows its end time
+	*Knows its home
+	*Knows its location
+	*Knows its maximum distance
+	*Knows its activities
+	*Knows its budget
+	*Knows its schedule
+	*Knows its visited events
+	*Can get the next event in the schedule
+	*Can get its schedule
+	*Can get its start time
+	*Can get its end time
+	*Can get its home
+	*Can get its location
+	*Can get its maximum distance
+	*Can get its activities
+	*Can get its budget
+	*Can set its start time
+	*Can set its end time
+	*Can set its home
+	*Can set its location
+	*Can set its maximum distance
+	*Can set its activities
+	*Can set its budget
+	*Can set its schedule
+	*Can get its visited events
+Collaborators:
+	*GoogleMaps
+	*ItineraryItem
+
+
+Class name: ItineraryItem
+Parent class:
+Subclasses:
+Responsibilities:
+	*Knows its type
+	*Knows its title
+	*Knows its price
+	*Knows its start time
+	*Knows its end time
+	*Knows its expected length
+	*Can get its type
+	*Can get its title
+	*Can get its price
+	*Can get its start time
+	*Can get its end time
+	*Can get its expected length
+	*Can set its type
+	*Can set its title
+	*Can set its price
+	*Can set its start time
+	*Can set its end time
+Collaborators:
+
+
+Class name: Transportation
+Parent class:
+Subclasses:
+Responsibilities:
+	*Knows its distance
+	*Can get its distance
+	*Can set its distance
+Collaborators:
+
+
+Class name: Event
+Parent class:
+Subclasses:
+Responsibilities:
+	*Knows its location
+	*Knows its activity
+	*Knows its rating
+	*Can get its location
+	*Can get its activity
+	*Can get its rating
+	*Can set its location
+	*Can set its activity
+	*Can set its rating
+	*Can calculate its score
+Collaborators:
+
+
+Class name: GoogleMaps
+Parent class:
+Subclasses:
+Responsibilities:
+	*Knows its visited events
+	*Can get its transportation
+	*Can get its possible events
+	*Can get its visited events
+	*Can set its visited events
+Collaborators:
+
+
+Class name: User
+Parent class:
+Subclasses:
+Responsibilities:
+	*Knows its rated events
+	*Can add a rating for an event
+	*Can get a rating for an event
+Collaborators:
+	*Event
