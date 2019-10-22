@@ -47,3 +47,4 @@ XiangQian "Richard" Hong
 - As Joseph (a traveller), I would like to be able to view the amount of money that is required to make the trip so I can see if I could afford it.
 
 - Point Estimate: 2
+
