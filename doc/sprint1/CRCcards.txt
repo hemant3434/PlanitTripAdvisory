@@ -46,7 +46,7 @@ Collaborators:
 
 Class name: ItineraryItem
 Parent class:
-Subclasses:
+Subclasses: Transportation, Event
 Responsibilities:
 	*Knows its type
 	*Knows its title
@@ -69,7 +69,7 @@ Collaborators:
 
 
 Class name: Transportation
-Parent class:
+Parent class: ItineraryItem
 Subclasses:
 Responsibilities:
 	*Knows its distance
@@ -79,7 +79,7 @@ Collaborators:
 
 
 Class name: Event
-Parent class:
+	Parent class: ItineraryItem
 Subclasses:
 Responsibilities:
 	*Knows its location

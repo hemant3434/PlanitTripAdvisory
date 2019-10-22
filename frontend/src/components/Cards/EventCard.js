@@ -3,6 +3,9 @@ import ImageCard from './ImageCard';
 import TravelCard from './TravelCard';
 import { StyleSheet, Text, View } from 'react-native';
 
+var images = {
+  toronto: require("../../images/toronto.jpg")
+}
 
 export default class EventCard extends React.Component{
   constructor(props){
@@ -19,7 +22,7 @@ export default class EventCard extends React.Component{
       case "event":
         return <ImageCard
           title={this.props.common.title}
-          image={this.props.common.image}
+          image={images[this.props.common.image]}
           text={this.props.common.description} />;
     }
   }
