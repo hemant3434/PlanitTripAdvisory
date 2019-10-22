@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Itinerary {
-
     private Time startTime;
     private Time endTime;
     private String home;
@@ -15,7 +14,6 @@ public class Itinerary {
     private float budget;
     private List<ItineraryItem> itin = new ArrayList();
     private List<String> visitedEvents = new ArrayList();
-
     public float minScore = 0.0f;
     public GoogleMaps gm = new GoogleMaps();
 
