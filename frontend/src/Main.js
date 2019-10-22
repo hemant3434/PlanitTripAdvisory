@@ -13,7 +13,6 @@ export default class HybridApp extends React.Component {
       <View style={styles.container}>
         <Text>PLAN YO SHIT</Text>
         <CardsContainer />
-        <BottomNav />
       </View>
     );
   }
