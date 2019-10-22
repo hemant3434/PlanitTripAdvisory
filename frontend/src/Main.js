@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import Itinerary from './pages/Itinerary';
 import DateTime from './pages/DateTime';
 
+import MapPicker from './pages/MapPicker';
+
 import Multi from './components/Navigation/CreateItinerary';
 
 import { createAppContainer } from 'react-navigation';
@@ -70,7 +72,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Map: {
-      screen: MapScreen,
+      screen: MapPicker,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="map" size={25} color={tintColor} />
