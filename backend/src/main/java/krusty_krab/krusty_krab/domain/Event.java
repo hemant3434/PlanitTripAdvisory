@@ -1,50 +1,77 @@
 package krusty_krab.krusty_krab.domain;
 
-import java.sql.Time;
 import java.util.List;
 
-public class Event {
+public class Event extends ItineraryItem{
 
-	private String name;
-	private Time date;
 	private String location;
-	private List<String> activies;
+	private String activity;
 	private int rating;
-	private double cost;
+	private String image;
+	private String description;
 	
 	public Event() {
 	}
 	
-	public Event(String name, Time date, String location, List<String> activities, int rating, double cost) {
-		this.name = name;
-		this.date = date;
+	public Event(String title, String location, String activity, int rating, float price, Time startTime, Time endTime, Time expectedLength, String image, String description) {
+		super("event", title, price, startTime, endTime, expectedLength);
 		this.location = location;
-		this.activies = activities;
+		this.activity = activity;
 		this.rating = rating;
-		this.cost = cost;
+		this.image = image;
+		this.description = description;
 	}
-	
-	public String getName() {
-		return this.name;
+
+	public float getScore(Time curTime, String curLoc, GoogleMaps gm, float maxDist, float budget){
+	    int ratingWeight = 3;
+	    int waitTimeWeight = 5;
+	    int maxDistWeight = 1;
+	    int budgetWeight = 1;
+
+	    int ratingMax = 5;
+	    int waitTimeMax = 360;
+	    float maxDistMax = maxDist;
+	    float budgetMax = budget;
+
+        float rating, waitTime, dist, price;
+		Transportation transp = gm.getTransportation(curLoc, getLocation(), curTime);
+		//System.out.println(curLoc);
+		//System.out.println(getLocation());
+
+        rating = this.getRating();
+
+        if(this.getStartTime().toMinutes() - transp.getEndTime().toMinutes() < curTime.toMinutes()){
+            waitTime = 0;
+        }
+        else{
+            waitTime = this.getStartTime().toMinutes() - curTime.toMinutes();
+        }
+
+        dist = transp.getDistance();
+
+        price = this.getPrice();
+
+        return ratingWeight/ratingMax*rating + 1/waitTimeWeight/waitTimeMax*waitTime + 1/maxDistWeight/maxDistMax*dist + 1/budgetWeight/budgetMax*price;
+
+    }
+
+	public String getLocation() {
+		return location;
 	}
-	
-	public Time date() {
-		return this.date;
+
+	public String getActivity() {
+		return activity;
 	}
-	
-	public String location() {
-		return this.location;
-	}
-	
-	public List<String> getActivities() {
-		return this.activies;
-	}
-	
+
 	public int getRating() {
-		return this.rating;
+		return rating;
 	}
-	
-	public double getCost() {
-		return this.cost;
+
+	public String getImage() {
+		return image;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 }

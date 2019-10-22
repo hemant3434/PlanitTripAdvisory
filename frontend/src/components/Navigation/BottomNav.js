@@ -1,102 +1,49 @@
-import React, { Component } from "react";
-import { StyleSheet } from 'react-native'
-import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Footer,
-  FooterTab,
-  Text,
-  Body,
-  Left,
-  Right,
-  Icon
-} from "native-base";
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import Icon from "react-native-vector-icons/FontAwesome";
 
-export default class BottomNav extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tab1: false,
-      tab2: false,
-      tab3: true,
-      tab4: false
-    };
+const bottomTabNavigator = createBottomTabNavigator(
+  {
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="home" size={25} color={tintColor} />
+        )
+      }
+    },
+    Explore: {
+      screen: ExploreScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="comments" size={25} color={tintColor} />
+        )
+      }
+    },
+    Notifications: {
+      screen: NotificationsScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="search" size={25} color={tintColor} />
+        )
+      }
+    },
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="user" size={25} color={tintColor} />
+        )
+      }
+    },
+  },
+  {
+    initialRouteName: 'Home',
+    tabBarOptions: {
+      activeTintColor: '#eb6e3d'
+    }
   }
-  toggleTab1() {
-    this.setState({
-      tab1: true,
-      tab2: false,
-      tab3: false,
-      tab4: false
-    });
-  }
-  toggleTab2() {
-    this.setState({
-      tab1: false,
-      tab2: true,
-      tab3: false,
-      tab4: false
-    });
-  }
-  toggleTab3() {
-    this.setState({
-      tab1: false,
-      tab2: false,
-      tab3: true,
-      tab4: false
-    });
-  }
-  toggleTab4() {
-    this.setState({
-      tab1: false,
-      tab2: false,
-      tab3: false,
-      tab4: true
-    });
-  }
-  render() {
-    return (
-      <Container style={styles.container}>
-        <Header>
-          <Left>
-            <Button transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name="arrow-back" />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Footer</Title>
-          </Body>
-          <Right />
-        </Header>
+);
 
-        <Content padder />
-
-        <Footer>
-          <FooterTab>
-            <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
-              <Text>Apps</Text>
-            </Button>
-            <Button active={this.state.tab2} onPress={() => this.toggleTab2()}>
-              <Text>Camera</Text>
-            </Button>
-            <Button active={this.state.tab3} onPress={() => this.toggleTab3()}>
-              <Text>Navigate</Text>
-            </Button>
-            <Button active={this.state.tab4} onPress={() => this.toggleTab4()}>
-              <Text>Contact</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
-      </Container>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#FFF"
-  }
-});
+const AppContainer = createAppContainer(bottomTabNavigator);

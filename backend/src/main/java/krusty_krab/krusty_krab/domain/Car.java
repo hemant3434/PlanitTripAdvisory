@@ -7,11 +7,4 @@ public class Car extends Transportation{
 
     public Car () {
     }
-
-    public Car(Time time, String distance, double cost) {
-        super.setTime(time);
-        super.setDistance(distance);
-        super.setCost(cost);
-        super.setMethod("Car");
-    }
 }

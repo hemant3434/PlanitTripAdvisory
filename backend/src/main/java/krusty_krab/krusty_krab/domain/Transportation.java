@@ -1,52 +1,34 @@
 package krusty_krab.krusty_krab.domain;
 
-import java.sql.Time;
+public class Transportation extends ItineraryItem {
 
-public class Transportation {
-
-    private Time time;
-    private String distance;
-    private double cost;
-    private String method;
+    private float distance;
+    private String icon;
+    private String subtitle;
 
     public Transportation() {
     }
 
-    public Transportation(Time time, String distance, double cost) {
-        this.time = time;
+    public Transportation(float distance, String title, float price, Time startTime, Time endTime, Time expectedLength, String icon, String subtitle) {
+        super("transportation", title, price, startTime, endTime, expectedLength);
         this.distance = distance;
-        this.cost = cost;
+        this.icon = icon;
+        this.subtitle = subtitle;
     }
 
-    public Time getTime() {
-        return time;
-    }
-
-    public void setTime(Time time) {
-        this.time = time;
-    }
-
-    public String getDistance() {
+    public float getDistance() {
         return distance;
     }
 
-    public void setDistance(String distance) {
+    public void setDistance(float distance) {
         this.distance = distance;
     }
 
-    public double getCost() {
-        return cost;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
+    public String getSubtitle() {
+        return subtitle;
     }
 }
