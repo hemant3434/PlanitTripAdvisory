@@ -16,6 +16,7 @@ class MapPicker extends React.Component {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0922 * ASPECT_RATIO,
             },
+            
             // radius: 500,
         };
     }
