@@ -67,7 +67,7 @@ public class GoogleMaps {
 
         events.add(e1);
         events.add(e2);
-        //events.add(e3);
+        events.add(e3);
         //events.add(e4);
 
         return events;

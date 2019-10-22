@@ -43,7 +43,6 @@ public class MainController {
     //System.out.println(e2.getScore(new Time(2019, 10, 25, 9, 0, true), "Union Station", this.gm, maxDist, budget));
     //System.out.println(e1.getScore(new Time(2019, 10, 25, 9, 0, true), "Spadina", this.gm, maxDist, budget));
     //System.out.println(e2.getScore(new Time(2019, 10, 25, 9, 0, true), "Spadina", this.gm, maxDist, budget));
-
     //Transportation t = gm.getTransportation("Union Station", "Ripley's Aquarium", new Time(2019, 10, 25, 8, 0, true));
 
     itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
