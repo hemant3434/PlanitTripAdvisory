@@ -46,7 +46,6 @@ public class MainController {
 
     //Transportation t = gm.getTransportation("Union Station", "Ripley's Aquarium", new Time(2019, 10, 25, 8, 0, true));
 
-
     itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
     itin.setEndTime(new Time(2019, 10, 25, 20, 00, true));
     itin.setHome("union station");
