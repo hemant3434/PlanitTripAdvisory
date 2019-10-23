@@ -2,7 +2,8 @@ import React from 'react';
 import { StyleSheet, View, Text, Dimensions, ScrollView } from 'react-native';
 import MapView, { Marker, Circle, ProviderPropType } from 'react-native-maps';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-
+import SubmitButton from './../components/SubmitButton';
+import BackButton from './../components/BackButton';
 
 const { width, height } = Dimensions.get('window');
 
@@ -18,7 +19,7 @@ class MapPicker extends React.Component {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0922 * ASPECT_RATIO,
             },
-            
+
             // radius: 500,
         };
     }
@@ -34,7 +35,7 @@ class MapPicker extends React.Component {
                     placeholder='Search'
                     minLength={2} // minimum length of text to search
                     autoFocus={false}
-                    returnKeyType={'search'} // Can be left out for default return key 
+                    returnKeyType={'search'} // Can be left out for default return key
                     listViewDisplayed={false}    // true/false/undefined
                     fetchDetails={true}
                     onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
@@ -82,9 +83,11 @@ class MapPicker extends React.Component {
                         fillColor="rgba(128,191,255,0.5)"
                         /> */}
                     </MapView>
+                    <SubmitButton continue={this.props.continue}/>
+                    <BackButton previous={this.props.previous}/>
                 </ScrollView>
             </View>
-    
+
         );
     }
 }
@@ -103,6 +106,6 @@ const styles = StyleSheet.create({
       width: Dimensions.get('window').width,
       height: Dimensions.get('window').width,
     },
-  });  
+  });
 
 export default MapPicker;

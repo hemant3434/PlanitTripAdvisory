@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Itinerary from './pages/Itinerary';
 import DateTime from './pages/DateTime';
 
-import MapPicker from './pages/MapPicker';
+import MapPicker from './components/MapPicker';
 
 import Multi from './components/Navigation/CreateItinerary';
 
@@ -92,14 +92,6 @@ const bottomTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="search" size={25} color={tintColor} />
-        )
-      }
-    },
-    DateTime: {
-      screen: DateTime,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => (
-          <Icon name="calendar" size={25} color={tintColor} />
         )
       }
     },

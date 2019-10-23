@@ -16,14 +16,17 @@ export default class CalendarsScreen extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <Calendar
           onDayPress={this.onDayPress}
           style={styles.calendar}
           hideExtraDays
           markedDates={{[this.state.selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}}}
         />
-      </ScrollView>
+        <Text>
+          {this.state.selected}
+        </Text>
+      </View>
     );
   }
 
@@ -37,17 +40,14 @@ export default class CalendarsScreen extends Component {
 
 const styles = StyleSheet.create({
   calendar: {
-    paddingTop: 40,
+    paddingTop: 20,
     height: 350
   },
   text: {
     textAlign: 'center',
     borderColor: '#bbb',
-    padding: 10,
-    backgroundColor: '#eee'
   },
   container: {
     flex: 1,
-    backgroundColor: 'gray',
   }
 });

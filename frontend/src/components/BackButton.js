@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Constants from 'expo-constants';
 
-export default class Submit extends Component {
+export default class Back extends Component {
   constructor(props) {
     super(props)
   }
@@ -17,8 +17,8 @@ export default class Submit extends Component {
     return (
       <View style={styles.button}>
         <Button
-          title="Submit"
-          onPress={this.props.continue}
+          title="Back"
+          onPress={this.props.previous}
         />
       </View>
     );
@@ -27,6 +27,6 @@ export default class Submit extends Component {
 
 const styles = StyleSheet.create({
   button: {
-    paddingBottom: 10,
+    paddingBottom: 30,
   },
 });

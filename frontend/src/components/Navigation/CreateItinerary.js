@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, Button } from 'react-native';
+import DateTime from './../../pages/DateTime';
+import MapPicker from './../../components/MapPicker';
+import Itinerary from './../../pages/Itinerary';
 
 export class Multi extends Component {
   constructor(props){
@@ -32,16 +35,13 @@ export class Multi extends Component {
     const { step } = this.state;
     switch(step){
       case 1:
-        return(<View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#d0d0d0'}}>
-        <Text>This is Step 1!</Text>
-        <Button title="go to next step" onPress={this.nextStep}></Button>
-        </View>);
+        return(
+            <DateTime continue={this.nextStep} previous={this.previousStep} />
+        );
       case 2:
-        return(<View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#d0d0d0'}}>
-        <Text>This is Step 2!</Text>
-        <Button title="go to previous step" onPress={this.previousStep}></Button>
-        <Button title="go to next step" onPress={this.nextStep}></Button>
-        </View>);
+        return(
+            <MapPicker continue={this.nextStep} previous={this.previousStep} />
+        );
     }
   }
 }

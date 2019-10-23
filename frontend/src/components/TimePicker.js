@@ -62,6 +62,24 @@ export default class TimePicker extends Component {
   }
 }
 
+/*
+function mapStateToProps(state) {
+  return {
+    selectedStartTime: state.selectedStartTime,
+    selectedEndTime: state.selectedEndTime
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    selectedStartTime: (day) => dispatch({ type: 'SET_DATE', payload: day }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TimePicker)
+
+*/
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -69,6 +87,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    marginVertical: 10
+    marginVertical: 0
   }
 });
