@@ -6,7 +6,6 @@ import {
   Text,
   Alert,
 } from 'react-native';
-import Constants from 'expo-constants';
 
 export default class Submit extends Component {
   constructor(props) {
@@ -27,6 +26,5 @@ export default class Submit extends Component {
 
 const styles = StyleSheet.create({
   button: {
-    paddingBottom: 10,
   },
 });

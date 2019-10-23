@@ -7,8 +7,9 @@ import {
   Alert,
 } from 'react-native';
 import Constants from 'expo-constants';
+import { connect } from 'react-redux';
 
-export default class Back extends Component {
+export default class BackButton extends Component {
   constructor(props) {
     super(props)
   }
@@ -24,6 +25,8 @@ export default class Back extends Component {
     );
   }
 }
+
+
 
 const styles = StyleSheet.create({
   button: {

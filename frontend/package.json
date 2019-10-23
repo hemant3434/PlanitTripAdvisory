@@ -25,9 +25,11 @@
     "react-native-submit-button": "^1.0.5",
     "react-native-tabs": "^1.0.9",
     "react-native-web": "^0.11.7",
+    "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
     "react-router-native": "^5.1.2",
-    "react-scripts": "^3.2.0"
+    "react-scripts": "^3.2.0",
+    "redux": "^4.0.4"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.5.5",

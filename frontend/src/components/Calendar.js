@@ -23,9 +23,6 @@ export default class CalendarsScreen extends Component {
           hideExtraDays
           markedDates={{[this.state.selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}}}
         />
-        <Text>
-          {this.state.selected}
-        </Text>
       </View>
     );
   }
@@ -35,6 +32,7 @@ export default class CalendarsScreen extends Component {
       selected: day.dateString,
     });
     //SAVE DATA SOMEWHERE, GO NEXT PAGE
+    this.props.setDateFromParent(day.dateString)
   }
 }
 

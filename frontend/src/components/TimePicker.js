@@ -29,11 +29,13 @@ export default class TimePicker extends Component {
   handleStartTimePicked = startTime => {
     this.setState({ selectedStartTime: startTime.toString() });
     this.hideStartTimePicker();
+    this.props.setStartTimeFromParent(startTime.toString());
   };
 
   handleEndTimePicked = endTime => {
     this.setState({ selectedEndTime: endTime.toString() });
     this.hideEndTimePicker();
+    this.props.setEndTimeFromParent(endTime.toString());
   };
 
   render() {
@@ -42,7 +44,6 @@ export default class TimePicker extends Component {
     return (
       <View style={styles.container}>
         <Button title="Start Time" onPress={this.showStartTimePicker} />
-        <Text style={styles.text}>{selectedStartTime}</Text>
         <DateTimePicker
           isVisible={isStartTimePickerVisible}
           onConfirm={this.handleStartTimePicked}
@@ -50,7 +51,6 @@ export default class TimePicker extends Component {
           mode="time"
         />
         <Button title="End Time" onPress={this.showEndTimePicker} />
-        <Text style={styles.text}>{selectedEndTime}</Text>
         <DateTimePicker
           isVisible={isEndTimePickerVisible}
           onConfirm={this.handleEndTimePicked}
@@ -61,24 +61,6 @@ export default class TimePicker extends Component {
     );
   }
 }
-
-/*
-function mapStateToProps(state) {
-  return {
-    selectedStartTime: state.selectedStartTime,
-    selectedEndTime: state.selectedEndTime
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    selectedStartTime: (day) => dispatch({ type: 'SET_DATE', payload: day }),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TimePicker)
-
-*/
 
 const styles = StyleSheet.create({
   container: {

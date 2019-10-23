@@ -10,11 +10,26 @@ export default class DateTime extends React.Component {
     super(props)
   }
 
+  setDate = (dataFromChild) => {
+    this.props.setDateFromParent(dataFromChild)
+  }
+
+  setStartTime = (dataFromChild) => {
+    this.props.setStartTimeFromParent(dataFromChild)
+  }
+
+  setEndTime = (dataFromChild) => {
+    this.props.setEndTimeFromParent(dataFromChild)
+  }
+
   render(){
     return(
       <View style={styles.container}>
-        <Calendar />
-        <TimePicker />
+        <Calendar setDateFromParent={this.setDate}/>
+        <TimePicker
+          setStartTimeFromParent={this.setStartTime}
+          setEndTimeFromParent={this.setEndTime}
+        />
         <SubmitButton continue={this.props.continue}/>
         <BackButton previous={this.props.previous}/>
       </View>
