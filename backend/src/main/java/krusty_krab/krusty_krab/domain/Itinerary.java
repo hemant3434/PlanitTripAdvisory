@@ -12,8 +12,8 @@ public class Itinerary {
     private float maxDist;
     private List<String> activities;
     private float budget;
-    private List<ItineraryItem> itin = new ArrayList();
-    private List<String> visitedEvents = new ArrayList();
+    private List<ItineraryItem> itin = new ArrayList<ItineraryItem>();
+    private List<String> visitedEvents = new ArrayList<String>();
     public float minScore = 0.0f;
     public GoogleMaps gm = new GoogleMaps();
 
