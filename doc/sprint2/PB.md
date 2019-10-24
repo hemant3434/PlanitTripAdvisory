@@ -57,6 +57,10 @@
 `Story 17` 
   - As Joseph (a traveller), I want to be able to rate the events that I attend in the app, so that other travellers know what events they should visit
   - Point Estimate: 3
+  
+  `Story 19` 
+  - As Bob (a businessman), I would like my itinerary to be saved to my private user account so that only I can view my itinerary, whenever I want, by using my account information
+  - Point Estimate: 5
 
 ## Out of Scope ##
 `Story 16` 
