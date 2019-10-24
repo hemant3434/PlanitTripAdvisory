@@ -85,14 +85,6 @@ const bottomTabNavigator = createBottomTabNavigator(
         )
       }
     },
-    DateTime: {
-      screen: DateTime,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => (
-          <Icon name="calendar" size={25} color={tintColor} />
-        )
-      }
-    },
     Profile: {
       screen: ProfileScreen,
       navigationOptions: {
