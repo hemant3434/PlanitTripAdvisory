@@ -32,7 +32,8 @@ public class MainController {
   @GetMapping("/getItinerary")
   public ResponseEntity<?> getItinerary(@RequestBody Map<String, Object> body) {
 
-    Map<String, Object> map = new HashMap<String, Object>();
+	// is this map needed?
+    //Map<String, Object> map = new HashMap<String, Object>();
 
     //Sends dummy data for the user filters into the itinerary class
     itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
@@ -40,7 +41,7 @@ public class MainController {
     itin.setHome("union station");
     itin.setLocation("toronto");
     itin.setMaxDist(20);
-    List<String> activities = new ArrayList();
+    List<String> activities = new ArrayList<String>();
     activities.add("aquarium");
     activities.add("art gallery");
     itin.setActivities(activities);
