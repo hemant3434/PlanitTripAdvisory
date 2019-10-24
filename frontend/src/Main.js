@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Itinerary from './pages/Itinerary';
 import DateTime from './pages/DateTime';
 
-import MapPicker from './components/MapPicker';
+import MapPicker from './pages/MapPicker';
 
 import Multi from './components/Navigation/CreateItinerary';
 
