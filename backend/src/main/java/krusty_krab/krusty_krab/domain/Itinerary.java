@@ -58,6 +58,7 @@ public class Itinerary {
                 // Transporation object to begin at the current time
                 transp.setStartTime(curTime);
                 curTime = curTime.add(transp.getExpectedLength());
+                transp.setEndTime(curTime);
                 //Sets next event to begin after the expected length of the transportation
                 nextEvent.setStartTime(curTime);
 
@@ -67,6 +68,7 @@ public class Itinerary {
                 //Current time updated to after event is over, current location updated to event location
                 curLoc = nextEvent.getLocation();
                 curTime = curTime.add(nextEvent.getExpectedLength());
+                nextEvent.setEndTime(curTime);
                 // Gets next event
                 nextEvent = getNextBestEvent(curTime, curLoc);
             }
