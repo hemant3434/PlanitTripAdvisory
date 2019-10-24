@@ -13,11 +13,14 @@ public class Itinerary {
     private List<String> activities;
     private float budget;
     private List<ItineraryItem> itin = new ArrayList<ItineraryItem>();
+    private float cost;
     private List<String> visitedEvents = new ArrayList<String>();
     public float minScore = 0.0f;
     public GoogleMaps gm = new GoogleMaps();
 
-    public Itinerary() {}
+    public Itinerary() {
+        this.cost = 0;
+    }
 
     // Gets the next best event for the user to attend at a given time and location
     public Event getNextBestEvent(Time curTime, String curLoc){
@@ -36,9 +39,6 @@ public class Itinerary {
         if(this.getVisitedEvents().contains(bestEvent.getLocation())){
             throw new NoSuchElementException();
         }
-
-        // Event added to list to indicate that it is already in the itinerary
-        this.visitedEvents.add(bestEvent.getLocation());
         return bestEvent;
     }
 
@@ -65,6 +65,12 @@ public class Itinerary {
                 // Transporation and event objects are added to the itinerary
                 this.itin.add(transp);
                 this.itin.add(nextEvent);
+                //Updates cost of itinerary
+                this.setCost(getCost() + transp.getPrice());
+                this.setCost(getCost() + nextEvent.getPrice());
+                // Event added to list to indicate that it is already in the itinerary
+                this.visitedEvents.add(nextEvent.getLocation());
+
                 //Current time updated to after event is over, current location updated to event location
                 curLoc = nextEvent.getLocation();
                 curTime = curTime.add(nextEvent.getExpectedLength());
@@ -78,6 +84,7 @@ public class Itinerary {
         Transportation transp = this.gm.getTransportation(curLoc, getHome(), curTime);
         transp.setStartTime(curTime);
         this.itin.add(transp);
+        this.setCost(getCost() + transp.getPrice());
     }
 
     public List<ItineraryItem> getItin() {
@@ -146,5 +153,13 @@ public class Itinerary {
 
     public List<String> getVisitedEvents() {
         return visitedEvents;
+    }
+
+    public float getCost() {
+        return cost;
+    }
+
+    public void setCost(float cost) {
+        this.cost = cost;
     }
 }
