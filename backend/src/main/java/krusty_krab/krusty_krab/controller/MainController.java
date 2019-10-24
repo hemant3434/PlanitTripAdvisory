@@ -61,4 +61,14 @@ public class MainController {
   public void changeLocation(@RequestBody Itinerary body) {
       itin.setLocation(body.getLocation());
   }
+  
+  @PutMapping("/changeMaxBudget")
+  public void changeMaxBudget(@RequestBody Itinerary body) {
+	  itin.setBudget(body.getBudget());
+  }
+  
+  @PutMapping("/changeMaxDistance")
+  public void changeMaxDistance(@RequestBody Itinerary body) {
+	  itin.setMaxDist(body.getMaxDist());
+  }
 }
