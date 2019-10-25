@@ -23,7 +23,17 @@ public class Itinerary {
     }
 
     // Gets the next best event for the user to attend at a given time and location
-    public Event getNextBestEvent(Time curTime, String curLoc){
+    public Event getNextBestEvent(Time curTime1, String curLoc1){
+        Time curTime;
+        String curLoc;
+        if(this.getItin().size() == 0){
+            curTime = this.getStartTime();
+            curLoc = this.getHome();
+        }
+        else {
+            curTime = this.getItin().get(this.getItin().size() - 1).getEndTime();
+            curLoc = this.getItin().get(this.getItin().size() - 1).get
+        }
 
         // Gets every event that satisfies the given filters
         List<Event> events = this.gm.getEvents(curTime, this.getEndTime(), curLoc, this.getLocation(), this.getMaxDist(), this.getActivities(), this.getBudget());
