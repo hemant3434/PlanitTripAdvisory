@@ -22,17 +22,21 @@ public class Itinerary {
         this.cost = 0;
     }
 
-    // Gets the next best event for the user to attend at a given time and location
-    public Event getNextBestEvent(Time curTime1, String curLoc1){
+    // Gets the next best event for the user to attend
+    public Event getNextBestEvent(){
         Time curTime;
-        String curLoc;
+        String curLoc = "";
         if(this.getItin().size() == 0){
             curTime = this.getStartTime();
             curLoc = this.getHome();
         }
         else {
             curTime = this.getItin().get(this.getItin().size() - 1).getEndTime();
-            curLoc = this.getItin().get(this.getItin().size() - 1).get
+            ItineraryItem lastItem = this.getItin().get(this.getItin().size() - 1);
+            if(lastItem instanceof Event){
+                curLoc = ((Event)(lastItem)).getLocation();
+            }
+
         }
 
         // Gets every event that satisfies the given filters
@@ -59,7 +63,7 @@ public class Itinerary {
         String curLoc = getHome();
         try{
             // Gets first event
-            Event nextEvent = getNextBestEvent(curTime, curLoc);
+            Event nextEvent = getNextBestEvent();
 
             // Loops until it runs out of events, or all events remaining has a score so low that they shouldn't be on the itinerary
             while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > minScore){
@@ -86,7 +90,7 @@ public class Itinerary {
                 curTime = curTime.add(nextEvent.getExpectedLength());
                 nextEvent.setEndTime(curTime);
                 // Gets next event
-                nextEvent = getNextBestEvent(curTime, curLoc);
+                nextEvent = getNextBestEvent();
             }
         }
         catch(NoSuchElementException e){}
