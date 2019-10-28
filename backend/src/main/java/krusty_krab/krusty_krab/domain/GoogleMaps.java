@@ -104,6 +104,17 @@ public class GoogleMaps {
 
     return new Transportation();
   }
+  
+  public static void GoogleRequests() {
+    double lat = 43.7764;
+    double ltd = 79.2318;
+    LatLng cur_loc = new LatLng(lat, ltd);
+    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc);
+    PlacesSearchResult results[] = all_events.awaitIgnoreError().results;
+    for (PlacesSearchResult i: results) {
+      System.out.println(i.toString());
+    }
+  }
 
   // Gets events from Google Maps API that satisfy the provided start time, end time, max distance
   // away, activity type, and max price
@@ -111,10 +122,12 @@ public class GoogleMaps {
       float maxDist, List<String> activities, float budget) throws Exception {
     List<Event> events = new ArrayList();
     
-    LatLng cur_loc = new LatLng((double)43.7764, (double)79.2318);
+    double lat = 43.7764;
+    double ltd = -79.2318;
+    LatLng cur_loc = new LatLng(lat, ltd);
     NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc);
-    PlacesSearchResult results[] = all_events.await().results;
-    
+    PlacesSearchResult results[] = all_events.awaitIgnoreError().results;
+
     for (PlacesSearchResult i: results) {
       System.out.println(i.toString());
     }
