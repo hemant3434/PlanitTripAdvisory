@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, Button } from 'react-native';
 import DateTime from './../../pages/DateTime';
-import MapPicker from './../../components/MapPicker';
+import MapPicker from './../../pages/MapPicker';
 import Itinerary from './../../pages/Itinerary';
 import Calendar from './../../components/Calendar';
 import SubmitButton from './../../components/SubmitButton';
@@ -82,8 +82,18 @@ export class Multi extends Component {
             <Text>
               {this.state.startTime}
             </Text>
+            <Button onPress={this.nextStep} title="next"></Button>
           </View>
         );
+      case 3:
+        return(
+          <MapPicker next={this.nextStep}
+          />
+        );
+      case 4:
+        return(
+          <Itinerary />
+        )
     }
   }
 }

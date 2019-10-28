@@ -41,8 +41,15 @@ export default class CardsContainer extends React.Component{
     this.fetchData();
   }
 
+  componentWillUnmount () {
+    this.setState({
+      isLoading: true,
+      Itinerary: null
+    })
+  }
+
   fetchData(){
-    axios.get('http://100.80.11.91:8082/api/v1/getItinerary')
+    axios.get('http://localhost:8083/api/v1/getItinerary')
       .then(res => {
         console.log("res", res);
         const data = res.data;
@@ -65,6 +72,7 @@ export default class CardsContainer extends React.Component{
 
 
   render(props){
+    console.log(this.Itinerary);
     return (
         <ScrollView
         style={StyleSheet.absoluteFill}

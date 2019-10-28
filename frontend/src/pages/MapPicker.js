@@ -10,6 +10,8 @@ export default class MapPicker extends React.Component {
     super(props);
   }
 
+
+
   render() {
     return(
       <View style={{flex: 1}}>
@@ -19,6 +21,7 @@ export default class MapPicker extends React.Component {
             latitude: 43.6532,
             longitude: -79.3832,
           }}
+          onLocationSelect={this.props.next}
         />
       </View>
     );
