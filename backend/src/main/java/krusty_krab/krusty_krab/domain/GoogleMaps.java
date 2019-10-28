@@ -15,7 +15,7 @@ public class GoogleMaps {
 
   public GoogleMaps() {
     if(KEY == null) {
-      KEY = new GeoApiContext.Builder().apiKey("AIzaSyCBL_WbHzOOXyq2mrs34KZIa7RglpealxQ").build();
+      KEY = new GeoApiContext.Builder().apiKey("").build();
     }
   }
 
@@ -124,13 +124,19 @@ public class GoogleMaps {
     
     double lat = 43.7764;
     double ltd = -79.2318;
-    LatLng cur_loc = new LatLng(lat, ltd);
-    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc);
-    PlacesSearchResult results[] = all_events.awaitIgnoreError().results;
+    LatLng cur_loc = new LatLng((double)lat, (double)ltd);
+    //NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc);
+    //TextSearchRequest all_events = PlacesApi.textSearchQuery(KEY, "scarborough pizza");
+    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)50000);
 
-    for (PlacesSearchResult i: results) {
-      System.out.println(i.toString());
+    if(all_events != null) {
+      PlacesSearchResponse obj = all_events.awaitIgnoreError();
+      PlacesSearchResult results[] = obj.results;
+      for (PlacesSearchResult i: results) {
+        System.out.println(i.toString());
+      }
     }
+    
     
     Event e1 = new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
