@@ -77,6 +77,16 @@ public class Itinerary {
         transp.setStartTime(curTime);
         this.itin.add(transp);
     }
+    
+    private void deleteEvent() {
+	// TODO: delete event from itinerary
+	// call joinEvents(startEvent, nextEvent) after to make transportation
+    }
+    
+    private void joinEvents(Event startEvent, Event nextEvent) {
+	Transportation transportation = gm.getTransportation(startEvent.getLocation(), nextEvent.getLocation(), startEvent.getEndTime());
+	itin.add(transportation);
+    }
 
     public List<ItineraryItem> getItin() {
         return itin;
