@@ -1,5 +1,10 @@
 Monday, October 28
 
 What we did yesterday
+  - Finished sprint organization
 
 Plan for today
+  - Begin logic for resoloving conflicting events
+  - Transportation between events
+  - Begin working on budget an ddistance sliders
+  - Work to fetch google maps data
