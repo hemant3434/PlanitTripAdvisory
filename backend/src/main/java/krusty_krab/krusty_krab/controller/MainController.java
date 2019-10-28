@@ -30,7 +30,7 @@ public class MainController {
   }
 
   @GetMapping("/getItinerary")
-  public ResponseEntity<?> getItinerary(@RequestBody Map<String, Object> body) {
+  public ResponseEntity<?> getItinerary(@RequestBody Map<String, Object> body) throws Exception {
 
 	// is this map needed?
     //Map<String, Object> map = new HashMap<String, Object>();
@@ -49,6 +49,11 @@ public class MainController {
 
     itin.createItinerary();
     return ResponseEntity.ok().body(itin.getItin());
+  }
+  
+  @PostMapping("/addEvent")
+  public void addEvent(@RequestBody Event event) {
+      itin.addEvent();
   }
   
   @PutMapping("/changeTime")
