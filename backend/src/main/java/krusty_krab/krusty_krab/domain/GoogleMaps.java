@@ -121,8 +121,9 @@ public class GoogleMaps {
   public List<Event> getEvents(Time startTime, Time endTime, String curLoc, String location,
       float maxDist, List<String> activities, float budget) throws Exception {
     List<Event> events = new ArrayList();
+    //Exclude event if time it takes to travel from location to event + expected length of event exceeds difference between starttime and endtime
     
-    double lat = 43.7764;
+    /*double lat = 43.7764;
     double ltd = -79.2318;
     LatLng cur_loc = new LatLng(lat, ltd);
     NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc);
@@ -130,7 +131,7 @@ public class GoogleMaps {
 
     for (PlacesSearchResult i: results) {
       System.out.println(i.toString());
-    }
+    }*/
     
     Event e1 = new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),

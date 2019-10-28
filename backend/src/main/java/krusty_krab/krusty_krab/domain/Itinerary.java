@@ -13,13 +13,12 @@ public class Itinerary {
     private List<String> activities;
     private float budget;
     private List<ItineraryItem> itin = new ArrayList<ItineraryItem>();
-    private float cost;
     private List<String> visitedEvents = new ArrayList<String>();
+
     public float minScore = 0.0f;
     public GoogleMaps gm = new GoogleMaps();
 
     public Itinerary() {
-        this.cost = 0;
     }
 
     // Gets the next best event for the user to attend
@@ -36,7 +35,6 @@ public class Itinerary {
             if(lastItem instanceof Event){
                 curLoc = ((Event)(lastItem)).getLocation();
             }
-
         }
 
         // Gets every event that satisfies the given filters
@@ -79,9 +77,6 @@ public class Itinerary {
                 // Transporation and event objects are added to the itinerary
                 this.itin.add(transp);
                 this.itin.add(nextEvent);
-                //Updates cost of itinerary
-                this.setCost(getCost() + transp.getPrice());
-                this.setCost(getCost() + nextEvent.getPrice());
                 // Event added to list to indicate that it is already in the itinerary
                 this.visitedEvents.add(nextEvent.getLocation());
 
@@ -98,7 +93,6 @@ public class Itinerary {
         Transportation transp = this.gm.getTransportation(curLoc, getHome(), curTime);
         transp.setStartTime(curTime);
         this.itin.add(transp);
-        this.setCost(getCost() + transp.getPrice());
     }
     
     private void deleteEvent() {
@@ -179,11 +173,11 @@ public class Itinerary {
         return visitedEvents;
     }
 
-    public float getCost() {
+    public float getItinCost() {
+        float cost = 0;
+        for(ItineraryItem i: getItin()){
+            cost+=i.getPrice();
+        }
         return cost;
-    }
-
-    public void setCost(float cost) {
-        this.cost = cost;
     }
 }
