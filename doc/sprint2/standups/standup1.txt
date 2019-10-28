@@ -1,9 +1,9 @@
 Date: Wednesday, October 23
 
-##What we did yesterday##
+What we did yesterday
   - Sprint1 was completed yesterday
   - Git repo cleaned up
   
-##Plan for today##
+Plan for today
   - Prepare for tutorial demo (Thursday)
   - Ensure front and back end components working together properly
