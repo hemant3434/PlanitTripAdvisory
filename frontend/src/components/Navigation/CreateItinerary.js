@@ -56,7 +56,6 @@ export class Multi extends Component {
     this.setState({ [input]: e.target.value });
   };
 
-
   render(){
     const { step } = this.state;
     switch(step){
