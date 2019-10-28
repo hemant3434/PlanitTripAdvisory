@@ -101,9 +101,44 @@ public class Itinerary {
         this.setCost(getCost() + transp.getPrice());
     }
     
+    public void addEvent() {
+	// Create new event
+	System.out.println("ADDING EVENT");
+	for (ItineraryItem item : itin) {
+	    System.out.println(item.getType());
+	}
+	
+    }
+    
+    private void handleConflict(Event newEvent) {
+	// Check if this event starts during an existing event
+	for (ItineraryItem item : itin) {
+	    if (item instanceof Event) {
+		Event event = (Event) item;
+		// Check time conflict
+		long startTime = item.getStartTime().toMinutes();
+		long endTime = item.getEndTime().toMinutes();
+		long newEventStart = newEvent.getStartTime().toMinutes();
+		if (startTime <= newEventStart && newEventStart <= endTime) {
+		    // There is a conflict, remove transportations related to this event
+		    deleteEvent();
+		    // find an available place to move the event
+		    
+		}
+	    }
+	}
+    }
+    
+    private void findOpenTime(Time startTime, Time endTime) {
+	// Required time will be time for the event as well as transportation
+	Time eventTime = endTime.getDifference(startTime);
+	for (int i = 0; i < itin.size(); i++) {
+	    
+	}
+    }
+    
     private void deleteEvent() {
-	// TODO: delete event from itinerary
-	// call joinEvents(startEvent, nextEvent) after to make transportation
+	// TODO: delete event from itinerary and get rid of the transportations
     }
     
     private void joinEvents(Event startEvent, Event nextEvent) {

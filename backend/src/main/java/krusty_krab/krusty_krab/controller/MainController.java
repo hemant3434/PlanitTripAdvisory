@@ -51,6 +51,11 @@ public class MainController {
     return ResponseEntity.ok().body(itin.getItin());
   }
   
+  @PostMapping("/addEvent")
+  public void addEvent(@RequestBody Event event) {
+      itin.addEvent();
+  }
+  
   @PutMapping("/changeTime")
   public void changeTime(@RequestBody Itinerary body) {
       itin.setStartTime(body.getStartTime());

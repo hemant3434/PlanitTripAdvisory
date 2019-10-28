@@ -112,13 +112,13 @@ public class GoogleMaps {
       float maxDist, List<String> activities, float budget) throws Exception {
     List<Event> events = new ArrayList();
     
-    LatLng cur_loc = new LatLng((double)43.7764, (double)79.2318);
-    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc);
-    PlacesSearchResult results[] = all_events.await().results;
-    
-    for (PlacesSearchResult i: results) {
-      System.out.println(i.toString());
-    }
+//    LatLng cur_loc = new LatLng((double)43.7764, (double)79.2318);
+//    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc);
+//    PlacesSearchResult results[] = all_events.await().results;
+//    
+//    for (PlacesSearchResult i: results) {
+//      System.out.println(i.toString());
+//    }
     
     Event e1 = new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
