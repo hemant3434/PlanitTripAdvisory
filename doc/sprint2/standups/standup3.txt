@@ -1,5 +1,10 @@
 Friday, October 25
 
-##What we did yesterday##
+What we did yesterday
+  - Completed demo
+  - Ensured everyone is working from proper version of git repo before continuing
+  - Created files for sprint2 (sprint2.md, SR1.md, etc.)
+  - Meet to discuss sprint 1 and task division for sprint2
 
-##Plan for today##
+Plan for today
+  - Continue sprint 2 organization
