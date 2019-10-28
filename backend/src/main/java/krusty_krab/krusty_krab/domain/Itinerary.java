@@ -14,6 +14,7 @@ public class Itinerary {
     private float budget;
     private List<ItineraryItem> itin = new ArrayList<ItineraryItem>();
     private List<String> visitedEvents = new ArrayList<String>();
+    private List<Transportation> transportation = new ArrayList<Transportation>();
     public float minScore = 0.0f;
     public GoogleMaps gm = new GoogleMaps();
 
@@ -61,7 +62,7 @@ public class Itinerary {
                 //Sets next event to begin after the expected length of the transportation
                 nextEvent.setStartTime(curTime);
 
-                // Transporation and event objects are added to the itinerary
+                // Transportation and event objects are added to the itinerary
                 this.itin.add(transp);
                 this.itin.add(nextEvent);
                 //Current time updated to after event is over, current location updated to event location

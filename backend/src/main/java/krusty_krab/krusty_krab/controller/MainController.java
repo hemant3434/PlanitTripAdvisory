@@ -52,23 +52,27 @@ public class MainController {
   }
   
   @PutMapping("/changeTime")
-  public void changeTime(@RequestBody Itinerary body) {
+  public ResponseEntity<?> changeTime(@RequestBody Itinerary body) {
       itin.setStartTime(body.getStartTime());
       itin.setEndTime(body.getEndTime());
+      return ResponseEntity.ok().build();
   }
   
   @PutMapping("/changeLocation")
-  public void changeLocation(@RequestBody Itinerary body) {
+  public ResponseEntity<?> changeLocation(@RequestBody Itinerary body) {
       itin.setLocation(body.getLocation());
+      return ResponseEntity.ok().build();
   }
   
   @PutMapping("/changeMaxBudget")
-  public void changeMaxBudget(@RequestBody Itinerary body) {
+  public ResponseEntity<?> changeMaxBudget(@RequestBody Itinerary body) {
 	  itin.setBudget(body.getBudget());
+	  return ResponseEntity.ok().build();
   }
   
   @PutMapping("/changeMaxDistance")
-  public void changeMaxDistance(@RequestBody Itinerary body) {
+  public ResponseEntity<?> changeMaxDistance(@RequestBody Itinerary body) {
 	  itin.setMaxDist(body.getMaxDist());
+	  return ResponseEntity.ok().build();
   }
 }
