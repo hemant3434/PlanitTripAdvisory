@@ -14,7 +14,6 @@ public class Itinerary {
     private float budget;
     private List<ItineraryItem> itin = new ArrayList<ItineraryItem>();
     private List<String> visitedEvents = new ArrayList<String>();
-    private List<Transportation> transportation = new ArrayList<Transportation>();
     public float minScore = 0.0f;
     public GoogleMaps gm = new GoogleMaps();
 
