@@ -12,15 +12,32 @@ public class Itinerary {
     private float maxDist;
     private List<String> activities;
     private float budget;
-    private List<ItineraryItem> itin = new ArrayList();
-    private List<String> visitedEvents = new ArrayList();
+    private List<ItineraryItem> itin = new ArrayList<ItineraryItem>();
+    private float cost;
+    private List<String> visitedEvents = new ArrayList<String>();
     public float minScore = 0.0f;
     public GoogleMaps gm = new GoogleMaps();
 
-    public Itinerary() {}
+    public Itinerary() {
+        this.cost = 0;
+    }
 
-    // Gets the next best event for the user to attend at a given time and location
-    public Event getNextBestEvent(Time curTime, String curLoc){
+    // Gets the next best event for the user to attend
+    public Event getNextBestEvent() throws Exception{
+        Time curTime;
+        String curLoc = "";
+        if(this.getItin().size() == 0){
+            curTime = this.getStartTime();
+            curLoc = this.getHome();
+        }
+        else {
+            curTime = this.getItin().get(this.getItin().size() - 1).getEndTime();
+            ItineraryItem lastItem = this.getItin().get(this.getItin().size() - 1);
+            if(lastItem instanceof Event){
+                curLoc = ((Event)(lastItem)).getLocation();
+            }
+
+        }
 
         // Gets every event that satisfies the given filters
         List<Event> events = this.gm.getEvents(curTime, this.getEndTime(), curLoc, this.getLocation(), this.getMaxDist(), this.getActivities(), this.getBudget());
@@ -36,20 +53,17 @@ public class Itinerary {
         if(this.getVisitedEvents().contains(bestEvent.getLocation())){
             throw new NoSuchElementException();
         }
-
-        // Event added to list to indicate that it is already in the itinerary
-        this.visitedEvents.add(bestEvent.getLocation());
         return bestEvent;
     }
 
     // Creates the itinerary
-    public void createItinerary(){
+    public void createItinerary() throws Exception{
         // Starts at the specified start time, at the users home
         Time curTime = getStartTime();
         String curLoc = getHome();
         try{
             // Gets first event
-            Event nextEvent = getNextBestEvent(curTime, curLoc);
+            Event nextEvent = getNextBestEvent();
 
             // Loops until it runs out of events, or all events remaining has a score so low that they shouldn't be on the itinerary
             while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > minScore){
@@ -58,17 +72,25 @@ public class Itinerary {
                 // Transporation object to begin at the current time
                 transp.setStartTime(curTime);
                 curTime = curTime.add(transp.getExpectedLength());
+                transp.setEndTime(curTime);
                 //Sets next event to begin after the expected length of the transportation
                 nextEvent.setStartTime(curTime);
 
                 // Transporation and event objects are added to the itinerary
                 this.itin.add(transp);
                 this.itin.add(nextEvent);
+                //Updates cost of itinerary
+                this.setCost(getCost() + transp.getPrice());
+                this.setCost(getCost() + nextEvent.getPrice());
+                // Event added to list to indicate that it is already in the itinerary
+                this.visitedEvents.add(nextEvent.getLocation());
+
                 //Current time updated to after event is over, current location updated to event location
                 curLoc = nextEvent.getLocation();
                 curTime = curTime.add(nextEvent.getExpectedLength());
+                nextEvent.setEndTime(curTime);
                 // Gets next event
-                nextEvent = getNextBestEvent(curTime, curLoc);
+                nextEvent = getNextBestEvent();
             }
         }
         catch(NoSuchElementException e){}
@@ -76,6 +98,7 @@ public class Itinerary {
         Transportation transp = this.gm.getTransportation(curLoc, getHome(), curTime);
         transp.setStartTime(curTime);
         this.itin.add(transp);
+        this.setCost(getCost() + transp.getPrice());
     }
     
     private void deleteEvent() {
@@ -154,5 +177,13 @@ public class Itinerary {
 
     public List<String> getVisitedEvents() {
         return visitedEvents;
+    }
+
+    public float getCost() {
+        return cost;
+    }
+
+    public void setCost(float cost) {
+        this.cost = cost;
     }
 }
