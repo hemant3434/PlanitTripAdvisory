@@ -30,7 +30,7 @@ public class MainController {
   }
 
   @GetMapping("/getItinerary")
-  public ResponseEntity<?> getItinerary(@RequestBody Map<String, Object> body) {
+  public ResponseEntity<?> getItinerary(@RequestBody Map<String, Object> body) throws Exception {
 
 	// is this map needed?
     //Map<String, Object> map = new HashMap<String, Object>();

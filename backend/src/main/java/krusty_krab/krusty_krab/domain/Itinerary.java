@@ -23,7 +23,7 @@ public class Itinerary {
     }
 
     // Gets the next best event for the user to attend
-    public Event getNextBestEvent(){
+    public Event getNextBestEvent() throws Exception{
         Time curTime;
         String curLoc = "";
         if(this.getItin().size() == 0){
@@ -57,7 +57,7 @@ public class Itinerary {
     }
 
     // Creates the itinerary
-    public void createItinerary(){
+    public void createItinerary() throws Exception{
         // Starts at the specified start time, at the users home
         Time curTime = getStartTime();
         String curLoc = getHome();
