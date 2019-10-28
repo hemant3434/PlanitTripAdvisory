@@ -51,6 +51,11 @@ public class MainController {
     return ResponseEntity.ok().body(itin.getItin());
   }
   
+  @GetMapping("/viewItinerary")
+  public List<ItineraryItem> viewItinerary() {
+      return itin.getItin();
+  }
+  
   @PostMapping("/addEvent")
   public void addEvent(@RequestBody Event event) {
       itin.addEvent();
