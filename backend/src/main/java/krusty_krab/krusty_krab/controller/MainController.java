@@ -80,4 +80,19 @@ public class MainController {
 	  itin.setMaxDist(body.getMaxDist());
 	  return ResponseEntity.ok().build();
   }
+  
+  @PutMapping("/addTransportation")
+  public ResponseEntity<?> changeTransportation(@RequestBody Map<String, Object> body) {
+	  Object canWalk = body.get("walk");
+	  Object canBus = body.get("bus");
+	  Object canDrive = body.get("drive");
+	  if (body.size() != 3 || canWalk == null || canBus == null || canDrive == null) {
+		  return ResponseEntity.badRequest().build();
+	  } else {
+		  if ((Boolean)canWalk) itin.addMethodsOfTrans("walk");
+		  if ((Boolean)canBus) itin.addMethodsOfTrans("bus");
+		  if ((Boolean)canDrive) itin.addMethodsOfTrans("drive");
+		  return ResponseEntity.ok().build();
+	  }
+  }
 }
