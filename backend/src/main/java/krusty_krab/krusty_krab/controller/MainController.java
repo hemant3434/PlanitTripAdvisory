@@ -19,7 +19,7 @@ public class MainController {
   GoogleMaps gm = new GoogleMaps();
   
   @GetMapping("/getDummy1")
-  public ResponseEntity<?> getDummy1(@RequestBody Map<String, Object> body) {
+  public ResponseEntity<?> getDummy1() {
     
     Map<String, Object> map = new HashMap<String, Object>();
     map.put("Title", "Obi-Wan");
@@ -30,7 +30,7 @@ public class MainController {
   }
 
   @GetMapping("/getItinerary")
-  public ResponseEntity<?> getItinerary(@RequestBody Map<String, Object> body) {
+  public ResponseEntity<?> getItinerary() {
 
     Map<String, Object> map = new HashMap<String, Object>();
 

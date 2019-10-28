@@ -10,8 +10,6 @@ export default class MapPicker extends React.Component {
     super(props);
   }
 
-
-
   render() {
     return(
       <View style={{flex: 1}}>
