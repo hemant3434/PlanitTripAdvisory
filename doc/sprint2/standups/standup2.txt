@@ -1,0 +1,11 @@
+Thursday, October 24
+
+What we did yesterday
+  - Prepared for Thursday Demo in tutorial
+  - Ensured that the front end and back end have no issues when running together
+
+Plan for today
+  - Complete demo
+  - Ensure everyone is working from proper version of git repo before continuing
+  - Create files for sprint2 (sprint2.md, SR1.md, etc.)
+  - Meet to discuss sprint 1 and task division for sprint2
