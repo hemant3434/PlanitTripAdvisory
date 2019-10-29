@@ -9,17 +9,19 @@ public class Event extends ItineraryItem{
 	private int rating;
 	private String image;
 	private String description;
+	private String id;
 	
 	public Event() {
 	}
 	
-	public Event(String title, String location, String activity, int rating, float price, Time startTime, Time endTime, Time expectedLength, String image, String description) {
+	public Event(String title, String location, String activity, int rating, float price, Time startTime, Time endTime, Time expectedLength, String image, String description, String id) {
 		super("event", title, price, startTime, endTime, expectedLength);
 		this.location = location;
 		this.activity = activity;
 		this.rating = rating;
 		this.image = image;
 		this.description = description;
+		this.id = id;
 	}
 
 	// Computes a score for an event, based on its rating, price, wait time until it opens, and distance needed to travel
@@ -77,5 +79,9 @@ public class Event extends ItineraryItem{
 
 	public String getDescription() {
 		return description;
+	}
+
+	public String getId() {
+		return id;
 	}
 }

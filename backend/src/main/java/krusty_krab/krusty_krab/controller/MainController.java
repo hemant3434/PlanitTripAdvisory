@@ -3,6 +3,10 @@ package krusty_krab.krusty_krab.controller;
 import java.util.*;
 
 import krusty_krab.krusty_krab.domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
 
@@ -16,7 +20,11 @@ public class MainController {
       + "iEGB24b&ust=1571261300777966";
 
   Itinerary itin = new Itinerary();
+  User user;
   GoogleMaps gm = new GoogleMaps();
+
+  @Autowired
+  UserService userService;
   
   @GetMapping("/getDummy1")
   public ResponseEntity<?> getDummy1(@RequestBody Map<String, Object> body) {
@@ -25,6 +33,14 @@ public class MainController {
     map.put("Title", "Obi-Wan");
     map.put("Description", "Iconic Line");
     map.put("URL", link);
+
+    //User user = new User("2");
+    //userService.addUser(user.getUsername());
+    //User user = userService.getUser("2");
+    //user.getVisitedEvents().add("1");
+    //user.getEventToRating().put("1", 4f);
+
+    //userService.deleteUser(user.getUsername());
 
     return ResponseEntity.ok().body(map);
   }
@@ -51,24 +67,64 @@ public class MainController {
     return ResponseEntity.ok().body(itin.getItin());
   }
   
+  @GetMapping("/viewItinerary")
+  public List<ItineraryItem> viewItinerary() {
+      return itin.getItin();
+  }
+  
+  @PostMapping("/addEvent")
+  public void addEvent(@RequestBody Event event) {
+      itin.addEvent();
+  }
+  
   @PutMapping("/changeTime")
-  public void changeTime(@RequestBody Itinerary body) {
+  public ResponseEntity<?> changeTime(@RequestBody Itinerary body) {
       itin.setStartTime(body.getStartTime());
       itin.setEndTime(body.getEndTime());
+      return ResponseEntity.ok().build();
   }
   
   @PutMapping("/changeLocation")
-  public void changeLocation(@RequestBody Itinerary body) {
+  public ResponseEntity<?> changeLocation(@RequestBody Itinerary body) {
       itin.setLocation(body.getLocation());
+      return ResponseEntity.ok().build();
   }
   
   @PutMapping("/changeMaxBudget")
-  public void changeMaxBudget(@RequestBody Itinerary body) {
+  public ResponseEntity<?> changeMaxBudget(@RequestBody Itinerary body) {
 	  itin.setBudget(body.getBudget());
+	  return ResponseEntity.ok().build();
   }
   
   @PutMapping("/changeMaxDistance")
-  public void changeMaxDistance(@RequestBody Itinerary body) {
+  public ResponseEntity<?> changeMaxDistance(@RequestBody Itinerary body) {
 	  itin.setMaxDist(body.getMaxDist());
+	  return ResponseEntity.ok().build();
+  }
+  
+  @PutMapping("/addTransportation")
+  public ResponseEntity<?> changeTransportation(@RequestBody Map<String, Object> body) {
+	  Object canWalk = body.get("walk");
+	  Object canBus = body.get("bus");
+	  Object canDrive = body.get("drive");
+	  if (body.size() != 3 || canWalk == null || canBus == null || canDrive == null) {
+		  return ResponseEntity.badRequest().build();
+	  } else {
+		  if ((Boolean)canWalk) itin.addMethodsOfTrans("walk");
+		  if ((Boolean)canBus) itin.addMethodsOfTrans("bus");
+		  if ((Boolean)canDrive) itin.addMethodsOfTrans("drive");
+		  return ResponseEntity.ok().build();
+	  }
+  }
+
+  @PutMapping("/login")
+  public void login(@RequestBody User body) {
+    this.user = userService.getUser(body.getUsername());
+  }
+
+  @PutMapping("/register")
+  public void register(@RequestBody User body) {
+    userService.addUser(body.getUsername());
+    this.user = userService.getUser(body.getUsername());
   }
 }

@@ -1,6 +1,7 @@
 package krusty_krab.krusty_krab.domain;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -13,39 +14,24 @@ public class Itinerary {
     private List<String> activities;
     private float budget;
     private List<ItineraryItem> itin = new ArrayList<ItineraryItem>();
-    private float cost;
     private List<String> visitedEvents = new ArrayList<String>();
+    private List<String> methodsOfTrans = new ArrayList<String>();
     public float minScore = 0.0f;
     public GoogleMaps gm = new GoogleMaps();
 
     public Itinerary() {
-        this.cost = 0;
     }
 
     // Gets the next best event for the user to attend
     public Event getNextBestEvent() throws Exception{
-        Time curTime;
-        String curLoc = "";
-        if(this.getItin().size() == 0){
-            curTime = this.getStartTime();
-            curLoc = this.getHome();
-        }
-        else {
-            curTime = this.getItin().get(this.getItin().size() - 1).getEndTime();
-            ItineraryItem lastItem = this.getItin().get(this.getItin().size() - 1);
-            if(lastItem instanceof Event){
-                curLoc = ((Event)(lastItem)).getLocation();
-            }
-
-        }
 
         // Gets every event that satisfies the given filters
-        List<Event> events = this.gm.getEvents(curTime, this.getEndTime(), curLoc, this.getLocation(), this.getMaxDist(), this.getActivities(), this.getBudget());
+        List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), this.getItinCurLoc(), this.getLocation(), this.getItinDistLeft(), this.getActivities(), this.getItinBudgetLeft());
 
         // Gets event with highest score of all events received
         Event bestEvent = events.get(0);
         for(Event e: events){
-            if((!this.getVisitedEvents().contains(e.getLocation())) && (e.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()))){
+            if((!this.getVisitedEvents().contains(e.getLocation())) && (e.getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget()))){
                 bestEvent = e;
             }
         }
@@ -76,12 +62,9 @@ public class Itinerary {
                 //Sets next event to begin after the expected length of the transportation
                 nextEvent.setStartTime(curTime);
 
-                // Transporation and event objects are added to the itinerary
+                // Transportation and event objects are added to the itinerary
                 this.itin.add(transp);
                 this.itin.add(nextEvent);
-                //Updates cost of itinerary
-                this.setCost(getCost() + transp.getPrice());
-                this.setCost(getCost() + nextEvent.getPrice());
                 // Event added to list to indicate that it is already in the itinerary
                 this.visitedEvents.add(nextEvent.getLocation());
 
@@ -98,19 +81,88 @@ public class Itinerary {
         Transportation transp = this.gm.getTransportation(curLoc, getHome(), curTime);
         transp.setStartTime(curTime);
         this.itin.add(transp);
-        this.setCost(getCost() + transp.getPrice());
+    }
+    
+    public void addEvent() {
+		// Create new event
+		System.out.println("ADDING EVENT");
+		Event event = new Event("Hidden Leaf", "Land of Fire", "Go see the naruto", 5, 20,
+		        new Time(2019, 10, 25, 9, 30, true), new Time(2019, 10, 25, 10, 0, true),
+		        new Time(0, 0, 0, 0, 30, true), "Land of Fire", "Go");
+		itin.add(event);
+		handleConflict(event);
+    }
+    
+    private void handleConflict(Event newEvent) {
+	List<Event> movedEvents = new ArrayList<Event>();
+	// Check if this event starts during an existing event	
+	for (int i = itin.size()-1; i >= 1; i--) {
+	    if (itin.get(i) instanceof Event && !itin.get(i).equals(newEvent)) {
+		Event event = (Event) itin.get(i);
+		
+		long startTime = event.getStartTime().toMinutes();
+		long endTime = event.getEndTime().toMinutes();
+		long newEventStart = newEvent.getStartTime().toMinutes();
+		long newEventEnd = newEvent.getEndTime().toMinutes();
+		
+		if (startTime <= newEventStart && newEventStart <= endTime || startTime <= newEventEnd && newEventEnd <= endTime) {
+		    // There is a conflict so remove this event and transportations related to it
+		    if (itin.get(i-1) instanceof Transportation) itin.remove(i-1); 
+		    itin.remove(i);
+//		    if (itin.get(i+1) instanceof Transportation) itin.remove(i+1);
+		    // Find an available place to move the event
+//		    Time newStartTime = findOpenTime(event.getExpectedLength());
+//		    if (!newStartTime.equals(null)) {
+//			// Move the event to its new location
+//			event.setStartTime(newStartTime);
+//			event.setEndTime(newStartTime.add(event.getExpectedLength()));
+//		    }
+		}
+	    }
+	}
+	
+	
+	
+	
+    }
+    
+    private Time findOpenTime(Time expectedTime) {
+	// Required time will be time for the event as well as transportation
+		for (int i = 0; i < itin.size(); i++) {
+		    if (itin.get(i) instanceof Event && i != itin.size()-2) {
+				Event curr = (Event) itin.get(i);
+				Event next = (itin.get(i+1) instanceof Event) ? (Event) itin.get(i+1) : (Event) itin.get(i+2); // needs special case for last event
+				System.out.println("TIME: " + next.getStartTime().getDifference(curr.getEndTime()).toMinutes());
+				System.out.println("EXPECTED TIME: " + expectedTime.toMinutes());
+				if (next.getStartTime().getDifference(curr.getEndTime()).toMinutes() >= expectedTime.toMinutes()) {
+				    // There is enough time for JUST the event
+				    System.out.println("Found a start time");
+				    return curr.getEndTime();
+				}
+		    }
+		}
+		
+		// Unable to find an available time
+		return null;
     }
     
     private void deleteEvent() {
-	// TODO: delete event from itinerary
-	// call joinEvents(startEvent, nextEvent) after to make transportation
+	// TODO: delete event from itinerary and get rid of the transportations
     }
     
-    private void joinEvents(Event startEvent, Event nextEvent) {
-	Transportation transportation = gm.getTransportation(startEvent.getLocation(), nextEvent.getLocation(), startEvent.getEndTime());
-	itin.add(transportation);
+    private Transportation joinEvents(Event startEvent, Event nextEvent) {
+    	Transportation transportation = gm.getTransportation(startEvent.getLocation(), nextEvent.getLocation(), startEvent.getEndTime());
+    	return transportation;
     }
 
+    public List<String> getMethodsOfTrans() {
+    	return this.methodsOfTrans;
+    }
+    
+    public void addMethodsOfTrans(String transportation) {
+    	methodsOfTrans.add(transportation);
+    }
+    
     public List<ItineraryItem> getItin() {
         return itin;
     }
@@ -179,11 +231,42 @@ public class Itinerary {
         return visitedEvents;
     }
 
-    public float getCost() {
-        return cost;
+    public float getItinBudgetLeft() {
+        float cost = 0;
+        for(ItineraryItem i: getItin()){
+            cost+=i.getPrice();
+        }
+        return this.getBudget() - cost;
     }
 
-    public void setCost(float cost) {
-        this.cost = cost;
+    public Time getItinCurTime(){
+        if(this.getItin().size() == 0){
+            return this.getStartTime();
+        }
+        else {
+            return this.getItin().get(this.getItin().size() - 1).getEndTime();
+        }
+    }
+
+    public String getItinCurLoc(){
+        if(this.getItin().size() == 0){
+            return this.getHome();
+        }
+        else{
+            return ((Event)(this.getItin().get(this.getItin().size() - 1))).getLocation();
+        }
+    }
+
+    public float getItinDistLeft(){
+        float dist = 0;
+
+        List<ItineraryItem> itin = this.getItin();
+        //Loop excludes the first and last transportation events, as this should not be factored into the max distance
+        for(int i = 1; i < itin.size()-1; i++){
+            if(itin.get(i) instanceof Transportation){
+                dist+=((Transportation)itin.get(i)).getDistance();
+            }
+        }
+        return this.getMaxDist() - dist;
     }
 }
