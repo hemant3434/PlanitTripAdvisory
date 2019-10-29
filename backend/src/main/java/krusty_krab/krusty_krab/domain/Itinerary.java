@@ -1,6 +1,7 @@
 package krusty_krab.krusty_krab.domain;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -14,7 +15,7 @@ public class Itinerary {
     private float budget;
     private List<ItineraryItem> itin = new ArrayList<ItineraryItem>();
     private List<String> visitedEvents = new ArrayList<String>();
-
+    private List<String> methodsOfTrans = new ArrayList<String>();
     public float minScore = 0.0f;
     public GoogleMaps gm = new GoogleMaps();
 
@@ -61,7 +62,7 @@ public class Itinerary {
                 //Sets next event to begin after the expected length of the transportation
                 nextEvent.setStartTime(curTime);
 
-                // Transporation and event objects are added to the itinerary
+                // Transportation and event objects are added to the itinerary
                 this.itin.add(transp);
                 this.itin.add(nextEvent);
                 // Event added to list to indicate that it is already in the itinerary
@@ -82,16 +83,86 @@ public class Itinerary {
         this.itin.add(transp);
     }
     
-    private void deleteEvent() {
-	// TODO: delete event from itinerary
-	// call joinEvents(startEvent, nextEvent) after to make transportation
+    public void addEvent() {
+		// Create new event
+		System.out.println("ADDING EVENT");
+		Event event = new Event("Hidden Leaf", "Land of Fire", "Go see the naruto", 5, 20,
+		        new Time(2019, 10, 25, 9, 30, true), new Time(2019, 10, 25, 10, 0, true),
+		        new Time(0, 0, 0, 0, 30, true), "Land of Fire", "Go");
+		itin.add(event);
+		handleConflict(event);
     }
     
-    private void joinEvents(Event startEvent, Event nextEvent) {
-	Transportation transportation = gm.getTransportation(startEvent.getLocation(), nextEvent.getLocation(), startEvent.getEndTime());
-	itin.add(transportation);
+    private void handleConflict(Event newEvent) {
+	List<Event> movedEvents = new ArrayList<Event>();
+	// Check if this event starts during an existing event	
+	for (int i = itin.size()-1; i >= 1; i--) {
+	    if (itin.get(i) instanceof Event && !itin.get(i).equals(newEvent)) {
+		Event event = (Event) itin.get(i);
+		
+		long startTime = event.getStartTime().toMinutes();
+		long endTime = event.getEndTime().toMinutes();
+		long newEventStart = newEvent.getStartTime().toMinutes();
+		long newEventEnd = newEvent.getEndTime().toMinutes();
+		
+		if (startTime <= newEventStart && newEventStart <= endTime || startTime <= newEventEnd && newEventEnd <= endTime) {
+		    // There is a conflict so remove this event and transportations related to it
+		    if (itin.get(i-1) instanceof Transportation) itin.remove(i-1); 
+		    itin.remove(i);
+//		    if (itin.get(i+1) instanceof Transportation) itin.remove(i+1);
+		    // Find an available place to move the event
+//		    Time newStartTime = findOpenTime(event.getExpectedLength());
+//		    if (!newStartTime.equals(null)) {
+//			// Move the event to its new location
+//			event.setStartTime(newStartTime);
+//			event.setEndTime(newStartTime.add(event.getExpectedLength()));
+//		    }
+		}
+	    }
+	}
+	
+	
+	
+	
+    }
+    
+    private Time findOpenTime(Time expectedTime) {
+	// Required time will be time for the event as well as transportation
+		for (int i = 0; i < itin.size(); i++) {
+		    if (itin.get(i) instanceof Event && i != itin.size()-2) {
+				Event curr = (Event) itin.get(i);
+				Event next = (itin.get(i+1) instanceof Event) ? (Event) itin.get(i+1) : (Event) itin.get(i+2); // needs special case for last event
+				System.out.println("TIME: " + next.getStartTime().getDifference(curr.getEndTime()).toMinutes());
+				System.out.println("EXPECTED TIME: " + expectedTime.toMinutes());
+				if (next.getStartTime().getDifference(curr.getEndTime()).toMinutes() >= expectedTime.toMinutes()) {
+				    // There is enough time for JUST the event
+				    System.out.println("Found a start time");
+				    return curr.getEndTime();
+				}
+		    }
+		}
+		
+		// Unable to find an available time
+		return null;
+    }
+    
+    private void deleteEvent() {
+	// TODO: delete event from itinerary and get rid of the transportations
+    }
+    
+    private Transportation joinEvents(Event startEvent, Event nextEvent) {
+    	Transportation transportation = gm.getTransportation(startEvent.getLocation(), nextEvent.getLocation(), startEvent.getEndTime());
+    	return transportation;
     }
 
+    public List<String> getMethodsOfTrans() {
+    	return this.methodsOfTrans;
+    }
+    
+    public void addMethodsOfTrans(String transportation) {
+    	methodsOfTrans.add(transportation);
+    }
+    
     public List<ItineraryItem> getItin() {
         return itin;
     }

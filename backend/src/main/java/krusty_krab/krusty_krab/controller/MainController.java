@@ -67,25 +67,54 @@ public class MainController {
     return ResponseEntity.ok().body(itin.getItin());
   }
   
+  @GetMapping("/viewItinerary")
+  public List<ItineraryItem> viewItinerary() {
+      return itin.getItin();
+  }
+  
+  @PostMapping("/addEvent")
+  public void addEvent(@RequestBody Event event) {
+      itin.addEvent();
+  }
+  
   @PutMapping("/changeTime")
-  public void changeTime(@RequestBody Itinerary body) {
+  public ResponseEntity<?> changeTime(@RequestBody Itinerary body) {
       itin.setStartTime(body.getStartTime());
       itin.setEndTime(body.getEndTime());
+      return ResponseEntity.ok().build();
   }
   
   @PutMapping("/changeLocation")
-  public void changeLocation(@RequestBody Itinerary body) {
+  public ResponseEntity<?> changeLocation(@RequestBody Itinerary body) {
       itin.setLocation(body.getLocation());
+      return ResponseEntity.ok().build();
   }
   
   @PutMapping("/changeMaxBudget")
-  public void changeMaxBudget(@RequestBody Itinerary body) {
+  public ResponseEntity<?> changeMaxBudget(@RequestBody Itinerary body) {
 	  itin.setBudget(body.getBudget());
+	  return ResponseEntity.ok().build();
   }
   
   @PutMapping("/changeMaxDistance")
-  public void changeMaxDistance(@RequestBody Itinerary body) {
+  public ResponseEntity<?> changeMaxDistance(@RequestBody Itinerary body) {
 	  itin.setMaxDist(body.getMaxDist());
+	  return ResponseEntity.ok().build();
+  }
+  
+  @PutMapping("/addTransportation")
+  public ResponseEntity<?> changeTransportation(@RequestBody Map<String, Object> body) {
+	  Object canWalk = body.get("walk");
+	  Object canBus = body.get("bus");
+	  Object canDrive = body.get("drive");
+	  if (body.size() != 3 || canWalk == null || canBus == null || canDrive == null) {
+		  return ResponseEntity.badRequest().build();
+	  } else {
+		  if ((Boolean)canWalk) itin.addMethodsOfTrans("walk");
+		  if ((Boolean)canBus) itin.addMethodsOfTrans("bus");
+		  if ((Boolean)canDrive) itin.addMethodsOfTrans("drive");
+		  return ResponseEntity.ok().build();
+	  }
   }
 
   @PutMapping("/login")
