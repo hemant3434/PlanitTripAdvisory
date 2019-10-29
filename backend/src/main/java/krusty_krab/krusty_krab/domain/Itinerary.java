@@ -86,14 +86,13 @@ public class Itinerary {
     }
     
     public void addEvent() {
-	// Create new event
-	System.out.println("ADDING EVENT");
-	Event event = new Event("Hidden Leaf", "Land of Fire", "Go see the naruto", 5, 20,
-	        new Time(2019, 10, 25, 9, 30, true), new Time(2019, 10, 25, 10, 0, true),
-	        new Time(0, 0, 0, 0, 30, true), "Land of Fire", "Go");
-	itin.add(event);
-	handleConflict(event);
-	
+		// Create new event
+		System.out.println("ADDING EVENT");
+		Event event = new Event("Hidden Leaf", "Land of Fire", "Go see the naruto", 5, 20,
+		        new Time(2019, 10, 25, 9, 30, true), new Time(2019, 10, 25, 10, 0, true),
+		        new Time(0, 0, 0, 0, 30, true), "Land of Fire", "Go", "TEMP_ID");
+		itin.add(event);
+		handleConflict(event);
     }
     
     private void handleConflict(Event newEvent) {
@@ -168,7 +167,6 @@ public class Itinerary {
 		}
 	    }
 	}
-	
 	// Unable to find an available time
 	return null;
     }
@@ -178,8 +176,8 @@ public class Itinerary {
     }
     
     private Transportation joinEvents(Event startEvent, Event nextEvent) {
-	Transportation transportation = gm.getTransportation(startEvent.getLocation(), nextEvent.getLocation(), startEvent.getEndTime());
-	return transportation;
+    	Transportation transportation = gm.getTransportation(startEvent.getLocation(), nextEvent.getLocation(), startEvent.getEndTime());
+    	return transportation;
     }
 
     public List<String> getMethodsOfTrans() {

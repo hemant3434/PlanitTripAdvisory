@@ -3,6 +3,10 @@ package krusty_krab.krusty_krab.controller;
 import java.util.*;
 
 import krusty_krab.krusty_krab.domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
 
@@ -16,7 +20,11 @@ public class MainController {
       + "iEGB24b&ust=1571261300777966";
 
   Itinerary itin = new Itinerary();
+  User user;
   GoogleMaps gm = new GoogleMaps();
+
+  @Autowired
+  UserService userService;
   
   @GetMapping("/getDummy1")
   public ResponseEntity<?> getDummy1(@RequestBody Map<String, Object> body) {
@@ -25,6 +33,14 @@ public class MainController {
     map.put("Title", "Obi-Wan");
     map.put("Description", "Iconic Line");
     map.put("URL", link);
+
+    //User user = new User("2");
+    //userService.addUser(user.getUsername());
+    //User user = userService.getUser("2");
+    //user.getVisitedEvents().add("1");
+    //user.getEventToRating().put("1", 4f);
+
+    //userService.deleteUser(user.getUsername());
 
     return ResponseEntity.ok().body(map);
   }
@@ -99,5 +115,16 @@ public class MainController {
 		  if ((Boolean)canDrive) itin.addMethodsOfTrans("drive");
 		  return ResponseEntity.ok().build();
 	  }
+  }
+
+  @PutMapping("/login")
+  public void login(@RequestBody User body) {
+    this.user = userService.getUser(body.getUsername());
+  }
+
+  @PutMapping("/register")
+  public void register(@RequestBody User body) {
+    userService.addUser(body.getUsername());
+    this.user = userService.getUser(body.getUsername());
   }
 }
