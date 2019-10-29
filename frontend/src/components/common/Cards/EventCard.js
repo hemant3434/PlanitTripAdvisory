@@ -4,7 +4,7 @@ import TravelCard from './TravelCard';
 import { StyleSheet, Text, View } from 'react-native';
 
 var images = {
-  toronto: require("../../images/toronto.jpg")
+  toronto: require("../../../assets/images/toronto.jpg")
 }
 
 export default class EventCard extends React.Component{
