@@ -15,26 +15,7 @@ import {
   Right,
   Body
 } from "native-base";
-import EventCard from './../components/Cards/EventCard';
-
-const tmp = [{
-  type: "event",
-  title: "soccer",
-  image: require("../images/toronto.jpg"),
-  description: "some text"
-},
-{
-  type: "transportation",
-  title: "car",
-  subtitle: "30 minutes",
-  icon: "flight-takeoff"
-},
-{
-  type: "event",
-  title: "soccer",
-  image: require("../images/toronto.jpg"),
-  description: "some text"
-}];
+import EventCard from './../components/common/Cards/EventCard';
 
 export default class CardsContainer extends React.Component{
   componentDidMount() {
