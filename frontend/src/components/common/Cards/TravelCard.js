@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
+import { Card, ListItem } from 'react-native-elements'
 
 class TravelCard extends Component{
   constructor(props){

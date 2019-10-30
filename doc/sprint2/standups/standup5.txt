@@ -1,5 +1,11 @@
 Tuesday, October 29
 
 What we did yesterday
+  - Began implementation of logic for resoloving conflicting events
+  - Began implementation for transportation between events
+  - Work to fetch google maps data
 
 Plan for today
+  - Front end team meeting to discuss file structure and next steps
+  - Begin working on budget and distance sliders
+  - Continue implementing logic for resolving conflicting events
