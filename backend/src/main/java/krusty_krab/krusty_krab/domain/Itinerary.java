@@ -85,6 +85,7 @@ public class Itinerary {
         this.itin.add(transp);
     }
     
+<<<<<<< HEAD
     public void addEvent(Event newEvent) {
     	// must get a new Transportation item first
     	Transportation newTransportation = joinEvents((Event)itin.get(itin.size() - 1), newEvent);
@@ -99,6 +100,16 @@ public class Itinerary {
 //		        new Time(0, 0, 0, 0, 30, true), "Land of Fire", "Go");
 //		itin.add(event);
 //		handleConflict(event);
+=======
+    public void addEvent() {
+		// Create new event
+		System.out.println("ADDING EVENT");
+		Event event = new Event("Hidden Leaf", "Land of Fire", "Go see the naruto", 5, 20,
+		        new Time(2019, 10, 25, 9, 30, true), new Time(2019, 10, 25, 10, 0, true),
+		        new Time(0, 0, 0, 0, 30, true), "Land of Fire", "Go", "TEMP_ID");
+		itin.add(event);
+		handleConflict(event);
+>>>>>>> 0b8e48def245dcd6c7303f43b9a722edf67f6804
     }
     
     private void handleConflict(Event newEvent) {
@@ -157,6 +168,7 @@ public class Itinerary {
 	    if (itin.get(i) instanceof Event && i != itin.size()-2) {
 		Event curr = (Event) itin.get(i);
 		Event next = (itin.get(i+1) instanceof Event) ? (Event) itin.get(i+1) : (Event) itin.get(i+2); // needs special case for last event
+<<<<<<< HEAD
 		
 		// Google maps transportation doesn't work yet so this method won't work. This method works without travel time information
 		Time travelToTime = gm.getTransportation(curr.getLocation(), event.getLocation(), curr.getEndTime()).getExpectedLength();
@@ -164,6 +176,15 @@ public class Itinerary {
 		long travelTime = travelToTime.add(travelFromTime).toMinutes();
 		long expectedTime = event.getExpectedLength().toMinutes();
 		
+=======
+		
+		// Google maps transportation doesn't work yet so this method won't work. This method works without travel time information
+		Time travelToTime = gm.getTransportation(curr.getLocation(), event.getLocation(), curr.getEndTime()).getExpectedLength();
+		Time travelFromTime = gm.getTransportation(event.getLocation(), next.getLocation(), next.getEndTime()).getExpectedLength();
+		long travelTime = travelToTime.add(travelFromTime).toMinutes();
+		long expectedTime = event.getExpectedLength().toMinutes();
+		
+>>>>>>> 0b8e48def245dcd6c7303f43b9a722edf67f6804
 		System.out.println("TIME: " + next.getStartTime().getDifference(curr.getEndTime()).toMinutes());
 		System.out.println("EXPECTED TIME: " + expectedTime);
 		if (next.getStartTime().getDifference(curr.getEndTime()).toMinutes() >= expectedTime + travelTime) {
