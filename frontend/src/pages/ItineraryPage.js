@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import CardsContainer from './../sections/CardsContainer';
+import CardsContainer from '../sections/CardsContainer';
 
 
 

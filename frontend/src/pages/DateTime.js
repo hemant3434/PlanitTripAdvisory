@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Calendar from './../components/Calendar';
-import TimePicker from './../components/TimePicker';
-import SubmitButton from './../components/SubmitButton';
-import BackButton from './../components/BackButton';
+import Calendar from './../components/common/Calendar/Calendar';
+import TimePicker from './../components/Filters/TimePicker';
+import SubmitButton from './../components/common/Buttons/SubmitButton';
+import BackButton from './../components/common/Buttons/BackButton';
 
 export default class DateTime extends React.Component {
   constructor(props) {

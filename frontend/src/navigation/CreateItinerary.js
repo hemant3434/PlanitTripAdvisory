@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Button } from 'react-native';
-import DateTime from './../../pages/DateTime';
-import MapPicker from './../../components/MapPicker';
-import Itinerary from './../../pages/Itinerary';
-import Calendar from './../../components/Calendar';
-import SubmitButton from './../../components/SubmitButton';
-import BackButton from './../../components/BackButton';
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
+import DateTime from '../pages/DateTime';
 
 export class Multi extends Component {
   constructor(props){

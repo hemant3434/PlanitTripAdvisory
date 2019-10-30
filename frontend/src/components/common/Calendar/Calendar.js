@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {
-  Text,
   StyleSheet,
-  ScrollView,
   View
 } from 'react-native';
 import {Calendar} from 'react-native-calendars';
