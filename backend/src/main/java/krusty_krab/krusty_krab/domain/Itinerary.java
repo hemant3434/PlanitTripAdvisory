@@ -1,6 +1,8 @@
 package krusty_krab.krusty_krab.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -114,42 +116,65 @@ public class Itinerary {
 		if (startTime <= newEventStart && newEventStart <= endTime || startTime <= newEventEnd && newEventEnd <= endTime) {
 		    // There is a conflict so remove this event and transportations related to it
 		    if (itin.get(i-1) instanceof Transportation) itin.remove(i-1); 
-		    itin.remove(i);
-//		    if (itin.get(i+1) instanceof Transportation) itin.remove(i+1);
+		    itin.remove(i-1);
+		    if (itin.get(i-1) instanceof Transportation) itin.remove(i-1);
 		    // Find an available place to move the event
-//		    Time newStartTime = findOpenTime(event.getExpectedLength());
-//		    if (!newStartTime.equals(null)) {
-//			// Move the event to its new location
-//			event.setStartTime(newStartTime);
-//			event.setEndTime(newStartTime.add(event.getExpectedLength()));
-//		    }
+		    Time newStartTime = findOpenTime(event);
+		    if (!newStartTime.equals(null)) {
+			// Re add the event
+			event.setStartTime(newStartTime);
+			event.setEndTime(newStartTime.add(event.getExpectedLength()));
+			itin.add(event);
+		    }
 		}
 	    }
 	}
 	
+	// Reorganize the lists
+	Collections.sort(itin, new Comparator<ItineraryItem>() {
+	    @Override
+	    public int compare(ItineraryItem i1, ItineraryItem i2) {
+		return i1.getStartTime().isLessThan(i2.getStartTime()) ? -1 : 1;
+	    }
+	});
 	
-	
+	// Add transportations where needed
+	for (int i = itin.size()-1; i >= 0; i--) {
+	    if (i == 0 & itin.get(i) instanceof Event) {
+		itin.add(i, gm.getTransportation(home, ((Event) itin.get(i)).getLocation(), startTime));
+	    } else if (itin.get(i) instanceof Event && itin.get(i-1) instanceof Event) {
+		Event e1 = (Event) itin.get(i-1);
+		Event e2 = (Event) itin.get(i);
+		itin.add(i, gm.getTransportation(e1.getLocation(), e2.getLocation(), e1.getEndTime()));
+	    }
+	}
 	
     }
     
-    private Time findOpenTime(Time expectedTime) {
+    private Time findOpenTime(Event event) {
 	// Required time will be time for the event as well as transportation
-		for (int i = 0; i < itin.size(); i++) {
-		    if (itin.get(i) instanceof Event && i != itin.size()-2) {
-				Event curr = (Event) itin.get(i);
-				Event next = (itin.get(i+1) instanceof Event) ? (Event) itin.get(i+1) : (Event) itin.get(i+2); // needs special case for last event
-				System.out.println("TIME: " + next.getStartTime().getDifference(curr.getEndTime()).toMinutes());
-				System.out.println("EXPECTED TIME: " + expectedTime.toMinutes());
-				if (next.getStartTime().getDifference(curr.getEndTime()).toMinutes() >= expectedTime.toMinutes()) {
-				    // There is enough time for JUST the event
-				    System.out.println("Found a start time");
-				    return curr.getEndTime();
-				}
-		    }
-		}
+	for (int i = 0; i < itin.size(); i++) {
+	    if (itin.get(i) instanceof Event && i != itin.size()-2) {
+		Event curr = (Event) itin.get(i);
+		Event next = (itin.get(i+1) instanceof Event) ? (Event) itin.get(i+1) : (Event) itin.get(i+2); // needs special case for last event
 		
-		// Unable to find an available time
-		return null;
+		// Google maps transportation doesn't work yet so this method won't work. This method works without travel time information
+		Time travelToTime = gm.getTransportation(curr.getLocation(), event.getLocation(), curr.getEndTime()).getExpectedLength();
+		Time travelFromTime = gm.getTransportation(event.getLocation(), next.getLocation(), next.getEndTime()).getExpectedLength();
+		long travelTime = travelToTime.add(travelFromTime).toMinutes();
+		long expectedTime = event.getExpectedLength().toMinutes();
+		
+		System.out.println("TIME: " + next.getStartTime().getDifference(curr.getEndTime()).toMinutes());
+		System.out.println("EXPECTED TIME: " + expectedTime);
+		if (next.getStartTime().getDifference(curr.getEndTime()).toMinutes() >= expectedTime + travelTime) {
+		    // There is enough time for JUST the event
+		    System.out.println("Found a start time");
+		    return curr.getEndTime().add(travelToTime);
+		}
+	    }
+	}
+	// Unable to find an available time
+	return null;
     }
     
     private void deleteEvent() {
