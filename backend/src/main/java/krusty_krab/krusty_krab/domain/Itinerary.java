@@ -101,6 +101,29 @@ public class Itinerary {
 //		handleConflict(event);
     }
     
+    public void deleteEvent(Event event) {
+    	// need to delete event
+    	// iterate through the itinerary
+    	for (int i = 0; i < itin.size() - 1; i++) {
+    		ItineraryItem item = itin.get(i);
+    		// if the event to be deleted matches the current iterated ItinItem
+    		if (item instanceof Event && item.getTitle().equals(event.getTitle())) {
+    			// first remove the transportation preceding it
+    			itin.remove(i - 1);
+    			// next remove the transportation succeeding it
+    			itin.remove(i + 1);
+    			// now remove the item itself;
+    			itin.remove(i);
+    			// now need to find a new transportation between the remaining events
+
+    			// EDGE CASE 1: if the event is the first one
+    			if (i == 1) {
+    				// now find best transportation btwn next one and current location
+    			} else if (i == )
+    		}
+    	}
+    }
+    
     private void handleConflict(Event newEvent) {
 	List<Event> movedEvents = new ArrayList<Event>();
 	// Check if this event starts during an existing event	
@@ -174,10 +197,6 @@ public class Itinerary {
 	}
 	// Unable to find an available time
 	return null;
-    }
-    
-    private void deleteEvent() {
-	// TODO: delete event from itinerary and get rid of the transportations
     }
     
     private Transportation joinEvents(Event startEvent, Event nextEvent) {
