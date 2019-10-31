@@ -8,11 +8,12 @@ import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Icon from "react-native-vector-icons/FontAwesome";
 
+import HomeScreen from './pages/HomeScreen';
 
 export default class HybridApp extends React.Component {
   render() {
     return (
-        <AppContainer />
+        <HomeScreen />
     );
   }
 }
