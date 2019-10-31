@@ -1,5 +1,10 @@
 Wednesday, October 30
 
 What we did yesterday
+  - Front end team meeting to discuss file structure and next steps
+  - Begin working on budget and distance sliders
+  - Continue implementing logic for resolving conflicting events
 
 Plan for today
+  - Continue work on budget and distance sliders
+  - Begin work on login page

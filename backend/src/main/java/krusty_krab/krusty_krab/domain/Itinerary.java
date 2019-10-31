@@ -85,14 +85,43 @@ public class Itinerary {
         this.itin.add(transp);
     }
     
-    public void addEvent() {
-		// Create new event
-		System.out.println("ADDING EVENT");
-		Event event = new Event("Hidden Leaf", "Land of Fire", "Go see the naruto", 5, 20,
-		        new Time(2019, 10, 25, 9, 30, true), new Time(2019, 10, 25, 10, 0, true),
-		        new Time(0, 0, 0, 0, 30, true), "Land of Fire", "Go", "TEMP_ID");
-		itin.add(event);
-		handleConflict(event);
+    public void addEvent(Event newEvent) {
+    	// must get a new Transportation item first
+    	Transportation newTransportation = joinEvents((Event)itin.get(itin.size() - 1), newEvent);
+    	itin.add(newTransportation);
+    	itin.add(newEvent);
+    	handleConflict(newEvent);
+
+//		// Create new event
+//		System.out.println("ADDING EVENT");
+//		Event event = new Event("Hidden Leaf", "Land of Fire", "Go see the naruto", 5, 20,
+//		        new Time(2019, 10, 25, 9, 30, true), new Time(2019, 10, 25, 10, 0, true),
+//		        new Time(0, 0, 0, 0, 30, true), "Land of Fire", "Go");
+//		itin.add(event);
+//		handleConflict(event);
+    }
+    
+    public void deleteEvent(Event event) {
+    	// need to delete event
+    	// iterate through the itinerary
+    	for (int i = 0; i < itin.size() - 1; i++) {
+    		ItineraryItem item = itin.get(i);
+    		// if the event to be deleted matches the current iterated ItinItem
+    		if (item instanceof Event && item.getTitle().equals(event.getTitle())) {
+    			// first remove the transportation preceding it
+    			itin.remove(i - 1);
+    			// next remove the transportation succeeding it
+    			itin.remove(i + 1);
+    			// now remove the item itself;
+    			itin.remove(i);
+    			// now need to find a new transportation between the remaining events
+
+    			// EDGE CASE 1: if the event is the first one
+    			if (i == 1) {
+    				// now find best transportation btwn next one and current location
+    			} else if (i == )
+    		}
+    	}
     }
     
     private void handleConflict(Event newEvent) {
@@ -157,7 +186,6 @@ public class Itinerary {
 		Time travelFromTime = gm.getTransportation(event.getLocation(), next.getLocation(), next.getEndTime()).getExpectedLength();
 		long travelTime = travelToTime.add(travelFromTime).toMinutes();
 		long expectedTime = event.getExpectedLength().toMinutes();
-		
 		System.out.println("TIME: " + next.getStartTime().getDifference(curr.getEndTime()).toMinutes());
 		System.out.println("EXPECTED TIME: " + expectedTime);
 		if (next.getStartTime().getDifference(curr.getEndTime()).toMinutes() >= expectedTime + travelTime) {
@@ -171,15 +199,11 @@ public class Itinerary {
 	return null;
     }
     
-    private void deleteEvent() {
-	// TODO: delete event from itinerary and get rid of the transportations
-    }
-    
     private Transportation joinEvents(Event startEvent, Event nextEvent) {
     	Transportation transportation = gm.getTransportation(startEvent.getLocation(), nextEvent.getLocation(), startEvent.getEndTime());
     	return transportation;
     }
-
+    
     public List<String> getMethodsOfTrans() {
     	return this.methodsOfTrans;
     }

@@ -74,8 +74,13 @@ public class MainController {
   
   @PostMapping("/addEvent")
   public void addEvent(@RequestBody Event event) {
-      itin.addEvent();
+      itin.addEvent(event);
   }
+  
+//  @PutMapping("/deleteEvent")
+//  public void deleteEvent(@RequestBody Event event) {
+//	  itin.deleteEvent(event);
+//  }
   
   @PutMapping("/changeTime")
   public ResponseEntity<?> changeTime(@RequestBody Itinerary body) {
