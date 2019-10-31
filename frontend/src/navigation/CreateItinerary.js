@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, Button } from 'react-native';
 import DateTime from '../pages/DateTime';
+import BudgetSlider from '../components/common/Sliders/BudgetSlider';
+import DistanceSlider from '../components/common/Sliders/DistanceSlider';
 
 export class Multi extends Component {
   constructor(props){
@@ -9,7 +11,9 @@ export class Multi extends Component {
       step: 1,
       date: "Date",
       startTime: "Start Time",
-      endTime: "End Time"
+      endTime: "End Time",
+      budget: "Budget",
+      distance: "Distance"
     };
   }
 
@@ -28,6 +32,18 @@ export class Multi extends Component {
   setEndTime = (dataFromChild) => {
     this.setState({
       endTime: dataFromChild
+    })
+  }
+
+  setBudget = (dataFromChild) => {
+    this.setState({
+      budget: dataFromChild
+    })
+  }
+
+  setDistance = (dataFromChild) => {
+    this.setState({
+      distance: dataFromChild
     })
   }
 
@@ -74,6 +90,14 @@ export class Multi extends Component {
             <Text>
               {this.state.startTime}
             </Text>
+            <BudgetSlider
+              setBudget={this.setBudget}
+            />
+            <Text>Value: {this.state.budget}</Text>
+            <DistanceSlider
+              setDistance={this.setDistance}
+            />
+            <Text>Value: {this.state.distance}</Text>
           </View>
         );
     }
