@@ -1,5 +1,9 @@
 Friday, November 1
 
 What we did yesterday
+  - Added budget and distance sliders
+  - Work on sending filter information to backend
 
 Plan for today
+  - Work on sending filter information to backend
+  - Work towards finishing the filter process for creating an itinerary

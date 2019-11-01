@@ -1,5 +1,10 @@
 Thursday, October 31
 
 What we did yesterday
+  - Continued work on budget and distance sliders
+  - Begin work on login page
 
 Plan for today
+  - Continue work on budget and distance sliders
+  - Continue work on login page
+  - Work on sending filter information to backend

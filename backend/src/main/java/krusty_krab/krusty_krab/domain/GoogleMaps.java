@@ -122,39 +122,39 @@ public class GoogleMaps {
       float maxDist, List<String> activities, float budget) throws Exception {
     List<Event> events = new ArrayList();
     //Exclude event if time it takes to travel from location to event + expected length of event exceeds difference between starttime and endtime
-    
-    double lat = 43.7764;
-    double ltd = -79.2318;
-    LatLng cur_loc = new LatLng((double)lat, (double)ltd);
-    //NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc);
-    //TextSearchRequest all_events = PlacesApi.textSearchQuery(KEY, "scarborough pizza");
-    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)50000);
 
-    if(all_events != null) {
-      PlacesSearchResponse obj = all_events.awaitIgnoreError();
-      PlacesSearchResult results[] = obj.results;
-      for (PlacesSearchResult i: results) {
-        System.out.println(i.toString());
-      }
-    }
+//    double lat = 43.7764;
+//    double ltd = -79.2318;
+//    LatLng cur_loc = new LatLng((double)lat, (double)ltd);
+//    //NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc);
+//    //TextSearchRequest all_events = PlacesApi.textSearchQuery(KEY, "scarborough pizza");
+//    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)50000);
+//
+//    if(all_events != null) {
+//      PlacesSearchResponse obj = all_events.awaitIgnoreError();
+//      PlacesSearchResult results[] = obj.results;
+//      for (PlacesSearchResult i: results) {
+//        System.out.println(i.toString());
+//      }
+//    }
     
     
     Event e1 = new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
-        new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish");
+        new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
     Event e2 = new Event("cn tower", "cn tower", "lookout", 4, 40,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
-        new Time(0, 0, 0, 2, 0, true), "../images/toronto.jpg", "If Quebec is Canada's ass...");
+        new Time(0, 0, 0, 2, 0, true), "../images/toronto.jpg", "If Quebec is Canada's ass...", "2");
     Event e3 = new Event("Canadian National Exhibition", "Canadian National Exhibition", "Festival",
         4, 40, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
         new Time(0, 0, 0, 2, 0, true),
         "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
-        "If Quebec is Canada's ass...");
+        "If Quebec is Canada's ass...", "3");
     Event e4 = new Event("Eaton Centre", "Eaton Centre", "Mall", 4, 40,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
         new Time(0, 0, 0, 2, 0, true),
         "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
-        "If Quebec is Canada's ass...");
+        "If Quebec is Canada's ass...", "4");
 
     events.add(e1);
     events.add(e2);

@@ -1,11 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Itinerary from './pages/Itinerary';
-import DateTime from './pages/DateTime';
-
-import MapPicker from './pages/MapPicker';
-
-import Multi from './components/Navigation/CreateItinerary';
+import Itinerary from './pages/ItineraryPage';
+import MapPage from './pages/MapPage';
+import Multi from './navigation/CreateItinerary';
 
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -50,7 +47,6 @@ class ProfileScreen extends React.Component {
   }
 }
 
-
 const bottomTabNavigator = createBottomTabNavigator(
   {
     Explore: {
@@ -62,7 +58,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Map: {
-      screen: MapPicker,
+      screen: MapPage,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="map" size={25} color={tintColor} />

@@ -54,7 +54,7 @@ We decided to add an additional user story to our backlog as we did not have one
 
 - As Bob (a businessman), I would like my itinerary to be saved to my private user account so that only I can view my itinerary, whenever I want, by using my account information.
 
-- Point Estimate:
+- Point Estimate: 5
 
 ## Frontend Tasks:
 ---
