@@ -123,7 +123,7 @@ public class GoogleMaps {
     List<Event> events = new ArrayList();
     //Exclude event if time it takes to travel from location to event + expected length of event exceeds difference between starttime and endtime
     
-    /*double lat = 43.7764;
+    double lat = 43.7764;
     double ltd = -79.2318;
     LatLng cur_loc = new LatLng((double)lat, (double)ltd);
     //NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc);
