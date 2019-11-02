@@ -45,6 +45,7 @@ export default class TimePicker extends Component {
       <View style={styles.container}>
         <Button title="Start Time" onPress={this.showStartTimePicker} />
         <DateTimePicker
+          titleIOS={"Pick a start time"}
           isVisible={isStartTimePickerVisible}
           onConfirm={this.handleStartTimePicked}
           onCancel={this.hideStartTimePicker}
@@ -52,6 +53,7 @@ export default class TimePicker extends Component {
         />
         <Button title="End Time" onPress={this.showEndTimePicker} />
         <DateTimePicker
+          titleIOS={"Pick a end time"}
           isVisible={isEndTimePickerVisible}
           onConfirm={this.handleEndTimePicked}
           onCancel={this.hideEndTimePicker}
@@ -64,11 +66,9 @@ export default class TimePicker extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
+    padding: 10
   },
-  text: {
-    marginVertical: 0
-  }
 });

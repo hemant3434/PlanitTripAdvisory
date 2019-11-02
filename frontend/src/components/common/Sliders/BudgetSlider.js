@@ -12,21 +12,22 @@ export default class BudgetSlider extends React.Component {
 
   handleBudgetPicked = budget => {
     this.setState({ budget: budget});
-    this.props.setBudget(budget);
+    this.props.setBudgetFromParent(budget);
   }
 
   render() {
     return (
-      <View>
+      <View style={{alignItems: "center", padding: 10}}>
         <Slider
-          style={{width: 150}}
+          style={{width: 250}}
           onValueChange={this.handleBudgetPicked}
-          maximumValue="100"
-          step="5"
-          minimumTrackTintColor='#1fb28a'
+          maximumValue="1000"
+          step="10"
+          minimumTrackTintColor='#429ef5'
           maximumTrackTintColor='#d3d3d3'
-          thumbTintColor='#1a9274'
+          thumbTintColor='#429ef5'
         />
+        <Text>Budget: ${this.state.budget}</Text>
       </View>
     );
   }

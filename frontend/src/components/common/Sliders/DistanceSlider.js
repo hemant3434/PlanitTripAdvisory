@@ -12,21 +12,22 @@ export default class DistanceSlider extends React.Component {
 
   handleDistancePicked = distance => {
     this.setState({ distance: distance});
-    this.props.setDistance(distance);
+    this.props.setDistanceFromParent(distance);
   }
 
   render() {
     return (
-      <View>
+      <View style={{alignItems: "center", padding: 30}}>
         <Slider
-          style={{width: 150}}
+          style={{width: 200}}
           onValueChange={this.handleDistancePicked}
-          maximumValue="100"
+          maximumValue="50"
           step="5"
-          minimumTrackTintColor='#1fb28a'
+          minimumTrackTintColor='#429ef5'
           maximumTrackTintColor='#d3d3d3'
-          thumbTintColor='#1a9274'
+          thumbTintColor='#429ef5'
         />
+        <Text>Distance: {this.state.distance}km</Text>
       </View>
     );
   }
