@@ -18,7 +18,12 @@ public class UserService {
         return userRepository.getByUsername(username);
     }
 
-    public void addUser(String username, List<String> visitedEvents) {userRepository.addUser(username, visitedEvents);}
+    public void addUser(User user) {userRepository.addUser(user.getUsername(), user.getVisitedEvents(), user.getEventRatings(), user.getItin());}
 
     public void deleteUser(String username) {userRepository.deleteUser(username);}
+
+    public void changeUser(User user) {
+        deleteUser(user.getUsername());
+        addUser(user);
+    }
 }

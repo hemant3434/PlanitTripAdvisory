@@ -35,14 +35,6 @@ public class MainController {
     map.put("Description", "Iconic Line");
     map.put("URL", link);
 
-    userService.deleteUser(user.getUsername());
-    List<String> visitedEvents = new ArrayList();
-    visitedEvents.add("a");
-    visitedEvents.add("b");
-    user.setVisitedEvents(visitedEvents);
-    userService.addUser(user.getUsername(), visitedEvents);
-
-
     return ResponseEntity.ok().body(map);
   }
 
@@ -130,9 +122,8 @@ public class MainController {
 
   @PutMapping("/register")
   public void register(@RequestBody User body) {
-    List<String> lis = new ArrayList<>();
-    userService.addUser(body.getUsername(), lis);
-    //this.user = userService.getUser(body.getUsername());
+    this.user = new User(body.getUsername(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    userService.addUser(user);
   }
 
   public UserService getUserService() {
