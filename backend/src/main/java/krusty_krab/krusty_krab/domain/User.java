@@ -47,10 +47,7 @@ public class User {
     }
 
     public void setVisitedEvents(List<String> visitedEvents) {
-        List<String> visitedEvents1 = new ArrayList();
-        visitedEvents1.add("a");
-        visitedEvents1.add("b");
-        this.visitedEvents = visitedEvents1;
+        this.visitedEvents = visitedEvents;
     }
 
     public void setItin(List<ItineraryItem> itin) {
