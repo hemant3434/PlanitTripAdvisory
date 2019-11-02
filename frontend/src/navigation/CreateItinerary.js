@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Text, View, Button } from 'react-native';
 import DateTime from '../pages/DateTime';
-import BudgetSlider from '../components/common/Sliders/BudgetSlider';
-import DistanceSlider from '../components/common/Sliders/DistanceSlider';
+import ItineraryFilters from '../pages/ItineraryFilters';
+import axios from 'axios';
 
 export class Multi extends Component {
+
   constructor(props){
     super(props)
     this.state = {
@@ -13,7 +14,11 @@ export class Multi extends Component {
       startTime: "Start Time",
       endTime: "End Time",
       budget: "Budget",
-      distance: "Distance"
+      distance: "Distance",
+      latitude: null,
+      longitude: null,
+      location: "Toronto",
+      isLoading: true
     };
   }
 
@@ -70,35 +75,15 @@ export class Multi extends Component {
     switch(step){
       case 1:
         return(
-            <DateTime
-              continue={this.nextStep}
-              previous={this.previousStep}
-              setDateFromParent={this.setDate}
-              setStartTimeFromParent={this.setStartTime}
-              setEndTimeFromParent={this.setEndTime}
-            />
-        );
-      case 2:
-        return(
-          <View style={{paddingTop: 100, justifyContent: 'center', alignItems: 'center'}}>
-            <Text>
-              {this.state.date}
-            </Text>
-            <Text>
-              {this.state.endTime}
-            </Text>
-            <Text>
-              {this.state.startTime}
-            </Text>
-            <BudgetSlider
-              setBudget={this.setBudget}
-            />
-            <Text>Value: {this.state.budget}</Text>
-            <DistanceSlider
-              setDistance={this.setDistance}
-            />
-            <Text>Value: {this.state.distance}</Text>
-          </View>
+          <ItineraryFilters
+            continue={this.nextStep}
+            previous={this.previousStep}
+            setDateFromParent={this.setDate}
+            setStartTimeFromParent={this.setStartTime}
+            setEndTimeFromParent={this.setEndTime}
+            setBudgetFromParent={this.setBudget}
+            setDistanceFromParent={this.setDistance}
+          />
         );
     }
   }
