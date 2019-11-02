@@ -119,7 +119,7 @@ public class Itinerary {
     			// EDGE CASE 1: if the event is the first one
     			if (i == 1) {
     				// now find best transportation btwn next one and current location
-    			} else if (i == )
+    			} //else if (i == )
     		}
     	}
     }

@@ -20,7 +20,8 @@ public class MainController {
       + "iEGB24b&ust=1571261300777966";
 
   Itinerary itin = new Itinerary();
-  User user;
+  //Instantiated by register, remove instantiation for final product
+  User user = new User("amy", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
   GoogleMaps gm = new GoogleMaps();
 
   @Autowired
@@ -34,13 +35,13 @@ public class MainController {
     map.put("Description", "Iconic Line");
     map.put("URL", link);
 
-    //User user = new User("2");
-    //userService.addUser(user.getUsername());
-    //User user = userService.getUser("2");
-    //user.getVisitedEvents().add("1");
-    //user.getEventToRating().put("1", 4f);
+    userService.deleteUser(user.getUsername());
+    List<String> visitedEvents = new ArrayList();
+    visitedEvents.add("a");
+    visitedEvents.add("b");
+    user.setVisitedEvents(visitedEvents);
+    userService.addUser(user.getUsername(), visitedEvents);
 
-    //userService.deleteUser(user.getUsername());
 
     return ResponseEntity.ok().body(map);
   }
@@ -129,7 +130,12 @@ public class MainController {
 
   @PutMapping("/register")
   public void register(@RequestBody User body) {
-    userService.addUser(body.getUsername());
-    this.user = userService.getUser(body.getUsername());
+    List<String> lis = new ArrayList<>();
+    userService.addUser(body.getUsername(), lis);
+    //this.user = userService.getUser(body.getUsername());
+  }
+
+  public UserService getUserService() {
+    return userService;
   }
 }
