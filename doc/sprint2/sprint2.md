@@ -63,6 +63,7 @@ We decided to add an additional user story to our backlog as we did not have one
   - `story 2` Each event in itinerary has delete button
 
 **Logan Chester**:
+  - `story 3` Display method of transportation as multiple different selectable options
   - `story 4` A maximum distance can be set using a slider
   - `story 5` A maximum budget can be specified using a slider
 
@@ -73,7 +74,6 @@ We decided to add an additional user story to our backlog as we did not have one
 
 **Unassigned**:
   - `story 2` User can select a time slot for events about to be added to itinerary
-  - `story 3` Display method of transportation as multiple different selectable options
   
 ## Backend Tasks:
 ---
