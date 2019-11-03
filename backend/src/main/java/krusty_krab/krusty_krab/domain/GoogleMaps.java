@@ -126,7 +126,6 @@ public class GoogleMaps {
       float maxDist, List<String> activities, float budget) throws Exception {
     List<Event> events = new ArrayList();
 
-<<<<<<< HEAD
 //    double lat = 43.7764;
 //    double ltd = -79.2318;
 //    LatLng cur_loc = new LatLng((double)lat, (double)ltd);
