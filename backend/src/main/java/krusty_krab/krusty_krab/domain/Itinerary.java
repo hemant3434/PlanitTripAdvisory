@@ -112,54 +112,39 @@ public class Itinerary {
     }
 
     public void deleteEvent(Event event) {
-<<<<<<< HEAD
     	// need to delete event
     	// iterate through the itinerary
     	for (int i = 0; i < itin.size() - 1; i++) {
     		ItineraryItem item = itin.get(i);
     		// if the event to be deleted matches the current iterated ItinItem
     		if (item instanceof Event && ((Event) item).getId().equals(event.getId())) {
+				Transportation fillerTrans = new Transportation();
     			// remove the transportation before, event itself, then transportation after
     			for (int j = 0; j < 2; j++) {
     				itin.remove(i - 1);
     			}
     			if (i == 1) {
     				// EDGE CASE 1: first event being deleted, must join home with next event
-    				
+    				Event successorEvent = new Event();
+    				successorEvent = (Event) itin.get(0);
+    				fillerTrans = joinEvents(this.location, successorEvent.getLocation(), this.startTime);
     			} else if (i == itin.size() - 2) {
     				// EDGE CASE 2: last event being deleted, must join last event with home
-    				
+    				Event predecessorEvent = new Event();
+    				predecessorEvent = (Event) itin.get(i - 2);
+    				fillerTrans = joinEvents(predecessorEvent.getLocation(), this.location, predecessorEvent.getEndTime());
     			} else {
     				// ELSE: deleted event is inside the list
-    				Transportation fillerTrans = new Transportation();
-    				fillerTrans = joinEvents((Event)itin.get(i - 2), (Event)itin.get(i - 1));
-    				itin.add(i - 1, fillerTrans);
-    				break;
+    				Event predecessorEvent = new Event();
+    				predecessorEvent = (Event) itin.get(i - 2);
+    				Event successorEvent = new Event();
+    				successorEvent = (Event) itin.get(i - 1);
+    				fillerTrans = joinEvents(predecessorEvent.getLocation(), successorEvent.getLocation(), predecessorEvent.getEndTime());
     			}
+				itin.add(i - 1, fillerTrans);
+				break;
     		}
     	}
-=======
-	// need to delete event
-	// iterate through the itinerary
-	for (int i = 0; i < itin.size() - 1; i++) {
-	    ItineraryItem item = itin.get(i);
-	    // if the event to be deleted matches the current iterated ItinItem
-	    if (item instanceof Event && item.getTitle().equals(event.getTitle())) {
-		// first remove the transportation preceding it
-		itin.remove(i - 1);
-		// next remove the transportation succeeding it
-		itin.remove(i + 1);
-		// now remove the item itself;
-		itin.remove(i);
-		// now need to find a new transportation between the remaining events
-
-		// EDGE CASE 1: if the event is the first one
-		if (i == 1) {
-		    // now find best transportation btwn next one and current location
-		} // else if (i == )
-	    }
-	}
->>>>>>> 5bc46c3168ac4beef113193d7cdf210eaa2ecfa5
     }
 
     private void handleConflict(Event newEvent) {
