@@ -25,36 +25,46 @@ public class Itinerary {
     }
 
     // Gets the next best event for the user to attend
-    public Event getNextBestEvent() throws Exception{
+    public Event getNextBestEvent(User user) throws Exception{
 
         // Gets every event that satisfies the given filters
         List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), this.getItinCurLoc(), this.getLocation(), this.getItinDistLeft(), this.getActivities(), this.getItinBudgetLeft());
 
         // Gets event with highest score of all events received
         Event bestEvent = events.get(0);
+        float bestScore = 0;
+        float curScore;
+        //GoogleMaps.getEventByID("3").getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget(), user);
+        //System.out.println("a");
         for(Event e: events){
-            if((!this.getVisitedEvents().contains(e.getLocation())) && (e.getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget()) > bestEvent.getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget()))){
-                bestEvent = e;
+            //System.out.println(e.getLocation());
+            if(!this.getVisitedEvents().contains(e.getLocation())){
+                curScore = e.getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget(), user);
+                if(curScore > bestScore) {
+                    bestEvent = e;
+                    bestScore = curScore;
+                }
             }
         }
+
         // If no event exists that is not already in the itinerary, exception thrown
-        if(this.getVisitedEvents().contains(bestEvent.getLocation())){
+        if(bestScore == 0){
             throw new NoSuchElementException();
         }
         return bestEvent;
     }
 
     // Creates the itinerary
-    public void createItinerary() throws Exception{
+    public void createItinerary(User user) throws Exception{
         // Starts at the specified start time, at the users home
         Time curTime = getStartTime();
         String curLoc = getHome();
         try{
             // Gets first event
-            Event nextEvent = getNextBestEvent();
+            Event nextEvent = getNextBestEvent(user);
 
             // Loops until it runs out of events, or all events remaining has a score so low that they shouldn't be on the itinerary
-            while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget()) > minScore){
+            while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget(), user) > minScore){
                 // Gets transportation object from the next event and the current location of the user
                 Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getLocation(), curTime);
                 // Transporation object to begin at the current time
@@ -75,7 +85,7 @@ public class Itinerary {
                 curTime = curTime.add(nextEvent.getExpectedLength());
                 nextEvent.setEndTime(curTime);
                 // Gets next event
-                nextEvent = getNextBestEvent();
+                nextEvent = getNextBestEvent(user);
             }
         }
         catch(NoSuchElementException e){}

@@ -168,6 +168,28 @@ public class GoogleMaps {
   public Event getEvent(String name) {
     return new Event();
   }
+
+  // Gets event from google maps api using the event id
+  public static Event getEventByID(String id) {
+    if(id.equals("1")){
+      return new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,
+              new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+              new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
+    }
+    else if(id.equals("2")){
+      return new Event("cn tower", "cn tower", "aquarium", 4, 40,
+              new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+              new Time(0, 0, 0, 2, 0, true), "../images/toronto.jpg", "If Quebec is Canada's ass...", "2");
+    }
+    else if(id.equals("3")){
+      return new Event("Canadian National Exhibition", "Canadian National Exhibition", "aquarium",
+              4, 40, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+              new Time(0, 0, 0, 2, 0, true),
+              "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
+              "If Quebec is Canada's ass...", "3");
+    }
+     return new Event();
+  }
   
   public GeoApiContext getKEY() {
     return KEY;

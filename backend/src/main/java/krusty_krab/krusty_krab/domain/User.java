@@ -21,6 +21,7 @@ public class User {
     private List<Float> eventRatings = new ArrayList();
     private List<ItineraryItem> itin = new ArrayList<ItineraryItem>();
 
+
     public User() {}
 
     public User(String username, List<String> visitedEvents, List<Float> eventRatings, List<ItineraryItem> itin) {
@@ -28,6 +29,46 @@ public class User {
         this.visitedEvents = visitedEvents;
         this.eventRatings = eventRatings;
         this.itin = itin;
+    }
+
+    //Returns the user's average rating for all events of the same activity as the one that is given
+    public float getActivityRating(String activity){
+        float sum = 0;
+        float numEvents = 0;
+        for(int i=0; i < visitedEvents.size();i++){
+            Event e = GoogleMaps.getEventByID(visitedEvents.get(i));
+            if(e.getActivity().equals(activity)){
+                sum += eventRatings.get(i);
+                numEvents++;
+            }
+        }
+        //If user has never participated in event before, returns neutral rating of 2.5/5
+        if(numEvents == 0){
+            return 2.5f;
+        }
+        else {
+            return sum/numEvents;
+        }
+    }
+
+    //Returns if user has visited a given event
+    public boolean hasVisitedEvent(Event e){
+        for(int i=0; i < visitedEvents.size();i++){
+            if(visitedEvents.get(i).equals(e.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Returns rating given by the user of a visited event
+    public float getRating(Event e){
+        for(int i=0; i < visitedEvents.size();i++){
+            if(visitedEvents.get(i).equals(e.getId())){
+                return eventRatings.get(i);
+            }
+        }
+        return 0;
     }
 
     public String getUsername() {
