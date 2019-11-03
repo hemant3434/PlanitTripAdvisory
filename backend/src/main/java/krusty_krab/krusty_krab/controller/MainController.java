@@ -84,6 +84,11 @@ public class MainController {
   public List<ItineraryItem> viewItinerary() {
       return itin.getItin();
   }
+
+  @GetMapping("getExploreEvents")
+  public List<Event> getExploreEvents() {
+    return GoogleMaps.getExploreEvents();
+  }
   
   @PostMapping("/addEvent")
   public void addEvent(@RequestBody Event event) {

@@ -1,6 +1,7 @@
 package krusty_krab.krusty_krab.domain;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -168,16 +169,16 @@ public class GoogleMaps {
         new Time(0, 0, 0, 2, 0, true),
         "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
         "If Quebec is Canada's ass...", "3");
-    Event e4 = new Event("Eaton Centre", "Eaton Centre", "Mall", 4, 40,
+    /*Event e4 = new Event("Eaton Centre", "Eaton Centre", "Mall", 4, 40,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
         new Time(0, 0, 0, 2, 0, true),
         "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
-        "If Quebec is Canada's ass...", "4");
+        "If Quebec is Canada's ass...", "4");*/
 
     events.add(e1);
     events.add(e2);
     events.add(e3);
-    events.add(e4);
+    //events.add(e4);
 
     return events;
   }
@@ -206,7 +207,20 @@ public class GoogleMaps {
               "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
               "If Quebec is Canada's ass...", "3");
     }
+    else if(id.equals("4")){
+      return new Event("Eaton Centre", "Eaton Centre", "Mall", 4, 40,
+              new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+              new Time(0, 0, 0, 2, 0, true),
+              "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
+              "If Quebec is Canada's ass...", "4");
+    }
      return new Event();
+  }
+
+  public static List<Event> getExploreEvents(){
+    List<Event> events= new ArrayList<>();
+    events.add(getEventByID("4"));
+    return events;
   }
   
   public GeoApiContext getKEY() {
