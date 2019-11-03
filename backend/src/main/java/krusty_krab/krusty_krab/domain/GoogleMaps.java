@@ -15,7 +15,7 @@ public class GoogleMaps {
 
   public GoogleMaps() {
     if(KEY == null) {
-      KEY = new GeoApiContext.Builder().apiKey("").build();
+      KEY = new GeoApiContext.Builder().apiKey("AIzaSyCBL_WbHzOOXyq2mrs34KZIa7RglpealxQ").build();
     }
   }
 
@@ -117,6 +117,10 @@ public class GoogleMaps {
     return 0;
   }
 
+  public static String getLocation(AddressComponent[] components) {
+    return "";
+  }
+  
   public List<Event> getEvents(Time startTime, Time endTime, String curLoc, String location,
       float maxDist, List<String> activities, float budget) throws Exception {
     List<Event> events = new ArrayList();
@@ -124,7 +128,7 @@ public class GoogleMaps {
     double lat = 43.7764;
     double ltd = -79.2318;
     LatLng cur_loc = new LatLng((double)lat, (double)ltd);
-    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)50000);
+    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)5000);
 
     ArrayList<String> place_ids = null;
     if(all_events != null) {
@@ -145,8 +149,10 @@ public class GoogleMaps {
       int second = filterByTime(startTime, endTime, r.openingHours);
       int third = filterByType(activities, r.addressComponents);
       
+      System.out.println(r.addressComponents);
       if((first+second+third) == 0) {
-        Event e1 = new Event();
+        Event e = new Event();
+        events.add(e);
       }
     }
     
