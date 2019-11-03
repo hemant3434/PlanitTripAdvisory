@@ -125,7 +125,7 @@ public class GoogleMaps {
       float maxDist, List<String> activities, float budget) throws Exception {
     List<Event> events = new ArrayList();
 
-    double lat = 43.7764;
+    /*double lat = 43.7764;
     double ltd = -79.2318;
     LatLng cur_loc = new LatLng((double)lat, (double)ltd);
     NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)5000);
@@ -154,7 +154,7 @@ public class GoogleMaps {
         Event e = new Event();
         events.add(e);
       }
-    }
+    }*/
     
     
     Event e1 = new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,
