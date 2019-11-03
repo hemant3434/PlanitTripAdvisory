@@ -69,11 +69,11 @@ public class MainController {
     //Sends dummy data for the user filters into the itinerary class
     
     GoogleMaps maps = new GoogleMaps();
-    Time start = new Time(2019, 10, 25, 9, 00, true);
-    Time end = new Time(2019, 10, 25, 20, 00, true);
+    Time start = new Time(2019, 11, 3, 9, 00, true);
+    Time end = new Time(2019, 11, 3, 20, 00, true);
     double lat = 43.7764;
     double ltd = -79.2318;
-    int budget = 4;
+    float budget = 4;
     float distance = 5f;
 
     List<String> activities = new ArrayList<String>();

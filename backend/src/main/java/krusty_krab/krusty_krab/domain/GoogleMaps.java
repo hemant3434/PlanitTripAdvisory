@@ -137,14 +137,14 @@ public class GoogleMaps {
   // index 0 - closing time
   // index 1 - start time
   public static Time[] getTime(OpeningHours hours) {
-    int str_year = 0;
+    int str_year = 2019;
     int str_month = 0;
     int str_day = 0;
     int str_hour = 0;
     int str_minute = 0;
     boolean str_positive = true;
     
-    int clo_year = 0;
+    int clo_year = 2019;
     int clo_month = 0;
     int clo_day = 0;
     int clo_hour = 0;
@@ -202,6 +202,9 @@ public class GoogleMaps {
         new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
     events.add(e1);
 
+    for (Event i: events) {
+      System.out.println(i.getLocation());
+    }
     return events;
   }
 
