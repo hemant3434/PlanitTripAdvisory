@@ -63,7 +63,7 @@ public class MainController {
 
 	// is this map needed?
     //Map<String, Object> map = new HashMap<String, Object>();
-
+    itin = new Itinerary();
     //Sends dummy data for the user filters into the itinerary class
     itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
     itin.setEndTime(new Time(2019, 10, 25, 23, 00, true));
@@ -83,6 +83,11 @@ public class MainController {
   @GetMapping("/viewItinerary")
   public List<ItineraryItem> viewItinerary() {
       return itin.getItin();
+  }
+
+  @GetMapping("getExploreEvents")
+  public List<Event> getExploreEvents() {
+    return GoogleMaps.getExploreEvents();
   }
   
   @PostMapping("/addEvent")
