@@ -15,12 +15,10 @@ public class GoogleMaps {
 
   public GoogleMaps() {
     if(KEY == null) {
-      KEY = new GeoApiContext.Builder().apiKey("AIzaSyCBL_WbHzOOXyq2mrs34KZIa7RglpealxQ").build();
+      KEY = new GeoApiContext.Builder().apiKey("AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8").build();
     }
   }
 
-  // Given 2 locations and a time, gets the transportation object from the Google Maps API between
-  // these 2 locations at this time
   public Transportation getTransportation(String loc1, String loc2, Time startTime) {
 
     if ((loc1.equals("union station") && loc2.equals("ripley's aquarium"))
@@ -105,7 +103,11 @@ public class GoogleMaps {
     return new Transportation();
   }
   
-  public static int filterByPrice(float budget, PriceLevel obj) {
+  public static int filterByPrice(float budget, float price) {
+    
+    if(budget < price) {
+      return 100;
+    }
     return 0;
   }
   
@@ -113,22 +115,38 @@ public class GoogleMaps {
     return 0;
   }
   
-  public static int filterByType(List<String> activities, AddressComponent[] components) {
-    return 0;
-  }
-
-  public static String getLocation(AddressComponent[] components) {
-    return "";
+  public static float getPriceLevel(PriceLevel obj) {
+    float price = -1;
+    
+    if(obj == PriceLevel.FREE) {
+      price = 0;
+    }
+    else if(obj == PriceLevel.INEXPENSIVE) {
+      price = 1;
+    }
+    else if(obj == PriceLevel.MODERATE) {
+      price = 2;
+    }
+    else if(obj == PriceLevel.EXPENSIVE) {
+      price = 3;
+    }
+    else if(obj == PriceLevel.VERY_EXPENSIVE) {
+      price = 4;
+    }
+    
+    return price;
   }
   
-  public List<Event> getEvents(Time startTime, Time endTime, String curLoc, String location,
+  public static Time getTime() {
+    
+  }
+  
+  public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd,
       float maxDist, List<String> activities, float budget) throws Exception {
-    List<Event> events = new ArrayList();
+    List<Event> events = new ArrayList<Event>();
 
-    double lat = 43.7764;
-    double ltd = -79.2318;
     LatLng cur_loc = new LatLng((double)lat, (double)ltd);
-    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)5000);
+    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)(maxDist*1000));
 
     ArrayList<String> place_ids = null;
     if(all_events != null) {
@@ -145,13 +163,12 @@ public class GoogleMaps {
       PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i);
       PlaceDetails r = req.await();
       
-      int first = filterByPrice(budget, r.priceLevel);
+      int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
       int second = filterByTime(startTime, endTime, r.openingHours);
-      int third = filterByType(activities, r.addressComponents);
       
-      System.out.println(r.addressComponents);
-      if((first+second+third) == 0) {
-        Event e = new Event();
+      if((first+second) == 0) {
+        
+        Event e = new Event(r.name, r.formattedAddress, "", r.rating, getPriceLevel(r.priceLevel), );
         events.add(e);
       }
     }
@@ -160,24 +177,7 @@ public class GoogleMaps {
     Event e1 = new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
         new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
-    Event e2 = new Event("cn tower", "cn tower", "lookout", 4, 40,
-        new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
-        new Time(0, 0, 0, 2, 0, true), "../images/toronto.jpg", "If Quebec is Canada's ass...", "2");
-    Event e3 = new Event("Canadian National Exhibition", "Canadian National Exhibition", "Festival",
-        4, 40, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
-        new Time(0, 0, 0, 2, 0, true),
-        "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
-        "If Quebec is Canada's ass...", "3");
-    Event e4 = new Event("Eaton Centre", "Eaton Centre", "Mall", 4, 40,
-        new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
-        new Time(0, 0, 0, 2, 0, true),
-        "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
-        "If Quebec is Canada's ass...", "4");
-
     events.add(e1);
-    events.add(e2);
-    events.add(e3);
-    events.add(e4);
 
     return events;
   }
