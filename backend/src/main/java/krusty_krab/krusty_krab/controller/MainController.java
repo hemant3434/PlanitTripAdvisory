@@ -38,15 +38,35 @@ public class MainController {
     return ResponseEntity.ok().body(map);
   }
 
+  @GetMapping("/getDummy2")
+  public void getDummy2(@RequestBody Map<String, Object> body) {
+    /*List<String> visitedEvents = new ArrayList<>();
+    List<Float> eventRatings = new ArrayList<>();
+    //visitedEvents.add("1");
+    visitedEvents.add("2");
+    visitedEvents.add("3");
+    //eventRatings.add(5f);
+    eventRatings.add(5f);
+    eventRatings.add(5f);
+    user.setVisitedEvents(visitedEvents);
+    user.setEventRatings(eventRatings);
+    userService.changeUser(user);*/
+    //System.out.println(GoogleMaps.getEventByID("1").getScore(new Time(2019, 10, 25, 9, 00, true), "Eaton Centre", this.gm, 20, 200, user));
+    System.out.println(user.getUsername());
+    System.out.println(user.getVisitedEvents());
+    System.out.println(user.getEventRatings());
+    System.out.println(user.getItin());
+  }
+
   @GetMapping("/getItinerary")
   public ResponseEntity<?> getItinerary(@RequestBody Map<String, Object> body) throws Exception {
 
 	// is this map needed?
     //Map<String, Object> map = new HashMap<String, Object>();
-
+    itin = new Itinerary();
     //Sends dummy data for the user filters into the itinerary class
     itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
-    itin.setEndTime(new Time(2019, 10, 25, 20, 00, true));
+    itin.setEndTime(new Time(2019, 10, 25, 23, 00, true));
     itin.setHome("union station");
     itin.setLocation("toronto");
     itin.setMaxDist(20);
@@ -56,13 +76,18 @@ public class MainController {
     itin.setActivities(activities);
     itin.setBudget(200);
 
-    itin.createItinerary();
+    itin.createItinerary(this.user);
     return ResponseEntity.ok().body(itin.getItin());
   }
   
   @GetMapping("/viewItinerary")
   public List<ItineraryItem> viewItinerary() {
       return itin.getItin();
+  }
+
+  @GetMapping("getExploreEvents")
+  public List<Event> getExploreEvents() {
+    return GoogleMaps.getExploreEvents();
   }
   
   @PostMapping("/addEvent")

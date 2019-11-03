@@ -1,6 +1,7 @@
 package krusty_krab.krusty_krab.domain;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,7 @@ public class GoogleMaps {
 
   public GoogleMaps() {
     if(KEY == null) {
-      KEY = new GeoApiContext.Builder().apiKey("").build();
+      KEY = new GeoApiContext.Builder().apiKey("AIzaSyCBL_WbHzOOXyq2mrs34KZIa7RglpealxQ").build();
     }
   }
 
@@ -117,39 +118,45 @@ public class GoogleMaps {
     return 0;
   }
 
+  public static String getLocation(AddressComponent[] components) {
+    return "";
+  }
+  
   public List<Event> getEvents(Time startTime, Time endTime, String curLoc, String location,
       float maxDist, List<String> activities, float budget) throws Exception {
     List<Event> events = new ArrayList();
 
-    double lat = 43.7764;
-    double ltd = -79.2318;
-    LatLng cur_loc = new LatLng((double)lat, (double)ltd);
-    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)50000);
-
-    ArrayList<String> place_ids = null;
-    if(all_events != null) {
-      PlacesSearchResponse obj = all_events.awaitIgnoreError();
-      PlacesSearchResult results[] = obj.results;
-      
-      place_ids = new ArrayList<String>();
-      for (PlacesSearchResult i: results) {
-        place_ids.add(i.placeId);
-      }
-    }
-    
-    for (String i: place_ids) {
-      PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i);
-      PlaceDetails r = req.await();
-      
-      int first = filterByPrice(budget, r.priceLevel);
-      int second = filterByTime(startTime, endTime, r.openingHours);
-      int third = filterByType(activities, r.addressComponents);
-      
-      if((first+second+third) == 0) {
-        Event e1 = new Event();
-      }
-    }
-    
+<<<<<<< HEAD
+//    double lat = 43.7764;
+//    double ltd = -79.2318;
+//    LatLng cur_loc = new LatLng((double)lat, (double)ltd);
+//    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)5000);
+//
+//    ArrayList<String> place_ids = null;
+//    if(all_events != null) {
+//      PlacesSearchResponse obj = all_events.awaitIgnoreError();
+//      PlacesSearchResult results[] = obj.results;
+//      
+//      place_ids = new ArrayList<String>();
+//      for (PlacesSearchResult i: results) {
+//        place_ids.add(i.placeId);
+//      }
+//    }
+//    
+//    for (String i: place_ids) {
+//      PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i);
+//      PlaceDetails r = req.await();
+//      
+//      int first = filterByPrice(budget, r.priceLevel);
+//      int second = filterByTime(startTime, endTime, r.openingHours);
+//      int third = filterByType(activities, r.addressComponents);
+//      
+//      System.out.println(r.addressComponents);
+//      if((first+second+third) == 0) {
+//        Event e = new Event();
+//        events.add(e);
+//      }
+//    }    
     
     Event e1 = new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
@@ -162,16 +169,16 @@ public class GoogleMaps {
         new Time(0, 0, 0, 2, 0, true),
         "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
         "If Quebec is Canada's ass...", "3");
-    Event e4 = new Event("Eaton Centre", "Eaton Centre", "Mall", 4, 40,
+    /*Event e4 = new Event("Eaton Centre", "Eaton Centre", "Mall", 4, 40,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
         new Time(0, 0, 0, 2, 0, true),
         "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
-        "If Quebec is Canada's ass...", "4");
+        "If Quebec is Canada's ass...", "4");*/
 
     events.add(e1);
     events.add(e2);
     events.add(e3);
-    events.add(e4);
+    //events.add(e4);
 
     return events;
   }
@@ -179,6 +186,50 @@ public class GoogleMaps {
   // Gets event from google maps api using name of event
   public Event getEvent(String name) {
     return new Event();
+  }
+
+  // Gets event from google maps api using the event id
+  public static Event getEventByID(String id) {
+    if(id.equals("1")){
+      return new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,
+              new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+              new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
+    }
+    else if(id.equals("2")){
+      return new Event("cn tower", "cn tower", "aquarium", 4, 40,
+              new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+              new Time(0, 0, 0, 2, 0, true), "../images/toronto.jpg", "If Quebec is Canada's ass...", "2");
+    }
+    else if(id.equals("3")){
+      return new Event("Canadian National Exhibition", "Canadian National Exhibition", "aquarium",
+              4, 40, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+              new Time(0, 0, 0, 2, 0, true),
+              "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
+              "If Quebec is Canada's ass...", "3");
+    }
+    else if(id.equals("4")){
+      return new Event("Eaton Centre", "Eaton Centre", "Mall", 4, 40,
+              new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+              new Time(0, 0, 0, 2, 0, true),
+              "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
+              "If Quebec is Canada's ass...", "4");
+    }
+     return new Event();
+  }
+
+  public static List<Event> getExploreEvents(){
+    List<Event> events= new ArrayList<>();
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    return events;
   }
   
   public GeoApiContext getKEY() {
