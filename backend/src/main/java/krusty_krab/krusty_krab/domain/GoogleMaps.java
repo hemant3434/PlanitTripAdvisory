@@ -125,36 +125,36 @@ public class GoogleMaps {
       float maxDist, List<String> activities, float budget) throws Exception {
     List<Event> events = new ArrayList();
 
-    double lat = 43.7764;
-    double ltd = -79.2318;
-    LatLng cur_loc = new LatLng((double)lat, (double)ltd);
-    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)5000);
-
-    ArrayList<String> place_ids = null;
-    if(all_events != null) {
-      PlacesSearchResponse obj = all_events.awaitIgnoreError();
-      PlacesSearchResult results[] = obj.results;
-      
-      place_ids = new ArrayList<String>();
-      for (PlacesSearchResult i: results) {
-        place_ids.add(i.placeId);
-      }
-    }
-    
-    for (String i: place_ids) {
-      PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i);
-      PlaceDetails r = req.await();
-      
-      int first = filterByPrice(budget, r.priceLevel);
-      int second = filterByTime(startTime, endTime, r.openingHours);
-      int third = filterByType(activities, r.addressComponents);
-      
-      System.out.println(r.addressComponents);
-      if((first+second+third) == 0) {
-        Event e = new Event();
-        events.add(e);
-      }
-    }
+//    double lat = 43.7764;
+//    double ltd = -79.2318;
+//    LatLng cur_loc = new LatLng((double)lat, (double)ltd);
+//    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)5000);
+//
+//    ArrayList<String> place_ids = null;
+//    if(all_events != null) {
+//      PlacesSearchResponse obj = all_events.awaitIgnoreError();
+//      PlacesSearchResult results[] = obj.results;
+//      
+//      place_ids = new ArrayList<String>();
+//      for (PlacesSearchResult i: results) {
+//        place_ids.add(i.placeId);
+//      }
+//    }
+//    
+//    for (String i: place_ids) {
+//      PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i);
+//      PlaceDetails r = req.await();
+//      
+//      int first = filterByPrice(budget, r.priceLevel);
+//      int second = filterByTime(startTime, endTime, r.openingHours);
+//      int third = filterByType(activities, r.addressComponents);
+//      
+//      System.out.println(r.addressComponents);
+//      if((first+second+third) == 0) {
+//        Event e = new Event();
+//        events.add(e);
+//      }
+//    }
     
     
     Event e1 = new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,
