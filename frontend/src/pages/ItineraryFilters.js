@@ -38,7 +38,7 @@ export default class ItineraryFilters extends React.Component {
 
   render(){
     return(
-      <ScrollView style={styles.container}>
+      <ScrollView contentContainerStyle={{flexGrow: 1, justifyContent: "center", padding: 10}}>
         <Calendar setDateFromParent={this.setDate}/>
         <TimePicker
           setStartTimeFromParent={this.setStartTime}
@@ -55,6 +55,7 @@ export default class ItineraryFilters extends React.Component {
 
 let styles = StyleSheet.create({
   container: {
+    flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
   },

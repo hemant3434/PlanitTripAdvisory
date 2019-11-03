@@ -12,7 +12,7 @@ const items = [{
 }, {
   name: 'Transit',
 }, {
-  name: 'Uber',
+  name: 'Ride Services',
 }, {
   name: 'Walk',
 }];
@@ -33,7 +33,7 @@ export default class TransportationPicker extends Component {
   render() {
     const { selectedItems } = this.state;
     return (
-      <View style={{ flex: 1, padding: 5 }}>
+      <View style={{ flex: 1, padding: 10 }}>
         <MultiSelect
           hideTags
           items={items}
