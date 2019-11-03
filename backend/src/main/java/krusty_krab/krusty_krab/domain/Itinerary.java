@@ -107,19 +107,24 @@ public class Itinerary {
     	for (int i = 0; i < itin.size() - 1; i++) {
     		ItineraryItem item = itin.get(i);
     		// if the event to be deleted matches the current iterated ItinItem
-    		if (item instanceof Event && item.getTitle().equals(event.getTitle())) {
-    			// first remove the transportation preceding it
-    			itin.remove(i - 1);
-    			// next remove the transportation succeeding it
-    			itin.remove(i + 1);
-    			// now remove the item itself;
-    			itin.remove(i);
-    			// now need to find a new transportation between the remaining events
-
-    			// EDGE CASE 1: if the event is the first one
+    		if (item instanceof Event && ((Event) item).getId().equals(event.getId())) {
+    			// remove the transportation before, event itself, then transportation after
+    			for (int j = 0; j < 2; j++) {
+    				itin.remove(i - 1);
+    			}
     			if (i == 1) {
-    				// now find best transportation btwn next one and current location
-    			} //else if (i == )
+    				// EDGE CASE 1: first event being deleted, must join home with next event
+    				
+    			} else if (i == itin.size() - 2) {
+    				// EDGE CASE 2: last event being deleted, must join last event with home
+    				
+    			} else {
+    				// ELSE: deleted event is inside the list
+    				Transportation fillerTrans = new Transportation();
+    				fillerTrans = joinEvents((Event)itin.get(i - 2), (Event)itin.get(i - 1));
+    				itin.add(i - 1, fillerTrans);
+    				break;
+    			}
     		}
     	}
     }
@@ -203,6 +208,8 @@ public class Itinerary {
     	Transportation transportation = gm.getTransportation(startEvent.getLocation(), nextEvent.getLocation(), startEvent.getEndTime());
     	return transportation;
     }
+    
+    private Transportation joinEvents()
     
     public List<String> getMethodsOfTrans() {
     	return this.methodsOfTrans;
