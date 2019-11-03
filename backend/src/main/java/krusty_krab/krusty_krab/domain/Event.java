@@ -1,4 +1,4 @@
-package krusty_krab.krusty_krab.domain;
+  package krusty_krab.krusty_krab.domain;
 
 import java.util.List;
 
