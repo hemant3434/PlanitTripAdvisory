@@ -11,10 +11,10 @@ export class Multi extends Component {
   }
 
   fetchData(){
-    axios.put('http://100.80.11.91:8080/api/v1/getItinerary', {
+    axios.get('http://100.80.11.91:8080/api/v1/getItinerary', {
       date: this.state.date,
-      startTime: this.state.date + " " + this.state.startTime,
-      endTime: this.state.date + " " + this.state.endTime,
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
       location: this.state.location,
       distance: this.state.distance,
       budget: this.state.budget
@@ -107,10 +107,12 @@ export class Multi extends Component {
   };
 
   nextStep = () => {
-    const { step } = this.state;
+    const { step, date, startTime, endTime } = this.state;
     console.log(this.checkValues());
     if (this.checkValues()) {
       this.setState({
+        startTime: date + " " + startTime,
+        endTime: date + " " + endTime,
         step: step + 1
       });
     }
