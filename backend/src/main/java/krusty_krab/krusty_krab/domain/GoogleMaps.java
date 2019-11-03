@@ -220,6 +220,15 @@ public class GoogleMaps {
   public static List<Event> getExploreEvents(){
     List<Event> events= new ArrayList<>();
     events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
+    events.add(getEventByID("4"));
     return events;
   }
   
