@@ -17,7 +17,7 @@ export default class BudgetSlider extends React.Component {
 
   render() {
     return (
-      <View style={{alignItems: "center", padding: 5}}>
+      <View style={{alignItems: "center", padding: 20}}>
         <Slider
           style={{width: 250}}
           onValueChange={this.handleBudgetPicked}
