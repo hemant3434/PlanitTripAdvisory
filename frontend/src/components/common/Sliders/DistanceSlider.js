@@ -17,7 +17,7 @@ export default class DistanceSlider extends React.Component {
 
   render() {
     return (
-      <View style={{alignItems: "center", padding: 30}}>
+      <View style={{alignItems: "center", padding: 20}}>
         <Slider
           style={{width: 200}}
           onValueChange={this.handleDistancePicked}

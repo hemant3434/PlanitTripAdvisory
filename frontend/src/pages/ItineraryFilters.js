@@ -5,7 +5,7 @@ import TimePicker from './../components/Filters/TimePicker';
 import BudgetSlider from '../components/common/Sliders/BudgetSlider';
 import DistanceSlider from '../components/common/Sliders/DistanceSlider';
 import SubmitButton from './../components/common/Buttons/SubmitButton';
-import BackButton from './../components/common/Buttons/BackButton';
+import TransportationPicker from './../components/common/Transportation/TransportationPicker';
 
 export default class ItineraryFilters extends React.Component {
   constructor(props) {
@@ -32,6 +32,10 @@ export default class ItineraryFilters extends React.Component {
     this.props.setDistanceFromParent(dataFromChild)
   }
 
+  setTransportation = (dataFromChild) => {
+    this.props.setTransportationFromParent(dataFromChild)
+  }
+
   render(){
     return(
       <ScrollView style={styles.container}>
@@ -42,6 +46,7 @@ export default class ItineraryFilters extends React.Component {
         />
         <BudgetSlider setBudgetFromParent={this.setBudget}/>
         <DistanceSlider setDistanceFromParent={this.setDistance}/>
+        <TransportationPicker setTransportationFromParent={this.setTransportation}/>
         <SubmitButton continue={this.props.continue}/>
       </ScrollView>
     );

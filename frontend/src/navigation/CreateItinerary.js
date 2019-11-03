@@ -5,6 +5,26 @@ import ItineraryFilters from '../pages/ItineraryFilters';
 import axios from 'axios';
 
 export class Multi extends Component {
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData(){
+    axios.put('http://100.80.11.91:8080/api/v1/getItinerary', {
+      date: this.state.date,
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      location: this.state.location,
+      distance: this.state.distance,
+      budget: this.state.budget
+    })
+    .then(res => {
+      this.setState({
+        isLoading: false,
+      });
+    })
+    .catch(error => console.log(error));;
+  }
 
   constructor(props){
     super(props)
@@ -18,6 +38,7 @@ export class Multi extends Component {
       latitude: null,
       longitude: null,
       location: "Toronto",
+      transportation: [],
       isLoading: true
     };
   }
@@ -52,6 +73,12 @@ export class Multi extends Component {
     })
   }
 
+  setTransportation = (dataFromChild) => {
+    this.setState ({
+      transportation: dataFromChild
+    })
+  }
+
   nextStep = () => {
     const { step } = this.state;
     this.setState({
@@ -83,6 +110,7 @@ export class Multi extends Component {
             setEndTimeFromParent={this.setEndTime}
             setBudgetFromParent={this.setBudget}
             setDistanceFromParent={this.setDistance}
+            setTransportationFromParent={this.setTransportation}
           />
         );
     }

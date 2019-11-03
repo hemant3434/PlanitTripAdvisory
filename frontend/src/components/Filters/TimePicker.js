@@ -27,15 +27,15 @@ export default class TimePicker extends Component {
   };
 
   handleStartTimePicked = startTime => {
-    this.setState({ selectedStartTime: startTime.toString() });
+    this.setState({ selectedStartTime: startTime.toLocaleTimeString() });
     this.hideStartTimePicker();
-    this.props.setStartTimeFromParent(startTime.toString());
+    this.props.setStartTimeFromParent(startTime.toLocaleTimeString());
   };
 
   handleEndTimePicked = endTime => {
-    this.setState({ selectedEndTime: endTime.toString() });
+    this.setState({ selectedEndTime: endTime.toLocaleTimeString() });
     this.hideEndTimePicker();
-    this.props.setEndTimeFromParent(endTime.toString());
+    this.props.setEndTimeFromParent(endTime.toLocaleTimeString());
   };
 
   render() {

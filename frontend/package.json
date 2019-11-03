@@ -23,6 +23,7 @@
     "react-native-location-view": "^0.2.1",
     "react-native-maps": "^0.26.1",
     "react-native-modal-datetime-picker": "^7.6.0",
+    "react-native-multiple-select": "^0.5.3",
     "react-native-submit-button": "^1.0.5",
     "react-native-tabs": "^1.0.9",
     "react-native-web": "^0.11.7",

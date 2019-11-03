@@ -15,7 +15,7 @@ public class GoogleMaps {
 
   public GoogleMaps() {
     if(KEY == null) {
-      KEY = new GeoApiContext.Builder().apiKey("").build();
+      KEY = new GeoApiContext.Builder().apiKey("AIzaSyCBL_WbHzOOXyq2mrs34KZIa7RglpealxQ").build();
     }
   }
 
@@ -105,38 +105,56 @@ public class GoogleMaps {
     return new Transportation();
   }
   
-  public static void GoogleRequests() {
-    double lat = 43.7764;
-    double ltd = 79.2318;
-    LatLng cur_loc = new LatLng(lat, ltd);
-    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc);
-    PlacesSearchResult results[] = all_events.awaitIgnoreError().results;
-    for (PlacesSearchResult i: results) {
-      System.out.println(i.toString());
-    }
+  public static int filterByPrice(float budget, PriceLevel obj) {
+    return 0;
+  }
+  
+  public static int filterByTime(Time startTime, Time endTime, OpeningHours obj) {
+    return 0;
+  }
+  
+  public static int filterByType(List<String> activities, AddressComponent[] components) {
+    return 0;
   }
 
-  // Gets events from Google Maps API that satisfy the provided start time, end time, max distance
-  // away, activity type, and max price
+  public static String getLocation(AddressComponent[] components) {
+    return "";
+  }
+  
   public List<Event> getEvents(Time startTime, Time endTime, String curLoc, String location,
       float maxDist, List<String> activities, float budget) throws Exception {
     List<Event> events = new ArrayList();
-    //Exclude event if time it takes to travel from location to event + expected length of event exceeds difference between starttime and endtime
 
-//    double lat = 43.7764;
-//    double ltd = -79.2318;
-//    LatLng cur_loc = new LatLng((double)lat, (double)ltd);
-//    //NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc);
-//    //TextSearchRequest all_events = PlacesApi.textSearchQuery(KEY, "scarborough pizza");
-//    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)50000);
-//
-//    if(all_events != null) {
-//      PlacesSearchResponse obj = all_events.awaitIgnoreError();
-//      PlacesSearchResult results[] = obj.results;
-//      for (PlacesSearchResult i: results) {
-//        System.out.println(i.toString());
-//      }
-//    }
+    double lat = 43.7764;
+    double ltd = -79.2318;
+    LatLng cur_loc = new LatLng((double)lat, (double)ltd);
+    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)5000);
+
+    ArrayList<String> place_ids = null;
+    if(all_events != null) {
+      PlacesSearchResponse obj = all_events.awaitIgnoreError();
+      PlacesSearchResult results[] = obj.results;
+      
+      place_ids = new ArrayList<String>();
+      for (PlacesSearchResult i: results) {
+        place_ids.add(i.placeId);
+      }
+    }
+    
+    for (String i: place_ids) {
+      PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i);
+      PlaceDetails r = req.await();
+      
+      int first = filterByPrice(budget, r.priceLevel);
+      int second = filterByTime(startTime, endTime, r.openingHours);
+      int third = filterByType(activities, r.addressComponents);
+      
+      System.out.println(r.addressComponents);
+      if((first+second+third) == 0) {
+        Event e = new Event();
+        events.add(e);
+      }
+    }
     
     
     Event e1 = new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,

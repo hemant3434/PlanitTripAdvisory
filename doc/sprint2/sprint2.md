@@ -61,8 +61,10 @@ We decided to add an additional user story to our backlog as we did not have one
 **Richard Hong**:
   - `story 2` Search bar to search for events to be added to the itinerary
   - `story 2` Each event in itinerary has delete button
+  - `story 2` User can select a time slot for events about to be added to itinerary
 
 **Logan Chester**:
+  - `story 3` Display method of transportation as multiple different selectable options
   - `story 4` A maximum distance can be set using a slider
   - `story 5` A maximum budget can be specified using a slider
 
@@ -70,10 +72,6 @@ We decided to add an additional user story to our backlog as we did not have one
   - `story 6` Create log-in page
   - `story 6` Create register page
   - `story 6` Submit register/log-in request to backend
-
-**Unassigned**:
-  - `story 2` User can select a time slot for events about to be added to itinerary
-  - `story 3` Display method of transportation as multiple different selectable options
   
 ## Backend Tasks:
 ---
