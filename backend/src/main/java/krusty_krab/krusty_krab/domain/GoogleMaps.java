@@ -10,11 +10,11 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
 
 public class GoogleMaps {
-  
+
   private static GeoApiContext KEY = null;
 
   public GoogleMaps() {
-    if(KEY == null) {
+    if (KEY == null) {
       KEY = new GeoApiContext.Builder().apiKey("AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8").build();
     }
   }
@@ -102,78 +102,101 @@ public class GoogleMaps {
 
     return new Transportation();
   }
-  
+
   public static int filterByPrice(float budget, float price) {
-    
-    if(budget < price) {
+
+    if (budget < price) {
       return 100;
     }
     return 0;
   }
-  
-  public static int filterByTime(Time startTime, Time endTime, OpeningHours obj) {
+
+  public static int filterByTime(Time startTime, Time endTime, Time[] times) {
+    
     return 0;
   }
-  
+
   public static float getPriceLevel(PriceLevel obj) {
     float price = -1;
-    
-    if(obj == PriceLevel.FREE) {
+
+    if (obj == PriceLevel.FREE) {
       price = 0;
-    }
-    else if(obj == PriceLevel.INEXPENSIVE) {
+    } else if (obj == PriceLevel.INEXPENSIVE) {
       price = 1;
-    }
-    else if(obj == PriceLevel.MODERATE) {
+    } else if (obj == PriceLevel.MODERATE) {
       price = 2;
-    }
-    else if(obj == PriceLevel.EXPENSIVE) {
+    } else if (obj == PriceLevel.EXPENSIVE) {
       price = 3;
-    }
-    else if(obj == PriceLevel.VERY_EXPENSIVE) {
+    } else if (obj == PriceLevel.VERY_EXPENSIVE) {
       price = 4;
     }
-    
+
     return price;
   }
   
-  public static Time getTime() {
+  // index 0 - closing time
+  // index 1 - start time
+  public static Time[] getTime(OpeningHours hours) {
+    int str_year = 0;
+    int str_month = 0;
+    int str_day = 0;
+    int str_hour = 0;
+    int str_minute = 0;
+    boolean str_positive = true;
     
+    int clo_year = 0;
+    int clo_month = 0;
+    int clo_day = 0;
+    int clo_hour = 0;
+    int clo_minute = 0;
+    boolean clo_positive = false;
+    
+    Time open = new Time(str_year, str_month, str_day, str_hour, str_minute, str_positive);
+    Time close = new Time(clo_year, clo_month, clo_day, clo_hour, clo_minute, clo_positive);
+    Time[] times = {open, close};
+
+    times[0] = open;
+    times[1] = close;
+    return times;
   }
-  
-  public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd,
-      float maxDist, List<String> activities, float budget) throws Exception {
+
+  public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
+      List<String> activities, float budget) throws Exception {
     List<Event> events = new ArrayList<Event>();
 
-    LatLng cur_loc = new LatLng((double)lat, (double)ltd);
-    NearbySearchRequest all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int)(maxDist*1000));
+    LatLng cur_loc = new LatLng((double) lat, (double) ltd);
+    NearbySearchRequest all_events =
+        PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000));
 
     ArrayList<String> place_ids = null;
-    if(all_events != null) {
+    if (all_events != null) {
       PlacesSearchResponse obj = all_events.awaitIgnoreError();
       PlacesSearchResult results[] = obj.results;
-      
+
       place_ids = new ArrayList<String>();
-      for (PlacesSearchResult i: results) {
+      for (PlacesSearchResult i : results) {
         place_ids.add(i.placeId);
       }
     }
-    
-    for (String i: place_ids) {
+
+    for (String i : place_ids) {
       PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i);
       PlaceDetails r = req.await();
-      
+
       int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
-      int second = filterByTime(startTime, endTime, r.openingHours);
-      
-      if((first+second) == 0) {
+      int second = filterByTime(startTime, endTime, getTime(r.openingHours));
+
+      if ((first + second) == 0) {
+
+        Event e = new Event(r.name, r.formattedAddress, "", (int) r.rating,
+            getPriceLevel(r.priceLevel), getTime(r.openingHours)[0], getTime(r.openingHours)[1],
+            new Time(0, 0, 0, 2, 0, true), "img", r.url.toString(), i);
         
-        Event e = new Event(r.name, r.formattedAddress, "", r.rating, getPriceLevel(r.priceLevel), );
         events.add(e);
       }
     }
-    
-    
+
+
     Event e1 = new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
         new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
@@ -186,7 +209,7 @@ public class GoogleMaps {
   public Event getEvent(String name) {
     return new Event();
   }
-  
+
   public GeoApiContext getKEY() {
     return KEY;
   }
