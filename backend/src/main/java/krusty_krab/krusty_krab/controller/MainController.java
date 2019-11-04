@@ -123,14 +123,16 @@ public class MainController {
   }
   
   @PutMapping("/changeMaxBudget")
-  public ResponseEntity<?> changeMaxBudget(@RequestBody Itinerary body) {
-	  itin.setBudget(body.getBudget());
+  public ResponseEntity<?> changeMaxBudget(@RequestBody Map<String, Float> body) {
+	  Float newBudget = body.get("budget");
+	  itin.setBudget(newBudget);
 	  return ResponseEntity.ok().build();
   }
   
   @PutMapping("/changeMaxDistance")
-  public ResponseEntity<?> changeMaxDistance(@RequestBody Itinerary body) {
-	  itin.setMaxDist(body.getMaxDist());
+  public ResponseEntity<?> changeMaxDistance(@RequestBody Map<String, Float> body) {
+	  Float maxDist = body.get("maxDist");
+	  itin.setMaxDist(maxDist);
 	  return ResponseEntity.ok().build();
   }
   
