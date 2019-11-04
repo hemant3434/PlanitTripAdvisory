@@ -84,6 +84,10 @@ public class MainController {
   public List<ItineraryItem> viewItinerary() {
       return itin.getItin();
   }
+  
+  @GetMapping("/dummy1")
+  public void dummy1(@RequestBody )
+  	
 
   @GetMapping("getExploreEvents")
   public List<Event> getExploreEvents() {
