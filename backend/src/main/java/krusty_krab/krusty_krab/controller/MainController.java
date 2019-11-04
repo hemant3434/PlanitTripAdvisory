@@ -95,10 +95,19 @@ public class MainController {
       itin.addEvent(event);
   }
   
-//  @PutMapping("/deleteEvent")
-//  public void deleteEvent(@RequestBody Event event) {
-//	  itin.deleteEvent(event);
-//  }
+  @PutMapping("/deleteEvent")
+  public ResponseEntity<?> deleteEvent(@RequestBody Map<String, String> body) {
+	  String eventId = new String(body.get("eventId"));
+	  Event eventToDelete = new Event();
+	  for (ItineraryItem item: itin.getItin()) {
+		  if (((Event) item).getId().equals(eventId)) {
+			  eventToDelete = (Event) item;
+			  break;
+		  }
+	  }
+	  itin.deleteEvent(eventToDelete);
+	  return ResponseEntity.ok().build();
+  }
   
   @PutMapping("/changeTime")
   public ResponseEntity<?> changeTime(@RequestBody Itinerary body) {
@@ -127,17 +136,11 @@ public class MainController {
   
   @PutMapping("/addTransportation")
   public ResponseEntity<?> changeTransportation(@RequestBody Map<String, Object> body) {
-	  Object canWalk = body.get("walk");
-	  Object canBus = body.get("bus");
-	  Object canDrive = body.get("drive");
-	  if (body.size() != 3 || canWalk == null || canBus == null || canDrive == null) {
-		  return ResponseEntity.badRequest().build();
-	  } else {
-		  if ((Boolean)canWalk) itin.addMethodsOfTrans("walk");
-		  if ((Boolean)canBus) itin.addMethodsOfTrans("bus");
-		  if ((Boolean)canDrive) itin.addMethodsOfTrans("drive");
-		  return ResponseEntity.ok().build();
+	  Object transportationArray = body.get("Transportation");
+	  for (String transportation: (ArrayList<String>)transportationArray) {
+		  itin.addMethodsOfTrans(transportation);
 	  }
+	  return ResponseEntity.ok().build();
   }
 
   @PutMapping("/login")

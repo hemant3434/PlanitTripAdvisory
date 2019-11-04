@@ -120,7 +120,7 @@ public class Itinerary {
     		if (item instanceof Event && ((Event) item).getId().equals(event.getId())) {
 				Transportation fillerTrans = new Transportation();
     			// remove the transportation before, event itself, then transportation after
-    			for (int j = 0; j < 2; j++) {
+    			for (int j = 0; j < 3; j++) {
     				itin.remove(i - 1);
     			}
     			if (i == 1) {
