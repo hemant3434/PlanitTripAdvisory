@@ -85,8 +85,8 @@ public class MainController {
       return itin.getItin();
   }
   
-  @GetMapping("/dummy1")
-  public void dummy1(@RequestBody )
+//  @GetMapping("/dummy1")
+//  public void dummy1(@RequestBody )
   	
 
   @GetMapping("getExploreEvents")
