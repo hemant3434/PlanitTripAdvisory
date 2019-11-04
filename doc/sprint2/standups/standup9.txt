@@ -1,5 +1,12 @@
 Monday, November 4
 
 What we did yesterday
+- working to make GoogleMaps.java/maps api run correctly
+- worked to format request data between front and back end
+- added search bar to explore page
+- added functionality to filters page for itinerary creation
 
 Plan for today
+- finish up remaining tasks blocking filters being sent to backend
+- testing maps api
+- continue work on explore page

@@ -75,7 +75,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Itinerary: {
-      screen: Itinerary,
+      screen: Multi,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="search" size={25} color={tintColor} />

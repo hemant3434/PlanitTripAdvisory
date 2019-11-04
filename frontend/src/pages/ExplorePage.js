@@ -17,7 +17,7 @@ class ExplorePage extends React.Component {
   render() {
     const { search } = this.state;
     return (
-      <View>
+      <View style={{paddingTop: 40}}>
         <ScrollView>
           <SearchBar
         placeholder="Type Here..."

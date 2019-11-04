@@ -72,7 +72,7 @@ public class MainController {
     itin = new Itinerary();
     //Sends dummy data for the user filters into the itinerary class
     itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
-    itin.setEndTime(new Time(2019, 10, 25, 20, 00, true));
+    itin.setEndTime(new Time(2019, 10, 25, 23, 00, true));
     itin.setHome("union station");
     itin.setLocation("toronto");
     itin.setMaxDist(20);
@@ -90,6 +90,10 @@ public class MainController {
   public List<ItineraryItem> viewItinerary() {
       return itin.getItin();
   }
+  
+//  @GetMapping("/dummy1")
+//  public void dummy1(@RequestBody )
+  	
 
   @GetMapping("getExploreEvents")
   public List<Event> getExploreEvents() {
@@ -101,10 +105,19 @@ public class MainController {
       itin.addEvent(event);
   }
   
-//  @PutMapping("/deleteEvent")
-//  public void deleteEvent(@RequestBody Event event) {
-//	  itin.deleteEvent(event);
-//  }
+  @PutMapping("/deleteEvent")
+  public ResponseEntity<?> deleteEvent(@RequestBody Map<String, String> body) {
+	  String eventId = new String(body.get("eventId"));
+	  Event eventToDelete = new Event();
+	  for (ItineraryItem item: itin.getItin()) {
+		  if (((Event) item).getId().equals(eventId)) {
+			  eventToDelete = (Event) item;
+			  break;
+		  }
+	  }
+	  itin.deleteEvent(eventToDelete);
+	  return ResponseEntity.ok().build();
+  }
   
   @PutMapping("/changeTime")
   public ResponseEntity<?> changeTime(@RequestBody Itinerary body) {
@@ -120,30 +133,26 @@ public class MainController {
   }
   
   @PutMapping("/changeMaxBudget")
-  public ResponseEntity<?> changeMaxBudget(@RequestBody Itinerary body) {
-	  itin.setBudget(body.getBudget());
+  public ResponseEntity<?> changeMaxBudget(@RequestBody Map<String, Float> body) {
+	  Float newBudget = body.get("budget");
+	  itin.setBudget(newBudget);
 	  return ResponseEntity.ok().build();
   }
   
   @PutMapping("/changeMaxDistance")
-  public ResponseEntity<?> changeMaxDistance(@RequestBody Itinerary body) {
-	  itin.setMaxDist(body.getMaxDist());
+  public ResponseEntity<?> changeMaxDistance(@RequestBody Map<String, Float> body) {
+	  Float maxDist = body.get("maxDist");
+	  itin.setMaxDist(maxDist);
 	  return ResponseEntity.ok().build();
   }
   
   @PutMapping("/addTransportation")
   public ResponseEntity<?> changeTransportation(@RequestBody Map<String, Object> body) {
-	  Object canWalk = body.get("walk");
-	  Object canBus = body.get("bus");
-	  Object canDrive = body.get("drive");
-	  if (body.size() != 3 || canWalk == null || canBus == null || canDrive == null) {
-		  return ResponseEntity.badRequest().build();
-	  } else {
-		  if ((Boolean)canWalk) itin.addMethodsOfTrans("walk");
-		  if ((Boolean)canBus) itin.addMethodsOfTrans("bus");
-		  if ((Boolean)canDrive) itin.addMethodsOfTrans("drive");
-		  return ResponseEntity.ok().build();
+	  Object transportationArray = body.get("Transportation");
+	  for (String transportation: (ArrayList<String>)transportationArray) {
+		  itin.addMethodsOfTrans(transportation);
 	  }
+	  return ResponseEntity.ok().build();
   }
 
   @PutMapping("/login")

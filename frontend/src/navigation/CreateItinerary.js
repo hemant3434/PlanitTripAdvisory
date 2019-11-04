@@ -11,13 +11,17 @@ export class Multi extends Component {
   }
 
   fetchData(){
-    axios.put('http://100.80.11.91:8080/api/v1/getItinerary', {
-      date: this.state.date,
-      startTime: this.state.date + " " + this.state.startTime,
-      endTime: this.state.date + " " + this.state.endTime,
-      location: this.state.location,
-      distance: this.state.distance,
-      budget: this.state.budget
+    axios.get('http://100.80.11.91:8080/api/v1/getItinerary', {
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      maxDist: this.state.distance,
+      budget: this.state.budget,
+      locationLat: this.state.locationLatitude,
+      locationLong: this.state.locationLongitude,
+      homeLat: this.state.homeLatitude,
+      homeLong: this.state.homeLongitude,
+      methodOfTrans: this.state.transportation,
+      activities: this.state.activities
     })
     .then(res => {
       this.setState({
@@ -36,9 +40,12 @@ export class Multi extends Component {
       endTime: null,
       budget: null,
       distance: null,
-      latitude: null,
-      longitude: null,
+      locationLatitude: null,
+      locationLongitude: null,
+      homeLatitude: null,
+      homeLongitude: null,
       transportation: [],
+      activities: [],
       isLoading: true
     };
   }
@@ -81,8 +88,10 @@ export class Multi extends Component {
 
   setLocation = (latitude, longitude) => {
     this.setState ({
-      latitude: latitude,
-      longitude: longitude
+      locationLatitude: latitude,
+      locationLongitude: longitude,
+      homeLatitude: latitude,
+      homeLongitude: longitude
     })
   }
 
@@ -107,10 +116,11 @@ export class Multi extends Component {
   };
 
   nextStep = () => {
-    const { step } = this.state;
-    console.log(this.checkValues());
+    const { step, date, startTime, endTime } = this.state;
     if (this.checkValues()) {
       this.setState({
+        startTime: date + " " + startTime,
+        endTime: date + " " + endTime,
         step: step + 1
       });
     }
