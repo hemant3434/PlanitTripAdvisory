@@ -110,7 +110,8 @@ public class Itinerary {
 
 		// Create new event
 		System.out.println("ADDING EVENT");
-		Event event = new Event("Hidden Leaf", "Land of Fire", "Go see the naruto", 5, 20,
+
+		Event event = new Event("Hidden Leaf", "Land of Fire", 49.2, 49.2, "Go see the naruto", 5, 20,
 		        new Time(2019, 10, 25, 9, 30, true), new Time(2019, 10, 25, 10, 0, true),
 		        new Time(0, 0, 0, 0, 30, true), "Land of Fire", "Go", "tempID");
 		itin.add(event);
