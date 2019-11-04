@@ -10,8 +10,12 @@ import java.util.NoSuchElementException;
 public class Itinerary {
     private Time startTime;
     private Time endTime;
-    private String home;
     private String location;
+    private double locationLat;
+    private double locationLong;
+    private String home;
+    private double homeLat;
+    private double homeLong;
     private float maxDist;
     private List<String> activities;
     private float budget;
@@ -27,8 +31,10 @@ public class Itinerary {
     // Gets the next best event for the user to attend
     public Event getNextBestEvent(User user) throws Exception{
 
+        //Converts remaining budget to an events price range, to see how expensive of an event the itinerary can take
+        float maxPriceRange = GoogleMaps.budgetToRange(this.getItinBudgetLeft());
         // Gets every event that satisfies the given filters
-        List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), this.getItinCurLoc(), this.getLocation(), this.getItinDistLeft(), this.getActivities(), this.getItinBudgetLeft());
+        List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), this.getItinCurLoc(), this.getLocation(), this.getItinDistLeft(), this.getActivities(), maxPriceRange);
 
         // Gets event with highest score of all events received
         Event bestEvent = events.get(0);
@@ -260,14 +266,6 @@ public class Itinerary {
 	return endTime;
     }
 
-    public String getHome() {
-	return home;
-    }
-
-    public String getLocation() {
-	return location;
-    }
-
     public float getMaxDist() {
 	return maxDist;
     }
@@ -281,20 +279,13 @@ public class Itinerary {
     }
 
     public void setStartTime(Time startTime) {
-	this.startTime = startTime;
+	    this.startTime = startTime;
     }
 
     public void setEndTime(Time endTime) {
 	this.endTime = endTime;
     }
 
-    public void setHome(String home) {
-	this.home = home;
-    }
-
-    public void setLocation(String location) {
-	this.location = location;
-    }
 
     public void setMaxDist(float maxDist) {
 	this.maxDist = maxDist;
@@ -319,7 +310,7 @@ public class Itinerary {
     public float getItinBudgetLeft() {
 	float cost = 0;
 	for (ItineraryItem i : getItin()) {
-	    cost += i.getPrice();
+	    cost += GoogleMaps.rangeToBudget(i.getPrice());
 	}
 	return this.getBudget() - cost;
     }
@@ -352,5 +343,61 @@ public class Itinerary {
 	    }
 	}
 	return this.getMaxDist() - dist;
+    }
+
+    public void setVisitedEvents(List<String> visitedEvents) {
+        this.visitedEvents = visitedEvents;
+    }
+
+    public void setMethodsOfTrans(List<String> methodsOfTrans) {
+        this.methodsOfTrans = methodsOfTrans;
+    }
+
+    public double getLocationLat() {
+        return locationLat;
+    }
+
+    public void setLocationLat(double locationLat) {
+        this.locationLat = locationLat;
+    }
+
+    public double getLocationLong() {
+        return locationLong;
+    }
+
+    public void setLocationLong(double locationLong) {
+        this.locationLong = locationLong;
+    }
+
+    public double getHomeLat() {
+        return homeLat;
+    }
+
+    public void setHomeLat(double homeLat) {
+        this.homeLat = homeLat;
+    }
+
+    public double getHomeLong() {
+        return homeLong;
+    }
+
+    public void setHomeLong(double homeLong) {
+        this.homeLong = homeLong;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getHome() {
+        return home;
+    }
+
+    public void setHome(String home) {
+        this.home = home;
     }
 }

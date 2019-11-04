@@ -5,6 +5,8 @@ import java.util.List;
 public class Event extends ItineraryItem{
 
 	private String location;
+	private double longitude;
+	private double latitude;
 	private String activity;
 	private int rating;
 	private String image;
@@ -14,9 +16,11 @@ public class Event extends ItineraryItem{
 	public Event() {
 	}
 	
-	public Event(String title, String location, String activity, int rating, float price, Time startTime, Time endTime, Time expectedLength, String image, String description, String id) {
+	public Event(String title, String location, double latitude, double longitude, String activity, int rating, float price, Time startTime, Time endTime, Time expectedLength, String image, String description, String id) {
 		super("event", title, price, startTime, endTime, expectedLength);
 		this.location = location;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.activity = activity;
 		this.rating = rating;
 		this.image = image;
@@ -77,8 +81,12 @@ public class Event extends ItineraryItem{
 
     }
 
-	public String getLocation() {
-		return location;
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
 	}
 
 	public String getActivity() {
@@ -99,5 +107,9 @@ public class Event extends ItineraryItem{
 
 	public String getId() {
 		return id;
+	}
+
+	public String getLocation() {
+		return location;
 	}
 }

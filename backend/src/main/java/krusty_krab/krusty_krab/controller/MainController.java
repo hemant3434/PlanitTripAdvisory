@@ -38,28 +38,34 @@ public class MainController {
     return ResponseEntity.ok().body(map);
   }
 
-  @GetMapping("/getDummy2")
-  public void getDummy2(@RequestBody Map<String, Object> body) {
-    /*List<String> visitedEvents = new ArrayList<>();
-    List<Float> eventRatings = new ArrayList<>();
-    //visitedEvents.add("1");
-    visitedEvents.add("2");
-    visitedEvents.add("3");
-    //eventRatings.add(5f);
-    eventRatings.add(5f);
-    eventRatings.add(5f);
-    user.setVisitedEvents(visitedEvents);
-    user.setEventRatings(eventRatings);
-    userService.changeUser(user);*/
-    //System.out.println(GoogleMaps.getEventByID("1").getScore(new Time(2019, 10, 25, 9, 00, true), "Eaton Centre", this.gm, 20, 200, user));
-    System.out.println(user.getUsername());
-    System.out.println(user.getVisitedEvents());
-    System.out.println(user.getEventRatings());
-    System.out.println(user.getItin());
+  @PutMapping("/setItinInfo")
+  public void setItinInfo(@RequestBody Itinerary body) {
+    itin.setStartTime(body.getStartTime());
+    itin.setEndTime(body.getEndTime());
+    itin.setMaxDist(body.getMaxDist());
+    itin.setBudget(body.getBudget());
+    itin.setLocationLat(body.getLocationLat());
+    itin.setLocationLong(body.getLocationLong());
+    itin.setHomeLat(body.getHomeLat());
+    itin.setHomeLong(body.getHomeLong());
+    itin.setMethodsOfTrans(body.getMethodsOfTrans());
+    itin.setActivities(body.getActivities());
+
+    System.out.println(body.getStartTime());
+    System.out.println(body.getEndTime());
+    System.out.println(body.getMaxDist());
+    System.out.println(body.getBudget());
+    System.out.println(body.getLocationLat());
+    System.out.println(body.getLocationLong());
+    System.out.println(body.getHomeLat());
+    System.out.println(body.getHomeLong());
+    System.out.println(body.getMethodsOfTrans());
+    System.out.println(body.getActivities());
   }
 
   @GetMapping("/getItinerary")
-  public ResponseEntity<?> getItinerary(@RequestBody Map<String, Object> body) throws Exception {
+  public ResponseEntity<?> getItinerary(@RequestBody Itinerary body) throws Exception {
+
 
 	// is this map needed?
     //Map<String, Object> map = new HashMap<String, Object>();
@@ -102,7 +108,7 @@ public class MainController {
   
   @PutMapping("/changeTime")
   public ResponseEntity<?> changeTime(@RequestBody Itinerary body) {
-      itin.setStartTime(body.getStartTime());
+      //itin.setStartTime(body.getStartTime());
       itin.setEndTime(body.getEndTime());
       return ResponseEntity.ok().build();
   }

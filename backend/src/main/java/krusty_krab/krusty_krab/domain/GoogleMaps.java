@@ -32,25 +32,25 @@ public class GoogleMaps {
     }
     if ((loc1.equals("union station") && loc2.equals("cn tower"))
         || (loc2.equals("union station") && loc1.equals("cn tower"))) {
-      return new Transportation(15, "bus", 3.5f, startTime,
+      return new Transportation(15, "bus", 1, startTime,
           startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true),
           "flight-takeoff", "5 minutes");
     }
     if ((loc1.equals("union station") && loc2.equals("Canadian National Exhibition"))
         || (loc2.equals("union station") && loc1.equals("Canadian National Exhibition"))) {
-      return new Transportation(80, "bus", 20f, startTime,
+      return new Transportation(80, "bus", 2, startTime,
           startTime.add(new Time(0, 0, 0, 0, 30, true)), new Time(0, 0, 0, 0, 30, true),
           "flight-takeoff", "30 minutes");
     }
     if ((loc1.equals("union station") && loc2.equals("Eaton Centre"))
         || (loc2.equals("union station") && loc1.equals("Eaton Centre"))) {
-      return new Transportation(1, "bus", 20f, startTime,
+      return new Transportation(1, "bus", 2, startTime,
           startTime.add(new Time(0, 0, 0, 0, 10, true)), new Time(0, 0, 0, 0, 10, true),
           "flight-takeoff", "10 minutes");
     }
     if ((loc1.equals("spadina") && loc2.equals("ripley's aquarium"))
         || (loc2.equals("spadina") && loc1.equals("ripley's aquarium"))) {
-      return new Transportation(100, "bus", 3.5f, startTime,
+      return new Transportation(100, "bus", 1, startTime,
           startTime.add(new Time(0, 0, 0, 0, 30, true)), new Time(0, 0, 0, 0, 30, true),
           "flight-takeoff", "30 minutes");
     }
@@ -70,7 +70,7 @@ public class GoogleMaps {
 
     if ((loc1.equals("Canadian National Exhibition") && loc2.equals("ripley's aquarium"))
         || (loc2.equals("Canadian National Exhibition") && loc1.equals("ripley's aquarium"))) {
-      return new Transportation(2, "bus", 3.5f, startTime,
+      return new Transportation(2, "bus", 1, startTime,
           startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true),
           "flight-takeoff", "5 minutes");
     }
@@ -91,14 +91,14 @@ public class GoogleMaps {
 
     if ((loc1.equals("Eaton Centre") && loc2.equals("cn tower"))
         || (loc2.equals("Eaton Centre") && loc1.equals("cn tower"))) {
-      return new Transportation(4, "bus", 3.5f, startTime,
+      return new Transportation(4, "bus", 1, startTime,
           startTime.add(new Time(0, 0, 0, 0, 10, true)), new Time(0, 0, 0, 0, 10, true),
           "flight-takeoff", "10 minutes");
     }
 
     if ((loc1.equals("Canadian National Exhibition") && loc2.equals("Eaton Centre"))
         || (loc2.equals("Canadian National Exhibition") && loc1.equals("Eaton Centre"))) {
-      return new Transportation(1, "bus", 3.5f, startTime,
+      return new Transportation(1, "bus", 1, startTime,
           startTime.add(new Time(0, 0, 0, 0, 25, true)), new Time(0, 0, 0, 0, 25, true),
           "flight-takeoff", "25 minutes");
     }
@@ -158,18 +158,18 @@ public class GoogleMaps {
     }*/
     
     
-    Event e1 = new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,
+    Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aquarium", 5, 2,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
         new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
-    Event e2 = new Event("cn tower", "cn tower", "lookout", 4, 40,
+    Event e2 = new Event("cn tower", "cn tower", 43.2, 43.2,"lookout", 4, 4,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
         new Time(0, 0, 0, 2, 0, true), "../images/toronto.jpg", "If Quebec is Canada's ass...", "2");
-    Event e3 = new Event("Canadian National Exhibition", "Canadian National Exhibition", "Festival",
-        4, 40, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+    Event e3 = new Event("Canadian National Exhibition", "Canadian National Exhibition", 43.2, 43.2,"Festival",
+        4, 4, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
         new Time(0, 0, 0, 2, 0, true),
         "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
         "If Quebec is Canada's ass...", "3");
-    /*Event e4 = new Event("Eaton Centre", "Eaton Centre", "Mall", 4, 40,
+    /*Event e4 = new Event("Eaton Centre", "Eaton Centre", "Mall", 4, 4,
         new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
         new Time(0, 0, 0, 2, 0, true),
         "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
@@ -191,24 +191,24 @@ public class GoogleMaps {
   // Gets event from google maps api using the event id
   public static Event getEventByID(String id) {
     if(id.equals("1")){
-      return new Event("ripley's aquarium", "ripley's aquarium", "aquarium", 5, 20,
+      return new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2,"aquarium", 5, 2,
               new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
               new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
     }
     else if(id.equals("2")){
-      return new Event("cn tower", "cn tower", "aquarium", 4, 40,
+      return new Event("cn tower", "cn tower", 43.2, 43.2,"aquarium", 4, 4,
               new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
               new Time(0, 0, 0, 2, 0, true), "../images/toronto.jpg", "If Quebec is Canada's ass...", "2");
     }
     else if(id.equals("3")){
-      return new Event("Canadian National Exhibition", "Canadian National Exhibition", "aquarium",
-              4, 40, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+      return new Event("Canadian National Exhibition", "Canadian National Exhibition", 43.2, 43.2,"aquarium",
+              4, 4, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
               new Time(0, 0, 0, 2, 0, true),
               "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
               "If Quebec is Canada's ass...", "3");
     }
     else if(id.equals("4")){
-      return new Event("Eaton Centre", "Eaton Centre", "Mall", 4, 40,
+      return new Event("Eaton Centre", "Eaton Centre", 43.2, 43.2,"Mall", 4, 4,
               new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
               new Time(0, 0, 0, 2, 0, true),
               "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
@@ -230,6 +230,42 @@ public class GoogleMaps {
     events.add(getEventByID("4"));
     events.add(getEventByID("4"));
     return events;
+  }
+
+  public static float budgetToRange(float budget){
+    if(budget<10){
+      return 0;
+    }
+    else if(budget < 20){
+      return 1;
+    }
+    else if(budget < 30){
+      return 2;
+    }
+    else if(budget < 40){
+      return 3;
+    }
+    else{
+      return 4;
+    }
+  }
+
+  public static float rangeToBudget(float range){
+    if(range == 0){
+      return 0;
+    }
+    else if(range == 1){
+      return 10;
+    }
+    else if(range == 2){
+      return 20;
+    }
+    else if(range == 3){
+      return 30;
+    }
+    else{
+      return 40;
+    }
   }
   
   public GeoApiContext getKEY() {
