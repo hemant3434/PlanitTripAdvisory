@@ -16,6 +16,7 @@ public class GoogleMaps {
 
   public GoogleMaps() {
     if (KEY == null) {
+      //AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc
       KEY = new GeoApiContext.Builder().apiKey("AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8").build();
     }
   }
@@ -68,7 +69,10 @@ public class GoogleMaps {
 
   // index 0 - closing time
   // index 1 - start time
-  public static Time[] getTime(OpeningHours hours) {
+  public static Time[] getTime(OpeningHours hours, Time time) {
+    if(hours != null) {
+      System.out.println(hours.periods[0].open.day.getName());
+    }
     int str_year = 2019;
     int str_month = 0;
     int str_day = 0;
@@ -129,12 +133,12 @@ public class GoogleMaps {
       PlaceDetails r = req.await();
 
       int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
-      int second = filterByTime(startTime, endTime, getTime(r.openingHours));
+      int second = filterByTime(startTime, endTime, getTime(r.openingHours, startTime));
 
       if ((first + second) == 0) {
         Event e = new Event(r.name, r.formattedAddress,
             Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
-            getPriceLevel(r.priceLevel), getTime(r.openingHours)[0], getTime(r.openingHours)[1],
+            getPriceLevel(r.priceLevel), getTime(r.openingHours, startTime)[0], getTime(r.openingHours, startTime)[1],
             new Time(0, 0, 0, 2, 0, true), getPhoto(r.photos), r.url.toString(), i);
 
         events.add(e);
@@ -142,7 +146,7 @@ public class GoogleMaps {
     }
     
     for (Event i : events) {
-      System.out.println(i.getLocation());
+      //System.out.println(i.getLocation());
     }
     return events;
   }
