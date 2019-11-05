@@ -281,7 +281,14 @@ Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aqua
         "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
         "If Quebec is Canada's ass...", "4");
   */
-
+  
+  public static String getHomeLocation(double lat, double ltd) {
+    String id = "";
+    LatLng cur_loc = new LatLng((double) lat, (double) ltd);
+    
+    id = "ChIJf9Wrt2_a1IkRrHuIaQFuZbs";
+    return id;
+  }
   public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
       List<String> activities, float budget) {
    List<Event> events = new ArrayList<Event>();
