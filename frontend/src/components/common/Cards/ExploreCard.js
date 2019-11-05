@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements'
+import axios from 'axios';
 
 class ImageCard extends Component{
   constructor(props){
@@ -21,9 +22,8 @@ class ImageCard extends Component{
         image={this.props.common.image}>
         <Text style={{marginBottom: 10}}>{this.props.common.text}</Text>
         <Button
-        icon={<Icon name='code' color='#ffffff' />}
-        buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-        title='ADD EVENT' onPress={this.fetchData()}/>
+        icon={<Icon name='code' color='#ffffff'/>}
+        title='DELETE EVENT' onPress={this.fetchData()}/>
       </Card>
     );
   }
