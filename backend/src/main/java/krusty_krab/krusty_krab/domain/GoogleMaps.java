@@ -51,6 +51,8 @@ public class GoogleMaps {
       if(i.equals("Transit")) {
         DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.TRANSIT).departureTime(getInstant(startTime));
         DirectionsResult res = req.await();
+        
+        
       }
       if(i.equals("Walk")) {
         DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.WALKING);

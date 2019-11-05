@@ -28,7 +28,8 @@ public class Itinerary {
     public Event getNextBestEvent() throws Exception{
 
         // Gets every event that satisfies the given filters
-        List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), this.getItinCurLoc(), this.getLocation(), this.getItinDistLeft(), this.getActivities(), this.getItinBudgetLeft());
+
+        List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 47.2, 47.2, this.getItinDistLeft(), this.getActivities(), this.getItinBudgetLeft());
 
         // Gets event with highest score of all events received
         Event bestEvent = events.get(0);
