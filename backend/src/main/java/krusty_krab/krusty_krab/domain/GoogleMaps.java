@@ -82,7 +82,7 @@ public class GoogleMaps {
     return e;
   }
 
-  public List<Transportation> getTransportation(String loc1, String loc2, Time startTime,
+  public Transportation getTransportation(String loc1, String loc2, Time startTime,
       List<String> methods) {
     List<Transportation> obj = new ArrayList<Transportation>();
 

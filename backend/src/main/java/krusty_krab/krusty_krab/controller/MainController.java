@@ -83,7 +83,7 @@ public class MainController {
   public ResponseEntity<?> getItinerary2(@RequestBody Map<String, Object> body) throws Exception {
 
     // is this map needed?
-    Map<String, List<Transportation>> map = new HashMap<String, List<Transportation>>();
+    Map<String, Transportation> map = new HashMap<String, Transportation>();
     //map.put("hello", "there");
     //Sends dummy data for the user filters into the itinerary class
     
