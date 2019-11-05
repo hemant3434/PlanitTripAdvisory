@@ -2,6 +2,8 @@ package krusty_krab.krusty_krab.domain;
 
 public class Transportation extends ItineraryItem {
 
+    public static final String WALK = "Walk", BIKE = "Bike", TRANSIT = "Transit", DRIVE = "Drive";
+    
     private float distance;
     private String icon;
     private String subtitle;

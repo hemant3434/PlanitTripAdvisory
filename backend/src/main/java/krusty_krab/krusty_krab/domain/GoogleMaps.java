@@ -12,6 +12,8 @@ import java.lang.Math.*;
 
 public class GoogleMaps {
 
+    private final float WALK_DISTANCE = 3, BIKE_DISTANCE = 7, TRANSIT_DISTANCE = 15;
+    
   private static GeoApiContext KEY = null;
 
   public GoogleMaps() {
@@ -228,7 +230,31 @@ public class GoogleMaps {
   }
 
   public Transportation chooseTransportation(List<Transportation> trans){
-    return new Transportation();
+      float distance = trans.get(0).getDistance();
+      Transportation transportation;
+      
+      // Choose the transportation based on the distance you need to travel
+      if (distance < WALK_DISTANCE) {
+	  transportation = getTransportationWithTitle(trans, Transportation.WALK);
+      } else if (WALK_DISTANCE <= distance && distance < BIKE_DISTANCE) {
+	  transportation = getTransportationWithTitle(trans, Transportation.BIKE);
+      } else if (BIKE_DISTANCE <= distance && distance < TRANSIT_DISTANCE) {
+	  transportation = getTransportationWithTitle(trans, Transportation.TRANSIT);
+      } else {
+	  transportation = getTransportationWithTitle(trans, Transportation.DRIVE);
+      }
+      
+    return transportation;
+  }
+  
+  private Transportation getTransportationWithTitle(List<Transportation> trans, String title) {
+      for (Transportation transportation : trans) {
+	  if (transportation.getTitle().equals(title)) {
+	      return transportation;
+	  }
+      }
+      
+      return null;
   }
 
   // Gets event from google maps api using name of event
