@@ -63,7 +63,7 @@ public class MainController {
     itin.setBudget(budget);
     itin.setLocationLat(lat);
     itin.setLocationLong(ltd);
-    itin.setHome("union station");
+    itin.setHome(GoogleMaps.getHomeLocation(47.2, 47.2));
     itin.setHomeLat(47.2);
     itin.setHomeLong(47.2);
     itin.setMethodsOfTrans(trans);
@@ -82,7 +82,7 @@ public class MainController {
     itin.setBudget(body.getBudget());
     itin.setLocationLat(body.getLocationLat());
     itin.setLocationLong(body.getLocationLong());
-    itin.setHome("");
+    itin.setHome(GoogleMaps.getHomeLocation(body.getHomeLat(), body.getHomeLong()));
     itin.setHomeLat(body.getHomeLat());
     itin.setHomeLong(body.getHomeLong());
     itin.setMethodsOfTrans(body.getMethodsOfTrans());
