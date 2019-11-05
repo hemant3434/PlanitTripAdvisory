@@ -18,29 +18,12 @@ import {
 import EventCard from './../components/common/Cards/EventCard';
 
 export default class CardsContainer extends React.Component{
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  fetchData(){
-    axios.get('http://100.80.11.91:8082/api/v1/getItinerary')
-      .then(res => {
-        console.log("res", res);
-        const data = res.data;
-        console.log("res.data", data);
-        this.setState({
-          isLoading: false,
-          Itinerary: data
-        });
-      })
-      .catch(error => console.log(error));
-  }
 
   constructor(props){
     super(props);
     this.state = {
-      isLoading: true,
-      Itinerary: null
+      isLoading: this.props.isLoading,
+      Itinerary: this.props.common
     }
   }
 

@@ -4,7 +4,6 @@ import Itinerary from './pages/ItineraryPage';
 import MapPage from './pages/MapPage';
 import ExplorePage from './pages/ExplorePage';
 import Multi from './navigation/CreateItinerary';
-import HomeScreen from './pages/HomeScreen'; 
 
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -13,7 +12,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 export default class HybridApp extends React.Component {
   render() {
     return (
-        <AppContainer />
+      <AppContainer />
     );
   }
 }

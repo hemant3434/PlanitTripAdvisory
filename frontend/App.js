@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import HybridApp from './src/App';
+import HomeScreen from './src/navigation/HomeScreen';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -26,7 +27,7 @@ export default class App extends React.Component {
       return (<View></View>);
     }
     return (
-      <HybridApp />
+      <HomeScreen /> // should be HybridApp, but changed temp for login
     );
   }
 }

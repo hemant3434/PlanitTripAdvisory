@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, Button } from 'react-native';
+import { ScrollView, Text, View, Button, StyleSheet } from 'react-native';
 import DateTime from '../pages/DateTime';
 import ItineraryFilters from '../pages/ItineraryFilters';
 import MapPicker from '../components/common/MapPicker/MapPicker';
+import EventCard from '../components/common/Cards/EventCard';
+import CardsContainer from '../sections/CardsContainer';
 import axios from 'axios';
 
 export class Multi extends Component {
@@ -24,8 +26,12 @@ export class Multi extends Component {
       activities: this.state.activities
     })
     .then(res => {
+      console.log("res", res);
+      const data = res.data;
+      console.log("res.data", data);
       this.setState({
         isLoading: false,
+        Itinerary: data
       });
     })
     .catch(error => console.log(error));;
@@ -45,9 +51,13 @@ export class Multi extends Component {
       homeLatitude: null,
       homeLongitude: null,
       transportation: [],
-      activities: [],
-      isLoading: true
+      activities: [
+        "museums"
+      ],
+      isLoading: true,
+      Itinerary: null
     };
+    this.nextStep = this.nextStep.bind(this);
   }
 
   setDate = (dataFromChild) => {
@@ -87,11 +97,13 @@ export class Multi extends Component {
   }
 
   setLocation = (latitude, longitude) => {
+    const { step } = this.state;
     this.setState ({
       locationLatitude: latitude,
       locationLongitude: longitude,
       homeLatitude: latitude,
-      homeLongitude: longitude
+      homeLongitude: longitude,
+      step: step + 1,
     })
   }
 
@@ -109,14 +121,16 @@ export class Multi extends Component {
         );
       case 2:
         return(
-          this.state.latitude &&
-          this.state.longitude
+          true
         );
+      default:
+        return true;
     }
   };
 
   nextStep = () => {
     const { step, date, startTime, endTime } = this.state;
+    console.log(this.state);
     if (this.checkValues()) {
       this.setState({
         startTime: date + " " + startTime,
@@ -154,14 +168,26 @@ export class Multi extends Component {
           />
         );
       case 2:
-        console.log(this.state);
         return(
           <MapPicker
             onLocationSelectProp={(obj)=>this.setLocation(obj.latitude, obj.longitude)}
           />
         );
+      case 3:
+        return (
+          <CardsContainer isLoading={this.state.isLoading} common={this.state.Itinerary}/>
+      );
     }
   }
 }
 
 export default Multi;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
