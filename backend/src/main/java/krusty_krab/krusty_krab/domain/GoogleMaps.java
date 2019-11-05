@@ -36,21 +36,29 @@ public class GoogleMaps {
     return now;
   }
   
-  public List<Transportation> getTransportation(String loc1, String loc2, Time startTime, List<String> methods) throws Exception {
+  public Transportation getTransportation(String loc1, String loc2, Time startTime, List<String> methods) {
     List<Transportation> obj = null;
     
     for(String i: methods) {
       if(i.equals("Bike")) {
-        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.BICYCLING).de;
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.BICYCLING);
       }
       if(i.equals("Drive")) {
         DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.DRIVING);
       }
       if(i.equals("Transit")) {
         DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.TRANSIT).departureTime(getInstant(startTime));
-        DirectionsResult res = req.await();
-        
-        
+        try {
+          DirectionsResult res = req.await();
+        } catch (ApiException e) {
+          e.printStackTrace();
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+
+
       }
       if(i.equals("Walk")) {
         DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.WALKING);
@@ -64,7 +72,7 @@ public class GoogleMaps {
           "flight-takeoff", "15 minutes"));
     }
 
-    return obj;
+    return chooseTransportation(obj);
   }
 
   public static int filterByPrice(float budget, float price) {
@@ -217,6 +225,10 @@ public class GoogleMaps {
       System.out.println(i.getId());
     }
     return events;
+  }
+
+  public Transportation chooseTransportation(List<Transportation> trans){
+    return new Transportation();
   }
 
   // Gets event from google maps api using name of event
