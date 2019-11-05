@@ -14,7 +14,7 @@ import HomeScreen from './pages/HomeScreen';
 export default class HybridApp extends React.Component {
   render() {
     return (
-        <HomeScreen />
+        <AppContainer />
     );
   }
 }
