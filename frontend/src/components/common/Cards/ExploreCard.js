@@ -7,16 +7,23 @@ class ImageCard extends Component{
     super(props)
   }
 
+  fetchData(){
+    axios.get('http://100.80.11.91:8080/somesht', {
+      
+    })
+    .catch(error => console.log(error));;
+  }
+
   render(){
     return (
       <Card
-        title={this.props.title}
-        image={this.props.image}>
-        <Text style={{marginBottom: 10}}>{this.props.text}</Text>
+        title={this.props.common.title}
+        image={this.props.common.image}>
+        <Text style={{marginBottom: 10}}>{this.props.common.text}</Text>
         <Button
         icon={<Icon name='code' color='#ffffff' />}
         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-        title='ADD EVENT' />
+        title='ADD EVENT' onPress={this.fetchData()}/>
       </Card>
     );
   }
