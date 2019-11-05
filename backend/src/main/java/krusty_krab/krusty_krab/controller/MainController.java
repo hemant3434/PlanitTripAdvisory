@@ -38,6 +38,18 @@ public class MainController {
     return ResponseEntity.ok().body(map);
   }
 
+  @GetMapping("/getDummy2")
+  public ResponseEntity<?> getDummy2(@RequestBody Map<String, Object> body) {
+
+    List<String> activities = new ArrayList<String>();
+    activities.add("aquarium");
+    activities.add("art gallery");
+    List<Event> events = gm.getEvents(new Time(2019, 10, 25, 9, 00, true), new Time(2019, 10, 25, 20, 00, true), 47.2, 47.2, 20, activities, 200);
+    List<Event> list = new ArrayList<>();
+    list.add(new );
+    return ResponseEntity.ok().body(list);
+  }
+
   @GetMapping("/getItinerary")
   public ResponseEntity<?> getItinerary(@RequestBody Map<String, Object> body) throws Exception {
 

@@ -189,7 +189,7 @@ public class GoogleMaps {
   }
 
   public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
-      List<String> activities, float budget) throws Exception {
+      List<String> activities, float budget) {
     List<Event> events = new ArrayList<Event>();
 
     LatLng cur_loc = new LatLng((double) lat, (double) ltd);
@@ -209,7 +209,16 @@ public class GoogleMaps {
 
     for (String i : place_ids) {
       PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
-      PlaceDetails r = req.await();
+      PlaceDetails r = null;
+      try {
+        r = req.await();
+      } catch (ApiException e) {
+        e.printStackTrace();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       if(r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null && r.openingHours != null && r.photos != null && r.url != null) {
         Time[] times = getTime(r.openingHours, startTime);

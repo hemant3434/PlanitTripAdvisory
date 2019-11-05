@@ -25,7 +25,7 @@ public class Itinerary {
     }
 
     // Gets the next best event for the user to attend
-    public Event getNextBestEvent() throws Exception{
+    public Event getNextBestEvent() {
 
         // Gets every event that satisfies the given filters
 
