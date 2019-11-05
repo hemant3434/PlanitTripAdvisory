@@ -74,7 +74,7 @@ public class MainController {
     double lat = 43.7764;
     double ltd = -79.2318;
     float budget = 4;
-    float distance = 5f;
+    float distance = 1f;
 
     List<String> activities = new ArrayList<String>();
     activities.add("aquarium");

@@ -2,6 +2,7 @@ package krusty_krab.krusty_krab.domain;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,7 +113,7 @@ public class GoogleMaps {
   }
 
   public static int filterByTime(Time startTime, Time endTime, Time[] times) {
-    
+
     return 0;
   }
 
@@ -129,11 +130,14 @@ public class GoogleMaps {
       price = 3;
     } else if (obj == PriceLevel.VERY_EXPENSIVE) {
       price = 4;
+    } else if (obj == PriceLevel.UNKNOWN) {
+      price = 0;
     }
+
 
     return price;
   }
-  
+
   // index 0 - closing time
   // index 1 - start time
   public static Time[] getTime(OpeningHours hours) {
@@ -143,14 +147,14 @@ public class GoogleMaps {
     int str_hour = 0;
     int str_minute = 0;
     boolean str_positive = true;
-    
+
     int clo_year = 2019;
     int clo_month = 0;
     int clo_day = 0;
     int clo_hour = 0;
     int clo_minute = 0;
     boolean clo_positive = false;
-    
+
     Time open = new Time(str_year, str_month, str_day, str_hour, str_minute, str_positive);
     Time close = new Time(clo_year, clo_month, clo_day, clo_hour, clo_minute, clo_positive);
     Time[] times = {open, close};
@@ -158,6 +162,19 @@ public class GoogleMaps {
     times[0] = open;
     times[1] = close;
     return times;
+  }
+
+  public static String getPhoto(Photo[] photos) {
+    String result = "";
+
+    if (photos == null) {
+      return result;
+    }
+    if (photos.length == 0) {
+      return result;
+    }
+
+    return result;
   }
 
   public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
@@ -180,18 +197,18 @@ public class GoogleMaps {
     }
 
     for (String i : place_ids) {
-      PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i);
+      PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
       PlaceDetails r = req.await();
 
       int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
       int second = filterByTime(startTime, endTime, getTime(r.openingHours));
 
       if ((first + second) == 0) {
-
-        Event e = new Event(r.name, r.formattedAddress, "", (int) r.rating,
+        Event e = new Event(r.name, r.formattedAddress,
+            Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
             getPriceLevel(r.priceLevel), getTime(r.openingHours)[0], getTime(r.openingHours)[1],
-            new Time(0, 0, 0, 2, 0, true), "img", r.url.toString(), i);
-        
+            new Time(0, 0, 0, 2, 0, true), getPhoto(r.photos), r.url.toString(), i);
+
         events.add(e);
       }
     }
@@ -202,7 +219,7 @@ public class GoogleMaps {
         new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
     events.add(e1);
 
-    for (Event i: events) {
+    for (Event i : events) {
       System.out.println(i.getLocation());
     }
     return events;
