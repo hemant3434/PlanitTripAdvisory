@@ -12,6 +12,7 @@ import com.google.maps.model.*;
 import java.time.*;
 import java.util.Date;
 import java.lang.Math.*;
+import java.util.Currency;
 
 import java.util.*;
 
@@ -27,169 +28,129 @@ public class GoogleMaps {
       KEY = new GeoApiContext.Builder().apiKey("AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc").build();
     }
   }
-  
+
   public static Instant getInstant(Time start) {
-    
-    long seconds_start = start.toMinutes()*60;
-    
+
+    long seconds_start = start.toMinutes() * 60;
+
     Date date = new Date();
-    Time curr = new Time(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes(), true);
-    long seconds_curr = curr.toMinutes()*60;
-    
+    Time curr = new Time(date.getYear(), date.getMonth(), date.getDay(), date.getHours(),
+        date.getMinutes(), true);
+    long seconds_curr = curr.toMinutes() * 60;
+
     Instant now = Instant.now();
     long offset = Math.abs(seconds_curr - seconds_start);
     now.plusSeconds(offset);
-    
+
     return now;
   }
-  /*
-  if ((loc1.equals("union station") && loc2.equals("ripley's aquarium"))
-        || (loc2.equals("union station") && loc1.equals("ripley's aquarium"))) {
-      obj.add(new Transportation(10, "walk", 0, startTime,
-          startTime.add(new Time(0, 0, 0, 0, 15, true)), new Time(0, 0, 0, 0, 15, true),
-          "flight-takeoff", "15 minutes");
-    }
-    if ((loc1.equals("union station") && loc2.equals("cn tower"))
-        || (loc2.equals("union station") && loc1.equals("cn tower"))) {
-      return new Transportation(15, "bus", 1, startTime,
-          startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true),
-          "flight-takeoff", "5 minutes");
-    }
-    if ((loc1.equals("union station") && loc2.equals("Canadian National Exhibition"))
-        || (loc2.equals("union station") && loc1.equals("Canadian National Exhibition"))) {
-      return new Transportation(80, "bus", 2, startTime,
-          startTime.add(new Time(0, 0, 0, 0, 30, true)), new Time(0, 0, 0, 0, 30, true),
-          "flight-takeoff", "30 minutes");
-    }
-    if ((loc1.equals("union station") && loc2.equals("Eaton Centre"))
-        || (loc2.equals("union station") && loc1.equals("Eaton Centre"))) {
-      return new Transportation(1, "bus", 2, startTime,
-          startTime.add(new Time(0, 0, 0, 0, 10, true)), new Time(0, 0, 0, 0, 10, true),
-          "flight-takeoff", "10 minutes");
-    }
-    if ((loc1.equals("spadina") && loc2.equals("ripley's aquarium"))
-        || (loc2.equals("spadina") && loc1.equals("ripley's aquarium"))) {
-      return new Transportation(100, "bus", 1, startTime,
-          startTime.add(new Time(0, 0, 0, 0, 30, true)), new Time(0, 0, 0, 0, 30, true),
-          "flight-takeoff", "30 minutes");
-    }
-    if ((loc1.equals("spadina") && loc2.equals("cn tower"))
-        || (loc2.equals("spadina") && loc1.equals("cn tower"))) {
-      return new Transportation(5, "walk", 0, startTime,
-          startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true),
-          "flight-takeoff", "5 minutes");
-    }
-   */
-  public Transportation getTransportation(String loc1, String loc2, Time startTime, List<String> methods) {
-    /*List<Transportation> obj = null;
-    
-    for(String i: methods) {
-      if(i.equals("Bike")) {
-        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.BICYCLING);
+
+  public static Transportation getTransObject(DirectionsRoute[] rou, Time startTime, String i) {
+    Transportation e = null;
+
+    for (DirectionsRoute j : rou) {
+      long tot_dis = 0;
+      long tot_tim = 0;
+      for (DirectionsLeg k : j.legs) {
+        tot_dis += k.distance.inMeters;
+        tot_tim += k.duration.inSeconds;
       }
-      if(i.equals("Drive")) {
-        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.DRIVING);
+      float min = tot_tim / 60;
+      String subtitle = "";
+      Time expected = null;
+      Time endtime = null;
+      if (min < 60) {
+        subtitle += Integer.toString(Math.round(min)) + " minutes";
+        expected = new Time(0, 0, 0, 0, Math.round(min), true);
+      } else {
+        float hours = min / 60;
+        float minutes = min % 60;
+        expected = new Time(0, 0, 0, Math.round(hours), Math.round(minutes), true);
+        subtitle += Integer.toString(Math.round(hours)) + " hours "
+            + Integer.toString(Math.round(minutes)) + " minutes";
       }
-      if(i.equals("Transit")) {
-        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.TRANSIT).departureTime(getInstant(startTime));
+
+      if ((startTime.getMinute() + expected.getMinute()) < 60) {
+        endtime = new Time(startTime.getYear(), startTime.getMonth(), startTime.getDay(),
+            startTime.getHour() + expected.getHour(), startTime.getMinute() + expected.getMinute(),
+            true);
+      } else {
+        endtime = new Time(startTime.getYear(), startTime.getMonth(), startTime.getDay(),
+            startTime.getHour() + expected.getHour()
+                + (startTime.getMinute() + expected.getMinute()) / 60,
+            (startTime.getMinute() + expected.getMinute()) % 60, true);
+      }
+      e = new Transportation(((float) tot_dis / (float) 1000), i, 2.0f, startTime, endtime,
+          expected, "icon", subtitle);
+      break;
+    }
+    return e;
+  }
+
+  public Transportation getTransportation(String loc1, String loc2, Time startTime,
+      List<String> methods) {
+    List<Transportation> obj = new ArrayList<Transportation>();
+
+    for (String i : methods) {
+      if (i.equals("Bike")) {
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
+            .destinationPlaceId(loc2).mode(TravelMode.BICYCLING);
+        DirectionsResult res = null;
         try {
-          DirectionsResult res = req.await();
-        } catch (ApiException e) {
-          e.printStackTrace();
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        } catch (IOException e) {
+          res = req.await();
+        } catch (Exception e) {
+          // TODO Auto-generated catch block
           e.printStackTrace();
         }
 
-
+        DirectionsRoute[] rou = res.routes;
+        obj.add(getTransObject(rou, startTime, i));
       }
-      if(i.equals("Walk")) {
-        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.WALKING);
+      if (i.equals("Drive")) {
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
+            .destinationPlaceId(loc2).mode(TravelMode.DRIVING);
+        DirectionsResult res = null;
+        try {
+          res = req.await();
+        } catch (Exception e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+
+        DirectionsRoute[] rou = res.routes;
+        obj.add(getTransObject(rou, startTime, i));
+      }
+      if (i.equals("Transit")) {
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
+            .destinationPlaceId(loc2).mode(TravelMode.TRANSIT).departureTime(getInstant(startTime))
+            .transitMode(TransitMode.BUS);
+        DirectionsResult res = null;
+        try {
+          res = req.await();
+        } catch (Exception e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+
+        DirectionsRoute[] rou = res.routes;
+        obj.add(getTransObject(rou, startTime, i));
+      }
+      if (i.equals("Walk")) {
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
+            .destinationPlaceId(loc2).mode(TravelMode.WALKING);
+        DirectionsResult res = null;
+        try {
+          res = req.await();
+        } catch (Exception e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+
+        DirectionsRoute[] rou = res.routes;
+        obj.add(getTransObject(rou, startTime, i));
       }
     }
-    
-
-
-    return chooseTransportation(obj);*/
-
-    //1033 Markham Rd, Scarborough, ON M1H 2G1, Canada
-    //60 Estate Dr, Scarborough, ON M1H 2Z1, Canada
-    //1221 Markham Rd #1a, Scarborough, ON M1H 3E2, Canada
-    /*String home = "union station";
-    String l1 = "ripley's aquarium";
-    String l2 = "cn tower";
-    String l3 = "Canadian National Exhibition";
-    String l4 = "Eaton Centre";*/
-    String home = "union station";
-    String l1 = "60 Estate Dr, Scarborough, ON M1H 2Z1, Canada";
-    String l2 = "1221 Markham Rd #1a, Scarborough, ON M1H 3E2, Canada";
-    String l3 = "1033 Markham Rd, Scarborough, ON M1H 2G1, Canada";
-    String l4 = "Eaton Centre";
-
-    if ((loc1.equals(home) && loc2.equals(l1))
-            || (loc2.equals(home) && loc1.equals(l1))) {
-      return new Transportation(10, "walk", 0, startTime,
-              startTime.add(new Time(0, 0, 0, 0, 15, true)), new Time(0, 0, 0, 0, 15, true),
-              "flight-takeoff", "15 minutes");
-    }
-    if ((loc1.equals(home) && loc2.equals(l2))
-            || (loc2.equals(home) && loc1.equals(l2))) {
-      return new Transportation(15, "bus", 1, startTime,
-              startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true),
-              "flight-takeoff", "5 minutes");
-    }
-    if ((loc1.equals(home) && loc2.equals(l3))
-            || (loc2.equals(home) && loc1.equals(l3))) {
-      return new Transportation(80, "bus", 2, startTime,
-              startTime.add(new Time(0, 0, 0, 0, 30, true)), new Time(0, 0, 0, 0, 30, true),
-              "flight-takeoff", "30 minutes");
-    }
-    if ((loc1.equals(home) && loc2.equals(l4))
-            || (loc2.equals(home) && loc1.equals(l4))) {
-      return new Transportation(1, "bus", 2, startTime,
-              startTime.add(new Time(0, 0, 0, 0, 10, true)), new Time(0, 0, 0, 0, 10, true),
-              "flight-takeoff", "10 minutes");
-    }
-    if ((loc1.equals(l2) && loc2.equals(l1))
-            || (loc2.equals(l2) && loc1.equals(l1))) {
-      return new Transportation(5, "walk", 0, startTime,
-              startTime.add(new Time(0, 0, 0, 0, 8, true)), new Time(0, 0, 0, 0, 8, true),
-              "flight-takeoff", "8 minutes");
-    }
-    if ((loc1.equals(l3) && loc2.equals(l1))
-            || (loc2.equals(l3) && loc1.equals(l1))) {
-      return new Transportation(2, "bus", 3.5f, startTime,
-              startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true),
-              "flight-takeoff", "5 minutes");
-    }
-    if ((loc1.equals(l4) && loc2.equals(l1))
-            || (loc2.equals(l4) && loc1.equals(l1))) {
-      return new Transportation(3, "walk", 0, startTime,
-              startTime.add(new Time(0, 0, 0, 0, 13, true)), new Time(0, 0, 0, 0, 13, true),
-              "flight-takeoff", "13 minutes");
-    }
-    if ((loc1.equals(l3) && loc2.equals(l2))
-            || (loc2.equals(l3) && loc1.equals(l2))) {
-      return new Transportation(3, "walk", 0, startTime,
-              startTime.add(new Time(0, 0, 0, 0, 30, true)), new Time(0, 0, 0, 0, 30, true),
-              "flight-takeoff", "30 minutes");
-    }
-    if ((loc1.equals(l4) && loc2.equals(l2))
-            || (loc2.equals(l4) && loc1.equals(l2))) {
-      return new Transportation(4, "bus", 3.5f, startTime,
-              startTime.add(new Time(0, 0, 0, 0, 10, true)), new Time(0, 0, 0, 0, 10, true),
-              "flight-takeoff", "10 minutes");
-    }
-    if ((loc1.equals(l3) && loc2.equals(l4))
-            || (loc2.equals(l3) && loc1.equals(l4))) {
-      return new Transportation(1, "bus", 3.5f, startTime,
-              startTime.add(new Time(0, 0, 0, 0, 25, true)), new Time(0, 0, 0, 0, 25, true),
-              "flight-takeoff", "25 minutes");
-    }
-    return new Transportation(10, "walk", 0, startTime,
-            startTime.add(new Time(0, 0, 0, 0, 15, true)), new Time(0, 0, 0, 0, 15, true),
-            "flight-takeoff", "15 minutes");
+    return chooseTransportation(obj);
   }
 
   public static int filterByPrice(float budget, float price) {

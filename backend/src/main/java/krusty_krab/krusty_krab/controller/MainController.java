@@ -96,12 +96,12 @@ public class MainController {
   public ResponseEntity<?> getItinerary2(@RequestBody Map<String, Object> body) throws Exception {
 
     // is this map needed?
-    Map<String, Object> map = new HashMap<String, Object>();
-    map.put("hello", "there");
+    Map<String, Transportation> map = new HashMap<String, Transportation>();
+    //map.put("hello", "there");
     //Sends dummy data for the user filters into the itinerary class
     
     GoogleMaps maps = new GoogleMaps();
-    Time start = new Time(2019, 11, 3, 9, 00, true);
+    Time start = new Time(2019, 11, 5, 5, 00, true);
     Time end = new Time(2019, 11, 3, 20, 00, true);
     double lat = 43.7764;
     double ltd = -79.2318;
@@ -116,7 +116,8 @@ public class MainController {
     
     List<String> methods = new ArrayList<String>();
     methods.add("Transit");
-    maps.getTransportation("ChIJpTvG15DL1IkRd8S0KlBVNTI", "ChIJwwG-b1jQ1IkRnj-qyyZSYz4", start, methods);
+    methods.add("Drive");
+    map.put("trans", maps.getTransportation("ChIJcQxvld3e1IkR6mBYwLARjhQ", "ChIJtwVr559GK4gR22ZZ175sFAM", start, methods));
     return ResponseEntity.ok().body(map);
   }
   
