@@ -46,6 +46,7 @@ public class MainController {
     itin.setBudget(body.getBudget());
     itin.setLocationLat(body.getLocationLat());
     itin.setLocationLong(body.getLocationLong());
+    itin.setHome("union station");
     itin.setHomeLat(body.getHomeLat());
     itin.setHomeLong(body.getHomeLong());
     itin.setMethodsOfTrans(body.getMethodsOfTrans());
@@ -69,7 +70,7 @@ public class MainController {
 
 	// is this map needed?
     //Map<String, Object> map = new HashMap<String, Object>();
-    itin = new Itinerary();
+    /*itin = new Itinerary();
     //Sends dummy data for the user filters into the itinerary class
     itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
     itin.setEndTime(new Time(2019, 10, 25, 23, 00, true));
@@ -80,7 +81,7 @@ public class MainController {
     activities.add("aquarium");
     activities.add("art gallery");
     itin.setActivities(activities);
-    itin.setBudget(200);
+    itin.setBudget(200);*/
 
     itin.createItinerary(this.user);
     return ResponseEntity.ok().body(itin.getItin());
