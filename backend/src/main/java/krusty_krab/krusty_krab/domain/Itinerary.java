@@ -111,7 +111,6 @@ public class Itinerary {
     	// iterate through the itinerary
 		int itinLength = itin.size();
     	for (int i = 0; i < itinLength - 1; i++) {
-			System.out.println(i);
     		ItineraryItem item = itin.get(i);
     		// if the event to be deleted matches the current iterated ItinItem
     		if (item instanceof Event && ((Event) item).getId().equals(eventId)) {
@@ -120,7 +119,7 @@ public class Itinerary {
     			for (int j = 0; j < 3; j++) {
     				itin.remove(i - 1);
     			}
-    			// EDGE CASE: if event is the only one in itin, delete stuffs and exit
+    			// EDGE CASE: if event is the only one in itinerary, delete stuffs and exit
     			if (itin.size() == 0) break;
     			if (i == 1) {
     				// EDGE CASE 1: first event being deleted, must join home with next event
