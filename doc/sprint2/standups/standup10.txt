@@ -1,6 +1,11 @@
 Tuesday, November 5
 
 What we did yesterday
+  - merged login and register process with master branch
+  - continued development of maps api and data transfer between front and back end
+  - developed explore page
 
 Plan for today
   - Sprint 2 ends today
+  - Meet with team to discuss SR2.md and sprint3.md
+  - Continue linking front and back end
