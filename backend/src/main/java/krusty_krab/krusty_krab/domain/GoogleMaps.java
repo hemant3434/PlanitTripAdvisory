@@ -12,6 +12,7 @@ import com.google.maps.model.*;
 import java.time.*;
 import java.util.Date;
 import java.lang.Math.*;
+import java.util.Currency;
 
 public class GoogleMaps {
 
@@ -22,50 +23,128 @@ public class GoogleMaps {
       KEY = new GeoApiContext.Builder().apiKey("AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8").build();
     }
   }
-  
+
   public static Instant getInstant(Time start) {
-    
-    long seconds_start = start.toMinutes()*60;
-    
+
+    long seconds_start = start.toMinutes() * 60;
+
     Date date = new Date();
-    Time curr = new Time(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes(), true);
-    long seconds_curr = curr.toMinutes()*60;
-    
+    Time curr = new Time(date.getYear(), date.getMonth(), date.getDay(), date.getHours(),
+        date.getMinutes(), true);
+    long seconds_curr = curr.toMinutes() * 60;
+
     Instant now = Instant.now();
     long offset = Math.abs(seconds_curr - seconds_start);
     now.plusSeconds(offset);
-    
+
     return now;
   }
-  
-  public List<Transportation> getTransportation(String loc1, String loc2, Time startTime, List<String> methods) throws Exception {
-    List<Transportation> obj = null;
-    
-    for(String i: methods) {
-      if(i.equals("Bike")) {
-        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.BICYCLING).de;
-      }
-      if(i.equals("Drive")) {
-        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.DRIVING);
-      }
-      if(i.equals("Transit")) {
-        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.TRANSIT).departureTime(getInstant(startTime));
-        DirectionsResult res = req.await();
-        
-        
-      }
-      if(i.equals("Walk")) {
-        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.WALKING);
-      }
-    }
-    
-    if ((loc1.equals("union station") && loc2.equals("ripley's aquarium"))
-        || (loc2.equals("union station") && loc1.equals("ripley's aquarium"))) {
-      obj.add(new Transportation(10, "walk", 0, startTime,
-          startTime.add(new Time(0, 0, 0, 0, 15, true)), new Time(0, 0, 0, 0, 15, true),
-          "flight-takeoff", "15 minutes"));
-    }
 
+  public static Transportation getTransObject(DirectionsRoute[] rou, Time startTime, String i) {
+    Transportation e = null;
+
+    for (DirectionsRoute j : rou) {
+      long tot_dis = 0;
+      long tot_tim = 0;
+      for (DirectionsLeg k : j.legs) {
+        tot_dis += k.distance.inMeters;
+        tot_tim += k.duration.inSeconds;
+      }
+      float min = tot_tim / 60;
+      String subtitle = "";
+      Time expected = null;
+      Time endtime = null;
+      if (min < 60) {
+        subtitle += Integer.toString(Math.round(min)) + " minutes";
+        expected = new Time(0, 0, 0, 0, Math.round(min), true);
+      } else {
+        float hours = min / 60;
+        float minutes = min % 60;
+        expected = new Time(0, 0, 0, Math.round(hours), Math.round(minutes), true);
+        subtitle += Integer.toString(Math.round(hours)) + " hours "
+            + Integer.toString(Math.round(minutes)) + " minutes";
+      }
+
+      if ((startTime.getMinute() + expected.getMinute()) < 60) {
+        endtime = new Time(startTime.getYear(), startTime.getMonth(), startTime.getDay(),
+            startTime.getHour() + expected.getHour(), startTime.getMinute() + expected.getMinute(),
+            true);
+      } else {
+        endtime = new Time(startTime.getYear(), startTime.getMonth(), startTime.getDay(),
+            startTime.getHour() + expected.getHour()
+                + (startTime.getMinute() + expected.getMinute()) / 60,
+            (startTime.getMinute() + expected.getMinute()) % 60, true);
+      }
+      e = new Transportation(((float) tot_dis / (float) 1000), i, 2.0f, startTime, endtime,
+          expected, "icon", subtitle);
+      break;
+    }
+    return e;
+  }
+
+  public List<Transportation> getTransportation(String loc1, String loc2, Time startTime,
+      List<String> methods) {
+    List<Transportation> obj = new ArrayList<Transportation>();
+
+    for (String i : methods) {
+      if (i.equals("Bike")) {
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
+            .destinationPlaceId(loc2).mode(TravelMode.BICYCLING);
+        DirectionsResult res = null;
+        try {
+          res = req.await();
+        } catch (Exception e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+
+        DirectionsRoute[] rou = res.routes;
+        obj.add(getTransObject(rou, startTime, i));
+      }
+      if (i.equals("Drive")) {
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
+            .destinationPlaceId(loc2).mode(TravelMode.DRIVING);
+        DirectionsResult res = null;
+        try {
+          res = req.await();
+        } catch (Exception e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+
+        DirectionsRoute[] rou = res.routes;
+        obj.add(getTransObject(rou, startTime, i));
+      }
+      if (i.equals("Transit")) {
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
+            .destinationPlaceId(loc2).mode(TravelMode.TRANSIT).departureTime(getInstant(startTime))
+            .transitMode(TransitMode.BUS);
+        DirectionsResult res = null;
+        try {
+          res = req.await();
+        } catch (Exception e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+
+        DirectionsRoute[] rou = res.routes;
+        obj.add(getTransObject(rou, startTime, i));
+      }
+      if (i.equals("Walk")) {
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
+            .destinationPlaceId(loc2).mode(TravelMode.WALKING);
+        DirectionsResult res = null;
+        try {
+          res = req.await();
+        } catch (Exception e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+
+        DirectionsRoute[] rou = res.routes;
+        obj.add(getTransObject(rou, startTime, i));
+      }
+    }
     return obj;
   }
 
@@ -180,6 +259,7 @@ public class GoogleMaps {
 
     for (Event i : events) {
       System.out.println(i.getId());
+      System.out.println(i.getLocation());
     }
     return events;
   }
