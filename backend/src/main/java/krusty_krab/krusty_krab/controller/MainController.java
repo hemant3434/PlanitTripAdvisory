@@ -56,6 +56,34 @@ public class MainController {
     return ResponseEntity.ok().body(itin.getItin());
   }
   
+  @GetMapping("/getItinerary2")
+  public ResponseEntity<?> getItinerary2(@RequestBody Map<String, Object> body) throws Exception {
+
+    // is this map needed?
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("hello", "there");
+    //Sends dummy data for the user filters into the itinerary class
+    
+    GoogleMaps maps = new GoogleMaps();
+    Time start = new Time(2019, 11, 3, 9, 00, true);
+    Time end = new Time(2019, 11, 3, 20, 00, true);
+    double lat = 43.7764;
+    double ltd = -79.2318;
+    float budget = 4;
+    float distance = 1f;
+
+    List<String> activities = new ArrayList<String>();
+    activities.add("aquarium");
+    activities.add("art gallery");
+    
+    maps.getEvents(start, end, lat, ltd, distance, activities, budget);
+    
+    List<String> methods = new ArrayList<String>();
+    methods.add("Transit");
+    maps.getTransportation("ChIJpTvG15DL1IkRd8S0KlBVNTI", "ChIJwwG-b1jQ1IkRnj-qyyZSYz4", start, methods);
+    return ResponseEntity.ok().body(map);
+  }
+  
   @GetMapping("/viewItinerary")
   public List<ItineraryItem> viewItinerary() {
       return itin.getItin();

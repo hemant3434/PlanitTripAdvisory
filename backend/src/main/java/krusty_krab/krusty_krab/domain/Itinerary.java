@@ -29,7 +29,7 @@ public class Itinerary {
     }
 
     // Gets the next best event for the user to attend
-    public Event getNextBestEvent(User user) throws Exception{
+    public Event getNextBestEvent() {
 
         //Converts remaining budget to an events price range, to see how expensive of an event the itinerary can take
         float maxPriceRange = GoogleMaps.budgetToRange(this.getItinBudgetLeft());
@@ -70,10 +70,10 @@ public class Itinerary {
             Event nextEvent = getNextBestEvent(user);
 
             // Loops until it runs out of events, or all events remaining has a score so low that they shouldn't be on the itinerary
-            while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget(), user) > minScore){
+            while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans()) > minScore){
                 // Gets transportation object from the next event and the current location of the user
-                Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getLocation(), curTime);
-                // Transportation object to begin at the current time
+                Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getLocation(), curTime, this.getMethodsOfTrans());
+                // Transporation object to begin at the current time
                 transp.setStartTime(curTime);
                 curTime = curTime.add(transp.getExpectedLength());
                 transp.setEndTime(curTime);
@@ -96,7 +96,7 @@ public class Itinerary {
         }
         catch(NoSuchElementException e){}
         // Gets transportation object from last event, back to home, and adds it to the itinerary
-        Transportation transp = this.gm.getTransportation(curLoc, getHome(), curTime);
+        Transportation transp = this.gm.getTransportation(curLoc, getHome(), curTime, this.getMethodsOfTrans());
         transp.setStartTime(curTime);
         this.itin.add(transp);
     }
@@ -204,12 +204,11 @@ public class Itinerary {
 		itin.add(i, gm.getTransportation(((Event) itin.get(i)).getLocation(), home, itin.get(i).getEndTime()));
 	    }
 	    if (i == 0 & itin.get(i) instanceof Event) {
-		itin.add(i, gm.getTransportation(home, ((Event) itin.get(i)).getLocation(), startTime));
-	    } else if (itin.get(i) instanceof Event && itin.get(i - 1) instanceof Event) {
-		Event e1 = (Event) itin.get(i - 1);
+		itin.add(i, gm.getTransportation(home, ((Event) itin.get(i)).getLocation(), startTime, this.getMethodsOfTrans()));
+	    } else if (itin.get(i) instanceof Event && itin.get(i-1) instanceof Event) {
+		Event e1 = (Event) itin.get(i-1);
 		Event e2 = (Event) itin.get(i);
-		itin.add(i, gm.getTransportation(e1.getLocation(), e2.getLocation(), e1.getEndTime()));
-		System.out.println("transportatin b/w events");
+		itin.add(i, gm.getTransportation(e1.getLocation(), e2.getLocation(), e1.getEndTime(), this.getMethodsOfTrans()));
 	    }
 	}
 	// Final sort
@@ -232,6 +231,10 @@ public class Itinerary {
 			.getExpectedLength();
 //		long travelTime = travelToTime.add(travelFromTime).toMinutes();
 		
+		// Google maps transportation doesn't work yet so this method won't work. This method works without travel time information
+		Time travelToTime = gm.getTransportation(curr.getLocation(), event.getLocation(), curr.getEndTime(), this.getMethodsOfTrans()).getExpectedLength();
+		Time travelFromTime = gm.getTransportation(event.getLocation(), next.getLocation(), next.getEndTime(), this.getMethodsOfTrans()).getExpectedLength();
+		long travelTime = travelToTime.add(travelFromTime).toMinutes();
 		long expectedTime = event.getExpectedLength().toMinutes();
 		System.out.println("TIME: " + next.getStartTime().getDifference(curr.getEndTime()).toMinutes());
 		System.out.println("EXPECTED TIME: " + expectedTime);
