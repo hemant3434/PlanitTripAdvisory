@@ -1,11 +1,8 @@
 package krusty_krab.krusty_krab.domain;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import com.google.maps.*;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
@@ -17,7 +14,7 @@ public class GoogleMaps {
   public GoogleMaps() {
     if (KEY == null) {
       //AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc
-      KEY = new GeoApiContext.Builder().apiKey("AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8").build();
+      KEY = new GeoApiContext.Builder().apiKey("AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc").build();
     }
   }
 
@@ -70,26 +67,57 @@ public class GoogleMaps {
   // index 0 - closing time
   // index 1 - start time
   public static Time[] getTime(OpeningHours hours, Time time) {
-    if(hours != null) {
-      System.out.println(hours.periods[0].open.day.getName());
+    Date date = new Date();
+    date.setYear(time.getYear());
+    date.setMonth(time.getMonth()-1);
+    date.setDate(time.getDay());
+    date.setHours(time.getHour());
+    date.setMinutes(time.getMinute());
+    date.setSeconds(0);
+    int curDayIndex = -1;
+    for (int i = 0; i < hours.periods.length; i++) {
+      if (date.getDay() == 0 && hours.periods[i].open.day.getName() == "Sunday") {
+        curDayIndex = i;
+      } else if (date.getDay() == 1 && hours.periods[i].open.day.getName() == "Monday") {
+        curDayIndex = i;
+      } else if (date.getDay() == 2 && hours.periods[i].open.day.getName() == "Tuesday") {
+        curDayIndex = i;
+      } else if (date.getDay() == 3 && hours.periods[i].open.day.getName() == "Wednesday") {
+        curDayIndex = i;
+      } else if (date.getDay() == 4 && hours.periods[i].open.day.getName() == "Thursday") {
+        curDayIndex = i;
+      } else if (date.getDay() == 5 && hours.periods[i].open.day.getName() == "Friday") {
+        curDayIndex = i;
+      } else if (date.getDay() == 6 && hours.periods[i].open.day.getName() == "Saturday") {
+        curDayIndex = i;
+      }
     }
-    int str_year = 2019;
-    int str_month = 0;
-    int str_day = 0;
-    int str_hour = 0;
-    int str_minute = 0;
+    if (curDayIndex != -1) {
+      System.out.println(hours.periods[curDayIndex].open.time.getHour());
+    }
+
+
+    int str_year = time.getYear();
+    int str_month = time.getMonth();
+    int str_day = time.getDay();
+    int str_hour = hours.periods[curDayIndex].open.time.getHour();
+    int str_minute = hours.periods[curDayIndex].open.time.getMinute();
     boolean str_positive = true;
 
-    int clo_year = 2019;
-    int clo_month = 0;
-    int clo_day = 0;
-    int clo_hour = 0;
-    int clo_minute = 0;
+    int clo_year = time.getYear();
+    int clo_month = time.getMonth();
+    int clo_day = time.getDay();
+    int clo_hour = hours.periods[curDayIndex].close.time.getHour();
+    int clo_minute = hours.periods[curDayIndex].close.time.getMinute();
     boolean clo_positive = false;
 
     Time open = new Time(str_year, str_month, str_day, str_hour, str_minute, str_positive);
     Time close = new Time(clo_year, clo_month, clo_day, clo_hour, clo_minute, clo_positive);
     Time[] times = {open, close};
+
+    //System.out.println(open);
+    //System.out.println(close);
+    //System.out.println("A");
 
     times[0] = open;
     times[1] = close;
@@ -132,16 +160,19 @@ public class GoogleMaps {
       PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
       PlaceDetails r = req.await();
 
-      int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
-      int second = filterByTime(startTime, endTime, getTime(r.openingHours, startTime));
+      if(r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null && r.openingHours != null && r.photos != null && r.url != null) {
+        int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
+        int second = filterByTime(startTime, endTime, getTime(r.openingHours, startTime));
 
-      if ((first + second) == 0) {
-        Event e = new Event(r.name, r.formattedAddress,
-            Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
-            getPriceLevel(r.priceLevel), getTime(r.openingHours, startTime)[0], getTime(r.openingHours, startTime)[1],
-            new Time(0, 0, 0, 2, 0, true), getPhoto(r.photos), r.url.toString(), i);
 
-        events.add(e);
+        if ((first + second) == 0) {
+          Event e = new Event(r.name, r.formattedAddress,
+                  Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
+                  getPriceLevel(r.priceLevel), getTime(r.openingHours, startTime)[0], getTime(r.openingHours, startTime)[1],
+                  new Time(0, 0, 0, 2, 0, true), getPhoto(r.photos), r.url.toString(), i);
+
+          events.add(e);
+        }
       }
     }
     
