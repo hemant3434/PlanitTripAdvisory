@@ -38,7 +38,43 @@ public class MainController {
     return ResponseEntity.ok().body(map);
   }
 
-  @PutMapping("/getItinerary")
+  @GetMapping("/getDummy2")
+  public ResponseEntity<?> getDummy2(@RequestBody Map<String, Object> body) throws Exception {
+
+    Time start = new Time(2019, 11, 3, 9, 00, true);
+    Time end = new Time(2019, 11, 3, 20, 00, true);
+    double lat = 43.7764;
+    double ltd = -79.2318;
+    float budget = 4;
+    float distance = 1f;
+
+    List<String> activities = new ArrayList<String>();
+    activities.add("aquarium");
+    activities.add("art gallery");
+
+    List<String> trans = new ArrayList<String>();
+    trans.add("Drive");
+    trans.add("Transit");
+
+
+    itin.setStartTime(start);
+    itin.setEndTime(end);
+    itin.setMaxDist(distance);
+    itin.setBudget(budget);
+    itin.setLocationLat(lat);
+    itin.setLocationLong(ltd);
+    itin.setHome("union station");
+    itin.setHomeLat(47.2);
+    itin.setHomeLong(47.2);
+    itin.setMethodsOfTrans(trans);
+    itin.setActivities(activities);
+
+    itin.createItinerary(this.user);
+    //gm.getEvents(start, end, lat, ltd, distance, activities, budget)
+    return ResponseEntity.ok().body(itin.getItin());
+  }
+
+  @GetMapping("/getItinerary")
   public ResponseEntity<?> getItinerary(@RequestBody Itinerary body) throws Exception {
     itin.setStartTime(body.getStartTime());
     itin.setEndTime(body.getEndTime());

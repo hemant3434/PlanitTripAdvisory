@@ -13,6 +13,8 @@ import java.time.*;
 import java.util.Date;
 import java.lang.Math.*;
 
+import java.util.*;
+
 public class GoogleMaps {
 
     private final float WALK_DISTANCE = 3, BIKE_DISTANCE = 7, TRANSIT_DISTANCE = 15;
@@ -79,7 +81,7 @@ public class GoogleMaps {
     }
    */
   public Transportation getTransportation(String loc1, String loc2, Time startTime, List<String> methods) {
-    List<Transportation> obj = null;
+    /*List<Transportation> obj = null;
     
     for(String i: methods) {
       if(i.equals("Bike")) {
@@ -109,7 +111,85 @@ public class GoogleMaps {
     
 
 
-    return chooseTransportation(obj);
+    return chooseTransportation(obj);*/
+
+    //1033 Markham Rd, Scarborough, ON M1H 2G1, Canada
+    //60 Estate Dr, Scarborough, ON M1H 2Z1, Canada
+    //1221 Markham Rd #1a, Scarborough, ON M1H 3E2, Canada
+    /*String home = "union station";
+    String l1 = "ripley's aquarium";
+    String l2 = "cn tower";
+    String l3 = "Canadian National Exhibition";
+    String l4 = "Eaton Centre";*/
+    String home = "union station";
+    String l1 = "60 Estate Dr, Scarborough, ON M1H 2Z1, Canada";
+    String l2 = "1221 Markham Rd #1a, Scarborough, ON M1H 3E2, Canada";
+    String l3 = "1033 Markham Rd, Scarborough, ON M1H 2G1, Canada";
+    String l4 = "Eaton Centre";
+
+    if ((loc1.equals(home) && loc2.equals(l1))
+            || (loc2.equals(home) && loc1.equals(l1))) {
+      return new Transportation(10, "walk", 0, startTime,
+              startTime.add(new Time(0, 0, 0, 0, 15, true)), new Time(0, 0, 0, 0, 15, true),
+              "flight-takeoff", "15 minutes");
+    }
+    if ((loc1.equals(home) && loc2.equals(l2))
+            || (loc2.equals(home) && loc1.equals(l2))) {
+      return new Transportation(15, "bus", 1, startTime,
+              startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true),
+              "flight-takeoff", "5 minutes");
+    }
+    if ((loc1.equals(home) && loc2.equals(l3))
+            || (loc2.equals(home) && loc1.equals(l3))) {
+      return new Transportation(80, "bus", 2, startTime,
+              startTime.add(new Time(0, 0, 0, 0, 30, true)), new Time(0, 0, 0, 0, 30, true),
+              "flight-takeoff", "30 minutes");
+    }
+    if ((loc1.equals(home) && loc2.equals(l4))
+            || (loc2.equals(home) && loc1.equals(l4))) {
+      return new Transportation(1, "bus", 2, startTime,
+              startTime.add(new Time(0, 0, 0, 0, 10, true)), new Time(0, 0, 0, 0, 10, true),
+              "flight-takeoff", "10 minutes");
+    }
+    if ((loc1.equals(l2) && loc2.equals(l1))
+            || (loc2.equals(l2) && loc1.equals(l1))) {
+      return new Transportation(5, "walk", 0, startTime,
+              startTime.add(new Time(0, 0, 0, 0, 8, true)), new Time(0, 0, 0, 0, 8, true),
+              "flight-takeoff", "8 minutes");
+    }
+    if ((loc1.equals(l3) && loc2.equals(l1))
+            || (loc2.equals(l3) && loc1.equals(l1))) {
+      return new Transportation(2, "bus", 3.5f, startTime,
+              startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true),
+              "flight-takeoff", "5 minutes");
+    }
+    if ((loc1.equals(l4) && loc2.equals(l1))
+            || (loc2.equals(l4) && loc1.equals(l1))) {
+      return new Transportation(3, "walk", 0, startTime,
+              startTime.add(new Time(0, 0, 0, 0, 13, true)), new Time(0, 0, 0, 0, 13, true),
+              "flight-takeoff", "13 minutes");
+    }
+    if ((loc1.equals(l3) && loc2.equals(l2))
+            || (loc2.equals(l3) && loc1.equals(l2))) {
+      return new Transportation(3, "walk", 0, startTime,
+              startTime.add(new Time(0, 0, 0, 0, 30, true)), new Time(0, 0, 0, 0, 30, true),
+              "flight-takeoff", "30 minutes");
+    }
+    if ((loc1.equals(l4) && loc2.equals(l2))
+            || (loc2.equals(l4) && loc1.equals(l2))) {
+      return new Transportation(4, "bus", 3.5f, startTime,
+              startTime.add(new Time(0, 0, 0, 0, 10, true)), new Time(0, 0, 0, 0, 10, true),
+              "flight-takeoff", "10 minutes");
+    }
+    if ((loc1.equals(l3) && loc2.equals(l4))
+            || (loc2.equals(l3) && loc1.equals(l4))) {
+      return new Transportation(1, "bus", 3.5f, startTime,
+              startTime.add(new Time(0, 0, 0, 0, 25, true)), new Time(0, 0, 0, 0, 25, true),
+              "flight-takeoff", "25 minutes");
+    }
+    return new Transportation(10, "walk", 0, startTime,
+            startTime.add(new Time(0, 0, 0, 0, 15, true)), new Time(0, 0, 0, 0, 15, true),
+            "flight-takeoff", "15 minutes");
   }
 
   public static int filterByPrice(float budget, float price) {
@@ -243,7 +323,7 @@ Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aqua
 
   public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
       List<String> activities, float budget) {
-    List<Event> events = new ArrayList<Event>();
+   List<Event> events = new ArrayList<Event>();
 
     LatLng cur_loc = new LatLng((double) lat, (double) ltd);
     NearbySearchRequest all_events =
@@ -281,8 +361,7 @@ Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aqua
 
 
           if ((first + second) == 0) {
-            Event e = new Event(r.name, r.formattedAddress,
-                    Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
+            Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2, Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
                     getPriceLevel(r.priceLevel), times[0], times[1],
                     new Time(0, 0, 0, 2, 0, true), getPhoto(r.photos), r.url.toString(), i);
 
@@ -291,10 +370,29 @@ Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aqua
         }
       }
     }
+/*
+    Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aquarium", 5, 2,
+            new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+            new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
+    Event e2 = new Event("cn tower", "cn tower", 43.2, 43.2,"lookout", 4, 4,
+            new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+            new Time(0, 0, 0, 2, 0, true), "../images/toronto.jpg", "If Quebec is Canada's ass...", "2");
+    Event e3 = new Event("Canadian National Exhibition", "Canadian National Exhibition", 43.2, 43.2,"Festival",
+            4, 4, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+            new Time(0, 0, 0, 2, 0, true),
+            "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
+            "If Quebec is Canada's ass...", "3");
+    Event e4 = new Event("Eaton Centre", "Eaton Centre", 47.2, 47.2, "Mall", 4, 4,
+            new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+            new Time(0, 0, 0, 2, 0, true),
+            "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
+            "If Quebec is Canada's ass...", "4");
 
-    for (Event i : events) {
-      System.out.println(i.getLocation());
-    }
+    events.add(e1);
+    events.add(e2);
+    events.add(e3);
+    events.add(e4);*/
+
     return events;
   }
 

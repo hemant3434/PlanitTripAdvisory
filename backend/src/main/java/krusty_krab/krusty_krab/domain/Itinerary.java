@@ -29,15 +29,15 @@ public class Itinerary {
     }
 
     // Gets the next best event for the user to attend
-    public Event getNextBestEvent() {
+    public Event getNextBestEvent(User user) {
 
         //Converts remaining budget to an events price range, to see how expensive of an event the itinerary can take
         float maxPriceRange = GoogleMaps.budgetToRange(this.getItinBudgetLeft());
         // Gets every event that satisfies the given filters
-        List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), this.getItinCurLoc(), this.getLocation(), this.getItinDistLeft(), this.getActivities(), maxPriceRange);
+        List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 47.2, 47.2, this.getItinDistLeft(), this.getActivities(), maxPriceRange);
 
         // Gets event with highest score of all events received
-        Event bestEvent = events.get(0);
+        Event bestEvent = new Event();
         float bestScore = 0;
         float curScore;
         //GoogleMaps.getEventByID("3").getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget(), user);
@@ -45,7 +45,7 @@ public class Itinerary {
         for(Event e: events){
             //System.out.println(e.getLocation());
             if(!this.getVisitedEvents().contains(e.getLocation())){
-                curScore = e.getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget(), user);
+                curScore = e.getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans());
                 if(curScore > bestScore) {
                     bestEvent = e;
                     bestScore = curScore;
@@ -200,7 +200,7 @@ public class Itinerary {
 	    if (i == itin.size()-1 && itin.get(i) instanceof Event) {
 		System.out.println(itin.get(i).getTitle());
 		System.out.println("transportation home");
-		itin.add(i, gm.getTransportation(((Event) itin.get(i)).getLocation(), home, itin.get(i).getEndTime()));
+		itin.add(i, gm.getTransportation(((Event) itin.get(i)).getLocation(), home, itin.get(i).getEndTime(), this.getMethodsOfTrans()));
 	    }
 	    if (i == 0 & itin.get(i) instanceof Event) {
 		itin.add(i, gm.getTransportation(home, ((Event) itin.get(i)).getLocation(), startTime, this.getMethodsOfTrans()));
@@ -224,15 +224,12 @@ public class Itinerary {
 
 		// Google maps transportation doesn't work yet so this method won't work. This
 		// method works without travel time information
-		Time travelToTime = gm.getTransportation(curr.getLocation(), event.getLocation(), curr.getEndTime())
+		Time travelToTime = gm.getTransportation(curr.getLocation(), event.getLocation(), curr.getEndTime(), this.getMethodsOfTrans())
 			.getExpectedLength();
-		Time travelFromTime = gm.getTransportation(event.getLocation(), next.getLocation(), next.getEndTime())
+		Time travelFromTime = gm.getTransportation(event.getLocation(), next.getLocation(), next.getEndTime(), this.getMethodsOfTrans())
 			.getExpectedLength();
 //		long travelTime = travelToTime.add(travelFromTime).toMinutes();
 		
-		// Google maps transportation doesn't work yet so this method won't work. This method works without travel time information
-		Time travelToTime = gm.getTransportation(curr.getLocation(), event.getLocation(), curr.getEndTime(), this.getMethodsOfTrans()).getExpectedLength();
-		Time travelFromTime = gm.getTransportation(event.getLocation(), next.getLocation(), next.getEndTime(), this.getMethodsOfTrans()).getExpectedLength();
 		long travelTime = travelToTime.add(travelFromTime).toMinutes();
 		long expectedTime = event.getExpectedLength().toMinutes();
 		System.out.println("TIME: " + next.getStartTime().getDifference(curr.getEndTime()).toMinutes());
@@ -257,7 +254,7 @@ public class Itinerary {
 
     private Transportation joinEvents(String startLocation, String nextLocation, Time endTime) {
 	Transportation transportation = gm.getTransportation(startLocation, nextLocation,
-		endTime);
+		endTime, this.getMethodsOfTrans());
 	return transportation;
     }
 
