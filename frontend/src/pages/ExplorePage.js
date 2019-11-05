@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, ScrollView, Text } from "react-native";
 import { SearchBar } from "react-native-elements";
+import EventsCardsContainer from "./../sections/EventsCardsContainer";
 
 class ExplorePage extends React.Component {
   constructor(props){
@@ -17,16 +18,9 @@ class ExplorePage extends React.Component {
   render() {
     const { search } = this.state;
     return (
-      <View style={{paddingTop: 40}}>
-        <ScrollView>
-          <SearchBar
-        placeholder="Type Here..."
-        onChangeText={this.updateSearch}
-        value={search}
-        lightTheme={true}
-        onCancel={this.state.search=""}/>
-        </ScrollView>
-      </View>);
+        <View style={{flex: 10, justifyContent: 'center', alignItems: 'center'}}>
+            <EventsCardsContainer/>
+        </View>);
   }
 }
 

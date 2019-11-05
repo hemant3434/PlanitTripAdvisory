@@ -73,7 +73,7 @@ public class Itinerary {
             while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget(), user) > minScore){
                 // Gets transportation object from the next event and the current location of the user
                 Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getLocation(), curTime);
-                // Transporation object to begin at the current time
+                // Transportation object to begin at the current time
                 transp.setStartTime(curTime);
                 curTime = curTime.add(transp.getExpectedLength());
                 transp.setEndTime(curTime);
@@ -102,18 +102,6 @@ public class Itinerary {
     }
 
     public void addEvent(Event newEvent) {
-	// must get a new Transportation item first
-//	Transportation newTransportation = joinEvents((Event) itin.get(itin.size() - 1), newEvent);
-//	itin.add(newTransportation);
-//	itin.add(newEvent);
-//	handleConflict(newEvent);
-//
-//		// Create new event
-//		System.out.println("ADDING EVENT");
-//
-//		Event event = new Event("Hidden Leaf", "Land of Fire", 49.2, 49.2, "Go see the naruto", 5, 20,
-//		        new Time(2019, 10, 25, 9, 30, true), new Time(2019, 10, 25, 10, 0, true),
-//		        new Time(0, 0, 0, 0, 30, true), "Land of Fire", "Go", "tempID");
 		itin.add(newEvent);
 		handleConflict(newEvent);
     }

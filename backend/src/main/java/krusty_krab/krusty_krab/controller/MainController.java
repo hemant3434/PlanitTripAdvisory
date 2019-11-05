@@ -51,44 +51,10 @@ public class MainController {
     itin.setHomeLong(body.getHomeLong());
     itin.setMethodsOfTrans(body.getMethodsOfTrans());
     itin.setActivities(body.getActivities());
-
-    /*System.out.println(body.getStartTime());
-    System.out.println(body.getEndTime());
-    System.out.println(body.getMaxDist());
-    System.out.println(body.getBudget());
-    System.out.println(body.getLocationLat());
-    System.out.println(body.getLocationLong());
-    System.out.println(body.getHomeLat());
-    System.out.println(body.getHomeLong());
-    System.out.println(body.getMethodsOfTrans());
-    System.out.println(body.getActivities());*/
     
     itin.createItinerary(this.user);
     return ResponseEntity.ok().body(itin.getItin());
   }
-
-  /*@GetMapping("/getItinerary")
-  public ResponseEntity<?> getItinerary(@RequestBody Itinerary body) throws Exception {
-
-
-//	// is this map needed?
-//    //Map<String, Object> map = new HashMap<String, Object>();
-//    itin = new Itinerary();
-//    //Sends dummy data for the user filters into the itinerary class
-//    itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
-//    itin.setEndTime(new Time(2019, 10, 25, 23, 00, true));
-//    itin.setHome("union station");
-//    itin.setLocation("toronto");
-//    itin.setMaxDist(20);
-//    List<String> activities = new ArrayList<String>();
-//    activities.add("aquarium");
-//    activities.add("art gallery");
-//    itin.setActivities(activities);
-//    itin.setBudget(200);
-
-    itin.createItinerary(this.user);
-    return ResponseEntity.ok().body(itin.getItin());
-  }*/
   
   @GetMapping("/viewItinerary")
   public List<ItineraryItem> viewItinerary() {
