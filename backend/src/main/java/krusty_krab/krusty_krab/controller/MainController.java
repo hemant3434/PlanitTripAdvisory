@@ -71,8 +71,9 @@ public class MainController {
   }
   
   @PostMapping("/addEvent")
-  public void addEvent(@RequestBody Event event) {
+  public ResponseEntity<?> addEvent(@RequestBody Event event) {
       itin.addEvent(event);
+      return ResponseEntity.ok().build();
   }
   
   @PutMapping("/deleteEvent")
