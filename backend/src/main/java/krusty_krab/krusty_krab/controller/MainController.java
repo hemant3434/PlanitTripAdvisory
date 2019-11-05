@@ -82,7 +82,7 @@ public class MainController {
     itin.setBudget(body.getBudget());
     itin.setLocationLat(body.getLocationLat());
     itin.setLocationLong(body.getLocationLong());
-    itin.setHome("union station");
+    itin.setHome("");
     itin.setHomeLat(body.getHomeLat());
     itin.setHomeLong(body.getHomeLong());
     itin.setMethodsOfTrans(body.getMethodsOfTrans());

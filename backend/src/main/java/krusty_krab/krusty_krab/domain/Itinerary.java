@@ -72,7 +72,7 @@ public class Itinerary {
             // Loops until it runs out of events, or all events remaining has a score so low that they shouldn't be on the itinerary
             while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans()) > minScore){
                 // Gets transportation object from the next event and the current location of the user
-                Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getLocation(), curTime, this.getMethodsOfTrans());
+                Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getId(), curTime, this.getMethodsOfTrans());
                 // Transporation object to begin at the current time
                 transp.setStartTime(curTime);
                 curTime = curTime.add(transp.getExpectedLength());
@@ -87,7 +87,7 @@ public class Itinerary {
                 this.visitedEvents.add(nextEvent.getLocation());
 
                 //Current time updated to after event is over, current location updated to event location
-                curLoc = nextEvent.getLocation();
+                curLoc = nextEvent.getId();
                 curTime = curTime.add(nextEvent.getExpectedLength());
                 nextEvent.setEndTime(curTime);
                 // Gets next event
@@ -125,19 +125,19 @@ public class Itinerary {
     				// EDGE CASE 1: first event being deleted, must join home with next event
     				Event successorEvent = new Event();
     				successorEvent = (Event) itin.get(0);
-    				fillerTrans = joinEvents(this.home, successorEvent.getLocation(), this.startTime);
+    				fillerTrans = joinEvents(this.home, successorEvent.getId(), this.startTime);
     			} else if (i == itinLength - 2) { 
     				// EDGE CASE 2: last event being deleted, must join last event with home
     				Event predecessorEvent = new Event();
     				predecessorEvent = (Event) itin.get(i - 2);
-    				fillerTrans = joinEvents(predecessorEvent.getLocation(), this.home, predecessorEvent.getEndTime());
+    				fillerTrans = joinEvents(predecessorEvent.getId(), this.home, predecessorEvent.getEndTime());
     			} else {
     				// ELSE: deleted event is inside the list
     				Event predecessorEvent = new Event();
     				predecessorEvent = (Event) itin.get(i - 2);
     				Event successorEvent = new Event();
     				successorEvent = (Event) itin.get(i - 1);
-    				fillerTrans = joinEvents(predecessorEvent.getLocation(), successorEvent.getLocation(), predecessorEvent.getEndTime());
+    				fillerTrans = joinEvents(predecessorEvent.getId(), successorEvent.getId(), predecessorEvent.getEndTime());
     			}
 				itin.add(i - 1, fillerTrans);
 				break;
@@ -200,14 +200,14 @@ public class Itinerary {
 	    if (i == itin.size()-1 && itin.get(i) instanceof Event) {
 		System.out.println(itin.get(i).getTitle());
 		System.out.println("transportation home");
-		itin.add(i, gm.getTransportation(((Event) itin.get(i)).getLocation(), home, itin.get(i).getEndTime(), this.getMethodsOfTrans()));
+		itin.add(i, gm.getTransportation(((Event) itin.get(i)).getId(), home, itin.get(i).getEndTime(), this.getMethodsOfTrans()));
 	    }
 	    if (i == 0 & itin.get(i) instanceof Event) {
-		itin.add(i, gm.getTransportation(home, ((Event) itin.get(i)).getLocation(), startTime, this.getMethodsOfTrans()));
+		itin.add(i, gm.getTransportation(home, ((Event) itin.get(i)).getId(), startTime, this.getMethodsOfTrans()));
 	    } else if (itin.get(i) instanceof Event && itin.get(i-1) instanceof Event) {
 		Event e1 = (Event) itin.get(i-1);
 		Event e2 = (Event) itin.get(i);
-		itin.add(i, gm.getTransportation(e1.getLocation(), e2.getLocation(), e1.getEndTime(), this.getMethodsOfTrans()));
+		itin.add(i, gm.getTransportation(e1.getId(), e2.getId(), e1.getEndTime(), this.getMethodsOfTrans()));
 	    }
 	}
 	// Final sort
@@ -224,9 +224,9 @@ public class Itinerary {
 
 		// Google maps transportation doesn't work yet so this method won't work. This
 		// method works without travel time information
-		Time travelToTime = gm.getTransportation(curr.getLocation(), event.getLocation(), curr.getEndTime(), this.getMethodsOfTrans())
+		Time travelToTime = gm.getTransportation(curr.getId(), event.getId(), curr.getEndTime(), this.getMethodsOfTrans())
 			.getExpectedLength();
-		Time travelFromTime = gm.getTransportation(event.getLocation(), next.getLocation(), next.getEndTime(), this.getMethodsOfTrans())
+		Time travelFromTime = gm.getTransportation(event.getId(), next.getId(), next.getEndTime(), this.getMethodsOfTrans())
 			.getExpectedLength();
 //		long travelTime = travelToTime.add(travelFromTime).toMinutes();
 		
