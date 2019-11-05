@@ -24,6 +24,7 @@ const LoginScreen = (props) => {
     }
 
     // navigation.navigate('Dashboard');
+    props.onLoginPressed();
   };
 
   return (
@@ -65,7 +66,7 @@ const LoginScreen = (props) => {
         </TouchableOpacity>
       </View>
 
-      <Button mode="contained" onPress={_onLoginPressed}>
+      <Button mode="contained" onPress={props.onLoginPressed}>
         Login
       </Button>
 
