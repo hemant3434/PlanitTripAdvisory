@@ -107,39 +107,43 @@ public class Itinerary {
 //	itin.add(newTransportation);
 //	itin.add(newEvent);
 //	handleConflict(newEvent);
-
-		// Create new event
-		System.out.println("ADDING EVENT");
-
-		Event event = new Event("Hidden Leaf", "Land of Fire", 49.2, 49.2, "Go see the naruto", 5, 20,
-		        new Time(2019, 10, 25, 9, 30, true), new Time(2019, 10, 25, 10, 0, true),
-		        new Time(0, 0, 0, 0, 30, true), "Land of Fire", "Go", "tempID");
-		itin.add(event);
-		handleConflict(event);
+//
+//		// Create new event
+//		System.out.println("ADDING EVENT");
+//
+//		Event event = new Event("Hidden Leaf", "Land of Fire", 49.2, 49.2, "Go see the naruto", 5, 20,
+//		        new Time(2019, 10, 25, 9, 30, true), new Time(2019, 10, 25, 10, 0, true),
+//		        new Time(0, 0, 0, 0, 30, true), "Land of Fire", "Go", "tempID");
+		itin.add(newEvent);
+		handleConflict(newEvent);
     }
 
-    public void deleteEvent(Event event) {
+    public void deleteEvent(String eventId) {
     	// need to delete event
     	// iterate through the itinerary
-    	for (int i = 0; i < itin.size() - 1; i++) {
+		int itinLength = itin.size();
+    	for (int i = 0; i < itinLength - 1; i++) {
+			System.out.println(i);
     		ItineraryItem item = itin.get(i);
     		// if the event to be deleted matches the current iterated ItinItem
-    		if (item instanceof Event && ((Event) item).getId().equals(event.getId())) {
+    		if (item instanceof Event && ((Event) item).getId().equals(eventId)) {
 				Transportation fillerTrans = new Transportation();
     			// remove the transportation before, event itself, then transportation after
     			for (int j = 0; j < 3; j++) {
     				itin.remove(i - 1);
     			}
+    			// EDGE CASE: if event is the only one in itin, delete stuffs and exit
+    			if (itin.size() == 0) break;
     			if (i == 1) {
     				// EDGE CASE 1: first event being deleted, must join home with next event
     				Event successorEvent = new Event();
     				successorEvent = (Event) itin.get(0);
-    				fillerTrans = joinEvents(this.location, successorEvent.getLocation(), this.startTime);
-    			} else if (i == itin.size() - 2) {
+    				fillerTrans = joinEvents(this.home, successorEvent.getLocation(), this.startTime);
+    			} else if (i == itinLength - 2) { 
     				// EDGE CASE 2: last event being deleted, must join last event with home
     				Event predecessorEvent = new Event();
     				predecessorEvent = (Event) itin.get(i - 2);
-    				fillerTrans = joinEvents(predecessorEvent.getLocation(), this.location, predecessorEvent.getEndTime());
+    				fillerTrans = joinEvents(predecessorEvent.getLocation(), this.home, predecessorEvent.getEndTime());
     			} else {
     				// ELSE: deleted event is inside the list
     				Event predecessorEvent = new Event();

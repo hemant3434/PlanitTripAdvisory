@@ -38,20 +38,21 @@ public class MainController {
     return ResponseEntity.ok().body(map);
   }
 
-  @PutMapping("/setItinInfo")
-  public void setItinInfo(@RequestBody Itinerary body) {
+  @PutMapping("/getItinerary")
+  public ResponseEntity<?> getItinerary(@RequestBody Itinerary body) throws Exception {
     itin.setStartTime(body.getStartTime());
     itin.setEndTime(body.getEndTime());
     itin.setMaxDist(body.getMaxDist());
     itin.setBudget(body.getBudget());
     itin.setLocationLat(body.getLocationLat());
     itin.setLocationLong(body.getLocationLong());
+    itin.setHome("union station");
     itin.setHomeLat(body.getHomeLat());
     itin.setHomeLong(body.getHomeLong());
     itin.setMethodsOfTrans(body.getMethodsOfTrans());
     itin.setActivities(body.getActivities());
 
-    System.out.println(body.getStartTime());
+    /*System.out.println(body.getStartTime());
     System.out.println(body.getEndTime());
     System.out.println(body.getMaxDist());
     System.out.println(body.getBudget());
@@ -60,31 +61,34 @@ public class MainController {
     System.out.println(body.getHomeLat());
     System.out.println(body.getHomeLong());
     System.out.println(body.getMethodsOfTrans());
-    System.out.println(body.getActivities());
-  }
-
-  @GetMapping("/getItinerary")
-  public ResponseEntity<?> getItinerary(@RequestBody Itinerary body) throws Exception {
-
-
-	// is this map needed?
-    //Map<String, Object> map = new HashMap<String, Object>();
-    itin = new Itinerary();
-    //Sends dummy data for the user filters into the itinerary class
-    itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
-    itin.setEndTime(new Time(2019, 10, 25, 23, 00, true));
-    itin.setHome("union station");
-    itin.setLocation("toronto");
-    itin.setMaxDist(20);
-    List<String> activities = new ArrayList<String>();
-    activities.add("aquarium");
-    activities.add("art gallery");
-    itin.setActivities(activities);
-    itin.setBudget(200);
-
+    System.out.println(body.getActivities());*/
+    
     itin.createItinerary(this.user);
     return ResponseEntity.ok().body(itin.getItin());
   }
+
+  /*@GetMapping("/getItinerary")
+  public ResponseEntity<?> getItinerary(@RequestBody Itinerary body) throws Exception {
+
+
+//	// is this map needed?
+//    //Map<String, Object> map = new HashMap<String, Object>();
+//    itin = new Itinerary();
+//    //Sends dummy data for the user filters into the itinerary class
+//    itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
+//    itin.setEndTime(new Time(2019, 10, 25, 23, 00, true));
+//    itin.setHome("union station");
+//    itin.setLocation("toronto");
+//    itin.setMaxDist(20);
+//    List<String> activities = new ArrayList<String>();
+//    activities.add("aquarium");
+//    activities.add("art gallery");
+//    itin.setActivities(activities);
+//    itin.setBudget(200);
+
+    itin.createItinerary(this.user);
+    return ResponseEntity.ok().body(itin.getItin());
+  }*/
   
   @GetMapping("/viewItinerary")
   public List<ItineraryItem> viewItinerary() {
@@ -108,14 +112,7 @@ public class MainController {
   @PutMapping("/deleteEvent")
   public ResponseEntity<?> deleteEvent(@RequestBody Map<String, String> body) {
 	  String eventId = new String(body.get("eventId"));
-	  Event eventToDelete = new Event();
-	  for (ItineraryItem item: itin.getItin()) {
-		  if (((Event) item).getId().equals(eventId)) {
-			  eventToDelete = (Event) item;
-			  break;
-		  }
-	  }
-	  itin.deleteEvent(eventToDelete);
+	  itin.deleteEvent(eventId);
 	  return ResponseEntity.ok().build();
   }
   
@@ -149,6 +146,7 @@ public class MainController {
   @PutMapping("/addTransportation")
   public ResponseEntity<?> changeTransportation(@RequestBody Map<String, Object> body) {
 	  Object transportationArray = body.get("Transportation");
+	  System.out.println(transportationArray);
 	  for (String transportation: (ArrayList<String>)transportationArray) {
 		  itin.addMethodsOfTrans(transportation);
 	  }
