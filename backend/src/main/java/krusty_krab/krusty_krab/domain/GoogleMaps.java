@@ -9,6 +9,9 @@ import java.util.Map;
 import com.google.maps.*;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
+import java.time.*;
+import java.util.Date;
+import java.lang.Math.*;
 
 public class GoogleMaps {
 
@@ -19,17 +22,49 @@ public class GoogleMaps {
       KEY = new GeoApiContext.Builder().apiKey("AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8").build();
     }
   }
-
-  public Transportation getTransportation(String loc1, String loc2, Time startTime) {
-
+  
+  public static Instant getInstant(Time start) {
+    
+    long seconds_start = start.toMinutes()*60;
+    
+    Date date = new Date();
+    Time curr = new Time(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes(), true);
+    long seconds_curr = curr.toMinutes()*60;
+    
+    Instant now = Instant.now();
+    long offset = Math.abs(seconds_curr - seconds_start);
+    now.plusSeconds(offset);
+    
+    return now;
+  }
+  
+  public List<Transportation> getTransportation(String loc1, String loc2, Time startTime, List<String> methods) throws Exception {
+    List<Transportation> obj = null;
+    
+    for(String i: methods) {
+      if(i.equals("Bike")) {
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.BICYCLING).de;
+      }
+      if(i.equals("Drive")) {
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.DRIVING);
+      }
+      if(i.equals("Transit")) {
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.TRANSIT).departureTime(getInstant(startTime));
+        DirectionsResult res = req.await();
+      }
+      if(i.equals("Walk")) {
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.WALKING);
+      }
+    }
+    
     if ((loc1.equals("union station") && loc2.equals("ripley's aquarium"))
         || (loc2.equals("union station") && loc1.equals("ripley's aquarium"))) {
-      return new Transportation(10, "walk", 0, startTime,
+      obj.add(new Transportation(10, "walk", 0, startTime,
           startTime.add(new Time(0, 0, 0, 0, 15, true)), new Time(0, 0, 0, 0, 15, true),
-          "flight-takeoff", "15 minutes");
+          "flight-takeoff", "15 minutes"));
     }
 
-    return new Transportation();
+    return obj;
   }
 
   public static int filterByPrice(float budget, float price) {
@@ -140,9 +175,9 @@ public class GoogleMaps {
         events.add(e);
       }
     }
-    
+
     for (Event i : events) {
-      System.out.println(i.getLocation());
+      System.out.println(i.getId());
     }
     return events;
   }
