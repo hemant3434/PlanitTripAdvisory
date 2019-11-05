@@ -138,35 +138,39 @@ public class GoogleMaps {
       }
     }
     if (curDayIndex != -1) {
-      System.out.println(hours.periods[curDayIndex].open.time.getHour());
+      int str_year = time.getYear();
+      int str_month = time.getMonth();
+      int str_day = time.getDay();
+      int str_hour = hours.periods[curDayIndex].open.time.getHour();
+      int str_minute = hours.periods[curDayIndex].open.time.getMinute();
+      boolean str_positive = true;
+
+      int clo_year = time.getYear();
+      int clo_month = time.getMonth();
+      int clo_day = time.getDay();
+      int clo_hour = hours.periods[curDayIndex].close.time.getHour();
+      int clo_minute = hours.periods[curDayIndex].close.time.getMinute();
+      boolean clo_positive = true;
+
+      //if event closes after 12pm, just sets it to close at 12pm
+      if(clo_hour < str_hour){
+        clo_hour = 24;
+        clo_minute = 0;
+      }
+
+      Time open = new Time(str_year, str_month, str_day, str_hour, str_minute, str_positive);
+      Time close = new Time(clo_year, clo_month, clo_day, clo_hour, clo_minute, clo_positive);
+      Time[] times = {open, close};
+
+      times[0] = open;
+      times[1] = close;
+
+      return times;
+    }
+    else{
+      return null;
     }
 
-
-    int str_year = time.getYear();
-    int str_month = time.getMonth();
-    int str_day = time.getDay();
-    int str_hour = hours.periods[curDayIndex].open.time.getHour();
-    int str_minute = hours.periods[curDayIndex].open.time.getMinute();
-    boolean str_positive = true;
-
-    int clo_year = time.getYear();
-    int clo_month = time.getMonth();
-    int clo_day = time.getDay();
-    int clo_hour = hours.periods[curDayIndex].close.time.getHour();
-    int clo_minute = hours.periods[curDayIndex].close.time.getMinute();
-    boolean clo_positive = false;
-
-    Time open = new Time(str_year, str_month, str_day, str_hour, str_minute, str_positive);
-    Time close = new Time(clo_year, clo_month, clo_day, clo_hour, clo_minute, clo_positive);
-    Time[] times = {open, close};
-
-    //System.out.println(open);
-    //System.out.println(close);
-    //System.out.println("A");
-
-    times[0] = open;
-    times[1] = close;
-    return times;
   }
 
   public static String getPhoto(Photo[] photos) {
@@ -206,23 +210,26 @@ public class GoogleMaps {
       PlaceDetails r = req.await();
 
       if(r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null && r.openingHours != null && r.photos != null && r.url != null) {
-        int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
-        int second = filterByTime(startTime, endTime, getTime(r.openingHours, startTime));
+        Time[] times = getTime(r.openingHours, startTime);
+        if(times != null){
+          int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
+          int second = filterByTime(startTime, endTime, times);
 
 
-        if ((first + second) == 0) {
-          Event e = new Event(r.name, r.formattedAddress,
-                  Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
-                  getPriceLevel(r.priceLevel), getTime(r.openingHours, startTime)[0], getTime(r.openingHours, startTime)[1],
-                  new Time(0, 0, 0, 2, 0, true), getPhoto(r.photos), r.url.toString(), i);
+          if ((first + second) == 0) {
+            Event e = new Event(r.name, r.formattedAddress,
+                    Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
+                    getPriceLevel(r.priceLevel), times[0], times[1],
+                    new Time(0, 0, 0, 2, 0, true), getPhoto(r.photos), r.url.toString(), i);
 
-          events.add(e);
+            events.add(e);
+          }
         }
       }
     }
 
     for (Event i : events) {
-      System.out.println(i.getId());
+      //System.out.println(i.getLocation());
     }
     return events;
   }
