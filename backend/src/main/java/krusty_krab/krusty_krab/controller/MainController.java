@@ -81,6 +81,10 @@ public class MainController {
     activities.add("art gallery");
     
     maps.getEvents(start, end, lat, ltd, distance, activities, budget);
+    
+    List<String> methods = new ArrayList<String>();
+    methods.add("Transit");
+    maps.getTransportation("ChIJpTvG15DL1IkRd8S0KlBVNTI", "ChIJwwG-b1jQ1IkRnj-qyyZSYz4", start, methods);
     return ResponseEntity.ok().body(map);
   }
   
