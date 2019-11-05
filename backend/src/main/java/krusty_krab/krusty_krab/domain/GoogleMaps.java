@@ -240,7 +240,7 @@ public class GoogleMaps {
     }
 
     for (Event i : events) {
-      //System.out.println(i.getLocation());
+      System.out.println(i.getLocation());
     }
     return events;
   }

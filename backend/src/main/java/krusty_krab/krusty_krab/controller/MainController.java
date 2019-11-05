@@ -41,13 +41,20 @@ public class MainController {
   @GetMapping("/getDummy2")
   public ResponseEntity<?> getDummy2(@RequestBody Map<String, Object> body) {
 
+    GoogleMaps maps = new GoogleMaps();
+    Time start = new Time(2019, 11, 3, 9, 00, true);
+    Time end = new Time(2019, 11, 3, 20, 00, true);
+    double lat = 43.7764;
+    double ltd = -79.2318;
+    float budget = 4;
+    float distance = 1f;
+
     List<String> activities = new ArrayList<String>();
     activities.add("aquarium");
     activities.add("art gallery");
-    List<Event> events = gm.getEvents(new Time(2019, 10, 25, 9, 00, true), new Time(2019, 10, 25, 20, 00, true), 47.2, 47.2, 20, activities, 200);
-    List<Event> list = new ArrayList<>();
-    list.add(new );
-    return ResponseEntity.ok().body(list);
+
+    return ResponseEntity.ok().body(maps.getEvents(start, end, lat, ltd, distance, activities, budget));
+
   }
 
   @GetMapping("/getItinerary")
