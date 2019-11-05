@@ -112,6 +112,14 @@ public class GoogleMaps {
     return chooseTransportation(obj);
   }
 
+  public static int filterByPrice(float budget, float price) {
+
+    if (budget < price) {
+      return 100;
+    }
+    return 0;
+  }
+
   public static int filterByTime(Time startTime, Time endTime, Time[] times) {
 
     return 0;
