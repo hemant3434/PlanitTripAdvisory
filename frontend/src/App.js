@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Itinerary from './pages/ItineraryPage';
 import MapPage from './pages/MapPage';
+import ExplorePage from './pages/ExplorePage';
 import Multi from './navigation/CreateItinerary';
 
 import { createAppContainer } from 'react-navigation';
@@ -51,7 +52,7 @@ class ProfileScreen extends React.Component {
 const bottomTabNavigator = createBottomTabNavigator(
   {
     Explore: {
-      screen: Multi,
+      screen: ExplorePage,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="search" size={25} color={tintColor} />
@@ -75,7 +76,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Itinerary: {
-      screen: Itinerary,
+      screen: Multi,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="search" size={25} color={tintColor} />

@@ -19,6 +19,7 @@ export default class MapPicker extends React.Component {
             latitude: 43.6532,
             longitude: -79.3832,
           }}
+          onLocationSelect={this.props.onLocationSelectProp}
         />
       </View>
     );

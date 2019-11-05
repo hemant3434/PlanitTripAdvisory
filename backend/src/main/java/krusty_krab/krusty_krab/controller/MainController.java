@@ -20,7 +20,8 @@ public class MainController {
       + "iEGB24b&ust=1571261300777966";
 
   Itinerary itin = new Itinerary();
-  User user;
+  //Instantiated by register, remove instantiation for final product
+  User user = new User("amy", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
   GoogleMaps gm = new GoogleMaps();
 
   @Autowired
@@ -34,26 +35,45 @@ public class MainController {
     map.put("Description", "Iconic Line");
     map.put("URL", link);
 
-    //User user = new User("2");
-    //userService.addUser(user.getUsername());
-    //User user = userService.getUser("2");
-    //user.getVisitedEvents().add("1");
-    //user.getEventToRating().put("1", 4f);
-
-    //userService.deleteUser(user.getUsername());
-
     return ResponseEntity.ok().body(map);
   }
 
+  @PutMapping("/setItinInfo")
+  public void setItinInfo(@RequestBody Itinerary body) {
+    itin.setStartTime(body.getStartTime());
+    itin.setEndTime(body.getEndTime());
+    itin.setMaxDist(body.getMaxDist());
+    itin.setBudget(body.getBudget());
+    itin.setLocationLat(body.getLocationLat());
+    itin.setLocationLong(body.getLocationLong());
+    itin.setHome("union station");
+    itin.setHomeLat(body.getHomeLat());
+    itin.setHomeLong(body.getHomeLong());
+    itin.setMethodsOfTrans(body.getMethodsOfTrans());
+    itin.setActivities(body.getActivities());
+
+    System.out.println(body.getStartTime());
+    System.out.println(body.getEndTime());
+    System.out.println(body.getMaxDist());
+    System.out.println(body.getBudget());
+    System.out.println(body.getLocationLat());
+    System.out.println(body.getLocationLong());
+    System.out.println(body.getHomeLat());
+    System.out.println(body.getHomeLong());
+    System.out.println(body.getMethodsOfTrans());
+    System.out.println(body.getActivities());
+  }
+
   @GetMapping("/getItinerary")
-  public ResponseEntity<?> getItinerary(@RequestBody Map<String, Object> body) throws Exception {
+  public ResponseEntity<?> getItinerary(@RequestBody Itinerary body) throws Exception {
+
 
 	// is this map needed?
     //Map<String, Object> map = new HashMap<String, Object>();
-
+    /*itin = new Itinerary();
     //Sends dummy data for the user filters into the itinerary class
     itin.setStartTime(new Time(2019, 10, 25, 9, 00, true));
-    itin.setEndTime(new Time(2019, 10, 25, 20, 00, true));
+    itin.setEndTime(new Time(2019, 10, 25, 23, 00, true));
     itin.setHome("union station");
     itin.setLocation("toronto");
     itin.setMaxDist(20);
@@ -61,9 +81,9 @@ public class MainController {
     activities.add("aquarium");
     activities.add("art gallery");
     itin.setActivities(activities);
-    itin.setBudget(200);
+    itin.setBudget(200);*/
 
-    itin.createItinerary();
+    itin.createItinerary(this.user);
     return ResponseEntity.ok().body(itin.getItin());
   }
   
@@ -72,19 +92,37 @@ public class MainController {
       return itin.getItin();
   }
   
+//  @GetMapping("/dummy1")
+//  public void dummy1(@RequestBody )
+  	
+
+  @GetMapping("getExploreEvents")
+  public List<Event> getExploreEvents() {
+    return GoogleMaps.getExploreEvents();
+  }
+  
   @PostMapping("/addEvent")
   public void addEvent(@RequestBody Event event) {
       itin.addEvent(event);
   }
   
-//  @PutMapping("/deleteEvent")
-//  public void deleteEvent(@RequestBody Event event) {
-//	  itin.deleteEvent(event);
-//  }
+  @PutMapping("/deleteEvent")
+  public ResponseEntity<?> deleteEvent(@RequestBody Map<String, String> body) {
+	  String eventId = new String(body.get("eventId"));
+	  Event eventToDelete = new Event();
+	  for (ItineraryItem item: itin.getItin()) {
+		  if (((Event) item).getId().equals(eventId)) {
+			  eventToDelete = (Event) item;
+			  break;
+		  }
+	  }
+	  itin.deleteEvent(eventToDelete);
+	  return ResponseEntity.ok().build();
+  }
   
   @PutMapping("/changeTime")
   public ResponseEntity<?> changeTime(@RequestBody Itinerary body) {
-      itin.setStartTime(body.getStartTime());
+      //itin.setStartTime(body.getStartTime());
       itin.setEndTime(body.getEndTime());
       return ResponseEntity.ok().build();
   }
@@ -96,30 +134,26 @@ public class MainController {
   }
   
   @PutMapping("/changeMaxBudget")
-  public ResponseEntity<?> changeMaxBudget(@RequestBody Itinerary body) {
-	  itin.setBudget(body.getBudget());
+  public ResponseEntity<?> changeMaxBudget(@RequestBody Map<String, Float> body) {
+	  Float newBudget = body.get("budget");
+	  itin.setBudget(newBudget);
 	  return ResponseEntity.ok().build();
   }
   
   @PutMapping("/changeMaxDistance")
-  public ResponseEntity<?> changeMaxDistance(@RequestBody Itinerary body) {
-	  itin.setMaxDist(body.getMaxDist());
+  public ResponseEntity<?> changeMaxDistance(@RequestBody Map<String, Float> body) {
+	  Float maxDist = body.get("maxDist");
+	  itin.setMaxDist(maxDist);
 	  return ResponseEntity.ok().build();
   }
   
   @PutMapping("/addTransportation")
   public ResponseEntity<?> changeTransportation(@RequestBody Map<String, Object> body) {
-	  Object canWalk = body.get("walk");
-	  Object canBus = body.get("bus");
-	  Object canDrive = body.get("drive");
-	  if (body.size() != 3 || canWalk == null || canBus == null || canDrive == null) {
-		  return ResponseEntity.badRequest().build();
-	  } else {
-		  if ((Boolean)canWalk) itin.addMethodsOfTrans("walk");
-		  if ((Boolean)canBus) itin.addMethodsOfTrans("bus");
-		  if ((Boolean)canDrive) itin.addMethodsOfTrans("drive");
-		  return ResponseEntity.ok().build();
+	  Object transportationArray = body.get("Transportation");
+	  for (String transportation: (ArrayList<String>)transportationArray) {
+		  itin.addMethodsOfTrans(transportation);
 	  }
+	  return ResponseEntity.ok().build();
   }
 
   @PutMapping("/login")
@@ -129,7 +163,11 @@ public class MainController {
 
   @PutMapping("/register")
   public void register(@RequestBody User body) {
-    userService.addUser(body.getUsername());
-    this.user = userService.getUser(body.getUsername());
+    this.user = new User(body.getUsername(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    userService.addUser(user);
+  }
+
+  public UserService getUserService() {
+    return userService;
   }
 }

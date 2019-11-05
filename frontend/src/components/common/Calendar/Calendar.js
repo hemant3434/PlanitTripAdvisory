@@ -36,7 +36,6 @@ export default class CalendarsScreen extends Component {
 
 const styles = StyleSheet.create({
   calendar: {
-    paddingTop: 20,
     height: 350
   },
   text: {
@@ -45,5 +44,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    padding: 20
   }
 });

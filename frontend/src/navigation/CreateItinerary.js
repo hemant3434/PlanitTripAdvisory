@@ -1,15 +1,52 @@
 import React, { Component } from 'react';
 import { Text, View, Button } from 'react-native';
 import DateTime from '../pages/DateTime';
+import ItineraryFilters from '../pages/ItineraryFilters';
+import MapPicker from '../components/common/MapPicker/MapPicker';
+import axios from 'axios';
 
 export class Multi extends Component {
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData(){
+    axios.get('http://100.80.11.91:8080/api/v1/getItinerary', {
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      maxDist: this.state.distance,
+      budget: this.state.budget,
+      locationLat: this.state.locationLatitude,
+      locationLong: this.state.locationLongitude,
+      homeLat: this.state.homeLatitude,
+      homeLong: this.state.homeLongitude,
+      methodOfTrans: this.state.transportation,
+      activities: this.state.activities
+    })
+    .then(res => {
+      this.setState({
+        isLoading: false,
+      });
+    })
+    .catch(error => console.log(error));;
+  }
+
   constructor(props){
     super(props)
     this.state = {
       step: 1,
-      date: "Date",
-      startTime: "Start Time",
-      endTime: "End Time"
+      date: null,
+      startTime: null,
+      endTime: null,
+      budget: null,
+      distance: null,
+      locationLatitude: null,
+      locationLongitude: null,
+      homeLatitude: null,
+      homeLongitude: null,
+      transportation: [],
+      activities: [],
+      isLoading: true
     };
   }
 
@@ -31,11 +68,62 @@ export class Multi extends Component {
     })
   }
 
-  nextStep = () => {
-    const { step } = this.state;
+  setBudget = (dataFromChild) => {
     this.setState({
-      step: step + 1
-    });
+      budget: dataFromChild
+    })
+  }
+
+  setDistance = (dataFromChild) => {
+    this.setState({
+      distance: dataFromChild
+    })
+  }
+
+  setTransportation = (dataFromChild) => {
+    this.setState ({
+      transportation: dataFromChild
+    })
+  }
+
+  setLocation = (latitude, longitude) => {
+    this.setState ({
+      locationLatitude: latitude,
+      locationLongitude: longitude,
+      homeLatitude: latitude,
+      homeLongitude: longitude
+    })
+  }
+
+  checkValues = () => {
+    const { step } = this.state;
+    switch(step) {
+      case 1:
+        return(
+          this.state.date &&
+          this.state.startTime &&
+          this.state.endTime &&
+          this.state.distance &&
+          this.state.budget &&
+          this.state.transportation.length
+        );
+      case 2:
+        return(
+          this.state.latitude &&
+          this.state.longitude
+        );
+    }
+  };
+
+  nextStep = () => {
+    const { step, date, startTime, endTime } = this.state;
+    if (this.checkValues()) {
+      this.setState({
+        startTime: date + " " + startTime,
+        endTime: date + " " + endTime,
+        step: step + 1
+      });
+    }
   };
 
   previousStep = () => {
@@ -54,27 +142,23 @@ export class Multi extends Component {
     switch(step){
       case 1:
         return(
-            <DateTime
-              continue={this.nextStep}
-              previous={this.previousStep}
-              setDateFromParent={this.setDate}
-              setStartTimeFromParent={this.setStartTime}
-              setEndTimeFromParent={this.setEndTime}
-            />
+          <ItineraryFilters
+            continue={this.nextStep}
+            previous={this.previousStep}
+            setDateFromParent={this.setDate}
+            setStartTimeFromParent={this.setStartTime}
+            setEndTimeFromParent={this.setEndTime}
+            setBudgetFromParent={this.setBudget}
+            setDistanceFromParent={this.setDistance}
+            setTransportationFromParent={this.setTransportation}
+          />
         );
       case 2:
+        console.log(this.state);
         return(
-          <View style={{paddingTop: 100, justifyContent: 'center', alignItems: 'center'}}>
-            <Text>
-              {this.state.date}
-            </Text>
-            <Text>
-              {this.state.endTime}
-            </Text>
-            <Text>
-              {this.state.startTime}
-            </Text>
-          </View>
+          <MapPicker
+            onLocationSelectProp={(obj)=>this.setLocation(obj.latitude, obj.longitude)}
+          />
         );
     }
   }

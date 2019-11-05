@@ -27,36 +27,44 @@ export default class TimePicker extends Component {
   };
 
   handleStartTimePicked = startTime => {
-    this.setState({ selectedStartTime: startTime.toString() });
+    this.setState({ selectedStartTime: startTime.toLocaleTimeString() });
     this.hideStartTimePicker();
-    this.props.setStartTimeFromParent(startTime.toString());
+    this.props.setStartTimeFromParent(startTime.toLocaleTimeString());
   };
 
   handleEndTimePicked = endTime => {
-    this.setState({ selectedEndTime: endTime.toString() });
+    this.setState({ selectedEndTime: endTime.toLocaleTimeString() });
     this.hideEndTimePicker();
-    this.props.setEndTimeFromParent(endTime.toString());
+    this.props.setEndTimeFromParent(endTime.toLocaleTimeString());
   };
 
   render() {
     const { isStartTimePickerVisible, isEndTimePickerVisible, selectedStartTime, selectedEndTime } = this.state;
 
     return (
-      <View style={styles.container}>
-        <Button title="Start Time" onPress={this.showStartTimePicker} />
-        <DateTimePicker
-          isVisible={isStartTimePickerVisible}
-          onConfirm={this.handleStartTimePicked}
-          onCancel={this.hideStartTimePicker}
-          mode="time"
-        />
-        <Button title="End Time" onPress={this.showEndTimePicker} />
-        <DateTimePicker
-          isVisible={isEndTimePickerVisible}
-          onConfirm={this.handleEndTimePicked}
-          onCancel={this.hideEndTimePicker}
-          mode="time"
-        />
+      <View>
+        <View style={styles.container}>
+          <Button title="Start Time" onPress={this.showStartTimePicker} />
+          <DateTimePicker
+            titleIOS={"Pick a start time"}
+            isVisible={isStartTimePickerVisible}
+            onConfirm={this.handleStartTimePicked}
+            onCancel={this.hideStartTimePicker}
+            mode="time"
+          />
+          <Button title="End Time" onPress={this.showEndTimePicker} />
+          <DateTimePicker
+            titleIOS={"Pick a end time"}
+            isVisible={isEndTimePickerVisible}
+            onConfirm={this.handleEndTimePicked}
+            onCancel={this.hideEndTimePicker}
+            mode="time"
+          />
+        </View>
+        <View style={styles.text}>
+          <Text>{this.state.selectedStartTime}</Text>
+          <Text>{this.state.selectedEndTime}</Text>
+        </View>
       </View>
     );
   }
@@ -64,11 +72,15 @@ export default class TimePicker extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
+    padding: 10
   },
   text: {
-    marginVertical: 0
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 20
   }
 });

@@ -13,10 +13,13 @@ class ImageCard extends Component{
         title={this.props.title}
         image={this.props.image}>
         <Text style={{marginBottom: 10}}>{this.props.text}</Text>
+        <View style={{flexDirection: 'row', flex: 2, justifyContent: 'space-between'}}>
+          <Button
+        icon={<Icon name='code' color='#ffffff'/>}
+        title='ADD EVENT' onPress={this.fetchData()}/>
         <Button
-        icon={<Icon name='code' color='#ffffff' />}
-        buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-        title='VIEW EVENT' />
+        icon={<Icon name='code' color='#ffffff'/>}
+        title='DELETE EVENT' onPress={this.fetchData()}/></View>
       </Card>
     );
   }

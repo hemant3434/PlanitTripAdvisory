@@ -16,6 +16,34 @@ public class Time {
         this.hour = hour;
         this.minute = minute;
     }
+    public Time(String time) {
+        //"2019-10-03 2:47:41 PM"
+        int cur_index=0;
+        int next_index = time.indexOf("-");
+        this.year = Integer.parseInt(time.substring(cur_index, next_index));
+
+        cur_index = next_index + 1;
+        next_index = time.indexOf("-", cur_index);
+        this.month = Integer.parseInt(time.substring(cur_index, next_index));
+
+        cur_index = next_index + 1;
+        next_index = time.indexOf(" ", cur_index);
+        this.day = Integer.parseInt(time.substring(cur_index, next_index));
+
+        cur_index = next_index + 1;
+        next_index = time.indexOf(":", cur_index);
+        this.hour = Integer.parseInt(time.substring(cur_index, next_index));
+
+        cur_index = next_index + 1;
+        next_index = time.indexOf(":", cur_index);
+        this.minute = Integer.parseInt(time.substring(cur_index, next_index));
+
+        cur_index = time.indexOf(" ", next_index) + 1;
+        if(time.substring(cur_index, cur_index+2).equals("PM")){
+            this.hour += 12;
+        }
+        this.positive = true;
+    }
 
     public boolean isLessThan(Time t){
         return this.toMinutes() < t.toMinutes();
