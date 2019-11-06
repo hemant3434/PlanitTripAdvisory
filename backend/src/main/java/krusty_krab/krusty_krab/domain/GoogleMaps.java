@@ -80,7 +80,7 @@ public class GoogleMaps {
                 + (startTime.getMinute() + expected.getMinute()) / 60,
             (startTime.getMinute() + expected.getMinute()) % 60, true);
       }
-      e = new Transportation(((float) tot_dis / (float) 1000), i, 2.0f, startTime, endtime,
+      e = new Transportation(((float) tot_dis / (float) 1000), i, 0.0f, startTime, endtime,
           expected, "icon", subtitle);
       break;
     }
@@ -89,7 +89,7 @@ public class GoogleMaps {
 
   public Transportation getTransportation(String loc1, String loc2, Time startTime,
       List<String> methods) {
-    /*List<Transportation> obj = new ArrayList<Transportation>();
+    List<Transportation> obj = new ArrayList<Transportation>();
 
     for (String i : methods) {
       if (i.equals("Bike")) {
@@ -121,7 +121,6 @@ public class GoogleMaps {
         obj.add(getTransObject(rou, startTime, i));
       }
       if (i.equals("Transit")) {
-        System.out.println("reached transit mode");
         DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
             .destinationPlaceId(loc2).mode(TravelMode.TRANSIT).departureTime(getInstant(startTime))
             .transitMode(TransitMode.BUS);
@@ -132,7 +131,6 @@ public class GoogleMaps {
           // TODO Auto-generated catch block
           e.printStackTrace();
         }
-        System.out.println("reached end transit mode");
         DirectionsRoute[] rou = res.routes;
         obj.add(getTransObject(rou, startTime, i));
       }
@@ -150,11 +148,9 @@ public class GoogleMaps {
         DirectionsRoute[] rou = res.routes;
         obj.add(getTransObject(rou, startTime, i));
       }
-    }*/
-    //return chooseTransportation(obj);
-    return new Transportation(80, "bus", 20f, startTime,
-            startTime.add(new Time(0, 0, 0, 0, 30, true)), new Time(0, 0, 0, 0, 30, true),
-            "flight-takeoff", "30 minutes");
+    }
+    return chooseTransportation(obj);
+
   }
 
   public static int filterByPrice(float budget, float price) {
