@@ -25,7 +25,7 @@ public class GoogleMaps {
   public GoogleMaps() {
     if (KEY == null) {
       //AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc
-      KEY = new GeoApiContext.Builder().apiKey("AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc").build();
+      KEY = new GeoApiContext.Builder().apiKey("AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8").build();
     }
   }
 
@@ -121,6 +121,7 @@ public class GoogleMaps {
         obj.add(getTransObject(rou, startTime, i));
       }
       if (i.equals("Transit")) {
+        System.out.println("reached transit mode");
         DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
             .destinationPlaceId(loc2).mode(TravelMode.TRANSIT).departureTime(getInstant(startTime))
             .transitMode(TransitMode.BUS);
@@ -131,7 +132,7 @@ public class GoogleMaps {
           // TODO Auto-generated catch block
           e.printStackTrace();
         }
-
+        System.out.println("reached end transit mode");
         DirectionsRoute[] rou = res.routes;
         obj.add(getTransObject(rou, startTime, i));
       }
@@ -150,7 +151,7 @@ public class GoogleMaps {
         obj.add(getTransObject(rou, startTime, i));
       }
     }
-    return chooseTransportation(obj);
+    return obj.get(0);
   }
 
   public static int filterByPrice(float budget, float price) {
