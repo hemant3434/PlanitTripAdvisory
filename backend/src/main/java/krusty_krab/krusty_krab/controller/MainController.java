@@ -118,7 +118,14 @@ public class MainController {
     methods.add("Transit");
     methods.add("Drive");
     map.put("trans", maps.getTransportation("ChIJcQxvld3e1IkR6mBYwLARjhQ", "ChIJtwVr559GK4gR22ZZ175sFAM", start, methods));
-    return ResponseEntity.ok().body(map);
+    List<Transportation> transp = new ArrayList<>();
+    transp.add(maps.getTransportation("ChIJBQBqCVnQ1IkR33DiwY5Xeps", "ChIJS4nFwffQ1IkRY-oKD5E607I", start, methods));
+    transp.add(maps.getTransportation("ChIJBQBqCVnQ1IkR33DiwY5Xeps", "ChIJNTJCxvvQ1IkRdi4-MQdLY0M", start, methods));
+    transp.add(maps.getTransportation("ChIJS4nFwffQ1IkRY-oKD5E607I", "ChIJBQBqCVnQ1IkR33DiwY5Xeps", start, methods));
+    transp.add(maps.getTransportation("ChIJS4nFwffQ1IkRY-oKD5E607I", "ChIJNTJCxvvQ1IkRdi4-MQdLY0M", start, methods));
+    transp.add(maps.getTransportation("ChIJNTJCxvvQ1IkRdi4-MQdLY0M", "ChIJBQBqCVnQ1IkR33DiwY5Xeps", start, methods));
+    transp.add(maps.getTransportation("ChIJNTJCxvvQ1IkRdi4-MQdLY0M", "ChIJS4nFwffQ1IkRY-oKD5E607I", start, methods));
+    return ResponseEntity.ok().body(maps.getEvents(start, end, lat, ltd, distance, activities, budget));
   }
   
   @GetMapping("/viewItinerary")
