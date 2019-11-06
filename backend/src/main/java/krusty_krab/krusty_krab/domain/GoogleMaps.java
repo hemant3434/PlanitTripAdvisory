@@ -89,7 +89,7 @@ public class GoogleMaps {
 
   public Transportation getTransportation(String loc1, String loc2, Time startTime,
       List<String> methods) {
-    List<Transportation> obj = new ArrayList<Transportation>();
+    /*List<Transportation> obj = new ArrayList<Transportation>();
 
     for (String i : methods) {
       if (i.equals("Bike")) {
@@ -149,8 +149,11 @@ public class GoogleMaps {
         DirectionsRoute[] rou = res.routes;
         obj.add(getTransObject(rou, startTime, i));
       }
-    }
-    return chooseTransportation(obj);
+    }*/
+    //return chooseTransportation(obj);
+    return new Transportation(80, "bus", 20f, startTime,
+            startTime.add(new Time(0, 0, 0, 0, 30, true)), new Time(0, 0, 0, 0, 30, true),
+            "flight-takeoff", "30 minutes");
   }
 
   public static int filterByPrice(float budget, float price) {
@@ -337,8 +340,8 @@ Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aqua
           }
         }
       }
-    }
-/*
+    }/*
+
     Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aquarium", 5, 2,
             new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
             new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
@@ -365,21 +368,36 @@ Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aqua
   }
 
   public Transportation chooseTransportation(List<Transportation> trans){
-      float distance = trans.get(0).getDistance();
-      Transportation transportation;
-      
+    
+      for(Transportation t:trans) {
+        if(t.getTitle().equals(Transportation.WALK) && t.getDistance() < WALK_DISTANCE){
+          return t;
+        }
+      }
+
+      Transportation min_trans = trans.get(0);
+      for(Transportation t:trans){
+        if(t.getExpectedLength().toMinutes() < min_trans.getExpectedLength().toMinutes()){
+          min_trans = t;
+        }
+      }
+      return min_trans;
+
+    //float distance = trans.get(0).getDistance();
+    //Transportation transportation;
+    /*
       // Choose the transportation based on the distance you need to travel
       if (distance < WALK_DISTANCE) {
-	  transportation = getTransportationWithTitle(trans, Transportation.WALK);
+	    transportation = getTransportationWithTitle(trans, Transportation.WALK);
       } else if (WALK_DISTANCE <= distance && distance < BIKE_DISTANCE) {
-	  transportation = getTransportationWithTitle(trans, Transportation.BIKE);
+	    transportation = getTransportationWithTitle(trans, Transportation.BIKE);
       } else if (BIKE_DISTANCE <= distance && distance < TRANSIT_DISTANCE) {
-	  transportation = getTransportationWithTitle(trans, Transportation.TRANSIT);
+	    transportation = getTransportationWithTitle(trans, Transportation.TRANSIT);
       } else {
-	  transportation = getTransportationWithTitle(trans, Transportation.DRIVE);
+	    transportation = getTransportationWithTitle(trans, Transportation.DRIVE);
       }
       
-    return transportation;
+    return transportation;*/
   }
   
   private Transportation getTransportationWithTitle(List<Transportation> trans, String title) {

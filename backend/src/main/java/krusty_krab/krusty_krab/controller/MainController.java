@@ -101,7 +101,7 @@ public class MainController {
     //Sends dummy data for the user filters into the itinerary class
     
     GoogleMaps maps = new GoogleMaps();
-    Time start = new Time(2019, 11, 5, 5, 00, true);
+    Time start = new Time(2019, 11, 9, 5, 00, true);
     Time end = new Time(2019, 11, 3, 20, 00, true);
     double lat = 43.7764;
     double ltd = -79.2318;
@@ -125,7 +125,7 @@ public class MainController {
     transp.add(maps.getTransportation("ChIJS4nFwffQ1IkRY-oKD5E607I", "ChIJNTJCxvvQ1IkRdi4-MQdLY0M", start, methods));
     transp.add(maps.getTransportation("ChIJNTJCxvvQ1IkRdi4-MQdLY0M", "ChIJBQBqCVnQ1IkR33DiwY5Xeps", start, methods));
     transp.add(maps.getTransportation("ChIJNTJCxvvQ1IkRdi4-MQdLY0M", "ChIJS4nFwffQ1IkRY-oKD5E607I", start, methods));
-    return ResponseEntity.ok().body(maps.getEvents(start, end, lat, ltd, distance, activities, budget));
+    return ResponseEntity.ok().body(transp);
   }
   
   @GetMapping("/viewItinerary")
