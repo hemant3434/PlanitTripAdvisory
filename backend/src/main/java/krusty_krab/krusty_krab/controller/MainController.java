@@ -165,7 +165,7 @@ public class MainController {
     itin.setMethodsOfTrans(body.getMethodsOfTrans());
     itin.setActivities(body.getActivities());
     
-    //itin.createItinerary(this.user);
+    itin.createItinerary(this.user);
 
 
     return ResponseEntity.ok().body(itin.getItin());
