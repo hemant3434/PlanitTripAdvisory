@@ -196,7 +196,8 @@ public class MainController {
     List<String> methods = new ArrayList<String>();
     methods.add("Transit");
     methods.add("Drive");
-    map.put("trans", maps.getTransportation("ChIJcQxvld3e1IkR6mBYwLARjhQ", "ChIJtwVr559GK4gR22ZZ175sFAM", start, methods));
+    methods.add("Walk");
+    
     List<Transportation> transp = new ArrayList<>();
     transp.add(maps.getTransportation("ChIJBQBqCVnQ1IkR33DiwY5Xeps", "ChIJS4nFwffQ1IkRY-oKD5E607I", start, methods));
     transp.add(maps.getTransportation("ChIJBQBqCVnQ1IkR33DiwY5Xeps", "ChIJNTJCxvvQ1IkRdi4-MQdLY0M", start, methods));
