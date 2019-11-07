@@ -14,27 +14,22 @@ export class Multi extends Component {
   }
 
   fetchData(){
+    var self = this;
+    console.log(self.state.locationLat);
     reqData = {
-      startTime: qs.stringify("2019-10-03 2:48:41 PM"),
-      endTime: qs.stringify("2019-10-03 2:48:41 PM"),
-      maxDist: qs.stringify(20),
-      budget: qs.stringify(500),
-      locationLat: qs.stringify(43.76768768758),
-      locationLong: qs.stringify(-43.76768768758),
-      homeLat: qs.stringify(43.76768768758),
-      homeLong: qs.stringify(-43.76768768758),
-      methodOfTrans: qs.stringify(["Drive"]),
-      activities: qs.stringify(["museums"])
+      startTime: self.state.startTime,
+      endTime: self.state.endTime,
+      maxDist: self.state.distance,
+      budget: self.state.budget,
+      locationLat: self.state.locationLatitude,
+      locationLong: self.state.locationLongitude,
+      homeLat: self.state.homeLatitude,
+      homeLong: self.state.homeLongitude,
+      methodOfTrans: self.state.transportation,
+      activities: self.state.activities
     };
-    console.log(reqData)
-    axios.get('http://localhost:8080/api/v1/getItinerary',
-    {
-      params: reqData,
-      paramsSerializer: params => {
-        console.log(qs.stringify(reqData));
-        return qs.stringify(params)
-      }
-    })
+    console.log(reqData);
+    axios.get('http://localhost:8080/api/v1/getItinerary', reqData)
     .then(res => {
       console.log("res", res);
       const data = res.data;
@@ -117,6 +112,7 @@ export class Multi extends Component {
       homeLatitude: latitude,
       homeLongitude: longitude,
     });
+    this.fetchData();
     this.nextStep();
   }
 
@@ -126,10 +122,17 @@ export class Multi extends Component {
       case 1:
         return(
           true
+          // this.state.date &&
+          // this.state.startTime &&
+          // this.state.endTime &&
+          // this.state.distance &&
+          // this.state.budget &&
+          // this.state.transportation.length
         );
       case 2:
         return(
-          true
+          this.state.locationLatitude &&
+          this.state.locationLongitude
         );
       default:
         return true;
@@ -179,7 +182,6 @@ export class Multi extends Component {
           />
         );
       case 3:
-        console.log(this.state.date);
         return (
           <ScrollView
           style={StyleSheet.absoluteFill}
