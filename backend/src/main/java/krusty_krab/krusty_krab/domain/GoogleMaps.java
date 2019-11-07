@@ -359,39 +359,39 @@ public class GoogleMaps {
     return events;
   }
 
-  public Transportation chooseTransportation(List<Transportation> trans){
+  public Transportation chooseTransportation(List<Transportation> trans) {
 
-      //Checks if walking is an option, and the distance is underneath the walk distance
-      for(Transportation t:trans) {
-        if(t.getTitle().equals(Transportation.WALK) && t.getDistance() < WALK_DISTANCE){
-          return t;
-        }
+    // Checks if walking is an option, and the distance is underneath the walk distance
+    for (Transportation t : trans) {
+      if (t.getTitle().equals(Transportation.WALK) && t.getDistance() < WALK_DISTANCE) {
+        return t;
       }
     }
 
-      //otherwise, gets transportation object with least time
-      Transportation min_trans = trans.get(0);
-      for(Transportation t:trans){
-        if(t.getExpectedLength().toMinutes() < min_trans.getExpectedLength().toMinutes()){
-          min_trans = t;
-        }
+
+    // otherwise, gets transportation object with least time
+    Transportation min_trans = trans.get(0);
+    for (Transportation t : trans) {
+      if (t.getExpectedLength().toMinutes() < min_trans.getExpectedLength().toMinutes()) {
+        min_trans = t;
       }
     }
-    return min_trans;
+  
+  // float distance = trans.get(0).getDistance();
+  // Transportation transportation;
+  /*
+   * // Choose the transportation based on the distance you need to travel if (distance <
+   * WALK_DISTANCE) { transportation = getTransportationWithTitle(trans, Transportation.WALK); }
+   * else if (WALK_DISTANCE <= distance && distance < BIKE_DISTANCE) { transportation =
+   * getTransportationWithTitle(trans, Transportation.BIKE); } else if (BIKE_DISTANCE <= distance &&
+   * distance < TRANSIT_DISTANCE) { transportation = getTransportationWithTitle(trans,
+   * Transportation.TRANSIT); } else { transportation = getTransportationWithTitle(trans,
+   * Transportation.DRIVE); }
+   * 
+   * return transportation;
+   */
+  return min_trans;
 
-    // float distance = trans.get(0).getDistance();
-    // Transportation transportation;
-    /*
-     * // Choose the transportation based on the distance you need to travel if (distance <
-     * WALK_DISTANCE) { transportation = getTransportationWithTitle(trans, Transportation.WALK); }
-     * else if (WALK_DISTANCE <= distance && distance < BIKE_DISTANCE) { transportation =
-     * getTransportationWithTitle(trans, Transportation.BIKE); } else if (BIKE_DISTANCE <= distance
-     * && distance < TRANSIT_DISTANCE) { transportation = getTransportationWithTitle(trans,
-     * Transportation.TRANSIT); } else { transportation = getTransportationWithTitle(trans,
-     * Transportation.DRIVE); }
-     * 
-     * return transportation;
-     */
   }
 
   private Transportation getTransportationWithTitle(List<Transportation> trans, String title) {

@@ -343,7 +343,7 @@ public class Itinerary {
 	if (this.getItin().size() == 0) {
 	    return this.getHome();
 	} else {
-	    return ((Event) (this.getItin().get(this.getItin().size() - 1))).getLocation();
+	    return ((Event) (this.getItin().get(this.getItin().size() - 1))).getId();
 	}
     }
 
