@@ -64,9 +64,9 @@ public class MainController {
     itin.setBudget(budget);
     itin.setLocationLat(lat);
     itin.setLocationLong(ltd);
-    itin.setHome(GoogleMaps.getHomeLocation(47.2, 47.2));
-    itin.setHomeLat(47.2);
-    itin.setHomeLong(47.2);
+    itin.setHome(GoogleMaps.getHomeLocation(43.7764, -79.2318));
+    itin.setHomeLat(43.7764);
+    itin.setHomeLong(-79.2318);
     itin.setMethodsOfTrans(trans);
     itin.setActivities(activities);
 

@@ -36,11 +36,6 @@ public class Itinerary {
         // Gets every event that satisfies the given filters
         //List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getItinDistLeft(), this.getActivities(), maxPriceRange);
 
-        Time start = new Time(2019, 11, 9, 9, 00, true);
-        Time end = new Time(2019, 11, 9, 20, 00, true);
-        List<String> activities = new ArrayList<String>();
-        activities.add("aquarium");
-        activities.add("art gallery");
         List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getMaxDist(), this.getActivities(), maxPriceRange);
 
         // Gets event with highest score of all events received
@@ -80,6 +75,7 @@ public class Itinerary {
             while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans()) > minScore){
                 // Gets transportation object from the next event and the current location of the user
                 Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getId(), curTime, this.getMethodsOfTrans());
+
                 // Transporation object to begin at the current time
                 transp.setStartTime(curTime);
                 curTime = curTime.add(transp.getExpectedLength());
@@ -97,6 +93,7 @@ public class Itinerary {
                 curLoc = nextEvent.getId();
                 curTime = curTime.add(nextEvent.getExpectedLength());
                 nextEvent.setEndTime(curTime);
+
                 // Gets next event
                 nextEvent = getNextBestEvent(user);
             }
