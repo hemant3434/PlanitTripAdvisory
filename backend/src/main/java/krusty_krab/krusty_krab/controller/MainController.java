@@ -41,11 +41,11 @@ public class MainController {
   @GetMapping("/getDummy2")
   public ResponseEntity<?> getDummy2(@RequestBody Map<String, Object> body) throws Exception {
 
-    Time start = new Time(2019, 11, 7, 9, 00, true);
-    Time end = new Time(2019, 11, 7, 23, 00, true);
+    Time start = new Time(2019, 11, 9, 9, 00, true);
+    Time end = new Time(2019, 11, 9, 20, 00, true);
     double lat = 43.7764;
     double ltd = -79.2318;
-    float budget = 4f;
+    float budget = 150f;
     float distance = 1f;
 
     List<String> activities = new ArrayList<String>();
@@ -55,6 +55,7 @@ public class MainController {
     List<String> trans = new ArrayList<String>();
     trans.add("Drive");
     trans.add("Transit");
+
 
 
     itin.setStartTime(start);
@@ -71,6 +72,82 @@ public class MainController {
 
     itin.createItinerary(this.user);
     //gm.getEvents(start, end, lat, ltd, distance, activities, budget)
+    /*
+    {
+        "type": "event",
+        "title": "Scarborough Buffet",
+        "price": 2.0,
+        "startTime": {
+            "year": 2019,
+            "month": 11,
+            "day": 9,
+            "hour": 17,
+            "minute": 0,
+            "positive": true
+        },
+        "endTime": {
+            "year": 2019,
+            "month": 11,
+            "day": 9,
+            "hour": 22,
+            "minute": 0,
+            "positive": true
+        },
+        "expectedLength": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 2,
+            "minute": 0,
+            "positive": true
+        },
+        "location": "1221 Markham Rd #1a, Scarborough, ON M1H 3E2, Canada",
+        "longitude": 47.2,
+        "latitude": 47.2,
+        "activity": "meal_delivery, restaurant, food, point_of_interest, establishment",
+        "rating": 3,
+        "image": "",
+        "description": "https://maps.google.com/?cid=12885707353534163555",
+        "id": "ChIJS4nFwffQ1IkRY-oKD5E607I"
+    },
+    {
+        "type": "event",
+        "title": "The Keg Steakhouse + Bar - Estate Drive",
+        "price": 3.0,
+        "startTime": {
+            "year": 2019,
+            "month": 11,
+            "day": 9,
+            "hour": 16,
+            "minute": 0,
+            "positive": true
+        },
+        "endTime": {
+            "year": 2019,
+            "month": 11,
+            "day": 9,
+            "hour": 22,
+            "minute": 0,
+            "positive": true
+        },
+        "expectedLength": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 2,
+            "minute": 0,
+            "positive": true
+        },
+        "location": "60 Estate Dr, Scarborough, ON M1H 2Z1, Canada",
+        "longitude": 47.2,
+        "latitude": 47.2,
+        "activity": "bar, restaurant, food, point_of_interest, establishment",
+        "rating": 4,
+        "image": "",
+        "description": "https://maps.google.com/?cid=4855807317498539638",
+        "id": "ChIJNTJCxvvQ1IkRdi4-MQdLY0M"
+    }
+     */
     return ResponseEntity.ok().body(itin.getItin());
   }
 
@@ -88,7 +165,9 @@ public class MainController {
     itin.setMethodsOfTrans(body.getMethodsOfTrans());
     itin.setActivities(body.getActivities());
     
-    itin.createItinerary(this.user);
+    //itin.createItinerary(this.user);
+
+
     return ResponseEntity.ok().body(itin.getItin());
   }
   

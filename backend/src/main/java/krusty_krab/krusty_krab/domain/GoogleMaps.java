@@ -359,18 +359,22 @@ public class GoogleMaps {
     return events;
   }
 
-  public Transportation chooseTransportation(List<Transportation> trans) {
+  public Transportation chooseTransportation(List<Transportation> trans){
 
-    for (Transportation t : trans) {
-      if (t.getTitle().equals(Transportation.WALK) && t.getDistance() < WALK_DISTANCE) {
-        return t;
+      //Checks if walking is an option, and the distance is underneath the walk distance
+      for(Transportation t:trans) {
+        if(t.getTitle().equals(Transportation.WALK) && t.getDistance() < WALK_DISTANCE){
+          return t;
+        }
       }
     }
 
-    Transportation min_trans = trans.get(0);
-    for (Transportation t : trans) {
-      if (t.getExpectedLength().toMinutes() < min_trans.getExpectedLength().toMinutes()) {
-        min_trans = t;
+      //otherwise, gets transportation object with least time
+      Transportation min_trans = trans.get(0);
+      for(Transportation t:trans){
+        if(t.getExpectedLength().toMinutes() < min_trans.getExpectedLength().toMinutes()){
+          min_trans = t;
+        }
       }
     }
     return min_trans;
