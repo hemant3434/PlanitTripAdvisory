@@ -34,11 +34,18 @@ public class Itinerary {
         //Converts remaining budget to an events price range, to see how expensive of an event the itinerary can take
         float maxPriceRange = GoogleMaps.budgetToRange(this.getItinBudgetLeft());
         // Gets every event that satisfies the given filters
-        List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 47.2, 47.2, this.getItinDistLeft(), this.getActivities(), maxPriceRange);
+        //List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getItinDistLeft(), this.getActivities(), maxPriceRange);
+
+        Time start = new Time(2019, 11, 9, 9, 00, true);
+        Time end = new Time(2019, 11, 9, 20, 00, true);
+        List<String> activities = new ArrayList<String>();
+        activities.add("aquarium");
+        activities.add("art gallery");
+        List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getMaxDist(), this.getActivities(), maxPriceRange);
 
         // Gets event with highest score of all events received
         Event bestEvent = new Event();
-        float bestScore = 0;
+        float bestScore = -1;
         float curScore;
         //GoogleMaps.getEventByID("3").getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget(), user);
         //System.out.println("a");
@@ -54,7 +61,7 @@ public class Itinerary {
         }
 
         // If no event exists that is not already in the itinerary, exception thrown
-        if(bestScore == 0){
+        if(bestScore == -1){
             throw new NoSuchElementException();
         }
         return bestEvent;

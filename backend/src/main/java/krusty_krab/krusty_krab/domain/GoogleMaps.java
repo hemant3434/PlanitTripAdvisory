@@ -368,13 +368,15 @@ Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aqua
   }
 
   public Transportation chooseTransportation(List<Transportation> trans){
-    
+
+      //Checks if walking is an option, and the distance is underneath the walk distance
       for(Transportation t:trans) {
         if(t.getTitle().equals(Transportation.WALK) && t.getDistance() < WALK_DISTANCE){
           return t;
         }
       }
 
+      //otherwise, gets transportation object with least time
       Transportation min_trans = trans.get(0);
       for(Transportation t:trans){
         if(t.getExpectedLength().toMinutes() < min_trans.getExpectedLength().toMinutes()){
