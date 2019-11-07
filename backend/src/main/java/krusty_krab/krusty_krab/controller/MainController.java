@@ -72,82 +72,7 @@ public class MainController {
 
     itin.createItinerary(this.user);
     //gm.getEvents(start, end, lat, ltd, distance, activities, budget)
-    /*
-    {
-        "type": "event",
-        "title": "Scarborough Buffet",
-        "price": 2.0,
-        "startTime": {
-            "year": 2019,
-            "month": 11,
-            "day": 9,
-            "hour": 17,
-            "minute": 0,
-            "positive": true
-        },
-        "endTime": {
-            "year": 2019,
-            "month": 11,
-            "day": 9,
-            "hour": 22,
-            "minute": 0,
-            "positive": true
-        },
-        "expectedLength": {
-            "year": 0,
-            "month": 0,
-            "day": 0,
-            "hour": 2,
-            "minute": 0,
-            "positive": true
-        },
-        "location": "1221 Markham Rd #1a, Scarborough, ON M1H 3E2, Canada",
-        "longitude": 47.2,
-        "latitude": 47.2,
-        "activity": "meal_delivery, restaurant, food, point_of_interest, establishment",
-        "rating": 3,
-        "image": "",
-        "description": "https://maps.google.com/?cid=12885707353534163555",
-        "id": "ChIJS4nFwffQ1IkRY-oKD5E607I"
-    },
-    {
-        "type": "event",
-        "title": "The Keg Steakhouse + Bar - Estate Drive",
-        "price": 3.0,
-        "startTime": {
-            "year": 2019,
-            "month": 11,
-            "day": 9,
-            "hour": 16,
-            "minute": 0,
-            "positive": true
-        },
-        "endTime": {
-            "year": 2019,
-            "month": 11,
-            "day": 9,
-            "hour": 22,
-            "minute": 0,
-            "positive": true
-        },
-        "expectedLength": {
-            "year": 0,
-            "month": 0,
-            "day": 0,
-            "hour": 2,
-            "minute": 0,
-            "positive": true
-        },
-        "location": "60 Estate Dr, Scarborough, ON M1H 2Z1, Canada",
-        "longitude": 47.2,
-        "latitude": 47.2,
-        "activity": "bar, restaurant, food, point_of_interest, establishment",
-        "rating": 4,
-        "image": "",
-        "description": "https://maps.google.com/?cid=4855807317498539638",
-        "id": "ChIJNTJCxvvQ1IkRdi4-MQdLY0M"
-    }
-     */
+
     return ResponseEntity.ok().body(itin.getItin());
   }
 
@@ -162,8 +87,14 @@ public class MainController {
     itin.setHome(GoogleMaps.getHomeLocation(body.getHomeLat(), body.getHomeLong()));
     itin.setHomeLat(body.getHomeLat());
     itin.setHomeLong(body.getHomeLong());
-    itin.setMethodsOfTrans(body.getMethodsOfTrans());
-    itin.setActivities(body.getActivities());
+    List<String> trans = new ArrayList<>();
+    trans.add("Transit");
+    trans.add("Ride Services");
+    List<String> activities = new ArrayList<>();
+    activities.add("nature and parks");
+    activities.add("malls");
+    itin.setMethodsOfTrans(trans);
+    itin.setActivities(activities);
     
     itin.createItinerary(this.user);
 
@@ -287,3 +218,119 @@ public class MainController {
     return userService;
   }
 }
+
+/*
+    //3 Event query
+	"startTime": "2019-10-03 9:00:00 AM",
+	"endTime": "2019-11-09 8:00:00 PM",
+	"maxDist": 1.9,
+	"budget": 300,
+	"locationLat": 43.7764,
+	"locationLong": -79.2318,
+	"homeLat": 43.7764,
+	"homeLong": -79.231,
+	"methodsOfTrans": [
+		"Drive",
+		"Transit"
+	],
+	"activities": [
+      "aquarium",
+      "art gallery"
+	]
+    {
+        "type": "event",
+        "title": "Scarborough Buffet",
+        "price": 2.0,
+        "startTime": {
+            "year": 2019,
+            "month": 11,
+            "day": 9,
+            "hour": 17,
+            "minute": 0,
+            "positive": true
+        },
+        "endTime": {
+            "year": 2019,
+            "month": 11,
+            "day": 9,
+            "hour": 22,
+            "minute": 0,
+            "positive": true
+        },
+        "expectedLength": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 2,
+            "minute": 0,
+            "positive": true
+        },
+        "location": "1221 Markham Rd #1a, Scarborough, ON M1H 3E2, Canada",
+        "longitude": 47.2,
+        "latitude": 47.2,
+        "activity": "meal_delivery, restaurant, food, point_of_interest, establishment",
+        "rating": 3,
+        "image": "",
+        "description": "https://maps.google.com/?cid=12885707353534163555",
+        "id": "ChIJS4nFwffQ1IkRY-oKD5E607I"
+    },
+    {
+        "type": "event",
+        "title": "The Keg Steakhouse + Bar - Estate Drive",
+        "price": 3.0,
+        "startTime": {
+            "year": 2019,
+            "month": 11,
+            "day": 9,
+            "hour": 16,
+            "minute": 0,
+            "positive": true
+        },
+        "endTime": {
+            "year": 2019,
+            "month": 11,
+            "day": 9,
+            "hour": 22,
+            "minute": 0,
+            "positive": true
+        },
+        "expectedLength": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 2,
+            "minute": 0,
+            "positive": true
+        },
+        "location": "60 Estate Dr, Scarborough, ON M1H 2Z1, Canada",
+        "longitude": 47.2,
+        "latitude": 47.2,
+        "activity": "bar, restaurant, food, point_of_interest, establishment",
+        "rating": 4,
+        "image": "",
+        "description": "https://maps.google.com/?cid=4855807317498539638",
+        "id": "ChIJNTJCxvvQ1IkRdi4-MQdLY0M"
+    }
+
+	//6 event query
+	{
+	"startTime": "2019-10-03 2:47:41 PM",
+	"endTime": "2019-10-03 2:48:41 PM",
+	"maxDist": 20,
+	"budget": 590,
+	"locationLat": 43.76768768758,
+	"locationLong": -789.3586968758798,
+	"homeLat": -83.76768768758,
+	"homeLong": 9.3586968758798,
+	"methodsOfTrans": [
+		"Drive",
+		"Transit",
+		"Ride Services"
+	],
+	"activities": [
+      "museums",
+      "nature and parks",
+      "malls"
+	]
+}
+*/
