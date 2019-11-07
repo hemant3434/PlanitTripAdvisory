@@ -36,8 +36,9 @@ public class Itinerary {
         // Gets every event that satisfies the given filters
         //List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getItinDistLeft(), this.getActivities(), maxPriceRange);
 
+        System.out.println("b");
         List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getMaxDist(), this.getActivities(), maxPriceRange);
-
+        System.out.println("a");
         // Gets event with highest score of all events received
         Event bestEvent = new Event();
         float bestScore = -1;

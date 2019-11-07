@@ -21,7 +21,6 @@ public class User {
     private List<Float> eventRatings = new ArrayList();
     private List<ItineraryItem> itin = new ArrayList<ItineraryItem>();
 
-
     public User() {}
 
     public User(String username, List<String> visitedEvents, List<Float> eventRatings, List<ItineraryItem> itin) {

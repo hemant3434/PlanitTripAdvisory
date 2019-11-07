@@ -72,7 +72,176 @@ public class MainController {
 
     itin.createItinerary(this.user);
     //gm.getEvents(start, end, lat, ltd, distance, activities, budget)
-    /*
+
+    return ResponseEntity.ok().body(itin.getItin());
+  }
+
+  @GetMapping("/getItinerary")
+  public ResponseEntity<?> getItinerary(@RequestBody Itinerary body) throws Exception {
+    itin.setStartTime(body.getStartTime());
+    itin.setEndTime(body.getEndTime());
+    itin.setMaxDist(body.getMaxDist());
+    itin.setBudget(body.getBudget());
+    itin.setLocationLat(body.getLocationLat());
+    itin.setLocationLong(body.getLocationLong());
+    itin.setHome(GoogleMaps.getHomeLocation(body.getHomeLat(), body.getHomeLong()));
+    itin.setHomeLat(body.getHomeLat());
+    itin.setHomeLong(body.getHomeLong());
+    List<String> trans = new ArrayList<>();
+    trans.add("Transit");
+    trans.add("Ride Services");
+    List<String> activities = new ArrayList<>();
+    activities.add("nature and parks");
+    activities.add("malls");
+    itin.setMethodsOfTrans(trans);
+    itin.setActivities(activities);
+    
+    itin.createItinerary(this.user);
+
+
+    return ResponseEntity.ok().body(itin.getItin());
+  }
+  
+  @GetMapping("/getItinerary2")
+  public ResponseEntity<?> getItinerary2(@RequestBody Map<String, Object> body) throws Exception {
+
+    // is this map needed?
+    Map<String, Transportation> map = new HashMap<String, Transportation>();
+    //map.put("hello", "there");
+    //Sends dummy data for the user filters into the itinerary class
+    
+    GoogleMaps maps = new GoogleMaps();
+    Time start = new Time(2019, 11, 9, 5, 00, true);
+    Time end = new Time(2019, 11, 3, 20, 00, true);
+    double lat = 43.7764;
+    double ltd = -79.2318;
+    float budget = 4;
+    float distance = 1f;
+
+    List<String> activities = new ArrayList<String>();
+    activities.add("aquarium");
+    activities.add("art gallery");
+    
+    maps.getEvents(start, end, lat, ltd, distance, activities, budget);
+    
+    List<String> methods = new ArrayList<String>();
+    methods.add("Transit");
+    methods.add("Drive");
+    methods.add("Walk");
+    
+    List<Transportation> transp = new ArrayList<>();
+    transp.add(maps.getTransportation("ChIJBQBqCVnQ1IkR33DiwY5Xeps", "ChIJS4nFwffQ1IkRY-oKD5E607I", start, methods));
+    transp.add(maps.getTransportation("ChIJBQBqCVnQ1IkR33DiwY5Xeps", "ChIJNTJCxvvQ1IkRdi4-MQdLY0M", start, methods));
+    transp.add(maps.getTransportation("ChIJS4nFwffQ1IkRY-oKD5E607I", "ChIJBQBqCVnQ1IkR33DiwY5Xeps", start, methods));
+    transp.add(maps.getTransportation("ChIJS4nFwffQ1IkRY-oKD5E607I", "ChIJNTJCxvvQ1IkRdi4-MQdLY0M", start, methods));
+    transp.add(maps.getTransportation("ChIJNTJCxvvQ1IkRdi4-MQdLY0M", "ChIJBQBqCVnQ1IkR33DiwY5Xeps", start, methods));
+    transp.add(maps.getTransportation("ChIJNTJCxvvQ1IkRdi4-MQdLY0M", "ChIJS4nFwffQ1IkRY-oKD5E607I", start, methods));
+    return ResponseEntity.ok().body(transp);
+  }
+  
+  @GetMapping("/viewItinerary")
+  public List<ItineraryItem> viewItinerary() {
+      return itin.getItin();
+  }
+  
+//  @GetMapping("/dummy1")
+//  public void dummy1(@RequestBody )
+  	
+
+  @GetMapping("getExploreEvents")
+  public List<Event> getExploreEvents() {
+    return GoogleMaps.getExploreEvents();
+  }
+  
+  @PostMapping("/addEvent")
+  public ResponseEntity<?> addEvent(@RequestBody Event event) {
+      itin.addEvent(event);
+      return ResponseEntity.ok().build();
+  }
+  /*@PostMapping("/addEvent")
+  public ResponseEntity<?> addEvent(@RequestBody Map<String, String> body) {
+      itin.addEvent(GoogleMaps.getEventByID(body.get("eventId")));
+      return ResponseEntity.ok().build();
+  }*/
+  
+  @PutMapping("/deleteEvent")
+  public ResponseEntity<?> deleteEvent(@RequestBody Map<String, String> body) {
+	  String eventId = new String(body.get("eventId"));
+	  itin.deleteEvent(eventId);
+	  return ResponseEntity.ok().build();
+  }
+  
+  @PutMapping("/changeTime")
+  public ResponseEntity<?> changeTime(@RequestBody Itinerary body) {
+      //itin.setStartTime(body.getStartTime());
+      itin.setEndTime(body.getEndTime());
+      return ResponseEntity.ok().build();
+  }
+  
+  @PutMapping("/changeLocation")
+  public ResponseEntity<?> changeLocation(@RequestBody Itinerary body) {
+      itin.setLocation(body.getLocation());
+      return ResponseEntity.ok().build();
+  }
+  
+  @PutMapping("/changeMaxBudget")
+  public ResponseEntity<?> changeMaxBudget(@RequestBody Map<String, Float> body) {
+	  Float newBudget = body.get("budget");
+	  itin.setBudget(newBudget);
+	  return ResponseEntity.ok().build();
+  }
+  
+  @PutMapping("/changeMaxDistance")
+  public ResponseEntity<?> changeMaxDistance(@RequestBody Map<String, Float> body) {
+	  Float maxDist = body.get("maxDist");
+	  itin.setMaxDist(maxDist);
+	  return ResponseEntity.ok().build();
+  }
+  
+  @PutMapping("/addTransportation")
+  public ResponseEntity<?> changeTransportation(@RequestBody Map<String, Object> body) {
+	  Object transportationArray = body.get("Transportation");
+	  System.out.println(transportationArray);
+	  for (String transportation: (ArrayList<String>)transportationArray) {
+		  itin.addMethodsOfTrans(transportation);
+	  }
+	  return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("/login")
+  public void login(@RequestBody User body) {
+    this.user = userService.getUser(body.getUsername());
+  }
+
+  @PutMapping("/register")
+  public void register(@RequestBody User body) {
+    this.user = new User(body.getUsername(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    userService.addUser(user);
+  }
+
+  public UserService getUserService() {
+    return userService;
+  }
+}
+
+/*
+    //3 Event query
+	"startTime": "2019-10-03 9:00:00 AM",
+	"endTime": "2019-11-09 8:00:00 PM",
+	"maxDist": 1.9,
+	"budget": 300,
+	"locationLat": 43.7764,
+	"locationLong": -79.2318,
+	"homeLat": 43.7764,
+	"homeLong": -79.231,
+	"methodsOfTrans": [
+		"Drive",
+		"Transit"
+	],
+	"activities": [
+      "aquarium",
+      "art gallery"
+	]
     {
         "type": "event",
         "title": "Scarborough Buffet",
@@ -147,143 +316,26 @@ public class MainController {
         "description": "https://maps.google.com/?cid=4855807317498539638",
         "id": "ChIJNTJCxvvQ1IkRdi4-MQdLY0M"
     }
-     */
-    return ResponseEntity.ok().body(itin.getItin());
-  }
 
-  @GetMapping("/getItinerary")
-  public ResponseEntity<?> getItinerary(@RequestBody Itinerary body) throws Exception {
-    itin.setStartTime(body.getStartTime());
-    itin.setEndTime(body.getEndTime());
-    itin.setMaxDist(body.getMaxDist());
-    itin.setBudget(body.getBudget());
-    itin.setLocationLat(body.getLocationLat());
-    itin.setLocationLong(body.getLocationLong());
-    itin.setHome(GoogleMaps.getHomeLocation(body.getHomeLat(), body.getHomeLong()));
-    itin.setHomeLat(body.getHomeLat());
-    itin.setHomeLong(body.getHomeLong());
-    itin.setMethodsOfTrans(body.getMethodsOfTrans());
-    itin.setActivities(body.getActivities());
-    
-    itin.createItinerary(this.user);
-
-
-    return ResponseEntity.ok().body(itin.getItin());
-  }
-  
-  @GetMapping("/getItinerary2")
-  public ResponseEntity<?> getItinerary2(@RequestBody Map<String, Object> body) throws Exception {
-
-    // is this map needed?
-    Map<String, Transportation> map = new HashMap<String, Transportation>();
-    //map.put("hello", "there");
-    //Sends dummy data for the user filters into the itinerary class
-    
-    GoogleMaps maps = new GoogleMaps();
-    Time start = new Time(2019, 11, 9, 5, 00, true);
-    Time end = new Time(2019, 11, 3, 20, 00, true);
-    double lat = 43.7764;
-    double ltd = -79.2318;
-    float budget = 4;
-    float distance = 1f;
-
-    List<String> activities = new ArrayList<String>();
-    activities.add("aquarium");
-    activities.add("art gallery");
-    
-    maps.getEvents(start, end, lat, ltd, distance, activities, budget);
-    
-    List<String> methods = new ArrayList<String>();
-    methods.add("Transit");
-    methods.add("Drive");
-    methods.add("Walk");
-    
-    List<Transportation> transp = new ArrayList<>();
-    transp.add(maps.getTransportation("ChIJBQBqCVnQ1IkR33DiwY5Xeps", "ChIJS4nFwffQ1IkRY-oKD5E607I", start, methods));
-    transp.add(maps.getTransportation("ChIJBQBqCVnQ1IkR33DiwY5Xeps", "ChIJNTJCxvvQ1IkRdi4-MQdLY0M", start, methods));
-    transp.add(maps.getTransportation("ChIJS4nFwffQ1IkRY-oKD5E607I", "ChIJBQBqCVnQ1IkR33DiwY5Xeps", start, methods));
-    transp.add(maps.getTransportation("ChIJS4nFwffQ1IkRY-oKD5E607I", "ChIJNTJCxvvQ1IkRdi4-MQdLY0M", start, methods));
-    transp.add(maps.getTransportation("ChIJNTJCxvvQ1IkRdi4-MQdLY0M", "ChIJBQBqCVnQ1IkR33DiwY5Xeps", start, methods));
-    transp.add(maps.getTransportation("ChIJNTJCxvvQ1IkRdi4-MQdLY0M", "ChIJS4nFwffQ1IkRY-oKD5E607I", start, methods));
-    return ResponseEntity.ok().body(transp);
-  }
-  
-  @GetMapping("/viewItinerary")
-  public List<ItineraryItem> viewItinerary() {
-      return itin.getItin();
-  }
-  
-//  @GetMapping("/dummy1")
-//  public void dummy1(@RequestBody )
-  	
-
-  @GetMapping("getExploreEvents")
-  public List<Event> getExploreEvents() {
-    return GoogleMaps.getExploreEvents();
-  }
-  
-  @PostMapping("/addEvent")
-  public ResponseEntity<?> addEvent(@RequestBody Event event) {
-      itin.addEvent(event);
-      return ResponseEntity.ok().build();
-  }
-  
-  @PutMapping("/deleteEvent")
-  public ResponseEntity<?> deleteEvent(@RequestBody Map<String, String> body) {
-	  String eventId = new String(body.get("eventId"));
-	  itin.deleteEvent(eventId);
-	  return ResponseEntity.ok().build();
-  }
-  
-  @PutMapping("/changeTime")
-  public ResponseEntity<?> changeTime(@RequestBody Itinerary body) {
-      //itin.setStartTime(body.getStartTime());
-      itin.setEndTime(body.getEndTime());
-      return ResponseEntity.ok().build();
-  }
-  
-  @PutMapping("/changeLocation")
-  public ResponseEntity<?> changeLocation(@RequestBody Itinerary body) {
-      itin.setLocation(body.getLocation());
-      return ResponseEntity.ok().build();
-  }
-  
-  @PutMapping("/changeMaxBudget")
-  public ResponseEntity<?> changeMaxBudget(@RequestBody Map<String, Float> body) {
-	  Float newBudget = body.get("budget");
-	  itin.setBudget(newBudget);
-	  return ResponseEntity.ok().build();
-  }
-  
-  @PutMapping("/changeMaxDistance")
-  public ResponseEntity<?> changeMaxDistance(@RequestBody Map<String, Float> body) {
-	  Float maxDist = body.get("maxDist");
-	  itin.setMaxDist(maxDist);
-	  return ResponseEntity.ok().build();
-  }
-  
-  @PutMapping("/addTransportation")
-  public ResponseEntity<?> changeTransportation(@RequestBody Map<String, Object> body) {
-	  Object transportationArray = body.get("Transportation");
-	  System.out.println(transportationArray);
-	  for (String transportation: (ArrayList<String>)transportationArray) {
-		  itin.addMethodsOfTrans(transportation);
-	  }
-	  return ResponseEntity.ok().build();
-  }
-
-  @PutMapping("/login")
-  public void login(@RequestBody User body) {
-    this.user = userService.getUser(body.getUsername());
-  }
-
-  @PutMapping("/register")
-  public void register(@RequestBody User body) {
-    this.user = new User(body.getUsername(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-    userService.addUser(user);
-  }
-
-  public UserService getUserService() {
-    return userService;
-  }
+	//6 event query
+	{
+	"startTime": "2019-10-03 2:47:41 PM",
+	"endTime": "2019-10-03 2:48:41 PM",
+	"maxDist": 20,
+	"budget": 590,
+	"locationLat": 43.76768768758,
+	"locationLong": -789.3586968758798,
+	"homeLat": -83.76768768758,
+	"homeLong": 9.3586968758798,
+	"methodsOfTrans": [
+		"Drive",
+		"Transit",
+		"Ride Services"
+	],
+	"activities": [
+      "museums",
+      "nature and parks",
+      "malls"
+	]
 }
+*/
