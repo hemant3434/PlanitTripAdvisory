@@ -41,8 +41,8 @@ public class MainController {
   @GetMapping("/getDummy2")
   public ResponseEntity<?> getDummy2(@RequestBody Map<String, Object> body) throws Exception {
 
-    Time start = new Time(2019, 11, 5, 9, 00, true);
-    Time end = new Time(2019, 11, 3, 20, 00, true);
+    Time start = new Time(2019, 11, 7, 9, 00, true);
+    Time end = new Time(2019, 11, 7, 23, 00, true);
     double lat = 43.7764;
     double ltd = -79.2318;
     float budget = 4f;
