@@ -6,6 +6,7 @@ import MapPicker from '../components/common/MapPicker/MapPicker';
 import EventCard from '../components/common/Cards/EventCard';
 import CardsContainer from '../sections/CardsContainer';
 import axios from 'axios';
+import qs from 'qs';
 
 export class Multi extends Component {
   componentDidMount() {
@@ -13,17 +14,26 @@ export class Multi extends Component {
   }
 
   fetchData(){
-    axios.get('http://100.80.11.91:8080/api/v1/getItinerary', {
-      startTime: this.state.startTime,
-      endTime: this.state.endTime,
-      maxDist: this.state.distance,
-      budget: this.state.budget,
-      locationLat: this.state.locationLatitude,
-      locationLong: this.state.locationLongitude,
-      homeLat: this.state.homeLatitude,
-      homeLong: this.state.homeLongitude,
-      methodOfTrans: this.state.transportation,
-      activities: this.state.activities
+    reqData = {
+      startTime: qs.stringify("2019-10-03 2:48:41 PM"),
+      endTime: qs.stringify("2019-10-03 2:48:41 PM"),
+      maxDist: qs.stringify(20),
+      budget: qs.stringify(500),
+      locationLat: qs.stringify(43.76768768758),
+      locationLong: qs.stringify(-43.76768768758),
+      homeLat: qs.stringify(43.76768768758),
+      homeLong: qs.stringify(-43.76768768758),
+      methodOfTrans: qs.stringify(["Drive"]),
+      activities: qs.stringify(["museums"])
+    };
+    console.log(reqData)
+    axios.get('http://localhost:8080/api/v1/getItinerary',
+    {
+      params: reqData,
+      paramsSerializer: params => {
+        console.log(qs.stringify(reqData));
+        return qs.stringify(params)
+      }
     })
     .then(res => {
       console.log("res", res);
@@ -33,6 +43,7 @@ export class Multi extends Component {
         isLoading: false,
         Itinerary: data
       });
+      console.log(Itinerary);
     })
     .catch(error => console.log(error));;
   }
@@ -67,14 +78,16 @@ export class Multi extends Component {
   }
 
   setStartTime = (dataFromChild) => {
+    const { date } = this.state;
     this.setState({
-      startTime: dataFromChild
+      startTime: date + " " + dataFromChild
     })
   }
 
   setEndTime = (dataFromChild) => {
+    const { date } = this.state;
     this.setState({
-      endTime: dataFromChild
+      endTime: date + " " + dataFromChild
     })
   }
 
@@ -103,8 +116,8 @@ export class Multi extends Component {
       locationLongitude: longitude,
       homeLatitude: latitude,
       homeLongitude: longitude,
-      step: step + 1,
-    })
+    });
+    this.nextStep();
   }
 
   checkValues = () => {
@@ -112,12 +125,7 @@ export class Multi extends Component {
     switch(step) {
       case 1:
         return(
-          this.state.date &&
-          this.state.startTime &&
-          this.state.endTime &&
-          this.state.distance &&
-          this.state.budget &&
-          this.state.transportation.length
+          true
         );
       case 2:
         return(
@@ -129,12 +137,9 @@ export class Multi extends Component {
   };
 
   nextStep = () => {
-    const { step, date, startTime, endTime } = this.state;
-    console.log(this.state);
+    const { step } = this.state;
     if (this.checkValues()) {
       this.setState({
-        startTime: date + " " + startTime,
-        endTime: date + " " + endTime,
         step: step + 1
       });
     }
@@ -174,8 +179,13 @@ export class Multi extends Component {
           />
         );
       case 3:
+        console.log(this.state.date);
         return (
-          <CardsContainer isLoading={this.state.isLoading} common={this.state.Itinerary}/>
+          <ScrollView
+          style={StyleSheet.absoluteFill}
+          contentContainerStyle={styles.scrollview}>
+          { !this.state.isLoading ? this.state.Itinerary.map(o => <EventCard common={o}/>):<Text>Loading</Text> }
+          </ScrollView>
       );
     }
   }
