@@ -150,116 +150,113 @@ public class Itinerary {
     }
 
     private void handleConflict(Event newEvent) {
-	// Reorganize the lists
-	Comparator<ItineraryItem> itinerarySorter = new Comparator<ItineraryItem>() {
-	    @Override
-	    public int compare(ItineraryItem i1, ItineraryItem i2) {
-		return i1.getStartTime().isLessThan(i2.getStartTime()) ? -1 : 1;
-	    }
-	};
-	// Check if this event starts during an existing event
-	for (int i = itin.size() - 1; i >= 1; i--) {
-	    if (itin.get(i) instanceof Event && !itin.get(i).equals(newEvent)) {
-		Event event = (Event) itin.get(i);
-
-		long startTime = event.getStartTime().toMinutes();
-		long endTime = event.getEndTime().toMinutes();
-		long newEventStart = newEvent.getStartTime().toMinutes();
-		long newEventEnd = newEvent.getEndTime().toMinutes();
-
-		if (startTime <= newEventStart && newEventStart <= endTime
-			|| startTime <= newEventEnd && newEventEnd <= endTime) {
-		    // There is a conflict so remove this event and transportations related to it
-		    if (itin.get(i - 1) instanceof Transportation)
-			itin.remove(i - 1);
-		    itin.remove(i - 1);
-		    if (itin.get(i - 1) instanceof Transportation)
-			itin.remove(i - 1);
-		    // Sort the list
-		    Collections.sort(itin, itinerarySorter);
-		    // Find an available place to move the event
-		    Time newStartTime = findOpenTime(event);
-		    if (newStartTime  != null) {
-			// Re add the event
-			event.setStartTime(newStartTime);
-			event.setEndTime(newStartTime.add(event.getExpectedLength()));
-			itin.add(event);
-			System.out.println("moved event");
-			Collections.sort(itin, itinerarySorter);
-			// Delete transportations around it
-			if (itin.indexOf(event) != 0 && itin.get(itin.indexOf(event)-1) instanceof Transportation) {
-			    itin.remove(itin.indexOf(event)-1);
-			}
-			if (itin.indexOf(event) != itin.size()-1 && itin.get(itin.indexOf(event)+1) instanceof Transportation) {
-			    itin.remove(itin.indexOf(event)+1);
-			}
+		// Reorganize the lists
+		Comparator<ItineraryItem> itinerarySorter = new Comparator<ItineraryItem>() {
+		    @Override
+		    public int compare(ItineraryItem i1, ItineraryItem i2) {
+		    	return i1.getStartTime().isLessThan(i2.getStartTime()) ? -1 : 1;
+		    }
+		};
+		// Check if this event starts during an existing event
+		for (int i = itin.size() - 1; i >= 1; i--) {
+		    if (itin.get(i) instanceof Event && !itin.get(i).equals(newEvent)) {
+				Event event = (Event) itin.get(i);
+		
+				long startTime = event.getStartTime().toMinutes();
+				long endTime = event.getEndTime().toMinutes();
+				long newEventStart = newEvent.getStartTime().toMinutes();
+				long newEventEnd = newEvent.getEndTime().toMinutes();
+		
+				if (startTime <= newEventStart && newEventStart <= endTime
+					|| startTime <= newEventEnd && newEventEnd <= endTime) {
+				    // There is a conflict so remove this event and transportations related to it
+				    if (itin.get(i - 1) instanceof Transportation)
+					itin.remove(i - 1);
+				    itin.remove(i - 1);
+				    if (itin.get(i - 1) instanceof Transportation)
+					itin.remove(i - 1);
+				    // Sort the list
+				    Collections.sort(itin, itinerarySorter);
+				    // Find an available place to move the event
+				    Time newStartTime = findOpenTime(event);
+				    if (newStartTime  != null) {
+						// Re add the event
+						event.setStartTime(newStartTime);
+						event.setEndTime(newStartTime.add(event.getExpectedLength()));
+						itin.add(event);
+						System.out.println("moved event");
+						Collections.sort(itin, itinerarySorter);
+						// Delete transportations around it
+						if (itin.indexOf(event) != 0 && itin.get(itin.indexOf(event)-1) instanceof Transportation) {
+						    itin.remove(itin.indexOf(event)-1);
+						}
+						if (itin.indexOf(event) != itin.size()-1 && itin.get(itin.indexOf(event)+1) instanceof Transportation) {
+						    itin.remove(itin.indexOf(event)+1);
+						}
+				    }
+				}
 		    }
 		}
-	    }
-	}
-
-
-	// Add transportations where needed
-	for (int i = itin.size() - 1; i >= 0; i--) {
-	    if (i == itin.size()-1 && itin.get(i) instanceof Event) {
-		System.out.println(itin.get(i).getTitle());
-		System.out.println("transportation home");
-		itin.add(i, gm.getTransportation(((Event) itin.get(i)).getId(), home, itin.get(i).getEndTime(), this.getMethodsOfTrans()));
-	    }
-	    if (i == 0 & itin.get(i) instanceof Event) {
-		itin.add(i, gm.getTransportation(home, ((Event) itin.get(i)).getId(), startTime, this.getMethodsOfTrans()));
-	    } else if (itin.get(i) instanceof Event && itin.get(i-1) instanceof Event) {
-		Event e1 = (Event) itin.get(i-1);
-		Event e2 = (Event) itin.get(i);
-		itin.add(i, gm.getTransportation(e1.getId(), e2.getId(), e1.getEndTime(), this.getMethodsOfTrans()));
-	    }
-	}
+		// Add transportations where needed
+		for (int i = itin.size() - 1; i >= 0; i--) {
+		    if (i == itin.size()-1 && itin.get(i) instanceof Event) {
+				System.out.println(itin.get(i).getTitle());
+				System.out.println("transportation home");
+				itin.add(i, gm.getTransportation(((Event) itin.get(i)).getId(), home, itin.get(i).getEndTime(), this.getMethodsOfTrans()));
+		    }
+		    if (i == 0 & itin.get(i) instanceof Event) {
+		    	itin.add(i, gm.getTransportation(home, ((Event) itin.get(i)).getId(), startTime, this.getMethodsOfTrans()));
+		    } else if (itin.get(i) instanceof Event && itin.get(i-1) instanceof Event) {
+		    	Event e1 = (Event) itin.get(i-1);
+		    	Event e2 = (Event) itin.get(i);
+		    	itin.add(i, gm.getTransportation(e1.getId(), e2.getId(), e1.getEndTime(), this.getMethodsOfTrans()));
+		    }
+		}
 	// Final sort
 //	Collections.sort(itin, itinerarySorter); Need Maps getLocation to work first
-
     }
 
     private Time findOpenTime(Event event) {
-	// Required time will be time for the event as well as transportation
-	for (int i = 0; i < itin.size(); i++) {
-	    if (itin.get(i) instanceof Event && i != itin.size() - 2) {
-		Event curr = (Event) itin.get(i);
-		Event next = (itin.get(i + 1) instanceof Event) ? (Event) itin.get(i + 1) : (Event) itin.get(i + 2);
-
-		// Google maps transportation doesn't work yet so this method won't work. This
-		// method works without travel time information
-		Time travelToTime = gm.getTransportation(curr.getId(), event.getId(), curr.getEndTime(), this.getMethodsOfTrans())
-			.getExpectedLength();
-		Time travelFromTime = gm.getTransportation(event.getId(), next.getId(), next.getEndTime(), this.getMethodsOfTrans())
-			.getExpectedLength();
-//		long travelTime = travelToTime.add(travelFromTime).toMinutes();
-		
-		long travelTime = travelToTime.add(travelFromTime).toMinutes();
-		long expectedTime = event.getExpectedLength().toMinutes();
-		System.out.println("TIME: " + next.getStartTime().getDifference(curr.getEndTime()).toMinutes());
-		System.out.println("EXPECTED TIME: " + expectedTime);
-		if (next.getStartTime().getDifference(curr.getEndTime()).toMinutes() >= expectedTime) {
-		    // There is enough time for JUST the event
-		    System.out.println("Found a start time");
-		    return curr.getEndTime().add(travelToTime);
+		// Required time will be time for the event as well as transportation
+		for (int i = 0; i < itin.size(); i++) {
+		    if (itin.get(i) instanceof Event && i != itin.size() - 2) {
+		    	Event curr = (Event) itin.get(i);
+		    	Event next = (itin.get(i + 1) instanceof Event) ? (Event) itin.get(i + 1) : (Event) itin.get(i + 2);
+	
+				// Google maps transportation doesn't work yet so this method won't work. This
+				// method works without travel time information
+				Time travelToTime = gm.getTransportation(curr.getId(), event.getId(), curr.getEndTime(), this.getMethodsOfTrans())
+					.getExpectedLength();
+				Time travelFromTime = gm.getTransportation(event.getId(), next.getId(), next.getEndTime(), this.getMethodsOfTrans())
+					.getExpectedLength();
+		//		long travelTime = travelToTime.add(travelFromTime).toMinutes();
+				
+				long travelTime = travelToTime.add(travelFromTime).toMinutes();
+				long expectedTime = event.getExpectedLength().toMinutes();
+				System.out.println("TIME: " + next.getStartTime().getDifference(curr.getEndTime()).toMinutes());
+				System.out.println("EXPECTED TIME: " + expectedTime);
+				if (next.getStartTime().getDifference(curr.getEndTime()).toMinutes() >= expectedTime) {
+				    // There is enough time for JUST the event
+				    System.out.println("Found a start time");
+				    return curr.getEndTime().add(travelToTime);
+				}
+		    } else if (itin.get(i) instanceof Event && i == itin.size()-2) {
+				// Last event
+				long expectedTime = event.getExpectedLength().toMinutes();
+				if (endTime.toMinutes() - ((Event) itin.get(i)).getEndTime().toMinutes() >= expectedTime) {
+				    System.out.println("Found a start time at end of day");
+				    return itin.get(i).getEndTime();
+				}
+		    }
 		}
-	    } else if (itin.get(i) instanceof Event && i == itin.size()-2) {
-		// Last event
-		long expectedTime = event.getExpectedLength().toMinutes();
-		if (endTime.toMinutes() - ((Event) itin.get(i)).getEndTime().toMinutes() >= expectedTime) {
-		    System.out.println("Found a start time at end of day");
-		    return itin.get(i).getEndTime();
-		}
-	    }
-	}
-	// Unable to find an available time
-	return null;
+		// Unable to find an available time
+		return null;
     }
 
     private Transportation joinEvents(String startLocation, String nextLocation, Time endTime) {
-	Transportation transportation = gm.getTransportation(startLocation, nextLocation,
+    	Transportation transportation = gm.getTransportation(startLocation, nextLocation,
 		endTime, this.getMethodsOfTrans());
-	return transportation;
+    	return transportation;
     }
 
     public List<String> getMethodsOfTrans() {
