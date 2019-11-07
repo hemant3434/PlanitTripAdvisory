@@ -77,7 +77,7 @@ public class Itinerary {
                 // Gets transportation object from the next event and the current location of the user
                 Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getId(), curTime, this.getMethodsOfTrans());
 
-                // Transporation object to begin at the current time
+                // Transportation object to begin at the current time
                 transp.setStartTime(curTime);
                 curTime = curTime.add(transp.getExpectedLength());
                 transp.setEndTime(curTime);
