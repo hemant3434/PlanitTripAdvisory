@@ -158,6 +158,11 @@ public class MainController {
       itin.addEvent(event);
       return ResponseEntity.ok().build();
   }
+  /*@PostMapping("/addEvent")
+  public ResponseEntity<?> addEvent(@RequestBody Map<String, String> body) {
+      itin.addEvent(GoogleMaps.getEventByID(body.get("eventId")));
+      return ResponseEntity.ok().build();
+  }*/
   
   @PutMapping("/deleteEvent")
   public ResponseEntity<?> deleteEvent(@RequestBody Map<String, String> body) {
