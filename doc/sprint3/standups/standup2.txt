@@ -1,7 +1,9 @@
 Thursday, November 7
 
 What we did yesterday
-  -
+  - Bug fixing for both front and back
   
 Plan for today
-  -
+  - Demo in tutorial
+  - Divide sprint 3 stories/tasks
+  - Reflect on sprint 2 as a team
