@@ -1,7 +1,8 @@
 Wednesday, November 6
 
 What we did yesterday
-  -
+  - Sprint 2 completed
   
 Plan for today
-  -
+  - Backend bug testing for sprint 2 demo
+  - Frontend bug testing for sprint 2 demo
