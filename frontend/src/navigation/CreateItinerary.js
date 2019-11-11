@@ -8,30 +8,29 @@ import CardsContainer from '../sections/CardsContainer';
 import axios from 'axios';
 
 export class Multi extends Component {
-  componentDidMount() {
-    this.fetchData();
-  }
 
   fetchData(){
-    axios.get('http://100.80.11.91:8080/api/v1/getItinerary', {
-      startTime: this.state.startTime,
-      endTime: this.state.endTime,
-      maxDist: this.state.distance,
+    const body = {
+      activities: this.state.activities,
       budget: this.state.budget,
-      locationLat: this.state.locationLatitude,
-      locationLong: this.state.locationLongitude,
+      endTime: this.state.endTime,
       homeLat: this.state.homeLatitude,
       homeLong: this.state.homeLongitude,
+      locationLat: this.state.locationLatitude,
+      locationLong: this.state.locationLongitude,
+      maxDist: this.state.distance,
       methodOfTrans: this.state.transportation,
-      activities: this.state.activities
-    })
+      startTime: this.state.startTime
+    }
+    console.log(body);
+    axios.post('http://localhost:8080/api/v1/createItinerary', body)
     .then(res => {
       console.log("res", res);
       const data = res.data;
-      console.log("res.data", data);
       this.setState({
         isLoading: false,
-        Itinerary: data
+        Itinerary: data,
+        step: 3
       });
     })
     .catch(error => console.log(error));;
@@ -51,9 +50,7 @@ export class Multi extends Component {
       homeLatitude: null,
       homeLongitude: null,
       transportation: [],
-      activities: [
-        "museums"
-      ],
+      activities: [],
       isLoading: true,
       Itinerary: null
     };
@@ -96,15 +93,21 @@ export class Multi extends Component {
     })
   }
 
+  setActivities = (dataFromChild) => {
+    this.setState ({
+      activities: dataFromChild
+    })
+  }
+
   setLocation = (latitude, longitude) => {
-    const { step } = this.state;
     this.setState ({
       locationLatitude: latitude,
       locationLongitude: longitude,
       homeLatitude: latitude,
       homeLongitude: longitude,
-      step: step + 1,
-    })
+    });
+    this.nextStep(),
+    this.fetchData()
   }
 
   checkValues = () => {
@@ -121,7 +124,8 @@ export class Multi extends Component {
         );
       case 2:
         return(
-          true
+          this.state.locationLat &&
+          this.state.locationLong
         );
       default:
         return true;
@@ -165,6 +169,7 @@ export class Multi extends Component {
             setBudgetFromParent={this.setBudget}
             setDistanceFromParent={this.setDistance}
             setTransportationFromParent={this.setTransportation}
+            setActivitiesFromParent={this.setActivities}
           />
         );
       case 2:
@@ -175,8 +180,11 @@ export class Multi extends Component {
         );
       case 3:
         return (
-          <CardsContainer isLoading={this.state.isLoading} common={this.state.Itinerary}/>
-      );
+          <ScrollView
+          style={StyleSheet.absoluteFill}
+          contentContainerStyle={styles.scrollview}>
+          { !this.state.isLoading ? this.state.Itinerary.map(o => <EventCard common={o}/>):<Text>Loading</Text> }
+          </ScrollView>      );
     }
   }
 }

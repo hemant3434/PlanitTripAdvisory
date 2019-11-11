@@ -6,6 +6,8 @@ import BudgetSlider from '../components/common/Sliders/BudgetSlider';
 import DistanceSlider from '../components/common/Sliders/DistanceSlider';
 import SubmitButton from './../components/common/Buttons/SubmitButton';
 import TransportationPicker from './../components/common/Transportation/TransportationPicker';
+import ActivitiesPicker from './../components/common/Activities/ActivitiesPicker';
+
 
 export default class ItineraryFilters extends React.Component {
   constructor(props) {
@@ -36,6 +38,10 @@ export default class ItineraryFilters extends React.Component {
     this.props.setTransportationFromParent(dataFromChild)
   }
 
+  setActivities = (dataFromChild) => {
+    this.props.setActivitiesFromParent(dataFromChild)
+  }
+
   render(){
     return(
       <ScrollView contentContainerStyle={{flexGrow: 1, justifyContent: "center", padding: 10}}>
@@ -47,6 +53,7 @@ export default class ItineraryFilters extends React.Component {
         <BudgetSlider setBudgetFromParent={this.setBudget}/>
         <DistanceSlider setDistanceFromParent={this.setDistance}/>
         <TransportationPicker setTransportationFromParent={this.setTransportation}/>
+        <ActivitiesPicker setActivitiesFromParent={this.setActivities} />
         <SubmitButton continue={this.props.continue}/>
       </ScrollView>
     );
