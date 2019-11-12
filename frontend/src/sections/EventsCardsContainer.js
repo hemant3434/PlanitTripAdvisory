@@ -3,38 +3,9 @@ import { StyleSheet, View, ScrollView  } from 'react-native';
 import { SearchBar } from "react-native-elements";
 import axios from 'axios';
 import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Icon,
-  List,
-  ListItem,
   Text,
-  Left,
-  Right,
-  Body
 } from "native-base";
 import ExploreCard from '../components/common/Cards/ExploreCard';
-
-const tmp = [
-  {
-    title: "Test",
-    image: "Test",
-    text: "Test"
-  },
-  {
-    title: "Test1",
-    image: "Test1",
-    text: "Test1"
-  },
-  {
-    title: "Test1",
-    image: "Test1",
-    text: "Test1"
-  }
-]
 
 export default class CardsContainer extends React.Component{
   componentDidMount() {
