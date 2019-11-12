@@ -1,19 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView  } from 'react-native';
-import axios from 'axios';
 import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Icon,
-  List,
-  ListItem,
   Text,
-  Left,
-  Right,
-  Body
 } from "native-base";
 import EventCard from './../components/common/Cards/EventCard';
 
