@@ -30,7 +30,7 @@ export default class CardsContainer extends React.Component{
     super(props);
     this.state = {
       isLoading: false,
-      Events: tmp,
+      Events: {},
       search: "",
     }
   }

@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, ScrollView, Text } from "react-native";
-import { SearchBar } from "react-native-elements";
 import EventsCardsContainer from "./../sections/EventsCardsContainer";
 
 class ExplorePage extends React.Component {
