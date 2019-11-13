@@ -6,8 +6,8 @@ export default class TimePicker extends Component {
   state = {
     isStartTimePickerVisible: false,
     isEndTimePickerVisible: false,
-    selectedStartTime: "",
-    selectedEndTime: ""
+    selectedStartTime: null,
+    selectedEndTime: null
   };
 
   showStartTimePicker = () => {
@@ -39,7 +39,11 @@ export default class TimePicker extends Component {
   };
 
   render() {
-    const { isStartTimePickerVisible, isEndTimePickerVisible, selectedStartTime, selectedEndTime } = this.state;
+    const {
+      isStartTimePickerVisible,
+      isEndTimePickerVisible,
+      selectedStartTime,
+      selectedEndTime } = this.state;
 
     return (
       <View>
