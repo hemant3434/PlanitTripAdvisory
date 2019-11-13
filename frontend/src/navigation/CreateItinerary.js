@@ -13,7 +13,6 @@ export class Multi extends Component {
     axios.get('http://localhost:8080/api/v1/viewItinerary')
     .then(res => {
       const data = res.data;
-      console.log(res.data.length==0);
       if(res.data.length==0) { // No itinerary exists
         const body = {
           activities: this.state.activities,
