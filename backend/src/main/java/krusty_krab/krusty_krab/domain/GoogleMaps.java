@@ -9,6 +9,9 @@ import java.util.Map;
 import com.google.maps.*;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
+import com.mongodb.MongoClient;
+import krusty_krab.krusty_krab.mongo.MongoDBEventDAO;
+
 import java.time.*;
 import java.util.Date;
 import java.lang.Math.*;
@@ -318,9 +321,9 @@ public class GoogleMaps {
       } catch (IOException e) {
         e.printStackTrace();
       }
-
+      System.out.println(r.name + ", " + r.formattedAddress + ", " + r.types + ", " + r.priceLevel + ", " + r.openingHours);
       if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
-          && r.openingHours != null && r.photos != null && r.url != null) {
+          && r.openingHours != null ) {//&& r.photos != null && r.url != null
         Time[] times = getTime(r.openingHours, startTime);
         if (times != null) {
           int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
@@ -486,5 +489,15 @@ public class GoogleMaps {
 
   public void setKEY(GeoApiContext kEY) {
     KEY = kEY;
+  }
+
+  public static void storeEventInMongo(Event e) {
+    MongoDBEventDAO mpd = new MongoDBEventDAO(new MongoClient());
+    mpd.createEvent(e);
+  }
+
+  public static List<Event> getEventsFromMongo() {
+    MongoDBEventDAO mpd = new MongoDBEventDAO(new MongoClient());
+    return mpd.readAllEvents();
   }
 }

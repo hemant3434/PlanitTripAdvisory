@@ -44,12 +44,12 @@ public class MainController {
   @GetMapping("/getDummy2")
   public ResponseEntity<?> getDummy2(@RequestBody Map<String, Object> body) throws Exception {
 
-    Time start = new Time(2019, 11, 9, 9, 00, true);
-    Time end = new Time(2019, 11, 9, 20, 00, true);
-    double lat = 43.7764;
-    double ltd = -79.2318;
+    Time start = new Time(2019, 11, 9, 5, 00, true);
+    Time end = new Time(2019, 11, 9, 24, 00, true);
+    double lat = 43.645474;
+    double ltd = -79.380922;
     float budget = 150f;
-    float distance = 1f;
+    float distance = 20f;
 
     List<String> activities = new ArrayList<String>();
     activities.add("aquarium");
@@ -58,8 +58,6 @@ public class MainController {
     List<String> trans = new ArrayList<String>();
     trans.add("Drive");
     trans.add("Transit");
-
-
 
     itin.setStartTime(start);
     itin.setEndTime(end);
@@ -73,10 +71,13 @@ public class MainController {
     itin.setMethodsOfTrans(trans);
     itin.setActivities(activities);
 
-    itin.createItinerary(this.user);
-    //gm.getEvents(start, end, lat, ltd, distance, activities, budget)
-
-    return ResponseEntity.ok().body(itin.getItin());
+    //itin.createItinerary(this.user);
+    List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
+    for(Event e:events){
+      System.out.println(e.getLocation());
+      //mpd.createEvent(e);
+    }
+    return ResponseEntity.ok().body(null);
   }
 
   @GetMapping("/getItinerary")
@@ -226,17 +227,6 @@ public class MainController {
     return userService;
   }
 
-  MongoDBEventDAO mpd = new MongoDBEventDAO(new MongoClient());
-
-  @PutMapping("/post")
-  public void addEvent(@RequestBody Map<String, Object> body) {
-    mpd.createEvent(EventConverter.toEventFromMap(body));
-  }
-
-  @GetMapping("/post")
-  public ResponseEntity<?> getEvent() {
-    return ResponseEntity.ok().body(mpd.readAllEvents());
-  }
 }
 
 /*
