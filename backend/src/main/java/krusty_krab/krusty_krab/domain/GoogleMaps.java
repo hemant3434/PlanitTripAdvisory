@@ -23,7 +23,7 @@ public class GoogleMaps {
 
   public GoogleMaps() {
     if (KEY == null) {
-      // KrustKrab: AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc
+      // KrustyKrab: AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc
       // Hemant: AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8
       KEY = new GeoApiContext.Builder().apiKey("AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc").build();
     }

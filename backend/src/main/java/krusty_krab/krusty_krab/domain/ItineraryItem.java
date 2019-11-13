@@ -64,4 +64,8 @@ public class ItineraryItem {
     public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
+
+    public void setExpectedLength(Time expectedLength) {
+        this.expectedLength = expectedLength;
+    }
 }

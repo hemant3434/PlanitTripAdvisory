@@ -111,4 +111,36 @@ public class Event extends ItineraryItem{
 	public String getLocation() {
 		return location;
 	}
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setActivity(String activity) {
+        this.activity = activity;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

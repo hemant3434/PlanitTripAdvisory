@@ -2,7 +2,10 @@ package krusty_krab.krusty_krab.controller;
 
 import java.util.*;
 
+import com.mongodb.MongoClient;
 import krusty_krab.krusty_krab.domain.*;
+import krusty_krab.krusty_krab.mongo.EventConverter;
+import krusty_krab.krusty_krab.mongo.MongoDBEventDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -221,6 +224,18 @@ public class MainController {
 
   public UserService getUserService() {
     return userService;
+  }
+
+  MongoDBEventDAO mpd = new MongoDBEventDAO(new MongoClient());
+
+  @PutMapping("/post")
+  public void addEvent(@RequestBody Map<String, Object> body) {
+    mpd.createEvent(EventConverter.toEventFromMap(body));
+  }
+
+  @GetMapping("/post")
+  public ResponseEntity<?> getEvent() {
+    return ResponseEntity.ok().body(mpd.readAllEvents());
   }
 }
 
