@@ -10,10 +10,11 @@ import axios from 'axios';
 export class Multi extends Component {
 
   fetchData(){
-    axios.get('http://localhost:8080/api/v1/getItinerary')
+    axios.get('http://localhost:8080/api/v1/viewItinerary')
     .then(res => {
       const data = res.data;
-      if(data = null) { // No itinerary exists
+      console.log(res.data.length==0);
+      if(res.data.length==0) { // No itinerary exists
         const body = {
           activities: this.state.activities,
           budget: this.state.budget,
@@ -122,6 +123,7 @@ export class Multi extends Component {
     switch(step) {
       case 1:
         return(
+          //true
           this.state.date &&
           this.state.startTime &&
           this.state.endTime &&
@@ -131,6 +133,7 @@ export class Multi extends Component {
         );
       case 2:
         return(
+          //true
           this.state.locationLat &&
           this.state.locationLong
         );
