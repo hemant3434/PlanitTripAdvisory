@@ -1,19 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView  } from 'react-native';
-import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Icon,
-  List,
-  ListItem,
-  Text,
-  Left,
-  Right,
-  Body
-} from "native-base";
 import Calendar from './../components/Calendar';
 import TimePicker from './../components/TimePicker';
 

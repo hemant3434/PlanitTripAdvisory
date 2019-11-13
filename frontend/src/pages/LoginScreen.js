@@ -23,7 +23,6 @@ const LoginScreen = (props) => {
       return;
     }
 
-    // navigation.navigate('Dashboard');
     props.onLoginPressed();
   };
 

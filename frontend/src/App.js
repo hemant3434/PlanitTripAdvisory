@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Itinerary from './pages/ItineraryPage';
 import MapPage from './pages/MapPage';
 import ExplorePage from './pages/ExplorePage';
 import Multi from './navigation/CreateItinerary';
@@ -31,7 +30,7 @@ class TripsScreen extends React.Component {
   render() {
     return(
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff'}}>
-        <Text> TripsScreen </Text>
+        <Text> TripsScreen, SOMEONE PLEASE MAKE THIS TOO LMAO </Text>
       </View>
     );
   }
@@ -41,7 +40,7 @@ class ProfileScreen extends React.Component {
   render() {
     return(
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#d0d0d0'}}>
-        <Text> ProfileScreen </Text>
+        <Text> ProfileScreen, SOMEONE PLEASE MAKE THIS LOL </Text>
       </View>
     );
   }
