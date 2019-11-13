@@ -6,7 +6,6 @@ import Button from '../components/common/LoginRegister/Button';
 import Paragraph from '../components/common/LoginRegister/Paragraph';
 import LoginScreen from '../pages/LoginScreen';
 import RegisterScreen from '../pages/RegisterScreen';
-import ExplorePage from '../pages/ExplorePage';
 import App from '../App.js';
 
 class HomeScreen extends React.Component {
