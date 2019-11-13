@@ -264,35 +264,35 @@ public class Itinerary {
     }
 
     public List<String> getMethodsOfTrans() {
-	return this.methodsOfTrans;
+    	return this.methodsOfTrans;
     }
 
     public void addMethodsOfTrans(String transportation) {
-	methodsOfTrans.add(transportation);
+    	methodsOfTrans.add(transportation);
     }
 
     public List<ItineraryItem> getItin() {
-	return itin;
+    	return itin;
     }
 
     public Time getStartTime() {
-	return startTime;
+    	return startTime;
     }
 
     public Time getEndTime() {
-	return endTime;
+    	return endTime;
     }
 
     public float getMaxDist() {
-	return maxDist;
+    	return maxDist;
     }
 
     public List<String> getActivities() {
-	return activities;
+    	return activities;
     }
 
     public float getBudget() {
-	return budget;
+    	return budget;
     }
 
     public void setStartTime(Time startTime) {
@@ -300,66 +300,66 @@ public class Itinerary {
     }
 
     public void setEndTime(Time endTime) {
-	this.endTime = endTime;
+    	this.endTime = endTime;
     }
 
 
     public void setMaxDist(float maxDist) {
-	this.maxDist = maxDist;
+    	this.maxDist = maxDist;
     }
 
     public void setActivities(List<String> activities) {
-	this.activities = activities;
+    	this.activities = activities;
     }
 
     public void setBudget(float budget) {
-	this.budget = budget;
+    	this.budget = budget;
     }
 
     public void setItin(List<ItineraryItem> itin) {
-	this.itin = itin;
+    	this.itin = itin;
     }
 
     public List<String> getVisitedEvents() {
-	return visitedEvents;
+    	return visitedEvents;
     }
 
     public float getItinBudgetLeft() {
-	float cost = 0;
-	for (ItineraryItem i : getItin()) {
-	    cost += GoogleMaps.rangeToBudget(i.getPrice());
-	}
-	return this.getBudget() - cost;
+    	float cost = 0;
+    	for (ItineraryItem i : getItin()) {
+    		cost += GoogleMaps.rangeToBudget(i.getPrice());
+    	}
+    	return this.getBudget() - cost;
     }
 
     public Time getItinCurTime() {
-	if (this.getItin().size() == 0) {
-	    return this.getStartTime();
-	} else {
-	    return this.getItin().get(this.getItin().size() - 1).getEndTime();
-	}
+    	if (this.getItin().size() == 0) {
+    		return this.getStartTime();
+    	} else {
+    		return this.getItin().get(this.getItin().size() - 1).getEndTime();
+    	}
     }
 
     public String getItinCurLoc() {
-	if (this.getItin().size() == 0) {
-	    return this.getHome();
-	} else {
-	    return ((Event) (this.getItin().get(this.getItin().size() - 1))).getId();
-	}
+    	if (this.getItin().size() == 0) {
+    		return this.getHome();
+    	} else {
+    		return ((Event) (this.getItin().get(this.getItin().size() - 1))).getId();
+    	}
     }
 
     public float getItinDistLeft() {
-	float dist = 0;
-
-	List<ItineraryItem> itin = this.getItin();
-	// Loop excludes the first and last transportation events, as this should not be
-	// factored into the max distance
-	for (int i = 1; i < itin.size() - 1; i++) {
-	    if (itin.get(i) instanceof Transportation) {
-		dist += ((Transportation) itin.get(i)).getDistance();
-	    }
-	}
-	return this.getMaxDist() - dist;
+		float dist = 0;
+	
+		List<ItineraryItem> itin = this.getItin();
+		// Loop excludes the first and last transportation events, as this should not be
+		// factored into the max distance
+		for (int i = 1; i < itin.size() - 1; i++) {
+		    if (itin.get(i) instanceof Transportation) {
+		    	dist += ((Transportation) itin.get(i)).getDistance();
+		    }
+		}
+		return this.getMaxDist() - dist;
     }
 
     public void setVisitedEvents(List<String> visitedEvents) {
