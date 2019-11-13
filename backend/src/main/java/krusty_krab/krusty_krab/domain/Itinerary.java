@@ -163,11 +163,11 @@ public class Itinerary {
 		    	return i1.getStartTime().isLessThan(i2.getStartTime()) ? -1 : 1;
 		    }
 		};
+
 		// Check if this event starts during an existing event
 		for (int i = itin.size() - 1; i >= 1; i--) {
 		    if (itin.get(i) instanceof Event && !itin.get(i).equals(newEvent)) {
 				Event event = (Event) itin.get(i);
-		
 				long startTime = event.getStartTime().toMinutes();
 				long endTime = event.getEndTime().toMinutes();
 				long newEventStart = newEvent.getStartTime().toMinutes();
@@ -177,10 +177,10 @@ public class Itinerary {
 					|| startTime <= newEventEnd && newEventEnd <= endTime) {
 				    // There is a conflict so remove this event and transportations related to it
 				    if (itin.get(i - 1) instanceof Transportation)
-					itin.remove(i - 1);
-				    itin.remove(i - 1);
+				    	itin.remove(i - 1);
+				    	itin.remove(i - 1);
 				    if (itin.get(i - 1) instanceof Transportation)
-					itin.remove(i - 1);
+				    	itin.remove(i - 1);
 				    // Sort the list
 				    Collections.sort(itin, itinerarySorter);
 				    // Find an available place to move the event
@@ -218,8 +218,6 @@ public class Itinerary {
 		    	itin.add(i, gm.getTransportation(e1.getId(), e2.getId(), e1.getEndTime(), this.getMethodsOfTrans()));
 		    }
 		}
-	// Final sort
-//	Collections.sort(itin, itinerarySorter); Need Maps getLocation to work first
     }
 
     private Time findOpenTime(Event event) {
