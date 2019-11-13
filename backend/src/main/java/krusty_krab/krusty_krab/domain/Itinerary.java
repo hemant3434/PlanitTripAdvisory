@@ -112,20 +112,24 @@ public class Itinerary {
     }
 
     public void deleteEvent(String eventId) {
-    	// need to delete event
-    	// iterate through the itinerary
+    	// get length of original itinerary, to accommodate for changed indexes
 		int itinLength = itin.size();
+		// loop thru the entire itinerary list
     	for (int i = 0; i < itinLength - 1; i++) {
+    		// get the current ItineraryItem
     		ItineraryItem item = itin.get(i);
     		// if the event to be deleted matches the current iterated ItinItem
     		if (item instanceof Event && ((Event) item).getId().equals(eventId)) {
+    			// create the joiner transportation to fill the gap
 				Transportation fillerTrans = new Transportation();
     			// remove the transportation before, event itself, then transportation after
     			for (int j = 0; j < 3; j++) {
     				itin.remove(i - 1);
     			}
     			// EDGE CASE: if event is the only one in itinerary, delete stuffs and exit
-    			if (itin.size() == 0) break;
+    			if (itin.size() == 0) {
+    				break;
+    			}
     			if (i == 1) {
     				// EDGE CASE 1: first event being deleted, must join home with next event
     				Event successorEvent = new Event();
@@ -144,6 +148,7 @@ public class Itinerary {
     				successorEvent = (Event) itin.get(i - 1);
     				fillerTrans = joinEvents(predecessorEvent.getId(), successorEvent.getId(), predecessorEvent.getEndTime());
     			}
+    			// now add the fillerTrans in the appropriate spot, and exit loop now that delete was performed
 				itin.add(i - 1, fillerTrans);
 				break;
     		}
