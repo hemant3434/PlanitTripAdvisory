@@ -10,28 +10,35 @@ import axios from 'axios';
 export class Multi extends Component {
 
   fetchData(){
-    const body = {
-      activities: this.state.activities,
-      budget: this.state.budget,
-      endTime: this.state.endTime,
-      homeLat: this.state.homeLatitude,
-      homeLong: this.state.homeLongitude,
-      locationLat: this.state.locationLatitude,
-      locationLong: this.state.locationLongitude,
-      maxDist: this.state.distance,
-      methodOfTrans: this.state.transportation,
-      startTime: this.state.startTime
-    }
-    console.log(body);
-    axios.post('http://localhost:8080/api/v1/createItinerary', body)
+    axios.get('http://localhost:8080/api/v1/getItinerary')
     .then(res => {
-      console.log("res", res);
       const data = res.data;
-      this.setState({
-        isLoading: false,
-        Itinerary: data,
-        step: 3
-      });
+      if(data = null) { // No itinerary exists
+        const body = {
+          activities: this.state.activities,
+          budget: this.state.budget,
+          endTime: this.state.endTime,
+          homeLat: this.state.homeLatitude,
+          homeLong: this.state.homeLongitude,
+          locationLat: this.state.locationLatitude,
+          locationLong: this.state.locationLongitude,
+          maxDist: this.state.distance,
+          methodOfTrans: this.state.transportation,
+          startTime: this.state.startTime
+        }
+        console.log(body);
+        axios.post('http://localhost:8080/api/v1/createItinerary', body)
+        .then(res => {
+          console.log("res", res);
+          const data = res.data;
+          this.setState({
+            isLoading: false,
+            Itinerary: data,
+            step: 3
+          });
+        })
+        .catch(error => console.log(error));;
+      }
     })
     .catch(error => console.log(error));;
   }
