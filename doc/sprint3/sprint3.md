@@ -120,6 +120,7 @@ XiangQian "Richard" Hong
 - `story 10` Cost per person per each event is calculated
 - `story 10` Cost per person per each travel segment is calculated
 - `story 10` Total cost per person is calculated
+
 **Jason Conte**: 
 
 **Jackie Tran**: 
