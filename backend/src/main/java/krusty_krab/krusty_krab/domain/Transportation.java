@@ -33,4 +33,12 @@ public class Transportation extends ItineraryItem {
     public String getSubtitle() {
         return subtitle;
     }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
 }

@@ -1,43 +1,35 @@
 package krusty_krab.krusty_krab.domain;
 
-import krusty_krab.krusty_krab.controller.MainController;
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@NodeEntity
 public class User {
 
-    @GraphId
     private Long id;
     private String username;
     private List<String> visitedEvents = new ArrayList();
-    private List<Float> eventRatings = new ArrayList();
-    private List<ItineraryItem> itin = new ArrayList<ItineraryItem>();
+    private Map<String, Integer> eventRatings = new HashMap<>();
+    private Itinerary itinerary = new Itinerary();
 
     public User() {}
 
-    public User(String username, List<String> visitedEvents, List<Float> eventRatings, List<ItineraryItem> itin) {
+    public User(String username, List<String> visitedEvents, Map<String, Integer> eventRatings, Itinerary itinerary) {
         this.username = username;
         this.visitedEvents = visitedEvents;
         this.eventRatings = eventRatings;
-        this.itin = itin;
+        this.itinerary = itinerary;
     }
 
     //Returns the user's average rating for all events of the same activity as the one that is given
     public float getActivityRating(String activity){
         float sum = 0;
         float numEvents = 0;
-        for(int i=0; i < visitedEvents.size();i++){
-            Event e = GoogleMaps.getEventByID(visitedEvents.get(i));
+        for(String key:eventRatings.keySet()){
+            Event e = GoogleMaps.getEventByID(key);
             if(e.getActivity().equals(activity)){
-                sum += eventRatings.get(i);
+                sum += eventRatings.get(key);
                 numEvents++;
             }
         }
@@ -62,9 +54,9 @@ public class User {
 
     //Returns rating given by the user of a visited event
     public float getRating(Event e){
-        for(int i=0; i < visitedEvents.size();i++){
-            if(visitedEvents.get(i).equals(e.getId())){
-                return eventRatings.get(i);
+        for(String key:eventRatings.keySet()){
+            if(key.equals(e.getId())){
+                return eventRatings.get(key);
             }
         }
         return 0;
@@ -78,10 +70,6 @@ public class User {
         return visitedEvents;
     }
 
-    public List<ItineraryItem> getItin() {
-        return itin;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -90,15 +78,21 @@ public class User {
         this.visitedEvents = visitedEvents;
     }
 
-    public void setItin(List<ItineraryItem> itin) {
-        this.itin = itin;
-    }
-
-    public List<Float> getEventRatings() {
+    public Map<String, Integer> getEventRatings() {
         return eventRatings;
     }
 
-    public void setEventRatings(List<Float> eventRatings) {
+    public void setEventRatings(Map<String, Integer> eventRatings) {
         this.eventRatings = eventRatings;
     }
+
+    public Itinerary getItinerary() {
+        return itinerary;
+    }
+
+    public void setItinerary(Itinerary itinerary) {
+        this.itinerary = itinerary;
+    }
+
+
 }

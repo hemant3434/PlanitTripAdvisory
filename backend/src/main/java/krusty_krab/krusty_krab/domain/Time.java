@@ -8,6 +8,7 @@ public class Time {
     private int minute;
     private boolean positive;
 
+    public Time(){}
     public Time(int year, int month, int day, int hour, int minute, boolean positive) {
         this.year = year;
         this.positive = positive;

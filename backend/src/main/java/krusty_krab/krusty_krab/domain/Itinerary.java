@@ -1,5 +1,7 @@
 package krusty_krab.krusty_krab.domain;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,9 +9,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Document(collection = "users")
 public class Itinerary {
-    private Time startTime;
-    private Time endTime;
+    private Time startTime = new Time();
+    private Time endTime = new Time();
     private String location;
     private double locationLat;
     private double locationLong;
@@ -20,16 +23,14 @@ public class Itinerary {
     private List<String> activities;
     private float budget;
     private List<ItineraryItem> itin = new ArrayList<ItineraryItem>();
-    private List<String> visitedEvents = new ArrayList<String>();
     private List<String> methodsOfTrans = new ArrayList<String>();
-    public float minScore = 0.0f;
-    public GoogleMaps gm = new GoogleMaps();
 
     public Itinerary() {
     }
 
     // Gets the next best event for the user to attend
     public Event getNextBestEvent(User user) {
+        GoogleMaps gm = new GoogleMaps();
 
         //Converts remaining budget to an events price range, to see how expensive of an event the itinerary can take
         float maxPriceRange = GoogleMaps.budgetToRange(this.getItinBudgetLeft());
@@ -37,7 +38,7 @@ public class Itinerary {
         //List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getItinDistLeft(), this.getActivities(), maxPriceRange);
 
         System.out.println("b");
-        List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getMaxDist(), this.getActivities(), maxPriceRange);
+        List<Event> events = gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getMaxDist(), this.getActivities(), maxPriceRange);
         System.out.println("a");
         // Gets event with highest score of all events received
         Event bestEvent = new Event();
@@ -48,7 +49,7 @@ public class Itinerary {
         for(Event e: events){
             //System.out.println(e.getLocation());
             if(!this.getVisitedEvents().contains(e.getLocation())){
-                curScore = e.getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans());
+                curScore = e.getScore(this.getItinCurTime(), this.getItinCurLoc(), gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans());
                 if(curScore > bestScore) {
                     bestEvent = e;
                     bestScore = curScore;
@@ -65,6 +66,8 @@ public class Itinerary {
 
     // Creates the itinerary
     public void createItinerary(User user) throws Exception{
+        float minScore = 0.0f;
+        GoogleMaps gm = new GoogleMaps();
         // Starts at the specified start time, at the users home
         Time curTime = getStartTime();
         String curLoc = getHome();
@@ -73,9 +76,9 @@ public class Itinerary {
             Event nextEvent = getNextBestEvent(user);
 
             // Loops until it runs out of events, or all events remaining has a score so low that they shouldn't be on the itinerary
-            while(nextEvent.getScore(curTime, curLoc, this.gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans()) > minScore){
+            while(nextEvent.getScore(curTime, curLoc, gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans()) > minScore){
                 // Gets transportation object from the next event and the current location of the user
-                Transportation transp = this.gm.getTransportation(curLoc, nextEvent.getId(), curTime, this.getMethodsOfTrans());
+                Transportation transp = gm.getTransportation(curLoc, nextEvent.getId(), curTime, this.getMethodsOfTrans());
 
                 // Transportation object to begin at the current time
                 transp.setStartTime(curTime);
@@ -87,8 +90,6 @@ public class Itinerary {
                 // Transportation and event objects are added to the itinerary
                 this.itin.add(transp);
                 this.itin.add(nextEvent);
-                // Event added to list to indicate that it is already in the itinerary
-                this.visitedEvents.add(nextEvent.getLocation());
 
                 //Current time updated to after event is over, current location updated to event location
                 curLoc = nextEvent.getId();
@@ -101,7 +102,7 @@ public class Itinerary {
         }
         catch(NoSuchElementException e){}
         // Gets transportation object from last event, back to home, and adds it to the itinerary
-        Transportation transp = this.gm.getTransportation(curLoc, getHome(), curTime, this.getMethodsOfTrans());
+        Transportation transp = gm.getTransportation(curLoc, getHome(), curTime, this.getMethodsOfTrans());
         transp.setStartTime(curTime);
         this.itin.add(transp);
     }
@@ -156,6 +157,7 @@ public class Itinerary {
     }
 
     private void handleConflict(Event newEvent) {
+        GoogleMaps gm = new GoogleMaps();
 		// Reorganize the lists
 		Comparator<ItineraryItem> itinerarySorter = new Comparator<ItineraryItem>() {
 		    @Override
@@ -221,6 +223,7 @@ public class Itinerary {
     }
 
     private Time findOpenTime(Event event) {
+        GoogleMaps gm = new GoogleMaps();
 		// Required time will be time for the event as well as transportation
 		for (int i = 0; i < itin.size(); i++) {
 		    if (itin.get(i) instanceof Event && i != itin.size() - 2) {
@@ -258,7 +261,8 @@ public class Itinerary {
     }
 
     private Transportation joinEvents(String startLocation, String nextLocation, Time endTime) {
-    	Transportation transportation = gm.getTransportation(startLocation, nextLocation,
+        GoogleMaps gm = new GoogleMaps();
+        Transportation transportation = gm.getTransportation(startLocation, nextLocation,
 		endTime, this.getMethodsOfTrans());
     	return transportation;
     }
@@ -321,7 +325,13 @@ public class Itinerary {
     }
 
     public List<String> getVisitedEvents() {
-    	return visitedEvents;
+        List<String> visitedEvents = new ArrayList<>();
+    	for(ItineraryItem i:this.getItin()){
+    	    if(i instanceof Event){
+    	        visitedEvents.add(((Event)i).getLocation());
+            }
+        }
+        return visitedEvents;
     }
 
     public float getItinBudgetLeft() {
@@ -360,10 +370,6 @@ public class Itinerary {
 		    }
 		}
 		return this.getMaxDist() - dist;
-    }
-
-    public void setVisitedEvents(List<String> visitedEvents) {
-        this.visitedEvents = visitedEvents;
     }
 
     public void setMethodsOfTrans(List<String> methodsOfTrans) {

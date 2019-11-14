@@ -6,6 +6,7 @@ import com.mongodb.MongoClient;
 import krusty_krab.krusty_krab.domain.*;
 import krusty_krab.krusty_krab.mongo.EventConverter;
 import krusty_krab.krusty_krab.mongo.MongoDBEventDAO;
+import krusty_krab.krusty_krab.mongo.MongoDBUserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,9 +23,10 @@ public class MainController {
       + "%2Fmisc%2Fstar-wars-is-everywhere-021-hello-there%2F&psig=AOvVaw3rX7UoWqkc6toLU"
       + "iEGB24b&ust=1571261300777966";
 
-  Itinerary itin = new Itinerary();
+  //Itinerary itin = new Itinerary();
   //Instantiated by register, remove instantiation for final product
-  User user = new User("amy", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+  User user = new User();
+  Itinerary itin = user.getItinerary();
   GoogleMaps gm = new GoogleMaps();
 
   @Autowired
@@ -214,18 +216,83 @@ public class MainController {
 
   @PutMapping("/login")
   public void login(@RequestBody User body) {
-    this.user = userService.getUser(body.getUsername());
+    //this.user = userService.getUser(body.getUsername());
+    this.user = mpd.readUser(body.getUsername());
+    System.out.println(this.user.getUsername());
   }
 
   @PutMapping("/register")
   public void register(@RequestBody User body) {
-    this.user = new User(body.getUsername(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-    userService.addUser(user);
+    this.user = new User();
+    this.itin = this.user.getItinerary();
+    this.user.setUsername(body.getUsername());
+    mpd.createUser(this.user);
+    //userService.addUser(user);
   }
 
   public UserService getUserService() {
     return userService;
   }
+
+  MongoDBUserDAO mpd = new MongoDBUserDAO(new MongoClient());
+
+  @PutMapping("/post")
+  public void addEvent(@RequestBody Map<String, Object> body) {
+    //MongoDBUserDAO mpd = new MongoDBUserDAO(new MongoClient());
+
+    Itinerary i = new Itinerary();
+    Time start = new Time(2019, 11, 9, 5, 00, true);
+    Time end = new Time(2019, 11, 9, 24, 00, true);
+    double lat = 43.645474;
+    double ltd = -79.380922;
+    float budget = 150f;
+    float distance = 20f;
+    List<String> activities = new ArrayList<String>();
+    activities.add("aquarium");
+    activities.add("art gallery");
+    List<String> trans = new ArrayList<String>();
+    trans.add("Drive");
+    trans.add("Transit");
+    Transportation t1 = new Transportation(10, "walk", 0, start, end, new Time(0, 0, 0, 0, 15, true), "flight-takeoff", "15 minutes");
+    Event e1 = new Event("Eaton Centre", "Eaton Centre", 43.2, 43.2, "Mall", 4, 4,
+            new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+            new Time(0, 0, 0, 2, 0, true),
+            "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
+            "If Quebec is Canada's ass...", "4");
+    List<ItineraryItem> itin = new ArrayList<>();
+    itin.add(t1);
+    itin.add(e1);
+    itin.add(t1);
+    itin.add(e1);
+
+    i.setStartTime(start);
+    i.setEndTime(end);
+    i.setMaxDist(distance);
+    i.setBudget(budget);
+    i.setLocationLat(lat);
+    i.setLocationLong(ltd);
+    i.setHome("Scarborough");
+    i.setHomeLat(43.7764);
+    i.setHomeLong(-79.2318);
+    i.setMethodsOfTrans(trans);
+    i.setActivities(activities);
+    i.setItin(itin);
+
+    List<String> visitedEvents = new ArrayList<>();
+    visitedEvents.add("1");
+    visitedEvents.add("2");
+    Map<String, Integer> eventRatings = new HashMap<>();
+    eventRatings.put("1", 2);
+    eventRatings.put("2", 5);
+    User u = new User("UN1", visitedEvents, eventRatings, i);
+    mpd.createUser(u);
+  }
+
+  @GetMapping("/post")
+  public ResponseEntity<?> getEvent() {
+    return ResponseEntity.ok().body(mpd.readAllUsers());
+  }
+
 
 }
 
