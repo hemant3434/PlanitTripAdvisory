@@ -92,12 +92,12 @@ XiangQian "Richard" Hong
 - `story 6` User can select from multiple activities
 
 **Gnanaswarup Srinivasan**:
+- `story 7` The map displayed supports zooming in/out
+- `story 7` The map displayed shows the user's current location
 
 **Unassigned**
 - `story 6` The activities that the user selects are stored
 - `story 7` A map is displayed that includes nearby relevant locations
-- `story 7` The map displayed supports zooming in/out
-- `story 7` The map displayed shows the user's current location
 - `story 8` Time estimates are retrieved from the backend
 - `story 8` Beside each segment of the route on the map is a time estimate of how long it will take to travel between events
 - `story 9` Once itinerary has been set, the map tab will display the fastest route from one event to the next (keeping preferred mode of transportation in mind)
