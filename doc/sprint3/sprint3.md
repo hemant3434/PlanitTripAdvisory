@@ -117,16 +117,15 @@ XiangQian "Richard" Hong
 - `Story 15` Apply user event filters to fetched data
   
 **Hemant Bhanot**: 
-
+- `story 10` Cost per person per each event is calculated
+- `story 10` Cost per person per each travel segment is calculated
+- `story 10` Total cost per person is calculated
 **Jason Conte**: 
 
 **Jackie Tran**: 
 
 **Unassigned**
 - `story 8` Time estimates are calculated and available to be retrieved
-- `story 10` Cost per person per each event is calculated
-- `story 10` Cost per person per each travel segment is calculated
-- `story 10` Total cost per person is calculated
 - `story 14` Online calendar info specified by user is stored
 - `story 14` All changes to itinerary are changed in online calendar
 - `story 17` Events of the same type as events rated poorly by the user are rarely included
