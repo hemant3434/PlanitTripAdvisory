@@ -15,6 +15,15 @@ Logan Chester
 XiangQian "Richard" Hong
 
 ## Sprint Backlog:
+---
+We have decided to remove story 14 from our sprint due to its limited value and effort associated with it.
+
+`story 14`
+
+- As Bob (a businessman), I want my itinerary to sync with my calendar so that I only have to look at one place for information about my events and meetings.
+
+- Point Estimate: 2
+---
 
 `story 6`
 
@@ -64,12 +73,6 @@ XiangQian "Richard" Hong
 
 - Point Estimate: 8
 
-`story 14`
-
-- As Bob (a businessman), I want my itinerary to sync with my calendar so that I only have to look at one place for information about my events and meetings.
-
-- Point Estimate: 2
-
 `story 15`
 
 - As Bob (a businessman), I want the app to be able to display my itinerary, so I can see my entire day laid out in front of me.
@@ -85,33 +88,35 @@ XiangQian "Richard" Hong
 ## Frontend Tasks:
 ---
 
+We have decided to remove the following task: "A map is displayed that includes nearby relevant locations".
+We made this decision because it is a redundant task that does not add value to our product.
+
+---
+
 **Richard Hong**:
 - `Story 13` User can select time slot for events about to be added to itinerary
 
 **Logan Chester**:
 - `story 6` User can select from multiple activities
+- `story 6` The activities that the user selects are stored
+- `story 9` Once itinerary has been set, the map tab will display the fastest route from one event to the next (keeping preferred mode of transportation in mind)
+- `story 9` Map zooms out appropriately to show entirety of the next travel segment of the itinerary
+- `story 9` Route displayed is easily distinguishable from map background
 
 **Gnanaswarup Srinivasan**:
 - `story 7` The map displayed supports zooming in/out
 - `story 7` The map displayed shows the user's current location
 
 **Unassigned**
-- `story 6` The activities that the user selects are stored
-- `story 7` A map is displayed that includes nearby relevant locations
 - `story 8` Time estimates are retrieved from the backend
 - `story 8` Beside each segment of the route on the map is a time estimate of how long it will take to travel between events
-- `story 9` Once itinerary has been set, the map tab will display the fastest route from one event to the next (keeping preferred mode of transportation in mind)
-- `story 9` Map zooms out appropriately to show entirety of the next travel segment of the itinerary
-- `story 9` Route displayed is easily distinguishable from map background
 - `story 10` Each event displays cost per person
 - `story 10` Each travel step displays cost per person
 - `story 10` Total cost per person shown at the bottom of the itinerary
 - `story 11` Each travel step displays estimated travel time
 - `story 12` Each event displays typical amount of time spent at the event
-- `story 14` User can specify an online calendar to sync to
   
-## Backend Tasks:
----
+## Backend Tasks: ##
 
 **Jason Hu**:
   
@@ -127,7 +132,5 @@ XiangQian "Richard" Hong
 
 **Unassigned**
 - `story 8` Time estimates are calculated and available to be retrieved
-- `story 14` Online calendar info specified by user is stored
-- `story 14` All changes to itinerary are changed in online calendar
 - `story 17` Events of the same type as events rated poorly by the user are rarely included
 - `story 17` When itinerary is being created, events of the same type as events rated highly by the user are given preference
