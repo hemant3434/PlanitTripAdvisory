@@ -98,7 +98,6 @@ We made this decision because it is a redundant task that does not add value to 
 
 **Logan Chester**:
 - `story 6` User can select from multiple activities
-- `story 6` The activities that the user selects are stored
 - `story 9` Once itinerary has been set, the map tab will display the fastest route from one event to the next (keeping preferred mode of transportation in mind)
 - `story 9` Map zooms out appropriately to show entirety of the next travel segment of the itinerary
 - `story 9` Route displayed is easily distinguishable from map background
@@ -131,6 +130,7 @@ We made this decision because it is a redundant task that does not add value to 
 **Jackie Tran**: 
 
 **Unassigned**
+- `story 6` The activities that the user selects are stored
 - `story 8` Time estimates are calculated and available to be retrieved
 - `story 17` Events of the same type as events rated poorly by the user are rarely included
 - `story 17` When itinerary is being created, events of the same type as events rated highly by the user are given preference
