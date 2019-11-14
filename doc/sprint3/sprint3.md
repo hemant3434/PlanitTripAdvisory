@@ -114,9 +114,9 @@ XiangQian "Richard" Hong
 ---
 
 **Jason Hu**:
-- `Story 15` Apply user event filters to fetched data
   
 **Hemant Bhanot**: 
+- `Story 15` Apply user event filters to fetched data
 - `story 10` Cost per person per each event is calculated
 - `story 10` Cost per person per each travel segment is calculated
 - `story 10` Total cost per person is calculated
