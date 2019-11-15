@@ -1,7 +1,8 @@
 package krusty_krab.krusty_krab.controller;
 
+import java.io.IOException;
 import java.util.*;
-
+import com.google.maps.errors.ApiException;
 import com.mongodb.MongoClient;
 import krusty_krab.krusty_krab.domain.*;
 import krusty_krab.krusty_krab.mongo.EventConverter;
@@ -49,7 +50,18 @@ public class MainController {
     trans.add("Drive");
     trans.add("Transit");
  
-    gm.initializeDatabase();
+    try {
+      gm.initializeDatabase();
+    } catch (ApiException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     
     List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
     return ResponseEntity.ok().body(events);

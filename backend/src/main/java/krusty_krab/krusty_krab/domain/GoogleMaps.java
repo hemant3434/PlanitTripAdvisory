@@ -27,7 +27,7 @@ public class GoogleMaps {
     if (KEY == null) {
       // KrustyKrab: AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc
       // Hemant: AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8
-      KEY = new GeoApiContext.Builder().apiKey("AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc").build();
+      KEY = new GeoApiContext.Builder().apiKey("AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8").build();
     }
   }
 
@@ -290,7 +290,7 @@ public class GoogleMaps {
   }
 
 
-  public void initializeDatabase() {
+  public void initializeDatabase() throws ApiException, InterruptedException, IOException {
 
     // Data parameters to add to the database
     Time startTime = new Time(2019, 11, 9, 5, 00, true);
@@ -298,25 +298,42 @@ public class GoogleMaps {
     double lat = 43.645474;
     double ltd = -79.380922;
     float budget = 150f;
-    float maxDist = 1f;
+    float maxDist = 20f;
 
     List<String> activities = new ArrayList<String>();
     activities.add("aquarium");
     activities.add("art gallery");
 
-    LatLng cur_loc = new LatLng((double) lat, (double) ltd);
-    NearbySearchRequest all_events =
-        PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000));
-
+    // initialize variables
     ArrayList<String> place_ids = null;
-    if (all_events != null) {
-      PlacesSearchResponse obj = all_events.awaitIgnoreError();
-      PlacesSearchResult results[] = obj.results;
+    NearbySearchRequest all_events = null;
+    PlacesSearchResult results[];
+    PlacesSearchResponse obj;
+    String nextToken = null;
 
-      place_ids = new ArrayList<String>();
+    LatLng cur_loc = new LatLng((double) lat, (double) ltd);
+    all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000));
+
+
+    obj = all_events.awaitIgnoreError();
+    nextToken = obj.nextPageToken;
+    System.out.println(nextToken);
+    results = obj.results;
+    place_ids = new ArrayList<String>();
+    for (PlacesSearchResult i : results) {
+      place_ids.add(i.placeId);
+    }
+
+    while (nextToken != null) {
+      all_events = PlacesApi.nearbySearchQuery(KEY,cur_loc).pageToken(nextToken);
+
+      obj = all_events.await();
+      results = obj.results;
       for (PlacesSearchResult i : results) {
         place_ids.add(i.placeId);
       }
+      System.out.println("hello");
+      nextToken = obj.nextPageToken;
     }
 
     for (String i : place_ids) {
@@ -327,10 +344,11 @@ public class GoogleMaps {
       } catch (Exception e) {
         e.printStackTrace();
       }
-//      System.out.println(r.name + ", " + r.formattedAddress + ", " + r.types + ", " + r.priceLevel
-//          + ", " + r.openingHours);
+      System.out.println(r.name + ", " + r.formattedAddress + ", " + r.types + ", " + r.priceLevel
+          + ", " + r.openingHours);
       if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
           && r.openingHours != null) {// && r.photos != null && r.url != null
+
         Time[] times = getTime(r.openingHours, startTime);
         if (times != null) {
           int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
@@ -355,69 +373,69 @@ public class GoogleMaps {
       List<String> activities, float budget) {
     List<Event> events = new ArrayList<Event>();
 
-//    LatLng cur_loc = new LatLng((double) lat, (double) ltd);
-//    NearbySearchRequest all_events =
-//        PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000));
-//
-//    ArrayList<String> place_ids = null;
-//    if (all_events != null) {
-//      PlacesSearchResponse obj = all_events.awaitIgnoreError();
-//      PlacesSearchResult results[] = obj.results;
-//
-//      place_ids = new ArrayList<String>();
-//      for (PlacesSearchResult i : results) {
-//        place_ids.add(i.placeId);
-//      }
-//    }
-//
-//    for (String i : place_ids) {
-//      PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
-//      PlaceDetails r = null;
-//      try {
-//        r = req.await();
-//      } catch (Exception e) {
-//        e.printStackTrace();
-//      }
-//      System.out.println(r.name + ", " + r.formattedAddress + ", " + r.types + ", " + r.priceLevel
-//          + ", " + r.openingHours);
-//      if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
-//          && r.openingHours != null) {// && r.photos != null && r.url != null
-//        Time[] times = getTime(r.openingHours, startTime);
-//        if (times != null) {
-//          int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
-//          int second = filterByTime(startTime, endTime, times);
-//
-//
-//          if ((first + second) == 0) {
-//            Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
-//                Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
-//                getPriceLevel(r.priceLevel), times[0], times[1], new Time(0, 0, 0, 2, 0, true),
-//                getPhoto(r.photos), r.url.toString(), i);
-//
-//            events.add(e);
-//          }
-//        }
-//      }
-//    } 
+    // LatLng cur_loc = new LatLng((double) lat, (double) ltd);
+    // NearbySearchRequest all_events =
+    // PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000));
+    //
+    // ArrayList<String> place_ids = null;
+    // if (all_events != null) {
+    // PlacesSearchResponse obj = all_events.awaitIgnoreError();
+    // PlacesSearchResult results[] = obj.results;
+    //
+    // place_ids = new ArrayList<String>();
+    // for (PlacesSearchResult i : results) {
+    // place_ids.add(i.placeId);
+    // }
+    // }
+    //
+    // for (String i : place_ids) {
+    // PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
+    // PlaceDetails r = null;
+    // try {
+    // r = req.await();
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // }
+    // System.out.println(r.name + ", " + r.formattedAddress + ", " + r.types + ", " + r.priceLevel
+    // + ", " + r.openingHours);
+    // if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
+    // && r.openingHours != null) {// && r.photos != null && r.url != null
+    // Time[] times = getTime(r.openingHours, startTime);
+    // if (times != null) {
+    // int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
+    // int second = filterByTime(startTime, endTime, times);
+    //
+    //
+    // if ((first + second) == 0) {
+    // Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
+    // Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
+    // getPriceLevel(r.priceLevel), times[0], times[1], new Time(0, 0, 0, 2, 0, true),
+    // getPhoto(r.photos), r.url.toString(), i);
+    //
+    // events.add(e);
+    // }
+    // }
+    // }
+    // }
     /*
-       * 
-       * Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aquarium", 5,
-       * 2, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0,
-       * 0, 2, 0, true), "toronto", "There be fish", "1"); Event e2 = new Event("cn tower",
-       * "cn tower", 43.2, 43.2,"lookout", 4, 4, new Time(2019, 10, 25, 8, 0, true), new Time(2019,
-       * 10, 25, 22, 0, true), new Time(0, 0, 0, 2, 0, true), "../images/toronto.jpg",
-       * "If Quebec is Canada's ass...", "2"); Event e3 = new Event("Canadian National Exhibition",
-       * "Canadian National Exhibition", 43.2, 43.2,"Festival", 4, 4, new Time(2019, 10, 25, 8, 0,
-       * true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0, 0, 2, 0, true),
-       * "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
-       * "If Quebec is Canada's ass...", "3"); Event e4 = new Event("Eaton Centre", "Eaton Centre",
-       * 47.2, 47.2, "Mall", 4, 4, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0,
-       * true), new Time(0, 0, 0, 2, 0, true),
-       * "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
-       * "If Quebec is Canada's ass...", "4");
-       * 
-       * events.add(e1); events.add(e2); events.add(e3); events.add(e4);
-       */
+     * 
+     * Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aquarium", 5, 2,
+     * new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0, 0, 2,
+     * 0, true), "toronto", "There be fish", "1"); Event e2 = new Event("cn tower", "cn tower",
+     * 43.2, 43.2,"lookout", 4, 4, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0,
+     * true), new Time(0, 0, 0, 2, 0, true), "../images/toronto.jpg",
+     * "If Quebec is Canada's ass...", "2"); Event e3 = new Event("Canadian National Exhibition",
+     * "Canadian National Exhibition", 43.2, 43.2,"Festival", 4, 4, new Time(2019, 10, 25, 8, 0,
+     * true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0, 0, 2, 0, true),
+     * "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
+     * "If Quebec is Canada's ass...", "3"); Event e4 = new Event("Eaton Centre", "Eaton Centre",
+     * 47.2, 47.2, "Mall", 4, 4, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0,
+     * true), new Time(0, 0, 0, 2, 0, true),
+     * "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
+     * "If Quebec is Canada's ass...", "4");
+     * 
+     * events.add(e1); events.add(e2); events.add(e3); events.add(e4);
+     */
 
     return events;
   }
