@@ -35,8 +35,8 @@ public class MainController {
   
   @GetMapping("/getDummy1")
   public ResponseEntity<?> getDummy1(@RequestBody Map<String, Object> body) {
-    Time start = new Time(2019, 11, 9, 5, 00, true);
-    Time end = new Time(2019, 11, 9, 24, 00, true);
+    Time start = new Time(2019, 11, 15, 8, 00, true);
+    Time end = new Time(2019, 11, 15, 24, 00, true);
     double lat = 43.645474;
     double ltd = -79.380922;
     float budget = 150f;

@@ -16,6 +16,7 @@ import java.util.Date;
 import java.lang.Math.*;
 import java.util.Currency;
 import java.util.*;
+import java.lang.Thread;
 
 public class GoogleMaps {
 
@@ -298,7 +299,7 @@ public class GoogleMaps {
     double lat = 43.645474;
     double ltd = -79.380922;
     float budget = 150f;
-    float maxDist = 20f;
+    float maxDist = 40f;
 
     List<String> activities = new ArrayList<String>();
     activities.add("aquarium");
@@ -314,6 +315,8 @@ public class GoogleMaps {
     LatLng cur_loc = new LatLng((double) lat, (double) ltd);
     all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000));
 
+    Thread.sleep(10000);
+
 
     obj = all_events.awaitIgnoreError();
     nextToken = obj.nextPageToken;
@@ -323,10 +326,12 @@ public class GoogleMaps {
     for (PlacesSearchResult i : results) {
       place_ids.add(i.placeId);
     }
+    Thread.sleep(10000);
 
     while (nextToken != null) {
-      all_events = PlacesApi.nearbySearchQuery(KEY,cur_loc).pageToken(nextToken);
-
+      all_events = PlacesApi.nearbySearchNextPage(KEY, nextToken);
+      Thread.sleep(10000);
+      
       obj = all_events.await();
       results = obj.results;
       for (PlacesSearchResult i : results) {
@@ -344,8 +349,8 @@ public class GoogleMaps {
       } catch (Exception e) {
         e.printStackTrace();
       }
-      System.out.println(r.name + ", " + r.formattedAddress + ", " + r.types + ", " + r.priceLevel
-          + ", " + r.openingHours);
+//      System.out.println(r.name + ", " + r.formattedAddress + ", " + r.types + ", " + r.priceLevel
+//          + ", " + r.openingHours);
       if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
           && r.openingHours != null) {// && r.photos != null && r.url != null
 
@@ -365,8 +370,6 @@ public class GoogleMaps {
         }
       }
     }
-
-
   }
 
   public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
