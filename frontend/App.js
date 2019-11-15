@@ -27,7 +27,7 @@ export default class App extends React.Component {
       return (<View></View>);
     }
     return (
-      <HomeScreen /> // should be HybridApp, but changed temp for login
+      <HomeScreen />
     );
   }
 }

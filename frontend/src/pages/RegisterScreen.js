@@ -30,7 +30,6 @@ const RegisterScreen = (props) => {
       return;
     }
 
-    // navigation.navigate('Dashboard');
     props.onRegisterPressed();
   };
 

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, View, Button, StyleSheet } from 'react-native';
-import DateTime from '../pages/DateTime';
+import { StyleSheet } from 'react-native';
 import ItineraryFilters from '../pages/ItineraryFilters';
 import MapPicker from '../components/common/MapPicker/MapPicker';
-import EventCard from '../components/common/Cards/EventCard';
 import CardsContainer from '../sections/CardsContainer';
 import axios from 'axios';
 
