@@ -34,15 +34,25 @@ public class MainController {
   
   @GetMapping("/getDummy1")
   public ResponseEntity<?> getDummy1(@RequestBody Map<String, Object> body) {
+    Time start = new Time(2019, 11, 9, 5, 00, true);
+    Time end = new Time(2019, 11, 9, 24, 00, true);
+    double lat = 43.645474;
+    double ltd = -79.380922;
+    float budget = 150f;
+    float distance = 1f;
+
+    List<String> activities = new ArrayList<String>();
+    activities.add("aquarium");
+    activities.add("art gallery");
+
+    List<String> trans = new ArrayList<String>();
+    trans.add("Drive");
+    trans.add("Transit");
+ 
+    gm.initializeDatabase();
     
-    Map<String, Object> map = new HashMap<String, Object>();
-    map.put("Title", "Obi-Wan");
-    map.put("Description", "Iconic Line");
-    map.put("URL", link);
-
-    //GoogleMaps.storeEventInMongo(GoogleMaps.getEventByID("1"));
-
-    return ResponseEntity.ok().body(GoogleMaps.getEventsFromMongo());
+    List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
+    return ResponseEntity.ok().body(events);
   }
 
   @GetMapping("/getDummy2")
