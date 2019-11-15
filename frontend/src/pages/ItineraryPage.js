@@ -1,15 +1,18 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import CardsContainer from '../sections/CardsContainer';
 import CreateItinerary from '../navigation/CreateItinerary';
 import axios from 'axios';
 
-const CHECK_ITINERARY = "localhost/api/v1/checkItinerary";
-const VIEW_ITINERARY = "localhost/api/v1/checkItinerary";
+const CHECK_ITINERARY = "http://localhost:8080/api/v1/checkItinerary";
+const VIEW_ITINERARY = "http://localhost:8080/api/v1/viewItinerary";
 
 export default class Itinerary extends React.Component {
   constructor(props){
     super(props)
+    this.state = {
+      Itinerary: null
+    }
   }
 
   componentDidMount(){
@@ -17,14 +20,12 @@ export default class Itinerary extends React.Component {
   }
 
   fetch(){
+    console.log("lol")
     axios.get(CHECK_ITINERARY)
     .then(res => {
       console.log("res.data", res.data);
-      if(res.data.exists){
+      if(res.data){
         this.fetchItinerary();
-        this.setState({
-          Itinerary: true,
-        })
       } else {
         this.setState({
           Itinerary: false
@@ -38,8 +39,10 @@ export default class Itinerary extends React.Component {
     axios.get(VIEW_ITINERARY)
     .then(res => {
       console.log("res.data", res.data);
+      console.log("res.data.Itinerary", res.data.Itinerary)
       this.setState({
-        ItineraryData: res.data.Itinerary
+        ItineraryData: res.data,
+        Itinerary: true
       });
      })
     .catch(e => console.log(e))
@@ -54,9 +57,7 @@ export default class Itinerary extends React.Component {
       )
     }
     return(
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        { this.state.Itinerary ? <CardsContainer common={this.state.ItineraryData}/> : <CreateItinerary/> }
-      </View>
+        this.state.Itinerary ? <CardsContainer common={this.state.ItineraryData}/> : <CreateItinerary/>
     );
   }
 }
