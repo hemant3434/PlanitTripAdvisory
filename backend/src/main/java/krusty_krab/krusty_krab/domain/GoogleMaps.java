@@ -11,7 +11,6 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
 import com.mongodb.MongoClient;
 import krusty_krab.krusty_krab.mongo.MongoDBEventDAO;
-
 import java.time.*;
 import java.util.Date;
 import java.lang.Math.*;
@@ -290,9 +289,20 @@ public class GoogleMaps {
     return id;
   }
 
-  public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
-      List<String> activities, float budget) {
-    List<Event> events = new ArrayList<Event>();
+
+  public void initializeDatabase() {
+
+    // Data parameters to add to the database
+    Time startTime = new Time(2019, 11, 9, 5, 00, true);
+    Time endTime = new Time(2019, 11, 9, 24, 00, true);
+    double lat = 43.645474;
+    double ltd = -79.380922;
+    float budget = 150f;
+    float maxDist = 1f;
+
+    List<String> activities = new ArrayList<String>();
+    activities.add("aquarium");
+    activities.add("art gallery");
 
     LatLng cur_loc = new LatLng((double) lat, (double) ltd);
     NearbySearchRequest all_events =
@@ -314,16 +324,13 @@ public class GoogleMaps {
       PlaceDetails r = null;
       try {
         r = req.await();
-      } catch (ApiException e) {
-        e.printStackTrace();
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      } catch (IOException e) {
+      } catch (Exception e) {
         e.printStackTrace();
       }
-      System.out.println(r.name + ", " + r.formattedAddress + ", " + r.types + ", " + r.priceLevel + ", " + r.openingHours);
+//      System.out.println(r.name + ", " + r.formattedAddress + ", " + r.types + ", " + r.priceLevel
+//          + ", " + r.openingHours);
       if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
-          && r.openingHours != null ) {//&& r.photos != null && r.url != null
+          && r.openingHours != null) {// && r.photos != null && r.url != null
         Time[] times = getTime(r.openingHours, startTime);
         if (times != null) {
           int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
@@ -335,12 +342,64 @@ public class GoogleMaps {
                 Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
                 getPriceLevel(r.priceLevel), times[0], times[1], new Time(0, 0, 0, 2, 0, true),
                 getPhoto(r.photos), r.url.toString(), i);
-
-            events.add(e);
+            GoogleMaps.storeEventInMongo(e);
           }
         }
       }
-    } /*
+    }
+
+
+  }
+
+  public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
+      List<String> activities, float budget) {
+    List<Event> events = new ArrayList<Event>();
+
+//    LatLng cur_loc = new LatLng((double) lat, (double) ltd);
+//    NearbySearchRequest all_events =
+//        PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000));
+//
+//    ArrayList<String> place_ids = null;
+//    if (all_events != null) {
+//      PlacesSearchResponse obj = all_events.awaitIgnoreError();
+//      PlacesSearchResult results[] = obj.results;
+//
+//      place_ids = new ArrayList<String>();
+//      for (PlacesSearchResult i : results) {
+//        place_ids.add(i.placeId);
+//      }
+//    }
+//
+//    for (String i : place_ids) {
+//      PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
+//      PlaceDetails r = null;
+//      try {
+//        r = req.await();
+//      } catch (Exception e) {
+//        e.printStackTrace();
+//      }
+//      System.out.println(r.name + ", " + r.formattedAddress + ", " + r.types + ", " + r.priceLevel
+//          + ", " + r.openingHours);
+//      if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
+//          && r.openingHours != null) {// && r.photos != null && r.url != null
+//        Time[] times = getTime(r.openingHours, startTime);
+//        if (times != null) {
+//          int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
+//          int second = filterByTime(startTime, endTime, times);
+//
+//
+//          if ((first + second) == 0) {
+//            Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
+//                Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
+//                getPriceLevel(r.priceLevel), times[0], times[1], new Time(0, 0, 0, 2, 0, true),
+//                getPhoto(r.photos), r.url.toString(), i);
+//
+//            events.add(e);
+//          }
+//        }
+//      }
+//    } 
+    /*
        * 
        * Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aquarium", 5,
        * 2, new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0,
@@ -380,21 +439,21 @@ public class GoogleMaps {
         min_trans = t;
       }
     }
-  
-  // float distance = trans.get(0).getDistance();
-  // Transportation transportation;
-  /*
-   * // Choose the transportation based on the distance you need to travel if (distance <
-   * WALK_DISTANCE) { transportation = getTransportationWithTitle(trans, Transportation.WALK); }
-   * else if (WALK_DISTANCE <= distance && distance < BIKE_DISTANCE) { transportation =
-   * getTransportationWithTitle(trans, Transportation.BIKE); } else if (BIKE_DISTANCE <= distance &&
-   * distance < TRANSIT_DISTANCE) { transportation = getTransportationWithTitle(trans,
-   * Transportation.TRANSIT); } else { transportation = getTransportationWithTitle(trans,
-   * Transportation.DRIVE); }
-   * 
-   * return transportation;
-   */
-  return min_trans;
+
+    // float distance = trans.get(0).getDistance();
+    // Transportation transportation;
+    /*
+     * // Choose the transportation based on the distance you need to travel if (distance <
+     * WALK_DISTANCE) { transportation = getTransportationWithTitle(trans, Transportation.WALK); }
+     * else if (WALK_DISTANCE <= distance && distance < BIKE_DISTANCE) { transportation =
+     * getTransportationWithTitle(trans, Transportation.BIKE); } else if (BIKE_DISTANCE <= distance
+     * && distance < TRANSIT_DISTANCE) { transportation = getTransportationWithTitle(trans,
+     * Transportation.TRANSIT); } else { transportation = getTransportationWithTitle(trans,
+     * Transportation.DRIVE); }
+     * 
+     * return transportation;
+     */
+    return min_trans;
 
   }
 
