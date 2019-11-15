@@ -3,15 +3,14 @@ import { StyleSheet } from 'react-native';
 import ItineraryFilters from '../pages/ItineraryFilters';
 import MapPicker from '../components/common/MapPicker/MapPicker';
 import CardsContainer from '../sections/CardsContainer';
+import ItineraryPage from '../pages/ItineraryPage';
 import axios from 'axios';
 
-export class Multi extends Component {
-  componentDidMount() {
-    this.fetchData();
-  }
+const CREATE_ITINERARY = 'http://100.80.11.91:8080/api/v1/createItinerary'
 
+export class Multi extends Component {
   fetchData(){
-    axios.get('http://100.80.11.91:8080/api/v1/getItinerary', {
+    const body = {
       startTime: this.state.startTime,
       endTime: this.state.endTime,
       maxDist: this.state.distance,
@@ -22,17 +21,9 @@ export class Multi extends Component {
       homeLong: this.state.homeLongitude,
       methodOfTrans: this.state.transportation,
       activities: this.state.activities
-    })
-    .then(res => {
-      console.log("res", res);
-      const data = res.data;
-      console.log("res.data", data);
-      this.setState({
-        isLoading: false,
-        Itinerary: data
-      });
-    })
-    .catch(error => console.log(error));;
+    }
+    console.log(body)
+    axios.post(CREATE_ITINERARY, body);
   }
 
   constructor(props){
@@ -103,6 +94,7 @@ export class Multi extends Component {
       homeLongitude: longitude,
       step: step + 1,
     })
+    this.fetchData();
   }
 
   checkValues = () => {
@@ -173,7 +165,7 @@ export class Multi extends Component {
         );
       case 3:
         return (
-          <CardsContainer isLoading={this.state.isLoading} common={this.state.Itinerary}/>
+          <ItineraryPage />
       );
     }
   }
