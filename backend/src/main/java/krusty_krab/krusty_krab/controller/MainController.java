@@ -82,6 +82,36 @@ public class MainController {
     return ResponseEntity.ok().body(null);
   }
 
+  @GetMapping("/checkItinerary")
+  public Boolean checkItinerary() {
+    return !itin.getItin().isEmpty();
+  }
+
+  @PostMapping("/createItinerary")
+  public ResponseEntity<?> createItinerary(@RequestBody Itinerary body) throws Exception {
+    itin.setStartTime(body.getStartTime());
+    itin.setEndTime(body.getEndTime());
+    itin.setMaxDist(body.getMaxDist());
+    itin.setBudget(body.getBudget());
+    itin.setLocationLat(body.getLocationLat());
+    itin.setLocationLong(body.getLocationLong());
+    itin.setHome(GoogleMaps.getHomeLocation(body.getHomeLat(), body.getHomeLong()));
+    itin.setHomeLat(body.getHomeLat());
+    itin.setHomeLong(body.getHomeLong());
+    List<String> trans = new ArrayList<>();
+    trans.add("Transit");
+    trans.add("Ride Services");
+    List<String> activities = new ArrayList<>();
+    activities.add("nature and parks");
+    activities.add("malls");
+    itin.setMethodsOfTrans(trans);
+    itin.setActivities(activities);
+
+    itin.createItinerary(this.user);
+
+    return ResponseEntity.ok().body(itin.getItin());
+  }
+
   @GetMapping("/getItinerary")
   public ResponseEntity<?> getItinerary(@RequestBody Itinerary body) throws Exception {
     itin.setStartTime(body.getStartTime());
