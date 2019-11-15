@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements'
 
 class ImageCard extends Component{
@@ -16,10 +16,10 @@ class ImageCard extends Component{
         <View style={{flexDirection: 'row', flex: 2, justifyContent: 'space-between'}}>
           <Button
         icon={<Icon name='code' color='#ffffff'/>}
-        title='ADD EVENT' onPress={this.fetchData()}/>
+        title='ADD EVENT'/>
         <Button
         icon={<Icon name='code' color='#ffffff'/>}
-        title='DELETE EVENT' onPress={this.fetchData()}/></View>
+        title='DELETE EVENT'/></View>
       </Card>
     );
   }

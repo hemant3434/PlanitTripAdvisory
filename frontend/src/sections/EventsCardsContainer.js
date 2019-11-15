@@ -51,7 +51,7 @@ export default class CardsContainer extends React.Component{
           value={search}
           lightTheme={true}
           onCancel={this.state.search=""}/>
-        { !this.state.isLoading ? this.state.Events.map(o => <ExploreCard common={o}/>):<Text>Loading</Text> }
+        //{ !this.state.isLoading ? this.state.Events.map(o => <ExploreCard common={o}/>):<Text>Loading</Text> }
         </ScrollView>
     );
   }
