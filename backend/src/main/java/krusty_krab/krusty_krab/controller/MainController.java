@@ -40,7 +40,9 @@ public class MainController {
     map.put("Description", "Iconic Line");
     map.put("URL", link);
 
-    return ResponseEntity.ok().body(map);
+    //GoogleMaps.storeEventInMongo(GoogleMaps.getEventByID("1"));
+
+    return ResponseEntity.ok().body(GoogleMaps.getEventsFromMongo());
   }
 
   @GetMapping("/getDummy2")
