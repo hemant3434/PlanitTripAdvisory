@@ -94,6 +94,12 @@ public class MainController {
     return ResponseEntity.ok().body(null);
   }
 
+  @GetMapping("/getDummy3")
+  public ResponseEntity<?> getDummy3(@RequestBody Map<String, Object> body) {
+
+    return ResponseEntity.ok().body(GoogleMaps.getEventsFromMongo());
+  }
+
   @GetMapping("/getItinerary")
   public ResponseEntity<?> getItinerary(@RequestBody Itinerary body) throws Exception {
     itin.setStartTime(body.getStartTime());

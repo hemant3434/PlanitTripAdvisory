@@ -342,6 +342,7 @@ public class GoogleMaps {
                 Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
                 getPriceLevel(r.priceLevel), times[0], times[1], new Time(0, 0, 0, 2, 0, true),
                 getPhoto(r.photos), r.url.toString(), i);
+            System.out.println(e.getLocation());
             GoogleMaps.storeEventInMongo(e);
           }
         }
