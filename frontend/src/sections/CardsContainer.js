@@ -21,7 +21,7 @@ export default class CardsContainer extends React.Component{
         <ScrollView
         style={StyleSheet.absoluteFill}
         contentContainerStyle={styles.scrollview}>
-        { !this.state.isLoading ? this.state.Itinerary.map(o => <EventCard common={o}/>):<Text>Loading</Text> }
+        { !this.state.isLoading ? this.props.common.map(o => <EventCard common={o}/>):<Text>Loading</Text> }
         </ScrollView>
     );
   }

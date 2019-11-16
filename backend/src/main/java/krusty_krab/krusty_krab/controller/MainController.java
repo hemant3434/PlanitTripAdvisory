@@ -1,7 +1,8 @@
 package krusty_krab.krusty_krab.controller;
 
+import java.io.IOException;
 import java.util.*;
-
+import com.google.maps.errors.ApiException;
 import com.mongodb.MongoClient;
 import krusty_krab.krusty_krab.domain.*;
 import krusty_krab.krusty_krab.mongo.EventConverter;
@@ -17,25 +18,27 @@ import org.springframework.http.*;
 @RestController
 @RequestMapping("/api/v1/")
 public class MainController {
-  
+
   String link = "https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwjArePQmp"
       + "_lAhUmx4UKHSOLDy4QjRx6BAgBEAQ&url=https%3A%2F%2Fwww.fanthatracks.com%2Fnews"
       + "%2Fmisc%2Fstar-wars-is-everywhere-021-hello-there%2F&psig=AOvVaw3rX7UoWqkc6toLU"
       + "iEGB24b&ust=1571261300777966";
 
-  //Itinerary itin = new Itinerary();
-  //Instantiated by register, remove instantiation for final product
+  // Itinerary itin = new Itinerary();
+  // Instantiated by register, remove instantiation for final product
   User user = new User();
   Itinerary itin = user.getItinerary();
   GoogleMaps gm = new GoogleMaps();
 
   @Autowired
   UserService userService;
-  
+
+
+  // Only Run this request once to fill the database with restaurants
   @GetMapping("/getDummy1")
-  public ResponseEntity<?> getDummy1(@RequestBody Map<String, Object> body) {
-    Time start = new Time(2019, 11, 9, 5, 00, true);
-    Time end = new Time(2019, 11, 9, 24, 00, true);
+  public ResponseEntity<?> getDummy1() {
+    Time start = new Time(2019, 11, 15, 6, 00, true);
+    Time end = new Time(2019, 11, 15, 24, 00, true);
     double lat = 43.645474;
     double ltd = -79.380922;
     float budget = 150f;
@@ -48,9 +51,20 @@ public class MainController {
     List<String> trans = new ArrayList<String>();
     trans.add("Drive");
     trans.add("Transit");
- 
-    gm.initializeDatabase();
-    
+
+    try {
+      gm.initializeDatabase();
+    } catch (ApiException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
     List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
     return ResponseEntity.ok().body(events);
   }
@@ -85,11 +99,11 @@ public class MainController {
     itin.setMethodsOfTrans(trans);
     itin.setActivities(activities);
 
-    //itin.createItinerary(this.user);
+    // itin.createItinerary(this.user);
     List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
-    for(Event e:events){
+    for (Event e : events) {
       System.out.println(e.getLocation());
-      //mpd.createEvent(e);
+      // mpd.createEvent(e);
     }
     return ResponseEntity.ok().body(null);
   }
@@ -98,6 +112,36 @@ public class MainController {
   public ResponseEntity<?> getDummy3(@RequestBody Map<String, Object> body) {
 
     return ResponseEntity.ok().body(GoogleMaps.getEventsFromMongo());
+  }
+  
+  @GetMapping("/checkItinerary")
+  public Boolean checkItinerary() {
+    return !itin.getItin().isEmpty();
+  }
+
+  @PostMapping("/createItinerary")
+  public ResponseEntity<?> createItinerary(@RequestBody Itinerary body) throws Exception {
+    itin.setStartTime(body.getStartTime());
+    itin.setEndTime(body.getEndTime());
+    itin.setMaxDist(body.getMaxDist());
+    itin.setBudget(body.getBudget());
+    itin.setLocationLat(body.getLocationLat());
+    itin.setLocationLong(body.getLocationLong());
+    itin.setHome(GoogleMaps.getHomeLocation(body.getHomeLat(), body.getHomeLong()));
+    itin.setHomeLat(body.getHomeLat());
+    itin.setHomeLong(body.getHomeLong());
+    List<String> trans = new ArrayList<>();
+    trans.add("Transit");
+    trans.add("Ride Services");
+    List<String> activities = new ArrayList<>();
+    activities.add("nature and parks");
+    activities.add("malls");
+    itin.setMethodsOfTrans(trans);
+    itin.setActivities(activities);
+
+    itin.createItinerary(this.user);
+
+    return ResponseEntity.ok().body(itin.getItin());
   }
 
   @GetMapping("/getItinerary")
@@ -119,21 +163,21 @@ public class MainController {
     activities.add("malls");
     itin.setMethodsOfTrans(trans);
     itin.setActivities(activities);
-    
+
     itin.createItinerary(this.user);
 
 
     return ResponseEntity.ok().body(itin.getItin());
   }
-  
+
   @GetMapping("/getItinerary2")
   public ResponseEntity<?> getItinerary2(@RequestBody Map<String, Object> body) throws Exception {
 
     // is this map needed?
     Map<String, Transportation> map = new HashMap<String, Transportation>();
-    //map.put("hello", "there");
-    //Sends dummy data for the user filters into the itinerary class
-    
+    // map.put("hello", "there");
+    // Sends dummy data for the user filters into the itinerary class
+
     GoogleMaps maps = new GoogleMaps();
     Time start = new Time(2019, 11, 9, 5, 00, true);
     Time end = new Time(2019, 11, 3, 20, 00, true);
@@ -145,96 +189,122 @@ public class MainController {
     List<String> activities = new ArrayList<String>();
     activities.add("aquarium");
     activities.add("art gallery");
-    
+
     maps.getEvents(start, end, lat, ltd, distance, activities, budget);
-    
+
     List<String> methods = new ArrayList<String>();
     methods.add("Transit");
     methods.add("Drive");
     methods.add("Walk");
-    
+
     List<Transportation> transp = new ArrayList<>();
-    transp.add(maps.getTransportation("ChIJBQBqCVnQ1IkR33DiwY5Xeps", "ChIJS4nFwffQ1IkRY-oKD5E607I", start, methods));
-    transp.add(maps.getTransportation("ChIJBQBqCVnQ1IkR33DiwY5Xeps", "ChIJNTJCxvvQ1IkRdi4-MQdLY0M", start, methods));
-    transp.add(maps.getTransportation("ChIJS4nFwffQ1IkRY-oKD5E607I", "ChIJBQBqCVnQ1IkR33DiwY5Xeps", start, methods));
-    transp.add(maps.getTransportation("ChIJS4nFwffQ1IkRY-oKD5E607I", "ChIJNTJCxvvQ1IkRdi4-MQdLY0M", start, methods));
-    transp.add(maps.getTransportation("ChIJNTJCxvvQ1IkRdi4-MQdLY0M", "ChIJBQBqCVnQ1IkR33DiwY5Xeps", start, methods));
-    transp.add(maps.getTransportation("ChIJNTJCxvvQ1IkRdi4-MQdLY0M", "ChIJS4nFwffQ1IkRY-oKD5E607I", start, methods));
+    transp.add(maps.getTransportation("ChIJBQBqCVnQ1IkR33DiwY5Xeps", "ChIJS4nFwffQ1IkRY-oKD5E607I",
+        start, methods));
+    transp.add(maps.getTransportation("ChIJBQBqCVnQ1IkR33DiwY5Xeps", "ChIJNTJCxvvQ1IkRdi4-MQdLY0M",
+        start, methods));
+    transp.add(maps.getTransportation("ChIJS4nFwffQ1IkRY-oKD5E607I", "ChIJBQBqCVnQ1IkR33DiwY5Xeps",
+        start, methods));
+    transp.add(maps.getTransportation("ChIJS4nFwffQ1IkRY-oKD5E607I", "ChIJNTJCxvvQ1IkRdi4-MQdLY0M",
+        start, methods));
+    transp.add(maps.getTransportation("ChIJNTJCxvvQ1IkRdi4-MQdLY0M", "ChIJBQBqCVnQ1IkR33DiwY5Xeps",
+        start, methods));
+    transp.add(maps.getTransportation("ChIJNTJCxvvQ1IkRdi4-MQdLY0M", "ChIJS4nFwffQ1IkRY-oKD5E607I",
+        start, methods));
     return ResponseEntity.ok().body(transp);
   }
-  
+
   @GetMapping("/viewItinerary")
   public List<ItineraryItem> viewItinerary() {
-      return itin.getItin();
+    return itin.getItin();
   }
-  
-//  @GetMapping("/dummy1")
-//  public void dummy1(@RequestBody )
-  	
+
+  @GetMapping("/viewItinerary2")
+  public ResponseEntity<?> viewItinerary2() {
+    Time startTime = new Time(2019, 11, 9, 5, 00, true);
+    Time endTime = new Time(2019, 11, 9, 24, 00, true);
+    double lat = 43.645474;
+    double ltd = -79.380922;
+    float budget = 150f;
+    float maxDist = 20f;
+
+    List<String> activities = new ArrayList<String>();
+    activities.add("aquarium");
+    activities.add("art gallery");
+
+    List<String> trans = new ArrayList<String>();
+    trans.add("Drive");
+    trans.add("Transit");
+
+    List<Event> events = gm.getEvents(startTime, endTime, lat, ltd, maxDist, activities, budget);
+    return ResponseEntity.ok().body(events);
+  }
+  // @GetMapping("/dummy1")
+  // public void dummy1(@RequestBody )
+
 
   @GetMapping("getExploreEvents")
   public List<Event> getExploreEvents() {
     return GoogleMaps.getExploreEvents();
   }
-  
+
   @PostMapping("/addEvent")
   public ResponseEntity<?> addEvent(@RequestBody Event event) {
-      itin.addEvent(event);
-      return ResponseEntity.ok().build();
+    itin.addEvent(event);
+    return ResponseEntity.ok().build();
   }
-  /*@PostMapping("/addEvent")
-  public ResponseEntity<?> addEvent(@RequestBody Map<String, String> body) {
-      itin.addEvent(GoogleMaps.getEventByID(body.get("eventId")));
-      return ResponseEntity.ok().build();
-  }*/
-  
+  /*
+   * @PostMapping("/addEvent") public ResponseEntity<?> addEvent(@RequestBody Map<String, String>
+   * body) { itin.addEvent(GoogleMaps.getEventByID(body.get("eventId"))); return
+   * ResponseEntity.ok().build(); }
+   */
+
   @PutMapping("/deleteEvent")
   public ResponseEntity<?> deleteEvent(@RequestBody Map<String, String> body) {
-	  String eventId = new String(body.get("eventId"));
-	  itin.deleteEvent(eventId);
-	  return ResponseEntity.ok().build();
+    String eventId = new String(body.get("eventId"));
+    itin.deleteEvent(eventId);
+    return ResponseEntity.ok().build();
   }
-  
+
   @PutMapping("/changeTime")
   public ResponseEntity<?> changeTime(@RequestBody Itinerary body) {
-      //itin.setStartTime(body.getStartTime());
-      itin.setEndTime(body.getEndTime());
-      return ResponseEntity.ok().build();
+    // itin.setStartTime(body.getStartTime());
+    itin.setEndTime(body.getEndTime());
+    return ResponseEntity.ok().build();
   }
-  
+
   @PutMapping("/changeLocation")
   public ResponseEntity<?> changeLocation(@RequestBody Itinerary body) {
-      itin.setLocation(body.getLocation());
-      return ResponseEntity.ok().build();
+    itin.setLocation(body.getLocation());
+    return ResponseEntity.ok().build();
   }
-  
+
   @PutMapping("/changeMaxBudget")
   public ResponseEntity<?> changeMaxBudget(@RequestBody Map<String, Float> body) {
-	  Float newBudget = body.get("budget");
-	  itin.setBudget(newBudget);
-	  return ResponseEntity.ok().build();
+    Float newBudget = body.get("budget");
+    itin.setBudget(newBudget);
+    return ResponseEntity.ok().build();
   }
-  
+
   @PutMapping("/changeMaxDistance")
   public ResponseEntity<?> changeMaxDistance(@RequestBody Map<String, Float> body) {
-	  Float maxDist = body.get("maxDist");
-	  itin.setMaxDist(maxDist);
-	  return ResponseEntity.ok().build();
+    Float maxDist = body.get("maxDist");
+    itin.setMaxDist(maxDist);
+    return ResponseEntity.ok().build();
   }
-  
+
   @PutMapping("/addTransportation")
   public ResponseEntity<?> changeTransportation(@RequestBody Map<String, Object> body) {
-	  Object transportationArray = body.get("Transportation");
-	  System.out.println(transportationArray);
-	  for (String transportation: (ArrayList<String>)transportationArray) {
-		  itin.addMethodsOfTrans(transportation);
-	  }
-	  return ResponseEntity.ok().build();
+    Object transportationArray = body.get("Transportation");
+    System.out.println(transportationArray);
+    for (String transportation : (ArrayList<String>) transportationArray) {
+      itin.addMethodsOfTrans(transportation);
+    }
+    return ResponseEntity.ok().build();
   }
 
   @PutMapping("/login")
   public void login(@RequestBody User body) {
-    //this.user = userService.getUser(body.getUsername());
+    // this.user = userService.getUser(body.getUsername());
     this.user = mpd.readUser(body.getUsername());
     System.out.println(this.user.getUsername());
   }
@@ -245,7 +315,7 @@ public class MainController {
     this.itin = this.user.getItinerary();
     this.user.setUsername(body.getUsername());
     mpd.createUser(this.user);
-    //userService.addUser(user);
+    // userService.addUser(user);
   }
 
   public UserService getUserService() {
@@ -256,7 +326,7 @@ public class MainController {
 
   @PutMapping("/post")
   public void addEvent(@RequestBody Map<String, Object> body) {
-    //MongoDBUserDAO mpd = new MongoDBUserDAO(new MongoClient());
+    // MongoDBUserDAO mpd = new MongoDBUserDAO(new MongoClient());
 
     Itinerary i = new Itinerary();
     Time start = new Time(2019, 11, 9, 5, 00, true);
@@ -271,12 +341,13 @@ public class MainController {
     List<String> trans = new ArrayList<String>();
     trans.add("Drive");
     trans.add("Transit");
-    Transportation t1 = new Transportation(10, "walk", 0, start, end, new Time(0, 0, 0, 0, 15, true), "flight-takeoff", "15 minutes");
+    Transportation t1 = new Transportation(10, "walk", 0, start, end,
+        new Time(0, 0, 0, 0, 15, true), "flight-takeoff", "15 minutes");
     Event e1 = new Event("Eaton Centre", "Eaton Centre", 43.2, 43.2, "Mall", 4, 4,
-            new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
-            new Time(0, 0, 0, 2, 0, true),
-            "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
-            "If Quebec is Canada's ass...", "4");
+        new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+        new Time(0, 0, 0, 2, 0, true),
+        "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
+        "If Quebec is Canada's ass...", "4");
     List<ItineraryItem> itin = new ArrayList<>();
     itin.add(t1);
     itin.add(e1);
@@ -315,117 +386,29 @@ public class MainController {
 }
 
 /*
-    //3 Event query
-	"startTime": "2019-10-03 9:00:00 AM",
-	"endTime": "2019-11-09 8:00:00 PM",
-	"maxDist": 1.9,
-	"budget": 300,
-	"locationLat": 43.7764,
-	"locationLong": -79.2318,
-	"homeLat": 43.7764,
-	"homeLong": -79.231,
-	"methodsOfTrans": [
-		"Drive",
-		"Transit"
-	],
-	"activities": [
-      "aquarium",
-      "art gallery"
-	]
-    {
-        "type": "event",
-        "title": "Scarborough Buffet",
-        "price": 2.0,
-        "startTime": {
-            "year": 2019,
-            "month": 11,
-            "day": 9,
-            "hour": 17,
-            "minute": 0,
-            "positive": true
-        },
-        "endTime": {
-            "year": 2019,
-            "month": 11,
-            "day": 9,
-            "hour": 22,
-            "minute": 0,
-            "positive": true
-        },
-        "expectedLength": {
-            "year": 0,
-            "month": 0,
-            "day": 0,
-            "hour": 2,
-            "minute": 0,
-            "positive": true
-        },
-        "location": "1221 Markham Rd #1a, Scarborough, ON M1H 3E2, Canada",
-        "longitude": 47.2,
-        "latitude": 47.2,
-        "activity": "meal_delivery, restaurant, food, point_of_interest, establishment",
-        "rating": 3,
-        "image": "",
-        "description": "https://maps.google.com/?cid=12885707353534163555",
-        "id": "ChIJS4nFwffQ1IkRY-oKD5E607I"
-    },
-    {
-        "type": "event",
-        "title": "The Keg Steakhouse + Bar - Estate Drive",
-        "price": 3.0,
-        "startTime": {
-            "year": 2019,
-            "month": 11,
-            "day": 9,
-            "hour": 16,
-            "minute": 0,
-            "positive": true
-        },
-        "endTime": {
-            "year": 2019,
-            "month": 11,
-            "day": 9,
-            "hour": 22,
-            "minute": 0,
-            "positive": true
-        },
-        "expectedLength": {
-            "year": 0,
-            "month": 0,
-            "day": 0,
-            "hour": 2,
-            "minute": 0,
-            "positive": true
-        },
-        "location": "60 Estate Dr, Scarborough, ON M1H 2Z1, Canada",
-        "longitude": 47.2,
-        "latitude": 47.2,
-        "activity": "bar, restaurant, food, point_of_interest, establishment",
-        "rating": 4,
-        "image": "",
-        "description": "https://maps.google.com/?cid=4855807317498539638",
-        "id": "ChIJNTJCxvvQ1IkRdi4-MQdLY0M"
-    }
-
-	//6 event query
-	{
-	"startTime": "2019-10-03 2:47:41 PM",
-	"endTime": "2019-10-03 2:48:41 PM",
-	"maxDist": 20,
-	"budget": 590,
-	"locationLat": 43.76768768758,
-	"locationLong": -789.3586968758798,
-	"homeLat": -83.76768768758,
-	"homeLong": 9.3586968758798,
-	"methodsOfTrans": [
-		"Drive",
-		"Transit",
-		"Ride Services"
-	],
-	"activities": [
-      "museums",
-      "nature and parks",
-      "malls"
-	]
-}
-*/
+ * //3 Event query "startTime": "2019-10-03 9:00:00 AM", "endTime": "2019-11-09 8:00:00 PM",
+ * "maxDist": 1.9, "budget": 300, "locationLat": 43.7764, "locationLong": -79.2318, "homeLat":
+ * 43.7764, "homeLong": -79.231, "methodsOfTrans": [ "Drive", "Transit" ], "activities": [
+ * "aquarium", "art gallery" ] { "type": "event", "title": "Scarborough Buffet", "price": 2.0,
+ * "startTime": { "year": 2019, "month": 11, "day": 9, "hour": 17, "minute": 0, "positive": true },
+ * "endTime": { "year": 2019, "month": 11, "day": 9, "hour": 22, "minute": 0, "positive": true },
+ * "expectedLength": { "year": 0, "month": 0, "day": 0, "hour": 2, "minute": 0, "positive": true },
+ * "location": "1221 Markham Rd #1a, Scarborough, ON M1H 3E2, Canada", "longitude": 47.2,
+ * "latitude": 47.2, "activity":
+ * "meal_delivery, restaurant, food, point_of_interest, establishment", "rating": 3, "image": "",
+ * "description": "https://maps.google.com/?cid=12885707353534163555", "id":
+ * "ChIJS4nFwffQ1IkRY-oKD5E607I" }, { "type": "event", "title":
+ * "The Keg Steakhouse + Bar - Estate Drive", "price": 3.0, "startTime": { "year": 2019, "month":
+ * 11, "day": 9, "hour": 16, "minute": 0, "positive": true }, "endTime": { "year": 2019, "month":
+ * 11, "day": 9, "hour": 22, "minute": 0, "positive": true }, "expectedLength": { "year": 0,
+ * "month": 0, "day": 0, "hour": 2, "minute": 0, "positive": true }, "location":
+ * "60 Estate Dr, Scarborough, ON M1H 2Z1, Canada", "longitude": 47.2, "latitude": 47.2, "activity":
+ * "bar, restaurant, food, point_of_interest, establishment", "rating": 4, "image": "",
+ * "description": "https://maps.google.com/?cid=4855807317498539638", "id":
+ * "ChIJNTJCxvvQ1IkRdi4-MQdLY0M" }
+ * 
+ * //6 event query { "startTime": "2019-10-03 2:47:41 PM", "endTime": "2019-10-03 2:48:41 PM",
+ * "maxDist": 20, "budget": 590, "locationLat": 43.76768768758, "locationLong": -789.3586968758798,
+ * "homeLat": -83.76768768758, "homeLong": 9.3586968758798, "methodsOfTrans": [ "Drive", "Transit",
+ * "Ride Services" ], "activities": [ "museums", "nature and parks", "malls" ] }
+ */
