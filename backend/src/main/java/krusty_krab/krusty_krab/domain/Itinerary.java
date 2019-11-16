@@ -47,8 +47,14 @@ public class Itinerary {
         //GoogleMaps.getEventByID("3").getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget(), user);
         //System.out.println("a");
         for(Event e: events){
-            //System.out.println(e.getLocation());
-            if(!this.getVisitedEvents().contains(e.getLocation())){
+            Transportation transpThere = gm.getTransportation(this.getItinCurLoc(), e.getId(), this.getItinCurTime(), this.getMethodsOfTrans());
+            Time timeAfterEvent = this.getItinCurTime().add(transpThere.getExpectedLength()).add(e.getExpectedLength());
+            Transportation transpBack = gm.getTransportation(e.getId(), getHome(), timeAfterEvent, this.getMethodsOfTrans());
+            Time endTime = timeAfterEvent.add(transpBack.getExpectedLength());
+            if(!this.getVisitedEvents().contains(e.getLocation()) && endTime.isLessThan(this.getEndTime())){
+                System.out.println(getItinCurLoc());
+                System.out.println(e.getLocation());
+                System.out.println("A");
                 curScore = e.getScore(this.getItinCurTime(), this.getItinCurLoc(), gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans());
                 if(curScore > bestScore) {
                     bestEvent = e;

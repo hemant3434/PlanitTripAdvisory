@@ -29,6 +29,7 @@ public class MainController {
   User user = new User();
   Itinerary itin = user.getItinerary();
   GoogleMaps gm = new GoogleMaps();
+  MongoDBUserDAO mpd = new MongoDBUserDAO(new MongoClient());
 
   @Autowired
   UserService userService;
@@ -110,8 +111,10 @@ public class MainController {
 
   @GetMapping("/getDummy3")
   public ResponseEntity<?> getDummy3(@RequestBody Map<String, Object> body) {
-
-    return ResponseEntity.ok().body(GoogleMaps.getEventsFromMongo());
+    User user = mpd.readUser("UN3");
+    user.getVisitedEvents().add(0, "3");
+    mpd.updateUser(user);
+    return ResponseEntity.ok().body(null);
   }
   
   @GetMapping("/checkItinerary")
@@ -140,6 +143,8 @@ public class MainController {
     itin.setActivities(activities);
 
     itin.createItinerary(this.user);
+
+    mpd.updateUser(user);
 
     return ResponseEntity.ok().body(itin.getItin());
   }
@@ -250,6 +255,7 @@ public class MainController {
   @PostMapping("/addEvent")
   public ResponseEntity<?> addEvent(@RequestBody Event event) {
     itin.addEvent(event);
+    mpd.updateUser(user);
     return ResponseEntity.ok().build();
   }
   /*
@@ -262,6 +268,7 @@ public class MainController {
   public ResponseEntity<?> deleteEvent(@RequestBody Map<String, String> body) {
     String eventId = new String(body.get("eventId"));
     itin.deleteEvent(eventId);
+    mpd.updateUser(user);
     return ResponseEntity.ok().build();
   }
 
@@ -321,8 +328,6 @@ public class MainController {
   public UserService getUserService() {
     return userService;
   }
-
-  MongoDBUserDAO mpd = new MongoDBUserDAO(new MongoClient());
 
   @PutMapping("/post")
   public void addEvent(@RequestBody Map<String, Object> body) {

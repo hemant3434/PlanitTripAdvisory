@@ -44,4 +44,10 @@ public class MongoDBUserDAO {
         return data;
     }
 
+    public void updateUser(User p) {
+        DBObject query = BasicDBObjectBuilder.start()
+                .append("username", p.getUsername()).get();
+        this.col.update(query, UserConverter.toDBObject(p));
+    }
+
 }

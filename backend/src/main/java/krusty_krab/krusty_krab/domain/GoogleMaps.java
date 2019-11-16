@@ -92,7 +92,7 @@ public class GoogleMaps {
 
   public Transportation getTransportation(String loc1, String loc2, Time startTime,
       List<String> methods) {
-    List<Transportation> obj = new ArrayList<Transportation>();
+    /*List<Transportation> obj = new ArrayList<Transportation>();
 
     for (String i : methods) {
       if (i.equals("Bike")) {
@@ -152,8 +152,8 @@ public class GoogleMaps {
         obj.add(getTransObject(rou, startTime, i));
       }
     }
-    return chooseTransportation(obj);
-
+    return chooseTransportation(obj);*/
+    return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
   }
 
   public static int filterByPrice(float budget, float price) {
