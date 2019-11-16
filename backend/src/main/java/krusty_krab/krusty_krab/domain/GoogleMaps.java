@@ -28,7 +28,7 @@ public class GoogleMaps {
     if (KEY == null) {
       // KrustyKrab: AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc
       // Hemant: AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8
-      KEY = new GeoApiContext.Builder().apiKey("AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8").build();
+      KEY = new GeoApiContext.Builder().apiKey("AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc").build();
     }
   }
 
@@ -193,6 +193,7 @@ public class GoogleMaps {
   // index 0 - closing time
   // index 1 - start time
   public static Time[] getTime(OpeningHours hours, Time time) {
+    
     Date date = new Date();
     date.setYear(time.getYear());
     date.setMonth(time.getMonth() - 1);
@@ -293,9 +294,9 @@ public class GoogleMaps {
 
   public void initializeDatabase() throws ApiException, InterruptedException, IOException {
 
-    // Data parameters to add to the database
-    Time startTime = new Time(2019, 11, 9, 5, 00, true);
-    Time endTime = new Time(2019, 11, 9, 24, 00, true);
+    // Data filters
+    Time startTime = new Time(2019, 11, 15, 21, 00, true);
+    Time endTime = new Time(2019, 11, 15, 24, 00, true);
     double lat = 43.645474;
     double ltd = -79.380922;
     float budget = 150f;
@@ -313,25 +314,26 @@ public class GoogleMaps {
     String nextToken = null;
 
     LatLng cur_loc = new LatLng((double) lat, (double) ltd);
-    all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000));
+    all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000)).type(PlaceType.RESTAURANT);
 
-    Thread.sleep(10000);
+    Thread.sleep(6000);
 
 
     obj = all_events.awaitIgnoreError();
     nextToken = obj.nextPageToken;
+
     System.out.println(nextToken);
     results = obj.results;
     place_ids = new ArrayList<String>();
     for (PlacesSearchResult i : results) {
       place_ids.add(i.placeId);
     }
-    Thread.sleep(10000);
+    Thread.sleep(6000);
 
     while (nextToken != null) {
       all_events = PlacesApi.nearbySearchNextPage(KEY, nextToken);
-      Thread.sleep(10000);
-      
+      Thread.sleep(6000);
+
       obj = all_events.await();
       results = obj.results;
       for (PlacesSearchResult i : results) {
@@ -349,8 +351,7 @@ public class GoogleMaps {
       } catch (Exception e) {
         e.printStackTrace();
       }
-//      System.out.println(r.name + ", " + r.formattedAddress + ", " + r.types + ", " + r.priceLevel
-//          + ", " + r.openingHours);
+      System.out.println(r.name + "" + Arrays.toString(r.types) + "" + r.priceLevel);
       if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
           && r.openingHours != null) {// && r.photos != null && r.url != null
 
@@ -439,7 +440,7 @@ public class GoogleMaps {
      * 
      * events.add(e1); events.add(e2); events.add(e3); events.add(e4);
      */
-
+    events = GoogleMaps.getEventsFromMongo();
     return events;
   }
 
