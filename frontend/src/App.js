@@ -4,6 +4,7 @@ import MapPage from './pages/MapPage';
 import ExplorePage from './pages/ExplorePage';
 import ItineraryPage from './pages/ItineraryPage';
 import CreateItinerary from './navigation/CreateItinerary';
+import MapRoute from './components/common/MapRoute/MapRoute';
 
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -66,7 +67,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Trips: {
-      screen: TripsScreen,
+      screen: MapRoute,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="paper-plane" size={25} color={tintColor} />
