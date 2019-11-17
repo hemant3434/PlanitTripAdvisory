@@ -1,7 +1,8 @@
 Monday, November 11
 
 What we did yesterday
-  -
+  - Most of the team had a midterm on the 3rd day of the sprint, so no work of substance was committed
   
 Plan for today
-  -
+  - Focus on itinerary creation algorithm using filters correctly
+  - Determine where there is a bug in the code for displaying an itinerary
