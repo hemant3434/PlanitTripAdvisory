@@ -1,7 +1,13 @@
 Friday, November 15
 
 What we did yesterday
-  -
+  - Continued to work on Mongo DB interaction
+  - Tried to resolve the substantial amount of API calls that create itinerary requires
+  - Continued work on itinerary map route
+  - Worked to fix itinerary display bugs
   
 Plan for today
-  -
+  - Finish resolving itinerary display bug and issues with REST methods
+  - Continue to work on displaying itinerary map route
+  - Continue to resolve issue regarding amount of API calls
+  - Use Mongo to help above issue
