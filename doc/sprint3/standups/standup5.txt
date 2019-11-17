@@ -1,7 +1,9 @@
 Tuesday, November 12
 
 What we did yesterday
-  -
+  - Worked on filter usage in itinerary creation algorithm
+  - Continued to resolve bugs in displaying itinerary
   
 Plan for today
-  -
+  - Update itinerary creation REST methods
+  - Continue work on filter usage
