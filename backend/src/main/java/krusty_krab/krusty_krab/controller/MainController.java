@@ -1,19 +1,33 @@
 package krusty_krab.krusty_krab.controller;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.google.maps.errors.ApiException;
 import com.mongodb.MongoClient;
-import krusty_krab.krusty_krab.domain.*;
-import krusty_krab.krusty_krab.mongo.EventConverter;
-import krusty_krab.krusty_krab.mongo.MongoDBEventDAO;
+
+import krusty_krab.krusty_krab.domain.Event;
+import krusty_krab.krusty_krab.domain.ExplorePage;
+import krusty_krab.krusty_krab.domain.GoogleMaps;
+import krusty_krab.krusty_krab.domain.Itinerary;
+import krusty_krab.krusty_krab.domain.ItineraryItem;
+import krusty_krab.krusty_krab.domain.Time;
+import krusty_krab.krusty_krab.domain.Transportation;
+import krusty_krab.krusty_krab.domain.User;
+import krusty_krab.krusty_krab.domain.UserService;
 import krusty_krab.krusty_krab.mongo.MongoDBUserDAO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.http.*;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -30,6 +44,8 @@ public class MainController {
   Itinerary itin = user.getItinerary();
   GoogleMaps gm = new GoogleMaps();
   MongoDBUserDAO mpd = new MongoDBUserDAO(new MongoClient());
+  
+  ExplorePage explorePage = new ExplorePage();
 
   @Autowired
   UserService userService;
@@ -385,6 +401,12 @@ public class MainController {
   @GetMapping("/post")
   public ResponseEntity<?> getEvent() {
     return ResponseEntity.ok().body(mpd.readAllUsers());
+  }
+  
+  @GetMapping("/getExplorePage")
+  public List<Event> getExplorePage() {
+	  explorePage.generateExplorePage();
+	  return explorePage.getEvents();
   }
 
 

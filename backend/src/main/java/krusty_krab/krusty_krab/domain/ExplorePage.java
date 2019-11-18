@@ -7,22 +7,31 @@ import java.util.Random;
 public class ExplorePage {
 
 	private ArrayList<Event> events;
-	private List<Event> allEvents;
 	
 	public ExplorePage() {
 		events = new ArrayList<Event>();
-		allEvents = GoogleMaps.getEventsFromMongo();
 	}
 	
 	public void generateExplorePage() {
 		Random random = new Random();
+		List<Event> allEvents = GoogleMaps.getEventsFromMongo();
 		ArrayList<Event> newEvents = new ArrayList<Event>();
 		while (newEvents.size() < 10) {
-			Event tempEvent = allEvents.get(random.nextInt());
+			Event tempEvent = allEvents.get(random.nextInt(allEvents.size()));
 			if (!events.contains(tempEvent) && !newEvents.contains(tempEvent)) {
 				newEvents.add(tempEvent);
 			}
 		}
 		events = newEvents;
-	}	
+	}
+
+	public ArrayList<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(ArrayList<Event> events) {
+		this.events = events;
+	}
+	
+	
 }
