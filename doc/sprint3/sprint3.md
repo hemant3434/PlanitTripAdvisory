@@ -130,6 +130,7 @@ We made this decision because it is a redundant task that does not add value to 
 - `Story 15` Apply user event filters to fetched data
 - `story 10` Cost per person per each event is calculated
 - `story 10` Cost per person per each travel segment is calculated
+- `story 8` Time estimates are calculated and available to be retrieved
 
 **Jason Conte**: 
 - `story 17` Events of the same type as events rated poorly by the user are rarely included
@@ -141,4 +142,3 @@ We made this decision because it is a redundant task that does not add value to 
 
 **Unassigned**
 - `story 6` The activities that the user selects are stored
-- `story 8` Time estimates are calculated and available to be retrieved
