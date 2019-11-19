@@ -519,7 +519,10 @@ public class GoogleMaps {
           "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
           "If Quebec is Canada's ass...", "4");
     }
-    return new Event();
+    else{
+      MongoDBEventDAO mpd = new MongoDBEventDAO(new MongoClient());
+      return mpd.readEvent(id);
+    }
   }
 
   public static List<Event> getExploreEvents() {

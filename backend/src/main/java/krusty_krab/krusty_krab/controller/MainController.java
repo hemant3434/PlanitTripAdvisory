@@ -111,9 +111,24 @@ public class MainController {
 
   @GetMapping("/getDummy3")
   public ResponseEntity<?> getDummy3(@RequestBody Map<String, Object> body) {
-    User user = mpd.readUser("UN3");
-    user.getVisitedEvents().add(0, "3");
-    mpd.updateUser(user);
+    User user = mpd.readUser("Jason");
+    /*user.getVisitedEvents().add("ChIJk2BJvS3L1IkRqyDWmyiQhg8");
+    user.getEventRatings().put("ChIJk2BJvS3L1IkRqyDWmyiQhg8", 5);
+    mpd.updateUser(user);*/
+    //Event e = GoogleMaps.getEventByID("ChIJk2BJvS3L1IkRqyDWmyiQhg8");
+    Event e = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aquarium", 0, 3,
+            new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+            new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
+    Time curTime = new Time(2019, 10, 25, 5, 00, true);
+    String curLoc = "scarbs";
+    float budget = 150f;
+    float maxDist = 20f;
+    List<String> methodsOfTrans = new ArrayList<String>();
+    methodsOfTrans.add("Drive");
+    methodsOfTrans.add("Transit");
+    System.out.println(e.getScore(curTime, curLoc, gm, maxDist, budget, user, methodsOfTrans));
+    curTime = new Time(2019, 10, 25, 8, 00, true);
+    System.out.println(e.getScore(curTime, curLoc, gm, maxDist, budget, user, methodsOfTrans));
     return ResponseEntity.ok().body(null);
   }
   
@@ -144,6 +159,7 @@ public class MainController {
 
     itin.createItinerary(this.user);
 
+    user.setItinerary(itin);
     mpd.updateUser(user);
 
     return ResponseEntity.ok().body(itin.getItin());

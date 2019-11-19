@@ -1,9 +1,6 @@
 package krusty_krab.krusty_krab.domain;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class User {
 
@@ -26,10 +23,12 @@ public class User {
     public float getActivityRating(String activity){
         float sum = 0;
         float numEvents = 0;
-        for(String key:eventRatings.keySet()){
-            Event e = GoogleMaps.getEventByID(key);
-            if(e.getActivity().equals(activity)){
-                sum += eventRatings.get(key);
+        List<String> activities;
+        for(String ratedEvent:eventRatings.keySet()){
+            Event e = GoogleMaps.getEventByID(ratedEvent);
+            activities = Arrays.asList(e.getActivity().split(", "));
+            if(activities.contains(activity)){
+                sum += eventRatings.get(ratedEvent);
                 numEvents++;
             }
         }

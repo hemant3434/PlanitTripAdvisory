@@ -21,6 +21,18 @@ public class MongoDBEventDAO {
         this.col.insert(doc);
     }
 
+    public Event readEvent(String id) {
+        DBCursor cursor = col.find();
+        while (cursor.hasNext()) {
+            DBObject doc = cursor.next();
+            Event p = EventConverter.toEvent(doc);
+            if(p.getId().equals(id)){
+                return p;
+            }
+        }
+        return null;
+    }
+
     public List<Event> readAllEvents() {
         List<Event> data = new ArrayList<Event>();
         DBCursor cursor = col.find();
