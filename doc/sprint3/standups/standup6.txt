@@ -1,7 +1,10 @@
 Wednesday, November 13
 
 What we did yesterday
-  -
+  - Updated itinerary creation REST methods
+  - Continued work on filter usage
   
 Plan for today
-  -
+  - Testing of endpoints and data transfer between front and back end
+  - Develop Mongo DB for users and itineraries
+  - Begin work on displaying map routes for within itineraries

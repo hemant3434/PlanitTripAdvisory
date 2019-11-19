@@ -113,11 +113,6 @@ public class Itinerary {
         this.itin.add(transp);
     }
 
-    public void addEvent(Event newEvent) {
-		itin.add(newEvent);
-		handleConflict(newEvent);
-    }
-
     public void deleteEvent(String eventId) {
     	// get length of original itinerary, to accommodate for changed indexes
 		int itinLength = itin.size();
@@ -162,6 +157,11 @@ public class Itinerary {
     	}
     }
 
+    public void addEvent(Event newEvent) {
+		itin.add(newEvent);
+		handleConflict(newEvent);
+    }
+
     private void handleConflict(Event newEvent) {
         GoogleMaps gm = new GoogleMaps();
 		// Reorganize the lists
@@ -184,16 +184,18 @@ public class Itinerary {
 				if (startTime <= newEventStart && newEventStart <= endTime
 					|| startTime <= newEventEnd && newEventEnd <= endTime) {
 				    // There is a conflict so remove this event and transportations related to it
-				    if (itin.get(i - 1) instanceof Transportation)
+				    if (itin.get(i - 1) instanceof Transportation) {
 				    	itin.remove(i - 1);
 				    	itin.remove(i - 1);
-				    if (itin.get(i - 1) instanceof Transportation)
+				    }
+				    if (itin.get(i - 1) instanceof Transportation) {
 				    	itin.remove(i - 1);
+				    }
 				    // Sort the list
 				    Collections.sort(itin, itinerarySorter);
 				    // Find an available place to move the event
 				    Time newStartTime = findOpenTime(event);
-				    if (newStartTime  != null) {
+				    if (newStartTime != null) {
 						// Re add the event
 						event.setStartTime(newStartTime);
 						event.setEndTime(newStartTime.add(event.getExpectedLength()));
@@ -216,9 +218,9 @@ public class Itinerary {
 		    if (i == itin.size()-1 && itin.get(i) instanceof Event) {
 				System.out.println(itin.get(i).getTitle());
 				System.out.println("transportation home");
-				itin.add(i, gm.getTransportation(((Event) itin.get(i)).getId(), home, itin.get(i).getEndTime(), this.getMethodsOfTrans()));
+				itin.add(i + 1, gm.getTransportation(((Event) itin.get(i)).getId(), home, itin.get(i).getEndTime(), this.getMethodsOfTrans()));
 		    }
-		    if (i == 0 & itin.get(i) instanceof Event) {
+		    if (i == 0 && itin.get(i) instanceof Event) {
 		    	itin.add(i, gm.getTransportation(home, ((Event) itin.get(i)).getId(), startTime, this.getMethodsOfTrans()));
 		    } else if (itin.get(i) instanceof Event && itin.get(i-1) instanceof Event) {
 		    	Event e1 = (Event) itin.get(i-1);
@@ -231,7 +233,7 @@ public class Itinerary {
     private Time findOpenTime(Event event) {
         GoogleMaps gm = new GoogleMaps();
 		// Required time will be time for the event as well as transportation
-		for (int i = 0; i < itin.size(); i++) {
+		for (int i = 0; i < itin.size() - 1; i++) {
 		    if (itin.get(i) instanceof Event && i != itin.size() - 2) {
 		    	Event curr = (Event) itin.get(i);
 		    	Event next = (itin.get(i + 1) instanceof Event) ? (Event) itin.get(i + 1) : (Event) itin.get(i + 2);

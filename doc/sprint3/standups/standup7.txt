@@ -1,7 +1,12 @@
 Thursday, November 14
 
 What we did yesterday
-  -
+  - Testing of endpoints and data transfer between front and back end
+  - Worked to develop Mongo DB for users and itineraries
+  - Began work on displaying map routes for within itineraries
   
 Plan for today
-  -
+  - Continue to work on Mongo DB interaction
+  - Try to resolve the substantial amount of API calls that create itinerary requires
+  - Continue work on itinerary map route
+  - Fix itinerary display bugs
