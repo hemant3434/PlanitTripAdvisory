@@ -106,19 +106,19 @@ export class CreateItinerary extends Component {
       switch(step) {
         case 1:
           return(
-            true
-            // this.state.date &&
-            // this.state.startTime &&
-            // this.state.endTime &&
-            // this.state.distance &&
-            // this.state.budget &&
-            // this.state.transportation.length
+            //true
+            this.state.date &&
+            this.state.startTime &&
+            this.state.endTime &&
+            this.state.distance &&
+            this.state.budget &&
+            this.state.transportation.length
           );
         case 2:
           return(
-            true
-            // this.state.locationLat &&
-            // this.state.locationLong
+            //true
+            this.state.locationLat &&
+            this.state.locationLong
           );
         default:
           return true;

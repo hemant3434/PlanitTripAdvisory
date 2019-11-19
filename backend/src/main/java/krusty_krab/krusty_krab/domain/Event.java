@@ -51,8 +51,7 @@ public class Event extends ItineraryItem{
 
 
         //gets transportation object, if user were to travel from their current location to this event
-        Transportation transp = null;
-        transp = gm.getTransportation(curLoc, getId(), curTime, methodsOfTrans);
+        Transportation transp = gm.getTransportation(curLoc, getId(), curTime, methodsOfTrans);
 
         float userRating, globalRating, wait, cost;
         globalRating = this.getRating();
