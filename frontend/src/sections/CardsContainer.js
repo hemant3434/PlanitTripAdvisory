@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView  } from 'react-native';
 import {
   Text,
 } from "native-base";
+import { Card, Button, Icon } from 'react-native-elements'
 import EventCard from './../components/common/Cards/EventCard';
 
 export default class CardsContainer extends React.Component{
@@ -21,7 +22,7 @@ export default class CardsContainer extends React.Component{
         <ScrollView
         style={StyleSheet.absoluteFill}
         contentContainerStyle={styles.scrollview}>
-        { !this.state.isLoading ? this.state.Itinerary.map(o => <EventCard common={o}/>):<Text>Loading</Text> }
+        { !this.state.isLoading ? this.props.common.map(o => <EventCard common={o}/>):<Text>Loading</Text> }
         </ScrollView>
     );
   }
