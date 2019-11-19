@@ -3,7 +3,7 @@ package krusty_krab.krusty_krab.controller;
 import java.io.IOException;
 import java.util.*;
 import com.google.maps.errors.ApiException;
-import com.mongodb.MongoClient;
+import com.mongodb.*;
 import krusty_krab.krusty_krab.domain.*;
 import krusty_krab.krusty_krab.mongo.EventConverter;
 import krusty_krab.krusty_krab.mongo.MongoDBEventDAO;
@@ -387,7 +387,18 @@ public class MainController {
     return ResponseEntity.ok().body(mpd.readAllUsers());
   }
 
-
+  @GetMapping("/costPerPerson")
+  public ResponseEntity<?> getCostPerPerson() {
+	  Float cost = 0f;
+	  Map<String, String> response = new HashMap<String, String>();
+	  for (ItineraryItem item: itin.getItin()) {
+		  if (item instanceof Event) {
+			  cost += ((Event) item).getPrice();
+		  }
+	  }
+	  response.put("costPerPerson", "$" + cost.toString());
+	  return ResponseEntity.ok(response);
+  }
 }
 
 /*
