@@ -431,6 +431,20 @@ public class MainController {
 	  response.put("costPerPerson", "$" + cost.toString());
 	  return ResponseEntity.ok(response);
   }
+
+  @GetMapping("/getInitializedDatabase")
+  public ResponseEntity<?> getInitializedDatabase() {
+    try {
+      gm.initializeDatabase();
+    } catch (ApiException e) {
+      e.printStackTrace();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return ResponseEntity.ok(null);
+  }
 }
 
 /*
