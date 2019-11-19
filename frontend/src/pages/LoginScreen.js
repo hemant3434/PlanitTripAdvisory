@@ -23,7 +23,11 @@ const LoginScreen = (props) => {
       return;
     }
 
-    props.onLoginPressed();
+    if (props.onLoginPressed(email.value, password.value) == -1) {
+      setEmail({ ...email, error: "Invalid account details!" });
+      setPassword({ ...password, error: "Invalid account details!" });
+      return;
+    }
   };
 
   return (
@@ -65,7 +69,7 @@ const LoginScreen = (props) => {
         </TouchableOpacity>
       </View>
 
-      <Button mode="contained" onPress={props.onLoginPressed}>
+      <Button mode="contained" onPress={_onLoginPressed}>
         Login
       </Button>
 
