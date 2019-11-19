@@ -16,6 +16,12 @@ export default class CardsContainer extends React.Component{
     }
   }
 
+  print = () => {
+    for (var i=0; i<ItineraryData.length; i++) {
+      console.log(ItineraryData[i])
+    }
+  }
+
 
   render(props){
     return (
