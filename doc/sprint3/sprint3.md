@@ -118,12 +118,13 @@ We made this decision because it is a redundant task that does not add value to 
 ## Backend Tasks: ##
 
 **Jason Hu**:
-  
+- `story 10` Total cost per person is calculated
+- `story 13` Add an event to the itinerary
+
 **Hemant Bhanot**: 
 - `Story 15` Apply user event filters to fetched data
 - `story 10` Cost per person per each event is calculated
 - `story 10` Cost per person per each travel segment is calculated
-- `story 10` Total cost per person is calculated
 
 **Jason Conte**: 
 
