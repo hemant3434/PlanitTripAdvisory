@@ -85,6 +85,12 @@ We have decided to remove story 14 from our sprint due to its limited value and 
 
 - Point Estimate: 3
 
+`story 6`
+
+- As Bob (a businessman), I would like my itinerary to be saved to my private user account so that only I can view my itinerary, whenever I want, by using my account information.
+
+- Point Estimate: 5
+
 ## Frontend Tasks:
 ---
 
@@ -105,6 +111,7 @@ We made this decision because it is a redundant task that does not add value to 
 **Gnanaswarup Srinivasan**:
 - `story 7` The map displayed supports zooming in/out
 - `story 7` The map displayed shows the user's current location
+- `story 6` The login/register screen sends/receives data from the backend for validation
 
 **Unassigned**
 - `story 8` Time estimates are retrieved from the backend
