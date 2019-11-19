@@ -7,6 +7,10 @@ import Paragraph from '../components/common/LoginRegister/Paragraph';
 import LoginScreen from '../pages/LoginScreen';
 import RegisterScreen from '../pages/RegisterScreen';
 import App from '../App.js';
+import axios from 'axios';
+
+const LOGIN = "http://localhost:8080/api/v1/login";
+const REGISTER = "http://localhost:8080/api/v1/register";
 
 class HomeScreen extends React.Component {
     constructor(props) {
@@ -23,19 +27,27 @@ class HomeScreen extends React.Component {
     }
 
     onLoginPressed = (email, password) => {
-        // logic for communication
-        console.log(email, password);
-        // if valid email
-            // this.setState({step: 4})
-        // else
-            return -1
+        console.log("login:", email, password);
+        axios.get(LOGIN, {"email": email, "password": password})
+        .then(res => {
+            if (res.data) {
+                this.setState({step: 4})
+                return 1;
+            }
+        });
+        return -1
     };
+    
     onRegisterPressed = (name, email, password) => {
-        // logic for communication
-        // if valid email
-            this.setState({step: 4})
-        // else
-            return -1
+        console.log("register:", name, email, password);
+        axios.post(REGISTER, {"username": name, "email": email, "password": password})
+        .then(res => {
+            if (res.data) {
+                this.setState({step: 4})
+                return 1;
+            }
+        });
+        return -1
     };
 
     toHomePage = () => {
