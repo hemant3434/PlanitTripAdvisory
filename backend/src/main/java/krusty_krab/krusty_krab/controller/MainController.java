@@ -147,6 +147,23 @@ public class MainController {
     return !itin.getItin().isEmpty();
   }
 
+  @PostMapping("/test")
+  public String test() {
+	  try {
+		gm.initializeDatabase();
+	} catch (ApiException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	  return "TEST";
+  }
+  
   @PostMapping("/createItinerary")
   public ResponseEntity<?> createItinerary(@RequestBody Itinerary body) throws Exception {
     itin.setStartTime(body.getStartTime());
