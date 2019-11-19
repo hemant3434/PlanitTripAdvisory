@@ -22,8 +22,20 @@ class HomeScreen extends React.Component {
         }
     }
 
-    onLoginPressed = () => {
-        this.setState({step: 4})
+    onLoginPressed = (email, password) => {
+        // logic for communication
+        console.log(email, password);
+        // if valid email
+            // this.setState({step: 4})
+        // else
+            return -1
+    };
+    onRegisterPressed = (name, email, password) => {
+        // logic for communication
+        // if valid email
+            this.setState({step: 4})
+        // else
+            return -1
     };
 
     toHomePage = () => {
@@ -70,7 +82,7 @@ class HomeScreen extends React.Component {
           );
         case 3:
           return (
-              <RegisterScreen back={this.toHomePage} login={this.toLoginPage}/>
+              <RegisterScreen back={this.toHomePage} login={this.toLoginPage} onRegisterPressed={this.onRegisterPressed}/>
           );
         case 4:
           return (
