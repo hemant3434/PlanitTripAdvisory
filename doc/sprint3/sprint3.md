@@ -136,7 +136,8 @@ We made this decision because it is a redundant task that does not add value to 
 **Jason Conte**: 
 
 **Jackie Tran**: 
-
+- 'story 13' 10 Events provided and sent for explore page
+- 'story 13' View explore events
 **Unassigned**
 - `story 6` The activities that the user selects are stored
 - `story 8` Time estimates are calculated and available to be retrieved
