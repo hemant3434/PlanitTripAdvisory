@@ -22,7 +22,8 @@ export default class EventCard extends React.Component{
         return <ImageCard
           title={this.props.common.title}
           image={images[this.props.common.image]}
-          text={this.props.common.description} />;
+          text={this.props.common.description}
+          map={this.props.common.id}/>;
     }
   }
 }

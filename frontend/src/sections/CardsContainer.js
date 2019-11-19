@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView  } from 'react-native';
 import {
   Text,
 } from "native-base";
+import { Card, Button, Icon } from 'react-native-elements'
 import EventCard from './../components/common/Cards/EventCard';
 
 export default class CardsContainer extends React.Component{

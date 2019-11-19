@@ -23,12 +23,10 @@ class MapRoute extends Component {
     this.state = {
       coordinates: [
         {
-          latitude: 37.3317876,
-          longitude: -122.0054812,
+          place_id: this.props.startId,
         },
         {
-          latitude: 37.771707,
-          longitude: -122.4053769,
+          place_id: this.props.endId,
         },
       ],
     };
@@ -66,9 +64,9 @@ class MapRoute extends Component {
             origin={this.state.coordinates[0]}
             waypoints={ (this.state.coordinates.length > 2) ? this.state.coordinates.slice(1, -1): null}
             destination={this.state.coordinates[this.state.coordinates.length-1]}
-            apikey={GOOGLE_MAPS_APIKEY}
+            // apikey={OUR_KEY}
             strokeWidth={3}
-            strokeColor="hotpink"
+            strokeColor="blue"
             optimizeWaypoints={true}
             onStart={(params) => {
               console.log(`Started routing between "${params.origin}" and "${params.destination}"`);

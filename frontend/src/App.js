@@ -83,7 +83,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Profile: {
-      screen: ProfileScreen,
+      screen: MapRoute,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="user" size={25} color={tintColor} />
