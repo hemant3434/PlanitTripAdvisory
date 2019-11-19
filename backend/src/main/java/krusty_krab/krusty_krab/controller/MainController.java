@@ -341,7 +341,7 @@ public class MainController {
     this.user = mpd.readUser(body.getUsername());
     System.out.println(this.user.getUsername());
   }
-  // a
+  
   @PutMapping("/register")
   public void register(@RequestBody User body) { 
     this.user = new User();
