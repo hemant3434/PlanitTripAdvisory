@@ -1,7 +1,13 @@
 Monday, November 18
 
 What we did yesterday
-  -
+  - Worked to resolve itinerary display bug and issues with REST methods
+  - Continued to work on displaying itinerary map route
+  - Continue to resolve issue regarding amount of API calls
+  - Use Mongo to help above issue
   
 Plan for today
-  -
+  - Continue to work on displaying itinerary map route
+  - Continue to resolve issue regarding amount of API calls
+  - Begin working on connecting login process between front and back end
+  - Implement additional event card features
