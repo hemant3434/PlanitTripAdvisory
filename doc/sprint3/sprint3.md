@@ -100,10 +100,17 @@ We made this decision because it is a redundant task that does not add value to 
 ---
 
 **Richard Hong**:
+- `story 10` Each event displays cost per person
+- `story 10` Each travel step displays cost per person
+- `story 10` Total cost per person shown at the bottom of the itinerary
+- `story 11` Each travel step displays estimated travel time
+- `story 12` Each event displays typical amount of time spent at the event
 - `Story 13` User can select time slot for events about to be added to itinerary
 
 **Logan Chester**:
 - `story 6` User can select from multiple activities
+- `story 8` Time estimates are retrieved from the backend
+- `story 8` Beside each segment of the route on the map is a time estimate of how long it will take to travel between events
 - `story 9` Once itinerary has been set, the map tab will display the fastest route from one event to the next (keeping preferred mode of transportation in mind)
 - `story 9` Map zooms out appropriately to show entirety of the next travel segment of the itinerary
 - `story 9` Route displayed is easily distinguishable from map background
@@ -112,15 +119,6 @@ We made this decision because it is a redundant task that does not add value to 
 - `story 7` The map displayed supports zooming in/out
 - `story 7` The map displayed shows the user's current location
 - `story 6` The login/register screen sends/receives data from the backend for validation
-
-**Unassigned**
-- `story 8` Time estimates are retrieved from the backend
-- `story 8` Beside each segment of the route on the map is a time estimate of how long it will take to travel between events
-- `story 10` Each event displays cost per person
-- `story 10` Each travel step displays cost per person
-- `story 10` Total cost per person shown at the bottom of the itinerary
-- `story 11` Each travel step displays estimated travel time
-- `story 12` Each event displays typical amount of time spent at the event
   
 ## Backend Tasks: ##
 
