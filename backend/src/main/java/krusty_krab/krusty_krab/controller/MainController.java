@@ -264,7 +264,7 @@ public class MainController {
 
   @GetMapping("/viewItinerary")
   public List<ItineraryItem> viewItinerary() {
-    return itin.getItin();
+    return user.getItinerary().getItin();
   }
 
   @GetMapping("/viewItinerary2")
