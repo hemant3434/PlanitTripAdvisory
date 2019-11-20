@@ -33,7 +33,7 @@ public class Event extends ItineraryItem{
 		this.description = description;
 		this.id = id;
 	}
-/*
+
     // Computes a score for an event, based on its rating, price, wait time until it opens, and distance needed to travel
     public float getScore(Time curTime, String curLoc, GoogleMaps gm, float maxDist, float budget, User user, List<String> methodsOfTrans){
         String[] params = {"UR", "GR", "wait", "cost"};
@@ -71,14 +71,14 @@ public class Event extends ItineraryItem{
         float score = 0;
         for(String param:params){
         	score += Math.abs(paramToBestVal.get(param) - paramToValue.get(param))/paramToRatio.get(param);
-		}
+        }
 
         return score;
 
-    }*/
+    }
 
 	// Computes a score for an event, based on its rating, price, wait time until it opens, and distance needed to travel
-	public float getScore(Time curTime, String curLoc, GoogleMaps gm, float maxDist, float budget, User user, List<String> methodsOfTrans){
+	public float getScore1(Time curTime, String curLoc, GoogleMaps gm, float maxDist, float budget, User user, List<String> methodsOfTrans){
 	    //Importance of each factor of an event quantified by a weight integer
 		int ratingWeight = 3;
 		int userRatingWeight = 3;

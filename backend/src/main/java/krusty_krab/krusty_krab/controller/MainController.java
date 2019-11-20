@@ -141,6 +141,23 @@ public class MainController {
     System.out.println(e.getScore(curTime, curLoc, gm, maxDist, budget, user, methodsOfTrans));
     return ResponseEntity.ok().body(null);
   }
+
+  @GetMapping("jason")
+  public ResponseEntity<?> jason(@RequestBody Map<String, Object> body) {
+    User user = mpd.readUser("Jason");
+    Event e = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "bar", 5, 0,
+            new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
+            new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
+    Time curTime = new Time(2019, 10, 25, 8, 00, true);
+    String curLoc = "scarbs";
+    float budget = 150f;
+    float maxDist = 20f;
+    List<String> methodsOfTrans = new ArrayList<String>();
+    methodsOfTrans.add("Drive");
+    methodsOfTrans.add("Transit");
+    System.out.println(e.getScore(curTime, curLoc, gm, maxDist, budget, user, methodsOfTrans));
+    return ResponseEntity.ok().body(null);
+  }
   
   @GetMapping("/checkItinerary")
   public Boolean checkItinerary() {
@@ -149,6 +166,7 @@ public class MainController {
 
   @PostMapping("/createItinerary")
   public ResponseEntity<?> createItinerary(@RequestBody Itinerary body) throws Exception {
+    itin = new Itinerary();
     itin.setStartTime(body.getStartTime());
     itin.setEndTime(body.getEndTime());
     itin.setMaxDist(body.getMaxDist());
