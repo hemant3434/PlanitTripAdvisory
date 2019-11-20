@@ -49,13 +49,13 @@ export default class Itinerary extends React.Component {
   }
 
   render(){
-    if(this.state.Itinerary === null){
-      return(
-        <View>
-          <Text>LOADING!</Text>
-        </View>
-      )
-    }
+    // if(this.state.Itinerary === null){
+    //   return(
+    //     <View>
+    //       <Text>LOADING!</Text>
+    //     </View>
+    //   )
+    // }
     return(
         this.state.Itinerary ? <CardsContainer common={this.state.ItineraryData}/> : <CreateItinerary/>
     );

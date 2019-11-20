@@ -157,16 +157,19 @@ public class GoogleMaps {
   }
 
   public static int filterByPrice(float budget, float price) {
-
     if (budget < price) {
       return 100;
     }
     return 0;
   }
 
-  public static int filterByTime(Time startTime, Time endTime, Time[] times) {
-
-    return 0;
+  public static int filterByTime(Time currentTime, Time expectedLength, Time[] timeArray) {
+	  // close time at index 1, open time at index 0
+	  // return 0 if good, return >0 for bad
+	  
+	  //Time eventOpenTime = timeArray[0];
+	  Time eventCloseTime = timeArray[1];
+	  return eventCloseTime.getDifference(currentTime).isLessThan(expectedLength) ? 0 : 1;
   }
 
   public static float getPriceLevel(PriceLevel obj) {

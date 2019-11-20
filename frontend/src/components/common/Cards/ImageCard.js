@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements'
+import MapRoute from './../MapRoute/MapRoute';
 
 class ImageCard extends Component{
   constructor(props){
     super(props)
+    this.state = {
+      Itinerary: this.props.common
+    }
+  }
+
+  handleButtonPress = () => {
+    return <Text>Hello</Text>
   }
 
   render(){
@@ -20,6 +28,11 @@ class ImageCard extends Component{
         <Button
         icon={<Icon name='code' color='#ffffff'/>}
         title='DELETE EVENT'/></View>
+        <View style={{ flex: 1, justifyContent: 'center', paddingTop: 5}}>
+        <Button
+        icon={<Icon name='code' color='#ffffff'/>}
+        title='MAP'
+        onPress={this.handleButtonPress}/></View>
       </Card>
     );
   }
