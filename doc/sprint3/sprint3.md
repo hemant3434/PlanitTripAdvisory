@@ -85,6 +85,12 @@ We have decided to remove story 14 from our sprint due to its limited value and 
 
 - Point Estimate: 3
 
+`story 6`
+
+- As Bob (a businessman), I would like my itinerary to be saved to my private user account so that only I can view my itinerary, whenever I want, by using my account information.
+
+- Point Estimate: 5
+
 ## Frontend Tasks:
 ---
 
@@ -94,10 +100,17 @@ We made this decision because it is a redundant task that does not add value to 
 ---
 
 **Richard Hong**:
+- `story 10` Each event displays cost per person
+- `story 10` Each travel step displays cost per person
+- `story 10` Total cost per person shown at the bottom of the itinerary
+- `story 11` Each travel step displays estimated travel time
+- `story 12` Each event displays typical amount of time spent at the event
 - `Story 13` User can select time slot for events about to be added to itinerary
 
 **Logan Chester**:
 - `story 6` User can select from multiple activities
+- `story 8` Time estimates are retrieved from the backend
+- `story 8` Beside each segment of the route on the map is a time estimate of how long it will take to travel between events
 - `story 9` Once itinerary has been set, the map tab will display the fastest route from one event to the next (keeping preferred mode of transportation in mind)
 - `story 9` Map zooms out appropriately to show entirety of the next travel segment of the itinerary
 - `story 9` Route displayed is easily distinguishable from map background
@@ -105,32 +118,27 @@ We made this decision because it is a redundant task that does not add value to 
 **Gnanaswarup Srinivasan**:
 - `story 7` The map displayed supports zooming in/out
 - `story 7` The map displayed shows the user's current location
-
-**Unassigned**
-- `story 8` Time estimates are retrieved from the backend
-- `story 8` Beside each segment of the route on the map is a time estimate of how long it will take to travel between events
-- `story 10` Each event displays cost per person
-- `story 10` Each travel step displays cost per person
-- `story 10` Total cost per person shown at the bottom of the itinerary
-- `story 11` Each travel step displays estimated travel time
-- `story 12` Each event displays typical amount of time spent at the event
+- `story 6` The login/register screen sends/receives data from the backend for validation
   
 ## Backend Tasks: ##
 
 **Jason Hu**:
-  
+- `story 10` Total cost per person is calculated
+- `story 13` Add an event to the itinerary
+
 **Hemant Bhanot**: 
 - `Story 15` Apply user event filters to fetched data
 - `story 10` Cost per person per each event is calculated
 - `story 10` Cost per person per each travel segment is calculated
-- `story 10` Total cost per person is calculated
+- `story 8` Time estimates are calculated and available to be retrieved
 
 **Jason Conte**: 
+- `story 17` Events of the same type as events rated poorly by the user are rarely included
+- `story 17` When itinerary is being created, events of the same type as events rated highly by the user are given preference
 
 **Jackie Tran**: 
+- `story 13` 10 Events provided and sent for explore page
+- `story 13` View explore events
 
 **Unassigned**
 - `story 6` The activities that the user selects are stored
-- `story 8` Time estimates are calculated and available to be retrieved
-- `story 17` Events of the same type as events rated poorly by the user are rarely included
-- `story 17` When itinerary is being created, events of the same type as events rated highly by the user are given preference

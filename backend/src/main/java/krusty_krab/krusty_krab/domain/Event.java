@@ -2,9 +2,12 @@
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@Document(collection = "posts")
+  @Document(collection = "posts")
 public class Event extends ItineraryItem{
 
 	private String location;
@@ -31,12 +34,55 @@ public class Event extends ItineraryItem{
 		this.id = id;
 	}
 
+    // Computes a score for an event, based on its rating, price, wait time until it opens, and distance needed to travel
+    public float getScore(Time curTime, String curLoc, GoogleMaps gm, float maxDist, float budget, User user, List<String> methodsOfTrans){
+        String[] params = {"UR", "GR", "wait", "cost"};
+
+        Map<String,Integer> paramToBestVal = new HashMap<>();
+        paramToBestVal.put("UR", 5);
+        paramToBestVal.put("GR", 5);
+        paramToBestVal.put("wait", 0);
+        paramToBestVal.put("cost", 0);
+
+        Map<String,Integer> paramToRatio = new HashMap<>();
+        paramToRatio.put("UR", 2);
+        paramToRatio.put("GR", 1);
+        paramToRatio.put("wait", 60);
+        paramToRatio.put("cost", 20);
+
+		Map<String,Float> paramToValue = new HashMap<>();
+		paramToValue.put("UR", getMinActivityRating(user));
+		paramToValue.put("GR", (float)this.getRating());
+		paramToValue.put("cost", GoogleMaps.rangeToBudget(this.getPrice()));
+
+        //gets transportation object, if user were to travel from their current location to this event
+        Transportation transp = gm.getTransportation(curLoc, getId(), curTime, methodsOfTrans);
+        float wait;
+        //If the start time of the event is before the current time, then the user does not have to wait for the event to open
+        if(this.getStartTime().toMinutes() - transp.getExpectedLength().toMinutes() < curTime.toMinutes()){
+            wait = 0;
+        }
+        // otherwise, how long user needs to wait is computed
+        else{
+            wait = this.getStartTime().toMinutes() - transp.getExpectedLength().toMinutes() - curTime.toMinutes();
+        }
+		paramToValue.put("wait", wait);
+
+        float score = 0;
+        for(String param:params){
+        	score += Math.abs(paramToBestVal.get(param) - paramToValue.get(param))/paramToRatio.get(param);
+        }
+
+        return score;
+
+    }
+
 	// Computes a score for an event, based on its rating, price, wait time until it opens, and distance needed to travel
-	public float getScore(Time curTime, String curLoc, GoogleMaps gm, float maxDist, float budget, User user, List<String> methodsOfTrans){
+	public float getScore1(Time curTime, String curLoc, GoogleMaps gm, float maxDist, float budget, User user, List<String> methodsOfTrans){
 	    //Importance of each factor of an event quantified by a weight integer
 		int ratingWeight = 3;
 		int userRatingWeight = 3;
-	    int waitTimeWeight = 5;
+	    int waitTimeWeight = 1000;
 	    int maxDistWeight = 1;
 	    int budgetWeight = 1;
 
@@ -53,15 +99,15 @@ public class Event extends ItineraryItem{
 		float rating, userRating, waitTime, dist, price;
         rating = this.getRating();
 
-        userRating = user.getActivityRating(this.getActivity());
+        userRating = getMinActivityRating(user);
 
         //If the start time of the event is before the current time, then the user does not have to wait for the event to open
-        if(this.getStartTime().toMinutes() - transp.getEndTime().toMinutes() < curTime.toMinutes()){
+        if(this.getStartTime().toMinutes() - transp.getExpectedLength().toMinutes() < curTime.toMinutes()){
             waitTime = 0;
         }
         // otherwise, how long user needs to wait is computed
         else{
-            waitTime = this.getStartTime().toMinutes() - curTime.toMinutes();
+            waitTime = this.getStartTime().toMinutes() - transp.getExpectedLength().toMinutes() - curTime.toMinutes();
         }
 
         dist = transp.getDistance();
@@ -81,6 +127,18 @@ public class Event extends ItineraryItem{
         //Puts each factor on a scale between 0 and 1 (higher the better) by dividing by the upper bound, then multiplying by the weight
         return rating/ratingMax*ratingWeight + userRating/ratingMax*userRatingWeight + 1/waitTime/waitTimeMax*waitTimeWeight + 1/dist/maxDistMax*maxDistWeight + 1/price/budgetMax*budgetWeight;
 
+    }
+
+    public float getMinActivityRating(User user){
+        float minActivityRating = 5;
+        //takes min of user's average rating for every activity this event is classified as
+        for(String activity: this.getActivity().split(", ")){
+            float activityRating = user.getActivityRating(activity);
+            if(activityRating < minActivityRating){
+                minActivityRating = activityRating;
+            }
+        }
+        return minActivityRating;
     }
 
 	public double getLongitude() {

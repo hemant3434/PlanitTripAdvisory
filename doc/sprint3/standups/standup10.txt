@@ -1,7 +1,13 @@
 Tuesday, November 19
 
 What we did yesterday
-  -
+  - Continued to work on displaying itinerary map route
+  - Continued to resolve issue regarding amount of API calls
+  - Began working on connecting login process between front and back end
+  - Implement additional event card features
   
 Plan for today
-  -
+  - End of sprint
+  - Ensure new features have been added
+  - Continue to fix bugs
+  - Ensure documentation is complete for sprint in git and jira

@@ -9,18 +9,30 @@ class ImageCard extends Component{
     this.state = {
       Itinerary: this.props.common
     }
+<<<<<<< HEAD
+  }
+
+  handleButtonPress = () => {
+    return <Text>Hello</Text>
+=======
+>>>>>>> f0ca4c1b9275c4154d4ca9092a2e2eaff9da0704
   }
 
   handleButtonPress = () => {
     return <Text>Hello</Text>
   }
 
+  //COST AND TIME
+
   render(){
+    console.log("EventCard", this.props);
     return (
       <Card
         title={this.props.title}
         image={this.props.image}>
         <Text style={{marginBottom: 10}}>{this.props.text}</Text>
+        <Text>cost: {"$".repeat(this.props.cost)}</Text>
+        <Text>People tyically spend {this.props.time.hour + " hours, " + this.props.time.minute + " minutes here"}</Text>
         <View style={{flexDirection: 'row', flex: 2, justifyContent: 'space-between'}}>
           <Button
         icon={<Icon name='code' color='#ffffff'/>}

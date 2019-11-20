@@ -10,7 +10,7 @@ class ImageCard extends Component{
 
   fetchData(){
     axios.get('http://100.80.11.91:8080/somesht', {
-      
+
     })
     .catch(error => console.log(error));;
   }

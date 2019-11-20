@@ -4,10 +4,25 @@ import { View } from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
 
 const items = [{
+<<<<<<< HEAD
   name: 'Food/Restaurants',
 }, {
   name: 'Parks/Amusement Parks',
 }, {
+=======
+  name: 'Bars/Clubs',
+}, {
+  name: 'Entertainment',
+}, {
+  name: 'Food/Restaurants',
+}, {
+  name: 'Historical Sites',
+}, {
+  name: 'Parks/Amusement Parks',
+}, {
+  name: 'Shopping',
+}, {
+>>>>>>> f0ca4c1b9275c4154d4ca9092a2e2eaff9da0704
   name: 'Tourist Attractions',
 }];
 

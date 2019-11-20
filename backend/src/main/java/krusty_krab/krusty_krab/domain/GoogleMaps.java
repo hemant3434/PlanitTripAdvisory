@@ -445,7 +445,17 @@ public class GoogleMaps {
      * events.add(e1); events.add(e2); events.add(e3); events.add(e4);
      */
     events = GoogleMaps.getEventsFromMongo();
-    return events;
+    List<Event> filteredEvents = new ArrayList<>();
+    for(Event e:events){
+      int first = filterByPrice(budget, e.getPrice());
+      int second = 0;
+      if(first == 0 && second == 0){
+        filteredEvents.add(e);
+      }
+    }
+
+    return filteredEvents;
+    //return events;
   }
 
   public Transportation chooseTransportation(List<Transportation> trans) {
@@ -522,7 +532,10 @@ public class GoogleMaps {
           "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
           "If Quebec is Canada's ass...", "4");
     }
-    return new Event();
+    else{
+      MongoDBEventDAO mpd = new MongoDBEventDAO(new MongoClient());
+      return mpd.readEvent(id);
+    }
   }
 
   public static List<Event> getExploreEvents() {

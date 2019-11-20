@@ -37,12 +37,10 @@ public class Itinerary {
         // Gets every event that satisfies the given filters
         //List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getItinDistLeft(), this.getActivities(), maxPriceRange);
 
-        System.out.println("b");
         List<Event> events = gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getMaxDist(), this.getActivities(), maxPriceRange);
-        System.out.println("a");
         // Gets event with highest score of all events received
         Event bestEvent = new Event();
-        float bestScore = -1;
+        float bestScore = 100;
         float curScore;
         //GoogleMaps.getEventByID("3").getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget(), user);
         //System.out.println("a");
@@ -52,19 +50,15 @@ public class Itinerary {
             Transportation transpBack = gm.getTransportation(e.getId(), getHome(), timeAfterEvent, this.getMethodsOfTrans());
             Time endTime = timeAfterEvent.add(transpBack.getExpectedLength());
             if(!this.getVisitedEvents().contains(e.getLocation()) && endTime.isLessThan(this.getEndTime())){
-                System.out.println(getItinCurLoc());
-                System.out.println(e.getLocation());
-                System.out.println("A");
                 curScore = e.getScore(this.getItinCurTime(), this.getItinCurLoc(), gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans());
-                if(curScore > bestScore) {
+                if(curScore < bestScore) {
                     bestEvent = e;
                     bestScore = curScore;
                 }
             }
         }
-
         // If no event exists that is not already in the itinerary, exception thrown
-        if(bestScore == -1){
+        if(bestScore == 100){
             throw new NoSuchElementException();
         }
         return bestEvent;
@@ -72,7 +66,7 @@ public class Itinerary {
 
     // Creates the itinerary
     public void createItinerary(User user) throws Exception{
-        float minScore = 0.0f;
+        float maxScore = 100f;
         GoogleMaps gm = new GoogleMaps();
         // Starts at the specified start time, at the users home
         Time curTime = getStartTime();
@@ -82,7 +76,7 @@ public class Itinerary {
             Event nextEvent = getNextBestEvent(user);
 
             // Loops until it runs out of events, or all events remaining has a score so low that they shouldn't be on the itinerary
-            while(nextEvent.getScore(curTime, curLoc, gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans()) > minScore){
+            while(nextEvent.getScore(curTime, curLoc, gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans()) < maxScore){
                 // Gets transportation object from the next event and the current location of the user
                 Transportation transp = gm.getTransportation(curLoc, nextEvent.getId(), curTime, this.getMethodsOfTrans());
 
