@@ -169,6 +169,13 @@ public class GoogleMaps {
     return 0;
   }
 
+  public static int filterByVisited(Event e, List<String> visitedEvents, List<String> itinEvents){
+    if(visitedEvents.contains(e.getId()) || itinEvents.contains(e.getId())){
+      return 100;
+    }
+    return 0;
+  }
+
   public static float getPriceLevel(PriceLevel obj) {
     float price = -1;
 
@@ -375,7 +382,7 @@ public class GoogleMaps {
   }
 
   public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
-      List<String> activities, float budget) {
+      List<String> activities, float budget, List<String> visitedEvents, List<String> itinEvents) {
     List<Event> events = new ArrayList<Event>();
 
     // LatLng cur_loc = new LatLng((double) lat, (double) ltd);
@@ -444,9 +451,11 @@ public class GoogleMaps {
     events = GoogleMaps.getEventsFromMongo();
     List<Event> filteredEvents = new ArrayList<>();
     for(Event e:events){
+      int third = filterByVisited(e, visitedEvents, itinEvents);
       int first = filterByPrice(budget, e.getPrice());
       int second = 0;
-      if(first == 0 && second == 0){
+
+      if(first == 0 && second == 0 && third == 0){
         filteredEvents.add(e);
       }
     }

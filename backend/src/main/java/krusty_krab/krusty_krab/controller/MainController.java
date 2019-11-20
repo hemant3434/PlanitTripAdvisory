@@ -76,8 +76,8 @@ public class MainController {
       e.printStackTrace();
     }
 
-    List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
-    return ResponseEntity.ok().body(events);
+    //List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
+    return ResponseEntity.ok().body(null);
   }
 
   @GetMapping("/getDummy2")
@@ -111,12 +111,13 @@ public class MainController {
     itin.setActivities(activities);
 
     // itin.createItinerary(this.user);
-    List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
+    /*List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
     for (Event e : events) {
       System.out.println(e.getLocation());
       // mpd.createEvent(e);
     }
-    return ResponseEntity.ok().body(null);
+    return ResponseEntity.ok().body(null);*/
+    return null;
   }
 
   @GetMapping("/getDummy3")
@@ -144,19 +145,11 @@ public class MainController {
 
   @GetMapping("jason")
   public ResponseEntity<?> jason(@RequestBody Map<String, Object> body) {
-    User user = mpd.readUser("Jason");
-    Event e = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "bar", 5, 0,
-            new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
-            new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
-    Time curTime = new Time(2019, 10, 25, 8, 00, true);
-    String curLoc = "scarbs";
-    float budget = 150f;
-    float maxDist = 20f;
-    List<String> methodsOfTrans = new ArrayList<String>();
-    methodsOfTrans.add("Drive");
-    methodsOfTrans.add("Transit");
-    System.out.println(e.getScore(curTime, curLoc, gm, maxDist, budget, user, methodsOfTrans));
-    return ResponseEntity.ok().body(null);
+    User u = mpd.readUser("Jason");
+    u.setUsername("Alex");
+    u.setEmail("@");
+    mpd.createUser(u);
+    return ResponseEntity.ok().body(mpd.readUser("Jason").getEmail());
   }
   
   @GetMapping("/checkItinerary")
@@ -239,7 +232,7 @@ public class MainController {
     activities.add("aquarium");
     activities.add("art gallery");
 
-    maps.getEvents(start, end, lat, ltd, distance, activities, budget);
+    //maps.getEvents(start, end, lat, ltd, distance, activities, budget);
 
     List<String> methods = new ArrayList<String>();
     methods.add("Transit");
@@ -284,8 +277,9 @@ public class MainController {
     trans.add("Drive");
     trans.add("Transit");
 
-    List<Event> events = gm.getEvents(startTime, endTime, lat, ltd, maxDist, activities, budget);
-    return ResponseEntity.ok().body(events);
+    //List<Event> events = gm.getEvents(startTime, endTime, lat, ltd, maxDist, activities, budget);
+    //return ResponseEntity.ok().body(events);
+    return null;
   }
   // @GetMapping("/dummy1")
   // public void dummy1(@RequestBody )
@@ -355,9 +349,18 @@ public class MainController {
 
   @PutMapping("/login")
   public void login(@RequestBody User body) {
-    // this.user = userService.getUser(body.getUsername());
     this.user = mpd.readUser(body.getUsername());
-    System.out.println(this.user.getUsername());
+  }
+
+  @GetMapping("/checkPw")
+  public boolean checkPw(@RequestBody User body) {
+    User user = mpd.readUser(body.getUsername());
+    if(user.getPassword().equals(body.getPassword())){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
   
   @PutMapping("/register")
@@ -422,8 +425,8 @@ public class MainController {
     Map<String, Integer> eventRatings = new HashMap<>();
     eventRatings.put("1", 2);
     eventRatings.put("2", 5);
-    User u = new User("UN1", visitedEvents, eventRatings, i);
-    mpd.createUser(u);
+    //User u = new User("UN1", visitedEvents, eventRatings, i);
+    //mpd.createUser(u);
   }
 
   @GetMapping("/post")

@@ -6,14 +6,17 @@ public class User {
 
     private Long id;
     private String username;
+    private String password;
+    private String email;
     private List<String> visitedEvents = new ArrayList();
     private Map<String, Integer> eventRatings = new HashMap<>();
     private Itinerary itinerary = new Itinerary();
 
     public User() {}
 
-    public User(String username, List<String> visitedEvents, Map<String, Integer> eventRatings, Itinerary itinerary) {
+    public User(String username, String password, String email, List<String> visitedEvents, Map<String, Integer> eventRatings, Itinerary itinerary) {
         this.username = username;
+        this.password = password;
         this.visitedEvents = visitedEvents;
         this.eventRatings = eventRatings;
         this.itinerary = itinerary;
@@ -93,5 +96,19 @@ public class User {
         this.itinerary = itinerary;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

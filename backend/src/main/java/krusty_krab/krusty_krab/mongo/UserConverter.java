@@ -14,6 +14,8 @@ public class UserConverter {
     public static DBObject toDBObject(User p) {
         BasicDBObjectBuilder builder = BasicDBObjectBuilder.start()
                 .append("username", p.getUsername())
+                .append("password", p.getPassword())
+                .append("email", p.getEmail())
                 .append("visitedEvents", p.getVisitedEvents())
                 .append("eventRatings", p.getEventRatings())
                 .append("itinerary",UserConverter.toMapFromItinerary(p.getItinerary()));
@@ -41,6 +43,8 @@ public class UserConverter {
     public static User toUser(DBObject doc) {
         User p = new User();
         p.setUsername((String)doc.get("username"));
+        p.setPassword((String)doc.get("password"));
+        p.setEmail((String)doc.get("email"));
         p.setVisitedEvents((List<String>)doc.get("visitedEvents"));
         p.setEventRatings((Map<String, Integer>)doc.get("eventRatings"));
         p.setItinerary(toItineraryFromMap((Map<String, Object>)doc.get("itinerary")));
