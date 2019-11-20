@@ -22,8 +22,28 @@ export class CreateItinerary extends Component {
       methodOfTrans: this.state.transportation,
       activities: this.state.activities
     }
-    console.log(body)
-    axios.post(CREATE_ITINERARY, body);
+    const tmp =
+      {
+	"startTime": "2019-10-03 2:47:41 PM",
+	"endTime": "2019-10-03 8:48:41 PM",
+	"maxDist": 20,
+	"budget": 590,
+	"locationLat": 43.76768768758,
+	"locationLong": -789.3586968758798,
+	"homeLat": -83.76768768758,
+	"homeLong": 9.3586968758798,
+	"methodsOfTrans": [
+		"Drive",
+		"Transit",
+		"Ride Services"
+	],
+	"activities": [
+		"Entertainment",
+		"Food/Restaurants"
+	]
+}
+    //console.log(body)
+    axios.post(CREATE_ITINERARY, tmp);
   }
 
 
@@ -106,19 +126,19 @@ export class CreateItinerary extends Component {
       switch(step) {
         case 1:
           return(
-            //true
-            this.state.date &&
-            this.state.startTime &&
-            this.state.endTime &&
-            this.state.distance &&
-            this.state.budget &&
-            this.state.transportation.length
+            true
+            // this.state.date &&
+            // this.state.startTime &&
+            // this.state.endTime &&
+            // this.state.distance &&
+            // this.state.budget &&
+            // this.state.transportation.length
           );
         case 2:
           return(
-            //true
-            this.state.locationLat &&
-            this.state.locationLong
+            true
+            // this.state.locationLat &&
+            // this.state.locationLong
           );
         default:
           return true;
