@@ -5,11 +5,12 @@ import MapPicker from '../components/common/MapPicker/MapPicker';
 import CardsContainer from '../sections/CardsContainer';
 import ItineraryPage from '../pages/ItineraryPage';
 import axios from 'axios';
+import { awaitExpression } from '@babel/types';
 
 const CREATE_ITINERARY = 'http://localhost:8080/api/v1/createItinerary'
 
 export class CreateItinerary extends Component {
-  fetchData(){
+  async fetchData(){
     const body = {
       startTime: this.state.startTime,
       endTime: this.state.endTime,
@@ -43,9 +44,14 @@ export class CreateItinerary extends Component {
 	]
 }
     //console.log(body)
-    axios.post(CREATE_ITINERARY, body);
+    axios.post(CREATE_ITINERARY, body)
+    .then(response => console.log(response))
   }
 
+
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
     constructor(props){
       super(props)
@@ -110,15 +116,18 @@ export class CreateItinerary extends Component {
       })
     }
 
-    setLocation = (latitude, longitude) => {
+    async setLocation(latitude, longitude){
       this.setState ({
         locationLatitude: latitude,
         locationLongitude: longitude,
         homeLatitude: latitude,
         homeLongitude: longitude,
       });
-      this.nextStep()
-      this.fetchData()
+      this.fetchData();
+      console.log("sleeping");
+      await this.sleep(2000)
+      console.log("done sleeping");
+      this.setState({step: this.state.step + 1});
     }
 
     checkValues = () => {

@@ -67,7 +67,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Trips: {
-      screen: TripsScreen,
+      screen: MapRoute,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="paper-plane" size={25} color={tintColor} />
@@ -83,7 +83,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Profile: {
-      screen: ProfileScreen,
+      screen: MapRoute,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="user" size={25} color={tintColor} />
