@@ -7,44 +7,12 @@ import ItineraryPage from '../pages/ItineraryPage';
 import axios from 'axios';
 import { awaitExpression } from '@babel/types';
 
-const CREATE_ITINERARY = 'http://localhost:8080/api/v1/createItinerary'
+const CREATE_ITINERARY = 'http://100.80.11.91:8080/api/v1/createItinerary'
 
 export class CreateItinerary extends Component {
   async fetchData(){
-    const body = {
-      startTime: this.state.startTime,
-      endTime: this.state.endTime,
-      maxDist: this.state.distance,
-      budget: this.state.budget,
-      locationLat: this.state.locationLatitude,
-      locationLong: this.state.locationLongitude,
-      homeLat: this.state.homeLatitude,
-      homeLong: this.state.homeLongitude,
-      methodOfTrans: this.state.transportation,
-      activities: this.state.activities
-    }
-    const tmp =
-      {
-	"startTime": "2019-10-03 2:47:41 PM",
-	"endTime": "2019-10-03 8:48:41 PM",
-	"maxDist": 20,
-	"budget": 590,
-	"locationLat": 43.76768768758,
-	"locationLong": -789.3586968758798,
-	"homeLat": -83.76768768758,
-	"homeLong": 9.3586968758798,
-	"methodsOfTrans": [
-		"Drive",
-		"Transit",
-		"Ride Services"
-	],
-	"activities": [
-		"Entertainment",
-		"Food/Restaurants"
-	]
-}
-    //console.log(body)
-    axios.post(CREATE_ITINERARY, body)
+    console.log("CREATE ITINERARY BODY!", this.state)
+    axios.post(CREATE_ITINERARY, this.state)
     .then(response => console.log(response))
   }
 
@@ -62,11 +30,11 @@ export class CreateItinerary extends Component {
         endTime: null,
         budget: null,
         distance: null,
-        locationLatitude: null,
-        locationLongitude: null,
-        homeLatitude: null,
-        homeLongitude: null,
-        transportation: [],
+        locationLat: null,
+        locationLong: null,
+        homeLat: null,
+        homeLong: null,
+        methodOfTrans: [],
         activities: [],
         isLoading: true,
         Itinerary: null
@@ -106,7 +74,7 @@ export class CreateItinerary extends Component {
 
     setTransportation = (dataFromChild) => {
       this.setState ({
-        transportation: dataFromChild
+        methodOfTrans: dataFromChild
       })
     }
 
@@ -116,13 +84,15 @@ export class CreateItinerary extends Component {
       })
     }
 
-    async setLocation(latitude, longitude){
-      this.setState ({
-        locationLatitude: latitude,
-        locationLongitude: longitude,
-        homeLatitude: latitude,
-        homeLongitude: longitude,
-      });
+    async setLocation(obj){
+      console.log("OBJECT TEST", obj.latitude);
+      this.state = {
+        ...this.state,
+        locationLat: obj.latitude,
+        locationLong: obj.longitude,
+        homeLat: obj.latitude,
+        homeLong: obj.longitude,
+      }
       this.fetchData();
       console.log("sleeping");
       await this.sleep(2000)
@@ -140,7 +110,7 @@ export class CreateItinerary extends Component {
             this.state.endTime &&
             this.state.distance &&
             this.state.budget &&
-            this.state.transportation.length
+            this.state.methodOfTrans.length
           );
         case 2:
           return(
@@ -154,7 +124,6 @@ export class CreateItinerary extends Component {
 
     nextStep = () => {
       const { step, date, startTime, endTime } = this.state;
-      console.log(this.state);
       if (this.checkValues()) {
         this.setState({
           startTime: date + " " + startTime,
@@ -195,7 +164,9 @@ export class CreateItinerary extends Component {
         case 2:
           return(
             <MapPicker
-              onLocationSelectProp={(obj)=>this.setLocation(obj.latitude, obj.longitude)}
+              onLocationSelectProp={(obj)=>{this.setLocation(obj)
+              console.log(obj.latitude);
+              }}
             />
           );
         case 3:
