@@ -6,7 +6,7 @@ import CardsContainer from '../sections/CardsContainer';
 import ItineraryPage from '../pages/ItineraryPage';
 import axios from 'axios';
 
-const CREATE_ITINERARY = 'http://localhost:8080/api/v1/createItinerary'
+const CREATE_ITINERARY = 'http://127.0.0.1:8080/api/v1/createItinerary'
 
 export class CreateItinerary extends Component {
   fetchData(){
@@ -43,7 +43,7 @@ export class CreateItinerary extends Component {
 	]
 }
     //console.log(body)
-    axios.post(CREATE_ITINERARY, body);
+    axios.post(CREATE_ITINERARY, tmp);
   }
 
 

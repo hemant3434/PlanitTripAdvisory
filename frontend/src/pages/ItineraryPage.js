@@ -4,8 +4,8 @@ import CardsContainer from '../sections/CardsContainer';
 import CreateItinerary from '../navigation/CreateItinerary';
 import axios from 'axios';
 
-const CHECK_ITINERARY = "http://localhost:8080/api/v1/checkItinerary";
-const VIEW_ITINERARY = "http://localhost:8080/api/v1/viewItinerary";
+const CHECK_ITINERARY = "http://127.0.0.1:8080/api/v1/checkItinerary";
+const VIEW_ITINERARY = "http://127.0.0.1:8080/api/v1/viewItinerary";
 
 
 export default class Itinerary extends React.Component {
@@ -23,6 +23,7 @@ export default class Itinerary extends React.Component {
   }
 
   fetch(){
+    console.log("Calling fetch")
     axios.get(CHECK_ITINERARY)
     .then(res => {
       console.log("CHECK_ITINERARY.data", res.data);
@@ -50,6 +51,7 @@ export default class Itinerary extends React.Component {
   }
 
   render(){
+    console.log("RENDER STATE", this.state);
     switch(this.state.Itinerary){
       case null:
         return (
@@ -58,14 +60,13 @@ export default class Itinerary extends React.Component {
           </View>
         );
       case true:
-        while(this.state.loading){
+        if(this.state.loading){
           return (
             <View>
               <Text>Loading 2</Text>
             </View>
           );
         }
-        console.log("RENDER STATE", this.state);
         return <CardsContainer common={this.state.ItineraryData}/>
       default:
        return <CreateItinerary/>

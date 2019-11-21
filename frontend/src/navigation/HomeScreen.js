@@ -9,8 +9,8 @@ import RegisterScreen from '../pages/RegisterScreen';
 import App from '../App.js';
 import axios from 'axios';
 
-const LOGIN = "http://localhost:8080/api/v1/login";
-const REGISTER = "http://localhost:8080/api/v1/register";
+const LOGIN = "http://127.0.0.1:8080/api/v1/login";
+const REGISTER = "http://127.0.0.1:8080/api/v1/register";
 
 class HomeScreen extends React.Component {
     constructor(props) {
