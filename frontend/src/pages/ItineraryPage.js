@@ -4,8 +4,8 @@ import CardsContainer from '../sections/CardsContainer';
 import CreateItinerary from '../navigation/CreateItinerary';
 import axios from 'axios';
 
-const CHECK_ITINERARY = "http://127.0.0.1:8080/api/v1/checkItinerary";
-const VIEW_ITINERARY = "http://127.0.0.1:8080/api/v1/viewItinerary";
+const CHECK_ITINERARY = "http://192.168.0.189:8080/api/v1/checkItinerary";
+const VIEW_ITINERARY = "http://192.168.0.189:8080/api/v1/viewItinerary";
 
 
 export default class Itinerary extends React.Component {
@@ -34,7 +34,11 @@ export default class Itinerary extends React.Component {
         this.fetchItinerary();
       }
     })
-    .catch(e => console.log(e))
+    .catch(e => {
+      console.log(e.response);
+      console.log(e.message);
+      console.log(e.request);
+    })
   }
 
   fetchItinerary(){
@@ -47,7 +51,7 @@ export default class Itinerary extends React.Component {
         loading: false
       });
      })
-    .catch(e => console.log(e))
+    .catch(e => console.log(e.response))
   }
 
   render(){
