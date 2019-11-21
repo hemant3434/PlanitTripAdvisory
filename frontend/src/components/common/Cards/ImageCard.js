@@ -15,12 +15,17 @@ class ImageCard extends Component{
     return <Text>Hello</Text>
   }
 
+  //COST AND TIME
+
   render(){
+    console.log("EventCard", this.props);
     return (
       <Card
         title={this.props.title}
         image={this.props.image}>
         <Text style={{marginBottom: 10}}>{this.props.text}</Text>
+        <Text>cost: {"$".repeat(this.props.cost)}</Text>
+        <Text>People tyically spend {this.props.time.hour + " hours, " + this.props.time.minute + " minutes here"}</Text>
         <View style={{flexDirection: 'row', flex: 2, justifyContent: 'space-between'}}>
           <Button
         icon={<Icon name='code' color='#ffffff'/>}
@@ -28,11 +33,6 @@ class ImageCard extends Component{
         <Button
         icon={<Icon name='code' color='#ffffff'/>}
         title='DELETE EVENT'/></View>
-        <View style={{ flex: 1, justifyContent: 'center', paddingTop: 5}}>
-        <Button
-        icon={<Icon name='code' color='#ffffff'/>}
-        title='MAP'
-        onPress={this.handleButtonPress}/></View>
       </Card>
     );
   }
