@@ -43,7 +43,7 @@ export class CreateItinerary extends Component {
 	]
 }
     //console.log(body)
-    axios.post(CREATE_ITINERARY, tmp);
+    axios.post(CREATE_ITINERARY, body);
   }
 
 
@@ -126,19 +126,17 @@ export class CreateItinerary extends Component {
       switch(step) {
         case 1:
           return(
-            true
-            // this.state.date &&
-            // this.state.startTime &&
-            // this.state.endTime &&
-            // this.state.distance &&
-            // this.state.budget &&
-            // this.state.transportation.length
+            this.state.date &&
+            this.state.startTime &&
+            this.state.endTime &&
+            this.state.distance &&
+            this.state.budget &&
+            this.state.transportation.length
           );
         case 2:
           return(
-            true
-            // this.state.locationLat &&
-            // this.state.locationLong
+            this.state.locationLat &&
+            this.state.locationLong
           );
         default:
           return true;

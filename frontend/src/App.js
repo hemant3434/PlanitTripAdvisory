@@ -32,7 +32,7 @@ class TripsScreen extends React.Component {
   render() {
     return(
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff'}}>
-        <Text> TripsScreen, SOMEONE PLEASE MAKE THIS TOO LMAO </Text>
+        <Text> TripsScreen </Text>
       </View>
     );
   }
@@ -42,7 +42,7 @@ class ProfileScreen extends React.Component {
   render() {
     return(
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#d0d0d0'}}>
-        <Text> ProfileScreen, SOMEONE PLEASE MAKE THIS LOL </Text>
+        <Text> ProfileScreen</Text>
       </View>
     );
   }
@@ -67,7 +67,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Trips: {
-      screen: MapRoute,
+      screen: TripsScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="paper-plane" size={25} color={tintColor} />
@@ -83,7 +83,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Profile: {
-      screen: MapRoute,
+      screen: ProfileScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="user" size={25} color={tintColor} />
