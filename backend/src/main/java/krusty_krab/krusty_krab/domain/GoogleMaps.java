@@ -157,7 +157,6 @@ public class GoogleMaps {
   }
 
   public static int filterByPrice(float budget, float price) {
-
     if (budget < price) {
       return 100;
     }
