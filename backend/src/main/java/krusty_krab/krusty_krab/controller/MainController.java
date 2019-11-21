@@ -145,10 +145,11 @@ public class MainController {
 
   @GetMapping("jason")
   public ResponseEntity<?> jason(@RequestBody Map<String, Object> body) {
-    User u = mpd.readUser("Jason");
-    u.setUsername("Alex");
-    u.setEmail("@");
-    mpd.createUser(u);
+    String[] eventActivities = {"a","b"};
+    List<String> userActivities = new ArrayList<>();
+    userActivities.add("a");
+    userActivities.add("b");
+    System.out.println(GoogleMaps.filterByActivity(eventActivities, userActivities));
     return ResponseEntity.ok().body(mpd.readUser("Jason").getEmail());
   }
   
@@ -175,8 +176,10 @@ public class MainController {
     List<String> activities = new ArrayList<>();
     activities.add("nature and parks");
     activities.add("malls");
-    itin.setMethodsOfTrans(trans);
-    itin.setActivities(activities);
+    //itin.setMethodsOfTrans(trans);
+    //itin.setActivities(activities);
+    itin.setMethodsOfTrans(body.getMethodsOfTrans());
+    itin.setActivities(body.getActivities());
 
     itin.createItinerary(this.user);
 
@@ -292,7 +295,16 @@ public class MainController {
 
   @PostMapping("/addEvent")
   public ResponseEntity<?> addEvent(@RequestBody Event event) {
-    itin.addEvent(event);
+    user.getItinerary().addEvent(event);
+    mpd.updateUser(user);
+    return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("/addEvent2")
+  public ResponseEntity<?> addEvent2(@RequestBody Map<String, String> body) {
+    Event e = GoogleMaps.getEventByID(body.get("eventId"));
+    e.setStartTime(new Time(body.get("startTime")));
+    user.getItinerary().addEvent(e);
     mpd.updateUser(user);
     return ResponseEntity.ok().build();
   }
@@ -305,7 +317,35 @@ public class MainController {
   @PutMapping("/deleteEvent")
   public ResponseEntity<?> deleteEvent(@RequestBody Map<String, String> body) {
     String eventId = new String(body.get("eventId"));
-    itin.deleteEvent(eventId);
+    user.getItinerary().deleteEvent(eventId);
+    mpd.updateUser(user);
+    return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("/addRating")
+  public ResponseEntity<?> addRating(@RequestBody Map<String, String> body) {
+    user.getEventRatings().put(body.get("eventId"), Integer.parseInt(body.get("rating")));
+    mpd.updateUser(user);
+    return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("/deleteRating")
+  public ResponseEntity<?> deleteRating(@RequestBody Map<String, String> body) {
+    user.getEventRatings().remove(body.get("eventId"));
+    mpd.updateUser(user);
+    return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("/addVisitedEvent")
+  public ResponseEntity<?> addVisitedEvent(@RequestBody Map<String, String> body) {
+    user.getVisitedEvents().add(body.get("eventId"));
+    mpd.updateUser(user);
+    return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("/deleteVisitedEvent")
+  public ResponseEntity<?> deleteVisitedEvent(@RequestBody Map<String, String> body) {
+    user.getVisitedEvents().remove(body.get("eventId"));
     mpd.updateUser(user);
     return ResponseEntity.ok().build();
   }

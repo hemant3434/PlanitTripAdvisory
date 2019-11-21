@@ -92,9 +92,9 @@ public class GoogleMaps {
 
   public Transportation getTransportation(String loc1, String loc2, Time startTime,
       List<String> methods) {
-    /*List<Transportation> obj = new ArrayList<Transportation>();
+    List<Transportation> obj = new ArrayList<Transportation>();
 
-    for (String i : methods) {
+    /*for (String i : methods) {
       if (i.equals("Bike")) {
         DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
             .destinationPlaceId(loc2).mode(TravelMode.BICYCLING);
@@ -173,11 +173,20 @@ public class GoogleMaps {
 	  return eventCloseTime.getDifference(currentTime).isLessThan(expectedLength) ? 0 : 1;
   }
 
-  public static int filterByVisited(Event e, List<String> visitedEvents, List<String> itinEvents){
-    if(visitedEvents.contains(e.getId()) || itinEvents.contains(e.getId())){
+  public static int filterByVisited(String id, List<String> visitedEvents, List<String> itinEvents){
+    if(visitedEvents.contains(id) || itinEvents.contains(id)){
       return 100;
     }
     return 0;
+  }
+
+  public static int filterByActivity(String[] eventActivities, List<String>userActivities){
+    for(String eventActivity:eventActivities){
+      if(userActivities.contains(eventActivity)){
+        return 0;
+      }
+    }
+    return 100;
   }
 
   public static float getPriceLevel(PriceLevel obj) {
@@ -385,56 +394,61 @@ public class GoogleMaps {
     }
   }
 
-  public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
+  public List<Event> getEvents1(Time startTime, Time endTime, double lat, double ltd, float maxDist,
       List<String> activities, float budget, List<String> visitedEvents, List<String> itinEvents) {
     List<Event> events = new ArrayList<Event>();
 
-    // LatLng cur_loc = new LatLng((double) lat, (double) ltd);
-    // NearbySearchRequest all_events =
-    // PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000));
-    //
-    // ArrayList<String> place_ids = null;
-    // if (all_events != null) {
-    // PlacesSearchResponse obj = all_events.awaitIgnoreError();
-    // PlacesSearchResult results[] = obj.results;
-    //
-    // place_ids = new ArrayList<String>();
-    // for (PlacesSearchResult i : results) {
-    // place_ids.add(i.placeId);
-    // }
-    // }
-    //
-    // for (String i : place_ids) {
-    // PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
-    // PlaceDetails r = null;
-    // try {
-    // r = req.await();
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // }
-    // System.out.println(r.name + ", " + r.formattedAddress + ", " + r.types + ", " + r.priceLevel
-    // + ", " + r.openingHours);
-    // if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
-    // && r.openingHours != null) {// && r.photos != null && r.url != null
-    // Time[] times = getTime(r.openingHours, startTime);
-    // if (times != null) {
-    // int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
-    // int second = filterByTime(startTime, endTime, times);
-    //
-    //
-    // if ((first + second) == 0) {
-    // Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
-    // Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
-    // getPriceLevel(r.priceLevel), times[0], times[1], new Time(0, 0, 0, 2, 0, true),
-    // getPhoto(r.photos), r.url.toString(), i);
-    //
-    // events.add(e);
-    // }
-    // }
-    // }
-    // }
-    /*
-     * 
+     LatLng cur_loc = new LatLng((double) lat, (double) ltd);
+     NearbySearchRequest all_events =
+     PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000));
+
+     ArrayList<String> place_ids = null;
+     if (all_events != null) {
+       PlacesSearchResponse obj = all_events.awaitIgnoreError();
+       PlacesSearchResult results[] = obj.results;
+
+       place_ids = new ArrayList<String>();
+       for (PlacesSearchResult i : results) {
+        place_ids.add(i.placeId);
+       }
+     }
+
+     for (String i : place_ids) {
+       PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
+       PlaceDetails r = null;
+       try {
+       r = req.await();
+       } catch (Exception e) {
+       e.printStackTrace();
+       }
+       System.out.println(r.name + ", " + r.formattedAddress + ", " + r.types + ", " + r.priceLevel
+       + ", " + r.openingHours);
+       if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
+       && r.openingHours != null) {// && r.photos != null && r.url != null
+         Time[] times = getTime(r.openingHours, startTime);
+         if (times != null) {
+           //Transportation transpThere = getTransportation(this.getItinCurLoc(), e.getId(), this.getItinCurTime(), this.getMethodsOfTrans());
+           //Time timeAfterEvent = this.getItinCurTime().add(transpThere.getExpectedLength()).add(e.getExpectedLength());
+
+           int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
+           int second = 0;//filterByTime(startTime, endTime, times);
+           int third = filterByVisited(i, visitedEvents, itinEvents);
+           int fourth = filterByActivity(Arrays.toString(r.types).replace("[", "").replace("]", "").split(", "), activities);
+
+
+           if ((first + second + third + fourth) == 0) {
+             Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
+             Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
+             getPriceLevel(r.priceLevel), times[0], times[1], new Time(0, 0, 0, 2, 0, true),
+             getPhoto(r.photos), r.url.toString(), i);
+
+             events.add(e);
+           }
+         }
+       }
+     }
+/*
+     *
      * Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aquarium", 5, 2,
      * new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true), new Time(0, 0, 0, 2,
      * 0, true), "toronto", "There be fish", "1"); Event e2 = new Event("cn tower", "cn tower",
@@ -449,15 +463,21 @@ public class GoogleMaps {
      * true), new Time(0, 0, 0, 2, 0, true),
      * "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
      * "If Quebec is Canada's ass...", "4");
-     * 
-     * events.add(e1); events.add(e2); events.add(e3); events.add(e4);
-     */
+     *
+     * events.add(e1); events.add(e2); events.add(e3); events.add(e4);*/
+    return events;
+  }
+
+  public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
+                               List<String> activities, float budget, List<String> visitedEvents, List<String> itinEvents) {
+    List<Event> events = new ArrayList<Event>();
     events = GoogleMaps.getEventsFromMongo();
     List<Event> filteredEvents = new ArrayList<>();
     for(Event e:events){
-      int third = filterByVisited(e, visitedEvents, itinEvents);
+      int third = filterByVisited(e.getId(), visitedEvents, itinEvents);
       int first = filterByPrice(budget, e.getPrice());
       int second = 0;
+      int fourth = filterByActivity(e.getActivity().split(","), activities);
 
       if(first == 0 && second == 0 && third == 0){
         filteredEvents.add(e);
@@ -465,7 +485,6 @@ public class GoogleMaps {
     }
 
     return filteredEvents;
-    //return events;
   }
 
   public Transportation chooseTransportation(List<Transportation> trans) {

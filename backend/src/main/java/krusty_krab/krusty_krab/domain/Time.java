@@ -51,8 +51,8 @@ public class Time {
     }
 
     public long toMinutes(){
-        //return this.getMinute() + 60 * this.getHour() + 60 * 24 * this.getDay() + 60 * 24 * 31 * this.getMonth() + 60 * 24 * 31 * 12 * this.getYear();
-        return this.getMinute() + 60 * this.getHour();
+        return this.getMinute() + 60 * this.getHour() + 60 * 24 * this.getDay() + 60 * 24 * 31 * this.getMonth() + 60 * 24 * 31 * 12 * this.getYear();
+        //return this.getMinute() + 60 * this.getHour();
     }
 
     // Adds 2 times together
