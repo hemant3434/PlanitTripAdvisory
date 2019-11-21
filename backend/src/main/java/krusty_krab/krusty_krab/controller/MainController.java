@@ -368,6 +368,8 @@ public class MainController {
     this.user = new User();
     this.itin = this.user.getItinerary();
     this.user.setUsername(body.getUsername());
+    this.user.setPassword(body.getPassword());
+    this.user.setEmail(body.getEmail());
     mpd.createUser(this.user);
     // userService.addUser(user);
   }
