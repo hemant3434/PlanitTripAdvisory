@@ -389,12 +389,12 @@ public class MainController {
 
   @PutMapping("/login")
   public void login(@RequestBody User body) {
-    this.user = mpd.readUser(body.getUsername());
+    this.user = mpd.readUser(body.getEmail());
   }
 
   @GetMapping("/checkPw")
   public boolean checkPw(@RequestBody User body) {
-    User user = mpd.readUser(body.getUsername());
+    User user = mpd.readUser(body.getEmail());
     if(user.getPassword().equals(body.getPassword())){
       return true;
     }
