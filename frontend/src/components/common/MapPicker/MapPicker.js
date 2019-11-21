@@ -2,7 +2,7 @@ import React from 'react';
 import LocationView from "react-native-location-view";
 import {View} from "react-native";
 
-const api = "AIzaSyBNLrbh_D9AftY73lfJbKeRKcTH-av7MDk";
+const api = "AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc";
 
 export default class MapPicker extends React.Component {
 

@@ -9,13 +9,6 @@ class ImageCard extends Component{
     this.state = {
       Itinerary: this.props.common
     }
-<<<<<<< HEAD
-  }
-
-  handleButtonPress = () => {
-    return <Text>Hello</Text>
-=======
->>>>>>> f0ca4c1b9275c4154d4ca9092a2e2eaff9da0704
   }
 
   handleButtonPress = () => {
@@ -40,11 +33,6 @@ class ImageCard extends Component{
         <Button
         icon={<Icon name='code' color='#ffffff'/>}
         title='DELETE EVENT'/></View>
-        <View style={{ flex: 1, justifyContent: 'center', paddingTop: 5}}>
-        <Button
-        icon={<Icon name='code' color='#ffffff'/>}
-        title='MAP'
-        onPress={this.handleButtonPress}/></View>
       </Card>
     );
   }

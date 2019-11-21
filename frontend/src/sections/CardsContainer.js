@@ -35,7 +35,6 @@ export default class CardsContainer extends React.Component{
   }
 
   render(props){
-    console.log()
       switch(this.state.showMap){
         case true:
           return (

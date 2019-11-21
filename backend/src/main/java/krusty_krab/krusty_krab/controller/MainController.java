@@ -76,8 +76,8 @@ public class MainController {
       e.printStackTrace();
     }
 
-    List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
-    return ResponseEntity.ok().body(events);
+    //List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
+    return ResponseEntity.ok().body(null);
   }
 
   @GetMapping("/getDummy2")
@@ -111,12 +111,13 @@ public class MainController {
     itin.setActivities(activities);
 
     // itin.createItinerary(this.user);
-    List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
+    /*List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
     for (Event e : events) {
       System.out.println(e.getLocation());
       // mpd.createEvent(e);
     }
-    return ResponseEntity.ok().body(null);
+    return ResponseEntity.ok().body(null);*/
+    return null;
   }
 
   @GetMapping("/getDummy3")
@@ -144,19 +145,12 @@ public class MainController {
 
   @GetMapping("jason")
   public ResponseEntity<?> jason(@RequestBody Map<String, Object> body) {
-    User user = mpd.readUser("Jason");
-    Event e = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "bar", 5, 0,
-            new Time(2019, 10, 25, 8, 0, true), new Time(2019, 10, 25, 22, 0, true),
-            new Time(0, 0, 0, 2, 0, true), "toronto", "There be fish", "1");
-    Time curTime = new Time(2019, 10, 25, 8, 00, true);
-    String curLoc = "scarbs";
-    float budget = 150f;
-    float maxDist = 20f;
-    List<String> methodsOfTrans = new ArrayList<String>();
-    methodsOfTrans.add("Drive");
-    methodsOfTrans.add("Transit");
-    System.out.println(e.getScore(curTime, curLoc, gm, maxDist, budget, user, methodsOfTrans));
-    return ResponseEntity.ok().body(null);
+    String[] eventActivities = {"a","b"};
+    List<String> userActivities = new ArrayList<>();
+    userActivities.add("a");
+    userActivities.add("b");
+    System.out.println(GoogleMaps.filterByActivity(eventActivities, userActivities));
+    return ResponseEntity.ok().body(mpd.readUser("Jason").getEmail());
   }
   
   @GetMapping("/checkItinerary")
@@ -182,8 +176,10 @@ public class MainController {
     List<String> activities = new ArrayList<>();
     activities.add("nature and parks");
     activities.add("malls");
-    itin.setMethodsOfTrans(trans);
-    itin.setActivities(activities);
+    //itin.setMethodsOfTrans(trans);
+    //itin.setActivities(activities);
+    itin.setMethodsOfTrans(body.getMethodsOfTrans());
+    itin.setActivities(body.getActivities());
 
     itin.createItinerary(this.user);
 
@@ -239,7 +235,7 @@ public class MainController {
     activities.add("aquarium");
     activities.add("art gallery");
 
-    maps.getEvents(start, end, lat, ltd, distance, activities, budget);
+    //maps.getEvents(start, end, lat, ltd, distance, activities, budget);
 
     List<String> methods = new ArrayList<String>();
     methods.add("Transit");
@@ -284,8 +280,9 @@ public class MainController {
     trans.add("Drive");
     trans.add("Transit");
 
-    List<Event> events = gm.getEvents(startTime, endTime, lat, ltd, maxDist, activities, budget);
-    return ResponseEntity.ok().body(events);
+    //List<Event> events = gm.getEvents(startTime, endTime, lat, ltd, maxDist, activities, budget);
+    //return ResponseEntity.ok().body(events);
+    return null;
   }
   // @GetMapping("/dummy1")
   // public void dummy1(@RequestBody )
@@ -298,7 +295,16 @@ public class MainController {
 
   @PostMapping("/addEvent")
   public ResponseEntity<?> addEvent(@RequestBody Event event) {
-    itin.addEvent(event);
+    user.getItinerary().addEvent(event);
+    mpd.updateUser(user);
+    return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("/addEvent2")
+  public ResponseEntity<?> addEvent2(@RequestBody Map<String, String> body) {
+    Event e = GoogleMaps.getEventByID(body.get("eventId"));
+    e.setStartTime(new Time(body.get("startTime")));
+    user.getItinerary().addEvent(e);
     mpd.updateUser(user);
     return ResponseEntity.ok().build();
   }
@@ -311,7 +317,35 @@ public class MainController {
   @PutMapping("/deleteEvent")
   public ResponseEntity<?> deleteEvent(@RequestBody Map<String, String> body) {
     String eventId = new String(body.get("eventId"));
-    itin.deleteEvent(eventId);
+    user.getItinerary().deleteEvent(eventId);
+    mpd.updateUser(user);
+    return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("/addRating")
+  public ResponseEntity<?> addRating(@RequestBody Map<String, String> body) {
+    user.getEventRatings().put(body.get("eventId"), Integer.parseInt(body.get("rating")));
+    mpd.updateUser(user);
+    return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("/deleteRating")
+  public ResponseEntity<?> deleteRating(@RequestBody Map<String, String> body) {
+    user.getEventRatings().remove(body.get("eventId"));
+    mpd.updateUser(user);
+    return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("/addVisitedEvent")
+  public ResponseEntity<?> addVisitedEvent(@RequestBody Map<String, String> body) {
+    user.getVisitedEvents().add(body.get("eventId"));
+    mpd.updateUser(user);
+    return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("/deleteVisitedEvent")
+  public ResponseEntity<?> deleteVisitedEvent(@RequestBody Map<String, String> body) {
+    user.getVisitedEvents().remove(body.get("eventId"));
     mpd.updateUser(user);
     return ResponseEntity.ok().build();
   }
@@ -355,9 +389,18 @@ public class MainController {
 
   @PutMapping("/login")
   public void login(@RequestBody User body) {
-    // this.user = userService.getUser(body.getUsername());
     this.user = mpd.readUser(body.getUsername());
-    System.out.println(this.user.getUsername());
+  }
+
+  @GetMapping("/checkPw")
+  public boolean checkPw(@RequestBody User body) {
+    User user = mpd.readUser(body.getUsername());
+    if(user.getPassword().equals(body.getPassword())){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
   
   @PutMapping("/register")
@@ -365,6 +408,8 @@ public class MainController {
     this.user = new User();
     this.itin = this.user.getItinerary();
     this.user.setUsername(body.getUsername());
+    this.user.setPassword(body.getPassword());
+    this.user.setEmail(body.getEmail());
     mpd.createUser(this.user);
     // userService.addUser(user);
   }
@@ -422,8 +467,8 @@ public class MainController {
     Map<String, Integer> eventRatings = new HashMap<>();
     eventRatings.put("1", 2);
     eventRatings.put("2", 5);
-    User u = new User("UN1", visitedEvents, eventRatings, i);
-    mpd.createUser(u);
+    //User u = new User("UN1", visitedEvents, eventRatings, i);
+    //mpd.createUser(u);
   }
 
   @GetMapping("/post")

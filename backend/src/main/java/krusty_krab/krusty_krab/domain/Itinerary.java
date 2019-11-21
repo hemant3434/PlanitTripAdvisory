@@ -37,7 +37,7 @@ public class Itinerary {
         // Gets every event that satisfies the given filters
         //List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getItinDistLeft(), this.getActivities(), maxPriceRange);
 
-        List<Event> events = gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getMaxDist(), this.getActivities(), maxPriceRange);
+        List<Event> events = gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getMaxDist(), this.getActivities(), maxPriceRange, user.getVisitedEvents(), this.getVisitedEvents());
         // Gets event with highest score of all events received
         Event bestEvent = new Event();
         float bestScore = 100;
@@ -49,7 +49,7 @@ public class Itinerary {
             Time timeAfterEvent = this.getItinCurTime().add(transpThere.getExpectedLength()).add(e.getExpectedLength());
             Transportation transpBack = gm.getTransportation(e.getId(), getHome(), timeAfterEvent, this.getMethodsOfTrans());
             Time endTime = timeAfterEvent.add(transpBack.getExpectedLength());
-            if(!this.getVisitedEvents().contains(e.getLocation()) && endTime.isLessThan(this.getEndTime())){
+            if(endTime.isLessThan(this.getEndTime())){
                 curScore = e.getScore(this.getItinCurTime(), this.getItinCurLoc(), gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans());
                 if(curScore < bestScore) {
                     bestEvent = e;
@@ -330,7 +330,7 @@ public class Itinerary {
         List<String> visitedEvents = new ArrayList<>();
     	for(ItineraryItem i:this.getItin()){
     	    if(i instanceof Event){
-    	        visitedEvents.add(((Event)i).getLocation());
+    	        visitedEvents.add(((Event)i).getId());
             }
         }
         return visitedEvents;

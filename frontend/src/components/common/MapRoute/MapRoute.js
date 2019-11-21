@@ -1,72 +1,50 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet , View} from 'react-native';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import Geocoder from 'react-native-geocoding';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
-<<<<<<< HEAD
-const LATITUDE = 37.771707;
-const LONGITUDE = -122.4053769;
-=======
 const LATITUDE = 43.6532;
 const LONGITUDE = -79.3832;
->>>>>>> f0ca4c1b9275c4154d4ca9092a2e2eaff9da0704
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const OUR_KEY = 'AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc';
 
-const GOOGLE_MAPS_APIKEY = '...';
-
 class MapRoute extends Component {
 
   constructor(props) {
     super(props);
-<<<<<<< HEAD
-
-    // AirBnB's Office, and Apple Park
-    this.state = {
-      coordinates: [
-        {
-          place_id: this.props.startId,
-        },
-        {
-          place_id: this.props.endId,
-        },
-      ],
-    };
-
-    this.mapView = null;
-=======
-    console.log("PROPS", this.props);
-    // AirBnB's Office, and Apple Park
     this.state = {
       coordinates: []
     };
     this.populateState(this.props.common);
-    console.log(this.state);
   }
 
   async populateState(Array){
     await Array.forEach(Event => {
-      console.log("EVENTS!", Event);
+      Geocoder.init(OUR_KEY);
       if(Event.type == "event"){
-        this.state = {
-          coordinates: [...this.state.coordinates, { latitude: Event.latitude,
-          longitude: Event.longitude } ]
-        }
+        Geocoder.from(Event.location)
+        .then(json => {
+            var location = json.results[0].geometry.location;
+            this.state = {
+              coordinates: [...this.state.coordinates, { latitude: location.lat,
+              longitude: location.lng } ]
+            }
+        }).catch(error => console.warn(error));
       }
     })
-    console.log(this.state);
->>>>>>> f0ca4c1b9275c4154d4ca9092a2e2eaff9da0704
+
   }
 
   onMapPress = (e) => {
     this.setState({
       coordinates: [
         ...this.state.coordinates,
-        e.nativeEvent.coordinate,
+        //e.nativeEvent.coordinate,
       ],
     });
   }
@@ -92,11 +70,8 @@ class MapRoute extends Component {
             origin={this.state.coordinates[0]}
             waypoints={ (this.state.coordinates.length > 2) ? this.state.coordinates.slice(1, -1): null}
             destination={this.state.coordinates[this.state.coordinates.length-1]}
-<<<<<<< HEAD
-            // apikey={OUR_KEY}
-=======
             apikey={OUR_KEY}
->>>>>>> f0ca4c1b9275c4154d4ca9092a2e2eaff9da0704
+            resetOnChange={false}
             strokeWidth={3}
             strokeColor="blue"
             optimizeWaypoints={true}
@@ -117,7 +92,6 @@ class MapRoute extends Component {
               });
             }}
             onError={(errorMessage) => {
-              // console.log('GOT AN ERROR');
             }}
           />
         )}
