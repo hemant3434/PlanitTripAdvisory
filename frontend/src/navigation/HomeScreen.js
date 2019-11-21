@@ -40,7 +40,7 @@ class HomeScreen extends React.Component {
             this.setState({step: 4});
             return 1;
         }
-        return -1
+        return -1;
     };
     
     onRegisterPressed = (name, email, password) => {
@@ -52,7 +52,7 @@ class HomeScreen extends React.Component {
                 return 1;
             }
         });
-        return -1
+        return -1;
     };
 
     toHomePage = () => {

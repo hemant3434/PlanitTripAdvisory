@@ -30,7 +30,7 @@ const RegisterScreen = (props) => {
       return;
     }
 
-    if (props.onLoginPressed(name.value, email.value, password.value) == -1) {
+    if (props.onRegisterPressed(name.value, email.value, password.value) == -1) {
         setEmail({ ...email, error: "Invalid account details!" });
         setPassword({ ...password, error: "Invalid account details!" });
         return;
