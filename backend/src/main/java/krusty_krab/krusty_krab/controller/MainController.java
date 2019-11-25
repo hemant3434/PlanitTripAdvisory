@@ -91,8 +91,8 @@ public class MainController {
     float distance = 20f;
 
     List<String> activities = new ArrayList<String>();
-    activities.add("aquarium");
-    activities.add("art gallery");
+    activities.add("Historical Sites");
+    activities.add("Bars/Clubs");
 
     List<String> trans = new ArrayList<String>();
     trans.add("Drive");

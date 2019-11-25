@@ -23,15 +23,73 @@ public class GoogleMaps {
   private final float WALK_DISTANCE = 3, BIKE_DISTANCE = 7, TRANSIT_DISTANCE = 15;
 
   private static GeoApiContext KEY = null;
-
+  public static Map<String, ArrayList<PlaceType>> act_map = null;
   public GoogleMaps() {
     if (KEY == null) {
       // KrustyKrab: AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc
       // Hemant: AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8
       KEY = new GeoApiContext.Builder().apiKey("AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc").build();
     }
+    if(act_map == null) {
+      act_map = new HashMap<String, ArrayList<PlaceType>>();
+      fillActMap();
+    }
   }
+  
+  private static void fillActMap() {
+    ArrayList<PlaceType> obj = new ArrayList<PlaceType>();
+    obj.add(PlaceType.AMUSEMENT_PARK);
+    obj.add(PlaceType.CAMPGROUND);
+    obj.add(PlaceType.PARK);
+    obj.add(PlaceType.RV_PARK);
+    act_map.put("Parks/Amusement Parks", obj);
+    
+    obj.clear();
+    obj.add(PlaceType.BAKERY);
+    obj.add(PlaceType.MEAL_DELIVERY);
+    obj.add(PlaceType.MEAL_TAKEAWAY);
+    obj.add(PlaceType.RESTAURANT);
+    obj.add(PlaceType.CAFE);
+    act_map.put("Food/Restaurants", obj);
 
+    obj.clear();
+    obj.add(PlaceType.AQUARIUM);
+    obj.add(PlaceType.CITY_HALL);
+    obj.add(PlaceType.LIBRARY);
+    obj.add(PlaceType.LOCAL_GOVERNMENT_OFFICE);
+    obj.add(PlaceType.ZOO);
+    obj.add(PlaceType.UNIVERSITY);
+    obj.add(PlaceType.SHOPPING_MALL);
+    obj.add(PlaceType.ART_GALLERY);
+    obj.add(PlaceType.PAINTER);
+    obj.add(PlaceType.MUSEUM);
+    act_map.put("Tourist Attractions", obj);
+    
+    obj.clear();
+    obj.add(PlaceType.CASINO);
+    obj.add(PlaceType.BOWLING_ALLEY);
+    act_map.put("Entertainment", obj);
+    
+    obj.clear();
+    obj.add(PlaceType.BOOK_STORE);
+    obj.add(PlaceType.DEPARTMENT_STORE);
+    obj.add(PlaceType.CLOTHING_STORE);
+    obj.add(PlaceType.CONVENIENCE_STORE);
+    act_map.put("Shopping ", obj);
+    
+    obj.clear();
+    obj.add(PlaceType.NIGHT_CLUB);
+    obj.add(PlaceType.BAR);
+    obj.add(PlaceType.LIQUOR_STORE);
+    act_map.put("Bars/Clubs", obj);
+    
+    obj.clear();
+    obj.add(PlaceType.SYNAGOGUE);
+    obj.add(PlaceType.CHURCH);
+    obj.add(PlaceType.LIQUOR_STORE);
+    act_map.put("Historical Sites", obj);
+  }
+  
   public static Instant getInstant(Time start) {
 
     long seconds_start = start.toMinutes() * 60;
