@@ -393,10 +393,10 @@ public class GoogleMaps {
     }
   }
 
-  public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
+  public List<Event> getEvents1(Time startTime, Time endTime, double lat, double ltd, float maxDist,
       List<String> activities, float budget, List<String> visitedEvents, List<String> itinEvents)  throws ApiException, InterruptedException, IOException {
     List<Event> events = new ArrayList<Event>();
-
+/*
     // initialize variables
     ArrayList<String> place_ids = null;
     NearbySearchRequest all_events = null;
@@ -462,7 +462,7 @@ public class GoogleMaps {
           }
         }
       }
-    }
+    }*/
     /*
      *
      * Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aquarium", 5, 2,
