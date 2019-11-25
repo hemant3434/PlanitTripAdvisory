@@ -83,8 +83,8 @@ public class MainController {
   @GetMapping("/getDummy2")
   public ResponseEntity<?> getDummy2(@RequestBody Map<String, Object> body) throws Exception {
 
-    Time start = new Time(2019, 11, 9, 5, 00, true);
-    Time end = new Time(2019, 11, 9, 24, 00, true);
+    Time start = new Time(2019, 11, 24, 8, 00, true);
+    Time end = new Time(2019, 11, 24, 24, 00, true);
     double lat = 43.645474;
     double ltd = -79.380922;
     float budget = 150f;
@@ -110,14 +110,14 @@ public class MainController {
     itin.setMethodsOfTrans(trans);
     itin.setActivities(activities);
 
-    // itin.createItinerary(this.user);
-    /*List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget);
+    //itin.createItinerary(this.user);
+    List<Event> events = gm.getEvents(start, end, lat, ltd, distance, activities, budget, null, null);
     for (Event e : events) {
       System.out.println(e.getLocation());
-      // mpd.createEvent(e);
+      //mpd.createEvent(e);
     }
-    return ResponseEntity.ok().body(null);*/
-    return null;
+    return ResponseEntity.ok().body(events);
+    //return null;
   }
 
   @GetMapping("/getDummy3")
