@@ -152,7 +152,7 @@ public class GoogleMaps {
       List<String> methods) {
     List<Transportation> obj = new ArrayList<Transportation>();
 
-    for (String i : methods) {
+    /*for (String i : methods) {
       if (i.equals("Bike")) {
         DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
             .destinationPlaceId(loc2).mode(TravelMode.BICYCLING);
@@ -210,8 +210,8 @@ public class GoogleMaps {
         obj.add(getTransObject(rou, startTime, i));
       }
     }
-    return chooseTransportation(obj);
-    //return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
+    return chooseTransportation(obj);*/
+    return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
   }
 
   public static int filterByPrice(float budget, float price) {
@@ -451,10 +451,10 @@ public class GoogleMaps {
     }
   }
 
-  public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
+  public List<Event> getEvents1(Time startTime, Time endTime, double lat, double ltd, float maxDist,
       List<String> activities, float budget, List<String> visitedEvents, List<String> itinEvents)  throws ApiException, InterruptedException, IOException {
     List<Event> events = new ArrayList<Event>();
-
+/*
     // initialize variables
     ArrayList<String> place_ids = null;
     NearbySearchRequest all_events = null;
@@ -520,7 +520,7 @@ public class GoogleMaps {
           }
         }
       }
-    }
+    }*/
     /*
      *
      * Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aquarium", 5, 2,
@@ -542,7 +542,7 @@ public class GoogleMaps {
     return events;
   }
 
-  public List<Event> getEvents1(Time startTime, Time endTime, double lat, double ltd, float maxDist,
+  public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
                                List<String> activities, float budget, List<String> visitedEvents, List<String> itinEvents) {
     List<Event> events = new ArrayList<Event>();
     events = GoogleMaps.getEventsFromMongo();

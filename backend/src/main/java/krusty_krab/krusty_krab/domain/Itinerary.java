@@ -38,19 +38,8 @@ public class Itinerary {
         // Gets every event that satisfies the given filters
         //List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getItinDistLeft(), this.getActivities(), maxPriceRange);
 
-        List<Event> events = null;
-        try {
-          events = gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getMaxDist(), this.getActivities(), maxPriceRange, user.getVisitedEvents(), this.getVisitedEvents());
-        } catch (ApiException e1) {
-          // TODO Auto-generated catch block
-          e1.printStackTrace();
-        } catch (InterruptedException e1) {
-          // TODO Auto-generated catch block
-          e1.printStackTrace();
-        } catch (IOException e1) {
-          // TODO Auto-generated catch block
-          e1.printStackTrace();
-        }
+        List<Event> events = gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getMaxDist(), this.getActivities(), maxPriceRange, user.getVisitedEvents(), this.getVisitedEvents());
+
         // Gets event with highest score of all events received
         Event bestEvent = new Event();
         float bestScore = 100;
