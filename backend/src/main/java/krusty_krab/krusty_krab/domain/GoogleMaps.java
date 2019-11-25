@@ -24,72 +24,75 @@ public class GoogleMaps {
 
   private static GeoApiContext KEY = null;
   public static Map<String, ArrayList<PlaceType>> act_map = null;
+
   public GoogleMaps() {
     if (KEY == null) {
       // KrustyKrab: AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc
       // Hemant: AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8
       KEY = new GeoApiContext.Builder().apiKey("AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc").build();
     }
-    if(act_map == null) {
+    if (act_map == null) {
       act_map = new HashMap<String, ArrayList<PlaceType>>();
       fillActMap();
     }
   }
-  
-  private static void fillActMap() {
+
+  private static void fillActMap() {  
     ArrayList<PlaceType> obj = new ArrayList<PlaceType>();
     obj.add(PlaceType.AMUSEMENT_PARK);
     obj.add(PlaceType.CAMPGROUND);
     obj.add(PlaceType.PARK);
     obj.add(PlaceType.RV_PARK);
-    act_map.put("Parks/Amusement Parks", obj);
-    
-    obj.clear();
-    obj.add(PlaceType.BAKERY);
-    obj.add(PlaceType.MEAL_DELIVERY);
-    obj.add(PlaceType.MEAL_TAKEAWAY);
-    obj.add(PlaceType.RESTAURANT);
-    obj.add(PlaceType.CAFE);
-    act_map.put("Food/Restaurants", obj);
+    act_map.put("Parks/Amusement Parks",obj);
 
-    obj.clear();
-    obj.add(PlaceType.AQUARIUM);
-    obj.add(PlaceType.CITY_HALL);
-    obj.add(PlaceType.LIBRARY);
-    obj.add(PlaceType.LOCAL_GOVERNMENT_OFFICE);
-    obj.add(PlaceType.ZOO);
-    obj.add(PlaceType.UNIVERSITY);
-    obj.add(PlaceType.SHOPPING_MALL);
-    obj.add(PlaceType.ART_GALLERY);
-    obj.add(PlaceType.PAINTER);
-    obj.add(PlaceType.MUSEUM);
-    act_map.put("Tourist Attractions", obj);
+    ArrayList<PlaceType> obj2 = new ArrayList<PlaceType>();
+    obj2.clear();
+    obj2.add(PlaceType.BAKERY);
+    obj2.add(PlaceType.MEAL_DELIVERY);
+    obj2.add(PlaceType.MEAL_TAKEAWAY);
+    obj2.add(PlaceType.RESTAURANT);
+    obj2.add(PlaceType.CAFE);
+    act_map.put("Food/Restaurants", obj2);
+
+    ArrayList<PlaceType> obj3 = new ArrayList<PlaceType>();
+    obj3.add(PlaceType.AQUARIUM);
+    obj3.add(PlaceType.CITY_HALL);
+    obj3.add(PlaceType.LIBRARY);
+    obj3.add(PlaceType.LOCAL_GOVERNMENT_OFFICE);
+    obj3.add(PlaceType.ZOO);
+    obj3.add(PlaceType.UNIVERSITY);
+    obj3.add(PlaceType.SHOPPING_MALL);
+    obj3.add(PlaceType.ART_GALLERY);
+    obj3.add(PlaceType.PAINTER);
+    obj3.add(PlaceType.MUSEUM);
+    act_map.put("Tourist Attractions", obj3);
     
-    obj.clear();
-    obj.add(PlaceType.CASINO);
-    obj.add(PlaceType.BOWLING_ALLEY);
-    act_map.put("Entertainment", obj);
+    ArrayList<PlaceType> obj4 = new ArrayList<PlaceType>();
+    obj4.clear();
+    obj4.add(PlaceType.CASINO);
+    obj4.add(PlaceType.BOWLING_ALLEY);
+    act_map.put("Entertainment", obj4);
     
-    obj.clear();
-    obj.add(PlaceType.BOOK_STORE);
-    obj.add(PlaceType.DEPARTMENT_STORE);
-    obj.add(PlaceType.CLOTHING_STORE);
-    obj.add(PlaceType.CONVENIENCE_STORE);
-    act_map.put("Shopping ", obj);
+    ArrayList<PlaceType> obj5 = new ArrayList<PlaceType>();
+    obj5.add(PlaceType.BOOK_STORE);
+    obj5.add(PlaceType.DEPARTMENT_STORE);
+    obj5.add(PlaceType.CLOTHING_STORE);
+    obj5.add(PlaceType.CONVENIENCE_STORE);
+    act_map.put("Shopping", obj5);
     
-    obj.clear();
-    obj.add(PlaceType.NIGHT_CLUB);
-    obj.add(PlaceType.BAR);
-    obj.add(PlaceType.LIQUOR_STORE);
-    act_map.put("Bars/Clubs", obj);
+    ArrayList<PlaceType> obj6 = new ArrayList<PlaceType>();
+    obj6.clear();
+    obj6.add(PlaceType.NIGHT_CLUB);
+    obj6.add(PlaceType.BAR);
+    obj6.add(PlaceType.LIQUOR_STORE);
+    act_map.put("Bars/Clubs", obj6);
     
-    obj.clear();
-    obj.add(PlaceType.SYNAGOGUE);
-    obj.add(PlaceType.CHURCH);
-    obj.add(PlaceType.LIQUOR_STORE);
-    act_map.put("Historical Sites", obj);
+    ArrayList<PlaceType> obj7 = new ArrayList<PlaceType>();
+    obj7.add(PlaceType.SYNAGOGUE);
+    obj7.add(PlaceType.CHURCH);
+    act_map.put("Historical Sites", obj7);
   }
-  
+
   public static Instant getInstant(Time start) {
 
     long seconds_start = start.toMinutes() * 60;
@@ -152,66 +155,36 @@ public class GoogleMaps {
       List<String> methods) {
     List<Transportation> obj = new ArrayList<Transportation>();
 
-    /*for (String i : methods) {
-      if (i.equals("Bike")) {
-        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
-            .destinationPlaceId(loc2).mode(TravelMode.BICYCLING);
-        DirectionsResult res = null;
-        try {
-          res = req.await();
-        } catch (Exception e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-
-        DirectionsRoute[] rou = res.routes;
-        obj.add(getTransObject(rou, startTime, i));
-      }
-      if (i.equals("Drive")) {
-        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
-            .destinationPlaceId(loc2).mode(TravelMode.DRIVING);
-        DirectionsResult res = null;
-        try {
-          res = req.await();
-        } catch (Exception e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-
-        DirectionsRoute[] rou = res.routes;
-        obj.add(getTransObject(rou, startTime, i));
-      }
-      if (i.equals("Transit")) {
-        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
-            .destinationPlaceId(loc2).mode(TravelMode.TRANSIT).departureTime(getInstant(startTime))
-            .transitMode(TransitMode.BUS);
-        DirectionsResult res = null;
-        try {
-          res = req.await();
-        } catch (Exception e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-        DirectionsRoute[] rou = res.routes;
-        obj.add(getTransObject(rou, startTime, i));
-      }
-      if (i.equals("Walk")) {
-        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
-            .destinationPlaceId(loc2).mode(TravelMode.WALKING);
-        DirectionsResult res = null;
-        try {
-          res = req.await();
-        } catch (Exception e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-
-        DirectionsRoute[] rou = res.routes;
-        obj.add(getTransObject(rou, startTime, i));
-      }
-    }
-    return chooseTransportation(obj);*/
-    return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)), new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
+    /*
+     * for (String i : methods) { if (i.equals("Bike")) { DirectionsApiRequest req =
+     * DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
+     * .destinationPlaceId(loc2).mode(TravelMode.BICYCLING); DirectionsResult res = null; try { res
+     * = req.await(); } catch (Exception e) { // TODO Auto-generated catch block
+     * e.printStackTrace(); }
+     * 
+     * DirectionsRoute[] rou = res.routes; obj.add(getTransObject(rou, startTime, i)); } if
+     * (i.equals("Drive")) { DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "",
+     * "").originPlaceId(loc1) .destinationPlaceId(loc2).mode(TravelMode.DRIVING); DirectionsResult
+     * res = null; try { res = req.await(); } catch (Exception e) { // TODO Auto-generated catch
+     * block e.printStackTrace(); }
+     * 
+     * DirectionsRoute[] rou = res.routes; obj.add(getTransObject(rou, startTime, i)); } if
+     * (i.equals("Transit")) { DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "",
+     * "").originPlaceId(loc1)
+     * .destinationPlaceId(loc2).mode(TravelMode.TRANSIT).departureTime(getInstant(startTime))
+     * .transitMode(TransitMode.BUS); DirectionsResult res = null; try { res = req.await(); } catch
+     * (Exception e) { // TODO Auto-generated catch block e.printStackTrace(); } DirectionsRoute[]
+     * rou = res.routes; obj.add(getTransObject(rou, startTime, i)); } if (i.equals("Walk")) {
+     * DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
+     * .destinationPlaceId(loc2).mode(TravelMode.WALKING); DirectionsResult res = null; try { res =
+     * req.await(); } catch (Exception e) { // TODO Auto-generated catch block e.printStackTrace();
+     * }
+     * 
+     * DirectionsRoute[] rou = res.routes; obj.add(getTransObject(rou, startTime, i)); } } return
+     * chooseTransportation(obj);
+     */
+    return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)),
+        new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
   }
 
   public static int filterByPrice(float budget, float price) {
@@ -222,31 +195,53 @@ public class GoogleMaps {
   }
 
   public static int filterByTime(Time currentTime, Time expectedLength, Time[] timeArray) {
-	  // close time at index 1, open time at index 0
-	  // return 0 if good, return >0 for bad
-	  
-	  //Time eventOpenTime = timeArray[0];
-	  Time eventCloseTime = timeArray[1];
-	  return eventCloseTime.getDifference(currentTime).isLessThan(expectedLength) ? 0 : 1;
+    // close time at index 1, open time at index 0
+    // return 0 if good, return >0 for bad
+
+    // Time eventOpenTime = timeArray[0];
+    Time eventCloseTime = timeArray[1];
+    return eventCloseTime.getDifference(currentTime).isLessThan(expectedLength) ? 0 : 1;
   }
 
-  public static int filterByVisited(String id, List<String> visitedEvents, List<String> itinEvents){
-    if(visitedEvents.contains(id) || itinEvents.contains(id)){
+  public static int filterByVisited(String id, List<String> visitedEvents,
+      List<String> itinEvents) {
+    if (visitedEvents.contains(id) || itinEvents.contains(id)) {
       return 100;
     }
     return 0;
   }
 
-  public static int filterByActivity(String[] eventActivities, List<String>userActivities){
-    for(String eventActivity:eventActivities){
-      if(userActivities.contains(eventActivity)){
+  public static int filterByActivity(String[] eventActivities, List<String> userActivities) {
+    for (String eventActivity : eventActivities) {
+      if (userActivities.contains(eventActivity)) {
         return 0;
       }
     }
     return 100;
   }
 
-  public static float getPriceLevel(PriceLevel obj) {
+  public static float getPriceLevelUnknown(PriceLevel obj, AddressType[] r, String user) {
+    float price = -1;
+
+    if (user.equals("Parks/Amusement Parks")) {
+      price = 3;
+    } else if (user.equals("Food/Restaurants")) {
+      price = 2;
+    } else if (user.equals("Tourist Attractions")) {
+      price = 3;
+    } else if (user.equals("Entertainment")) {
+      price = 2;
+    } else if (user.equals("Shopping")) {
+      price = 4;
+    } else if (user.equals("Bars/Clubs")) {
+      price = 4;
+    } else if (user.equals("Historical Sites")) {
+      price = 0;
+    }
+    return price;
+  }
+
+  public static float getPriceLevel(PriceLevel obj, AddressType[] r, String user) {
     float price = -1;
 
     if (obj == PriceLevel.FREE) {
@@ -260,7 +255,7 @@ public class GoogleMaps {
     } else if (obj == PriceLevel.VERY_EXPENSIVE) {
       price = 4;
     } else if (obj == PriceLevel.UNKNOWN) {
-      price = 0;
+      price = getPriceLevelUnknown(obj, r, user);
     }
 
 
@@ -270,7 +265,7 @@ public class GoogleMaps {
   // index 0 - closing time
   // index 1 - start time
   public static Time[] getTime(OpeningHours hours, Time time) {
-    
+
     Date date = new Date();
     date.setYear(time.getYear());
     date.setMonth(time.getMonth() - 1);
@@ -371,90 +366,114 @@ public class GoogleMaps {
 
   public void initializeDatabase() throws ApiException, InterruptedException, IOException {
 
-    // Data filters
-    Time startTime = new Time(2019, 11, 15, 21, 00, true);
-    Time endTime = new Time(2019, 11, 15, 24, 00, true);
-    double lat = 43.645474;
-    double ltd = -79.380922;
-    float budget = 150f;
-    float maxDist = 40f;
+    // // Data filters
+    // Time startTime = new Time(2019, 11, 15, 21, 00, true);
+    // Time endTime = new Time(2019, 11, 15, 24, 00, true);
+    // double lat = 43.645474;
+    // double ltd = -79.380922;
+    // float budget = 150f;
+    // float maxDist = 40f;
+    //
+    // List<String> activities = new ArrayList<String>();
+    // activities.add("aquarium");
+    // activities.add("art gallery");
+    //
+    // // initialize variables
+    // ArrayList<String> place_ids = null;
+    // NearbySearchRequest all_events = null;
+    // PlacesSearchResult results[];
+    // PlacesSearchResponse obj;
+    // String nextToken = null;
+    //
+    // LatLng cur_loc = new LatLng((double) lat, (double) ltd);
+    // all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000))
+    // .type(PlaceType.RESTAURANT);
+    //
+    // Thread.sleep(6000);
+    //
+    //
+    // obj = all_events.awaitIgnoreError();
+    // nextToken = obj.nextPageToken;
+    //
+    // System.out.println(nextToken);
+    // results = obj.results;
+    // place_ids = new ArrayList<String>();
+    // for (PlacesSearchResult i : results) {
+    // place_ids.add(i.placeId);
+    // }
+    // Thread.sleep(6000);
+    //
+    // while (nextToken != null) {
+    // all_events = PlacesApi.nearbySearchNextPage(KEY, nextToken);
+    // Thread.sleep(6000);
+    //
+    // obj = all_events.await();
+    // results = obj.results;
+    // for (PlacesSearchResult i : results) {
+    // place_ids.add(i.placeId);
+    // }
+    // System.out.println("hello");
+    // nextToken = obj.nextPageToken;
+    // }
+    //
+    // for (String i : place_ids) {
+    // PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
+    // PlaceDetails r = null;
+    // try {
+    // r = req.await();
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // }
+    // System.out.println(r.name + "" + Arrays.toString(r.types) + "" + r.priceLevel);
+    // if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
+    // && r.openingHours != null) {// && r.photos != null && r.url != null
+    //
+    // Time[] times = getTime(r.openingHours, startTime);
+    // if (times != null) {
+    // int first = filterByPrice(budget, getPriceLevel(r.priceLevel, r.types));
+    // int second = filterByTime(startTime, endTime, times);
+    //
+    //
+    // if ((first + second) == 0) {
+    // Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
+    // Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
+    // getPriceLevel(r.priceLevel, r.types), times[0], times[1], new Time(0, 0, 0, 2, 0, true),
+    // getPhoto(r.photos), r.url.toString(), i);
+    // System.out.println(e.getLocation());
+    // GoogleMaps.storeEventInMongo(e);
+    // }
+    // }
+    // }
+    // }
+  }
 
-    List<String> activities = new ArrayList<String>();
-    activities.add("aquarium");
-    activities.add("art gallery");
 
-    // initialize variables
-    ArrayList<String> place_ids = null;
-    NearbySearchRequest all_events = null;
-    PlacesSearchResult results[];
-    PlacesSearchResponse obj;
-    String nextToken = null;
+  public static Time getExpectedLength(String user) {
+    Time length = null;
 
-    LatLng cur_loc = new LatLng((double) lat, (double) ltd);
-    all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000)).type(PlaceType.RESTAURANT);
-
-    Thread.sleep(6000);
-
-
-    obj = all_events.awaitIgnoreError();
-    nextToken = obj.nextPageToken;
-
-    System.out.println(nextToken);
-    results = obj.results;
-    place_ids = new ArrayList<String>();
-    for (PlacesSearchResult i : results) {
-      place_ids.add(i.placeId);
+    if (user.equals("Parks/Amusement Parks")) {
+      length = new Time(0, 0, 0, 6, 0, true);
+    } else if (user.equals("Food/Restaurants")) {
+      length = new Time(0, 0, 0, 1, 0, true);
+    } else if (user.equals("Tourist Attractions")) {
+      length = new Time(0, 0, 0, 2, 0, true);
+    } else if (user.equals("Entertainment")) {
+      length = new Time(0, 0, 0, 1, 0, true);
+    } else if (user.equals("Shopping")) {
+      length = new Time(0, 0, 0, 2, 0, true);
+    } else if (user.equals("Bars/Clubs")) {
+      length = new Time(0, 0, 0, 2, 0, true);
+    } else if (user.equals("Historical Sites")) {
+      length = new Time(0, 0, 0, 0, 30, true);
     }
-    Thread.sleep(6000);
-
-    while (nextToken != null) {
-      all_events = PlacesApi.nearbySearchNextPage(KEY, nextToken);
-      Thread.sleep(6000);
-
-      obj = all_events.await();
-      results = obj.results;
-      for (PlacesSearchResult i : results) {
-        place_ids.add(i.placeId);
-      }
-      System.out.println("hello");
-      nextToken = obj.nextPageToken;
-    }
-
-    for (String i : place_ids) {
-      PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
-      PlaceDetails r = null;
-      try {
-        r = req.await();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-      System.out.println(r.name + "" + Arrays.toString(r.types) + "" + r.priceLevel);
-      if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
-          && r.openingHours != null) {// && r.photos != null && r.url != null
-
-        Time[] times = getTime(r.openingHours, startTime);
-        if (times != null) {
-          int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
-          int second = filterByTime(startTime, endTime, times);
-
-
-          if ((first + second) == 0) {
-            Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
-                Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
-                getPriceLevel(r.priceLevel), times[0], times[1], new Time(0, 0, 0, 2, 0, true),
-                getPhoto(r.photos), r.url.toString(), i);
-            System.out.println(e.getLocation());
-            GoogleMaps.storeEventInMongo(e);
-          }
-        }
-      }
-    }
+    return length;
   }
 
   public List<Event> getEvents1(Time startTime, Time endTime, double lat, double ltd, float maxDist,
-      List<String> activities, float budget, List<String> visitedEvents, List<String> itinEvents)  throws ApiException, InterruptedException, IOException {
+      List<String> activities, float budget, List<String> visitedEvents, List<String> itinEvents)
+      throws ApiException, InterruptedException, IOException {
     List<Event> events = new ArrayList<Event>();
-/*
+
     // initialize variables
     ArrayList<String> place_ids = null;
     NearbySearchRequest all_events = null;
@@ -463,64 +482,82 @@ public class GoogleMaps {
     String nextToken = null;
 
     LatLng cur_loc = new LatLng((double) lat, (double) ltd);
-    all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000)).type(PlaceType.RESTAURANT);
 
-    Thread.sleep(6000);
+    for (String userAct : activities) {
+      for (PlaceType diff : act_map.get(userAct)) {
+        System.out.println("place mapping: "+diff);
+        all_events =
+            PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000)).type(diff);
 
-
-    obj = all_events.awaitIgnoreError();
-    nextToken = obj.nextPageToken;
-
-    System.out.println(nextToken);
-    results = obj.results;
-    place_ids = new ArrayList<String>();
-    for (PlacesSearchResult i : results) {
-      place_ids.add(i.placeId);
-    }
-    Thread.sleep(6000);
-
-    while (nextToken != null) {
-      all_events = PlacesApi.nearbySearchNextPage(KEY, nextToken);
-      Thread.sleep(6000);
-
-      obj = all_events.await();
-      results = obj.results;
-      for (PlacesSearchResult i : results) {
-        place_ids.add(i.placeId);
-      }
-      System.out.println("hello");
-      nextToken = obj.nextPageToken;
-    }
-
-    for (String i : place_ids) {
-      PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
-      PlaceDetails r = null;
-      try {
-        r = req.await();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-      System.out.println(r.name + "" + Arrays.toString(r.types) + "" + r.priceLevel);
-      if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
-          && r.openingHours != null) {// && r.photos != null && r.url != null
-
-        Time[] times = getTime(r.openingHours, startTime);
-        if (times != null) {
-          int first = filterByPrice(budget, getPriceLevel(r.priceLevel));
-          int second = filterByTime(startTime, endTime, times);
+        Thread.sleep(6000);
 
 
-          if ((first + second) == 0) {
-            Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
-                Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
-                getPriceLevel(r.priceLevel), times[0], times[1], new Time(0, 0, 0, 2, 0, true),
-                getPhoto(r.photos), r.url.toString(), i);
-            System.out.println(e.getLocation());
-            events.add(e);
+        obj = all_events.awaitIgnoreError();
+        nextToken = obj.nextPageToken;
+
+        System.out.println("extra result token (null if not): "+nextToken);
+        results = obj.results;
+        place_ids = new ArrayList<String>();
+        for (PlacesSearchResult i : results) {
+          place_ids.add(i.placeId);
+        }
+        Thread.sleep(6000);
+
+        while (nextToken != null) {
+          all_events = PlacesApi.nearbySearchNextPage(KEY, nextToken);
+          Thread.sleep(6000);
+
+          obj = all_events.await();
+          results = obj.results;
+          for (PlacesSearchResult i : results) {
+            place_ids.add(i.placeId);
+          }
+          System.out.println("Loop iteration over page tokens");
+          nextToken = obj.nextPageToken;
+        }
+
+        for (String i : place_ids) {
+          PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
+          PlaceDetails r = null;
+          try {
+            r = req.await();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+          //System.out.println(r.name + "" + Arrays.toString(r.types) + "" + r.priceLevel);
+          if (r.name != null && r.formattedAddress != null && r.types != null
+              && r.priceLevel != null && r.openingHours != null) {
+
+            Time[] times = getTime(r.openingHours, startTime);
+            if (times != null) {
+              int first = filterByPrice(budget, getPriceLevel(r.priceLevel, r.types, userAct));
+              int second = filterByTime(startTime, endTime, times);
+
+
+              if ((first + second) == 0) {
+                Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
+                    Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
+                    getPriceLevel(r.priceLevel, r.types, userAct), times[0], times[1],
+                    getExpectedLength(userAct), getPhoto(r.photos), r.url.toString(), i);
+                // System.out.println(e.getLocation());
+
+                // Check if event already exists
+                boolean check = true;
+                for (Event temp : events) {
+                  if (temp.getId().equals(e.getId())) {
+                    check = false;
+                  }
+                }
+                if (check) {
+                  events.add(e);
+                }
+
+              }
+            }
           }
         }
       }
-    }*/
+    }
     /*
      *
      * Event e1 = new Event("ripley's aquarium", "ripley's aquarium", 43.2, 43.2, "aquarium", 5, 2,
@@ -538,22 +575,23 @@ public class GoogleMaps {
      * "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
      * "If Quebec is Canada's ass...", "4");
      *
-     * events.add(e1); events.add(e2); events.add(e3); events.add(e4);*/
+     * events.add(e1); events.add(e2); events.add(e3); events.add(e4);
+     */
     return events;
   }
 
   public List<Event> getEvents(Time startTime, Time endTime, double lat, double ltd, float maxDist,
-                               List<String> activities, float budget, List<String> visitedEvents, List<String> itinEvents) {
+      List<String> activities, float budget, List<String> visitedEvents, List<String> itinEvents) {
     List<Event> events = new ArrayList<Event>();
     events = GoogleMaps.getEventsFromMongo();
     List<Event> filteredEvents = new ArrayList<>();
-    for(Event e:events){
+    for (Event e : events) {
       int third = filterByVisited(e.getId(), visitedEvents, itinEvents);
       int first = filterByPrice(budget, e.getPrice());
       int second = 0;
       int fourth = filterByActivity(e.getActivity().split(","), activities);
 
-      if(first == 0 && second == 0 && third == 0){
+      if (first == 0 && second == 0 && third == 0) {
         filteredEvents.add(e);
       }
     }
@@ -634,8 +672,7 @@ public class GoogleMaps {
           new Time(0, 0, 0, 2, 0, true),
           "https://www.dailydot.com/wp-content/uploads/2018/10/pikachu_surprised_meme-e1540570767482.png",
           "If Quebec is Canada's ass...", "4");
-    }
-    else{
+    } else {
       MongoDBEventDAO mpd = new MongoDBEventDAO(new MongoClient());
       return mpd.readEvent(id);
     }
