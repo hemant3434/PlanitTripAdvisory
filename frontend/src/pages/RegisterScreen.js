@@ -29,12 +29,17 @@ const RegisterScreen = (props) => {
       setPassword({ ...password, error: passwordError });
       return;
     }
-
-    if (props.onLoginPressed(name.value, email.value, password.value) == -1) {
+    // console.log("going to send request");
+    // console.log(props.a("test", "test", "test"));
+    // console.log("done");
+    if (props.onRegisterPressed(name.value, email.value, password.value) == -1) {
+        // console.log("in");
         setEmail({ ...email, error: "Invalid account details!" });
         setPassword({ ...password, error: "Invalid account details!" });
+        console.log("failed!");
         return;
       }
+    console.log("successful!");
   };
 
   return (

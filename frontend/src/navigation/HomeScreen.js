@@ -10,7 +10,7 @@ import App from '../App.js';
 import axios from 'axios';
 
 const LOGIN = "http://100.80.11.91:8080/api/v1/login";
-const REGISTER = "http://100.80.11.91:8080/api/v1/register";
+const REGISTER = "http://localhost:8080/api/v1/register";
 
 class HomeScreen extends React.Component {
     constructor(props) {
@@ -45,9 +45,11 @@ class HomeScreen extends React.Component {
     
     onRegisterPressed = (name, email, password) => {
         console.log("register:", name, email, password);
-        axios.post(REGISTER, {"username": name, "email": email, "password": password})
+        axios.put(REGISTER, {"username": name, "email": email, "password": password})
         .then(res => {
+            console.log(res);
             if (res.data) {
+                console.log(res.data);
                 this.setState({step: 4})
                 return 1;
             }
