@@ -9,8 +9,10 @@ import RegisterScreen from '../pages/RegisterScreen';
 import App from '../App.js';
 import axios from 'axios';
 
-const LOGIN = "http://100.80.21.98:8080/api/v1/login";
-const REGISTER = "http://100.80.21.98:8080/api/v1/register";
+const ENDPT = "http://192.168.0.102:8080/api/v1/"
+const LOGIN = ENDPT + "login";
+const CHECK = ENDPT + "checkPw";
+const REGISTER = ENDPT + "register";
 
 class HomeScreen extends React.Component {
     constructor(props) {
@@ -28,28 +30,38 @@ class HomeScreen extends React.Component {
 
     onLoginPressed = (email, password) => {
         console.log("login:", email, password);
-        axios.get(LOGIN, {"email": email, "password": password})
-        .then(res => {
-            if (res.data) {
-                this.setState({step: 4})
-                return 1;
-            }
-        });
+
         if (email == "a@a.a") {
             console.log("logging in debug mode");
             this.setState({step: 4});
             return 1;
         }
+
+        axios.post(CHECK, {"email": email, "password": password})
+        .then(res => {
+            if (res.data) {
+                console.log("pw check returns: " + res.data);
+                if (res.data == "valid") {
+                    axios.put(LOGIN, {"email": email})
+                    .then(resp => console.log(resp));
+                    this.setState({step: 4})
+                    return 1;
+                }
+            }
+            // else {
+            //     console.log("pw check did not return :(");
+            //     console.log(res);
+            // }
+        });
         return -1;
     };
     
     onRegisterPressed = (name, email, password) => {
         console.log("register:", name, email, password);
-        axios.put(REGISTER, {"username": name, "email": email, "password": password})
+        axios.post(REGISTER, {"username": name, "email": email, "password": password})
         .then(res => {
-            console.log(res);
             if (res.data) {
-                console.log(res.data);
+                console.log("register returns: " + res.data);
                 this.setState({step: 4})
                 return 1;
             }

@@ -433,14 +433,14 @@ public class MainController {
     this.user = mpd.readUser(body.getEmail());
   }
 
-  @GetMapping("/checkPw")
-  public boolean checkPw(@RequestBody User body) {
-    User user = mpd.readUser(body.getEmail());
-    if(user.getPassword().equals(body.getPassword())){
-      return true;
+  @PostMapping("/checkPw")
+  public String checkPw(@RequestBody Map<String, String> body) {
+    User user = mpd.readUser(body.get("email"));
+    if(user != null && user.getPassword().equals(body.get("password"))){
+      return "valid";
     }
     else{
-      return false;
+      return "invalid";
     }
   }
   
