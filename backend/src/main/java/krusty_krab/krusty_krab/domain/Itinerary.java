@@ -1,7 +1,8 @@
 package krusty_krab.krusty_krab.domain;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-
+import com.google.maps.errors.ApiException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,6 +39,7 @@ public class Itinerary {
         //List<Event> events = this.gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getItinDistLeft(), this.getActivities(), maxPriceRange);
 
         List<Event> events = gm.getEvents(this.getItinCurTime(), this.getEndTime(), 43.7764, -79.2318, this.getMaxDist(), this.getActivities(), maxPriceRange, user.getVisitedEvents(), this.getVisitedEvents());
+
         // Gets event with highest score of all events received
         Event bestEvent = new Event();
         float bestScore = 100;
