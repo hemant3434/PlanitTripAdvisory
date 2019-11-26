@@ -142,7 +142,7 @@ public class MainController {
     System.out.println(e.getScore(curTime, curLoc, gm, maxDist, budget, user, methodsOfTrans));
     return ResponseEntity.ok().body(null);
   }
-  @GetMapping("/initalDB")
+  @GetMapping("/intialDB")
   public void getDummy4(@RequestBody Map<String, Object> body) throws Exception {
 
     Time start = new Time(2019, 11, 25, 8, 00, true);
