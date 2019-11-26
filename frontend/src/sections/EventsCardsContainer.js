@@ -13,7 +13,7 @@ export default class CardsContainer extends React.Component{
   }
 
   fetchData(){
-    axios.get('http://100.80.11.91:8082/api/v1/getItinerary')
+    axios.get('http://100.80.21.98:8082/api/v1/getItinerary')
       .then(res => {
         console.log("res", res);
         const data = res.data;

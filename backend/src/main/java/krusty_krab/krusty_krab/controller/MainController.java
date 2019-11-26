@@ -142,6 +142,47 @@ public class MainController {
     System.out.println(e.getScore(curTime, curLoc, gm, maxDist, budget, user, methodsOfTrans));
     return ResponseEntity.ok().body(null);
   }
+  @GetMapping("/intialDB")
+  public void getDummy4(@RequestBody Map<String, Object> body) throws Exception {
+
+    Time start = new Time(2019, 11, 25, 8, 00, true);
+    Time end = new Time(2019, 11, 25, 24, 00, true);
+    double lat = 43.645474;
+    double ltd = -79.380922;
+    float budget = 150f;
+    float distance = 5f;
+
+    List<String> activities = new ArrayList<String>();
+    activities.add("Historical Sites");
+    activities.add("Shopping");
+
+    List<String> trans = new ArrayList<String>();
+    trans.add("Drive");
+    trans.add("Transit");
+
+    itin.setStartTime(start);
+    itin.setEndTime(end);
+    itin.setMaxDist(distance);
+    itin.setBudget(budget);
+    itin.setLocationLat(lat);
+    itin.setLocationLong(ltd);
+    itin.setHome(GoogleMaps.getHomeLocation(43.7764, -79.2318));
+    itin.setHomeLat(43.7764);
+    itin.setHomeLong(-79.2318);
+    itin.setMethodsOfTrans(trans);
+    itin.setActivities(activities);
+    
+    gm.initializeDatabase();
+    //itin.createItinerary(this.user);
+    //List<Event> events = gm.getEvents1(start, end, lat, ltd, distance, activities, budget, null, null);
+ //   for (Event e : events) {
+//      System.out.println(e.getLocation());
+//      //mpd.createEvent(e);
+//    }
+//    return ResponseEntity.ok().body(events);
+    //return null;
+  }
+
 
   @GetMapping("jason")
   public ResponseEntity<?> jason(@RequestBody Map<String, Object> body) {
@@ -403,13 +444,14 @@ public class MainController {
     }
   }
   
-  @PutMapping("/register")
-  public void register(@RequestBody User body) { 
+  @PostMapping("/register")
+  public void register(@RequestBody Map<String, String> body) { 
+    System.out.println(body);
     this.user = new User();
     this.itin = this.user.getItinerary();
-    this.user.setUsername(body.getUsername());
-    this.user.setPassword(body.getPassword());
-    this.user.setEmail(body.getEmail());
+    this.user.setUsername(body.get("username"));
+    this.user.setPassword(body.get("password"));
+    this.user.setEmail(body.get("email"));
     mpd.createUser(this.user);
     // userService.addUser(user);
   }
