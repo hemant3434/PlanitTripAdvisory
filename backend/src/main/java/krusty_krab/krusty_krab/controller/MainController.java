@@ -444,13 +444,14 @@ public class MainController {
     }
   }
   
-  @PutMapping("/register")
-  public void register(@RequestBody User body) { 
+  @PostMapping("/register")
+  public void register(@RequestBody Map<String, String> body) { 
+    System.out.println(body);
     this.user = new User();
     this.itin = this.user.getItinerary();
-    this.user.setUsername(body.getUsername());
-    this.user.setPassword(body.getPassword());
-    this.user.setEmail(body.getEmail());
+    this.user.setUsername(body.get("username"));
+    this.user.setPassword(body.get("password"));
+    this.user.setEmail(body.get("email"));
     mpd.createUser(this.user);
     // userService.addUser(user);
   }
