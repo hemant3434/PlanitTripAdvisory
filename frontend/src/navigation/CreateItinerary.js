@@ -7,7 +7,7 @@ import ItineraryPage from '../pages/ItineraryPage';
 import axios from 'axios';
 import { awaitExpression } from '@babel/types';
 
-const CREATE_ITINERARY = 'http://100.80.11.91:8080/api/v1/createItinerary'
+const CREATE_ITINERARY = 'http://100.80.21.98:8080/api/v1/createItinerary'
 
 export class CreateItinerary extends Component {
   async fetchData(){
@@ -95,7 +95,7 @@ export class CreateItinerary extends Component {
       }
       this.fetchData();
       console.log("sleeping");
-      await this.sleep(2000)
+      await this.sleep(6000)
       console.log("done sleeping");
       this.setState({step: this.state.step + 1});
     }
