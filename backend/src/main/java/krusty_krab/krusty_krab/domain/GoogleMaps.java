@@ -366,85 +366,106 @@ public class GoogleMaps {
 
   public void initializeDatabase() throws ApiException, InterruptedException, IOException {
 
-    // // Data filters
-    // Time startTime = new Time(2019, 11, 15, 21, 00, true);
-    // Time endTime = new Time(2019, 11, 15, 24, 00, true);
-    // double lat = 43.645474;
-    // double ltd = -79.380922;
-    // float budget = 150f;
-    // float maxDist = 40f;
+    //Data filters
+     Time startTime = new Time(2019, 11, 26, 9, 00, true);
+     Time endTime = new Time(2019, 11, 26, 24, 00, true);
+     double lat = 43.645474;
+     double ltd = -79.380922;
+     float budget = 150f;
+     float maxDist = 10f;
+    
+     List<String> activities = new ArrayList<String>();
+     activities.add("Shopping");
+     activities.add("Bars/Clubs");
     //
-    // List<String> activities = new ArrayList<String>();
-    // activities.add("aquarium");
-    // activities.add("art gallery");
-    //
-    // // initialize variables
-    // ArrayList<String> place_ids = null;
-    // NearbySearchRequest all_events = null;
-    // PlacesSearchResult results[];
-    // PlacesSearchResponse obj;
-    // String nextToken = null;
-    //
-    // LatLng cur_loc = new LatLng((double) lat, (double) ltd);
-    // all_events = PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000))
-    // .type(PlaceType.RESTAURANT);
-    //
-    // Thread.sleep(6000);
-    //
-    //
-    // obj = all_events.awaitIgnoreError();
-    // nextToken = obj.nextPageToken;
-    //
-    // System.out.println(nextToken);
-    // results = obj.results;
-    // place_ids = new ArrayList<String>();
-    // for (PlacesSearchResult i : results) {
-    // place_ids.add(i.placeId);
-    // }
-    // Thread.sleep(6000);
-    //
-    // while (nextToken != null) {
-    // all_events = PlacesApi.nearbySearchNextPage(KEY, nextToken);
-    // Thread.sleep(6000);
-    //
-    // obj = all_events.await();
-    // results = obj.results;
-    // for (PlacesSearchResult i : results) {
-    // place_ids.add(i.placeId);
-    // }
-    // System.out.println("hello");
-    // nextToken = obj.nextPageToken;
-    // }
-    //
-    // for (String i : place_ids) {
-    // PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
-    // PlaceDetails r = null;
-    // try {
-    // r = req.await();
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // }
-    // System.out.println(r.name + "" + Arrays.toString(r.types) + "" + r.priceLevel);
-    // if (r.name != null && r.formattedAddress != null && r.types != null && r.priceLevel != null
-    // && r.openingHours != null) {// && r.photos != null && r.url != null
-    //
-    // Time[] times = getTime(r.openingHours, startTime);
-    // if (times != null) {
-    // int first = filterByPrice(budget, getPriceLevel(r.priceLevel, r.types));
-    // int second = filterByTime(startTime, endTime, times);
-    //
-    //
-    // if ((first + second) == 0) {
-    // Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
-    // Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
-    // getPriceLevel(r.priceLevel, r.types), times[0], times[1], new Time(0, 0, 0, 2, 0, true),
-    // getPhoto(r.photos), r.url.toString(), i);
-    // System.out.println(e.getLocation());
-    // GoogleMaps.storeEventInMongo(e);
-    // }
-    // }
-    // }
-    // }
+    
+    // initialize variables
+    List<Event> events = new ArrayList<Event>();
+    ArrayList<String> place_ids = null;
+    NearbySearchRequest all_events = null;
+    PlacesSearchResult results[];
+    PlacesSearchResponse obj;
+    String nextToken = null;
+
+    LatLng cur_loc = new LatLng((double) lat, (double) ltd);
+
+    for (String userAct : activities) {
+      for (PlaceType diff : act_map.get(userAct)) {
+        System.out.println("place mapping: "+diff);
+        all_events =
+            PlacesApi.nearbySearchQuery(KEY, cur_loc).radius((int) (maxDist * 1000)).type(diff);
+
+        Thread.sleep(6000);
+
+
+        obj = all_events.awaitIgnoreError();
+        nextToken = obj.nextPageToken;
+
+        System.out.println("extra result token (null if not): "+nextToken);
+        results = obj.results;
+        place_ids = new ArrayList<String>();
+        for (PlacesSearchResult i : results) {
+          place_ids.add(i.placeId);
+        }
+        Thread.sleep(6000);
+
+        while (nextToken != null) {
+          all_events = PlacesApi.nearbySearchNextPage(KEY, nextToken);
+          Thread.sleep(6000);
+
+          obj = all_events.await();
+          results = obj.results;
+          for (PlacesSearchResult i : results) {
+            place_ids.add(i.placeId);
+          }
+          System.out.println("Loop iteration over page tokens");
+          nextToken = obj.nextPageToken;
+        }
+
+        for (String i : place_ids) {
+          PlaceDetailsRequest req = PlacesApi.placeDetails(KEY, i).fields();
+          PlaceDetails r = null;
+          try {
+            r = req.await();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+          //System.out.println(r.name + "" + Arrays.toString(r.types) + "" + r.priceLevel);
+          if (r.name != null && r.formattedAddress != null && r.types != null
+              && r.priceLevel != null && r.openingHours != null) {
+
+            Time[] times = getTime(r.openingHours, startTime);
+            if (times != null) {
+              int first = filterByPrice(budget, getPriceLevel(r.priceLevel, r.types, userAct));
+              int second = filterByTime(startTime, endTime, times);
+
+
+              if ((first + second) == 0) {
+                Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
+                    Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
+                    getPriceLevel(r.priceLevel, r.types, userAct), times[0], times[1],
+                    getExpectedLength(userAct), getPhoto(r.photos), r.url.toString(), i);
+                // System.out.println(e.getLocation());
+
+                // Check if event already exists
+                boolean check = true;
+                for (Event temp : events) {
+                  if (temp.getId().equals(e.getId())) {
+                    check = false;
+                  }
+                }
+                if (check) {
+                  events.add(e);
+                  GoogleMaps.storeEventInMongo(e);
+                }
+
+              }
+            }
+          }
+        }
+      }
+    }
+
   }
 
 
