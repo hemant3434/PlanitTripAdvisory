@@ -5,7 +5,8 @@ import ExplorePage from './pages/ExplorePage';
 import ItineraryPage from './pages/ItineraryPage';
 import CreateItinerary from './navigation/CreateItinerary';
 import LoadingScreen from './pages/LoadingScreen';
-import MapRoute from './components/common/MapRoute/MapRoute';
+import ProfilePage from './pages/ProfilePage';
+import TripsPage from './pages/TripsPage';
 
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -68,7 +69,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Trips: {
-      screen: MapRoute,
+      screen: TripsPage,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="paper-plane" size={25} color={tintColor} />
@@ -84,7 +85,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Profile: {
-      screen: MapRoute,
+      screen: ProfilePage,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="user" size={25} color={tintColor} />
