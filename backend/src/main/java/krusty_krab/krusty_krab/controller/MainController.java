@@ -227,6 +227,8 @@ public class MainController {
     user.setItinerary(itin);
     mpd.updateUser(user);
 
+    //System.out.println(GoogleMaps.act_map);
+
     return ResponseEntity.ok().body(itin.getItin());
   }
 
