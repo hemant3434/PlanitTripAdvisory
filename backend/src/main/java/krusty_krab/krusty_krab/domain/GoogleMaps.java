@@ -29,7 +29,7 @@ public class GoogleMaps {
     if (KEY == null) {
       // KrustyKrab: AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc
       // Hemant: AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8
-      KEY = new GeoApiContext.Builder().apiKey("AIzaSyDT2fV_yz3DWPcKbwiyxNZUxHdf373Yal8").build();
+      KEY = new GeoApiContext.Builder().apiKey("AIzaSyDxwdE3kLIG6GehK-6h4DnLENeiayH2FYc").build();
     }
     if (act_map == null) {
       act_map = new HashMap<String, ArrayList<PlaceType>>();
