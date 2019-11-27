@@ -1,6 +1,6 @@
-# POST: addEvent
-## endpoint: http://localhost:8080/api/v1/addEvent
-### sample request body:
+## POST: addEvent
+### endpoint: http://localhost:8080/api/v1/addEvent
+#### sample request body:
 ```
 {	
 	"location":"7 becca hall trail",
@@ -18,18 +18,18 @@
 }
 ```
 (no response)
-# PUT: deleteEvent
-## endpoint: http://localhost:8080/api/v1/deleteEvent
-### sample request body:
+## PUT: deleteEvent
+### endpoint: http://localhost:8080/api/v1/deleteEvent
+#### sample request body:
 ```
 {
   "eventId": "12345"
 }
 ```
 (no response)
-# PUT: addRating
-## endpoint: http://localhost:8080/api/v1/addRating
-### sample request body
+## PUT: addRating
+### endpoint: http://localhost:8080/api/v1/addRating
+#### sample request body
 ```
 {
 	"eventId": "12345",
@@ -37,18 +37,18 @@
 }
 ```
 (no response)
-# PUT: deleteRating
-## endpoint: http://localhost:8080/api/v1/deleteRating
-### sample request body:
+## PUT: deleteRating
+### endpoint: http://localhost:8080/api/v1/deleteRating
+#### sample request body:
 ```
 {
 	"eventId": "12345"
 }
 ```
 (no response)
-# PUT: addVisitedEvent
-## endpoint: http://localhost:8080/api/v1/addVisitedEvent
-### sample request body:
+## PUT: addVisitedEvent
+### endpoint: http://localhost:8080/api/v1/addVisitedEvent
+#### sample request body:
 ```
 {
 	"eventId": "12345"
