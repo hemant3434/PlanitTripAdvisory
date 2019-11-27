@@ -7,12 +7,13 @@ import CardsContainer from '../sections/CardsContainer';
 import ItineraryPage from '../pages/ItineraryPage';
 import axios from 'axios';
 
-const CREATE_ITINERARY = 'http://192.168.0.189:8080/api/v1/createItinerary'
+const LH_CREATE_ITINERARY = 'http://localhost:8080/api/v1/createItinerary';
+const IP_CREATE_ITINERARY = 'http://192.168.0.189:8080/api/v1/createItinerary';
 
 export class CreateItinerary extends Component {
   async fetchData(){
     console.log("CREATE ITINERARY BODY!", this.state)
-    axios.post(CREATE_ITINERARY, this.state)
+    axios.post(LH_CREATE_ITINERARY, this.state)
     .then(response => console.log(response))
   }
 

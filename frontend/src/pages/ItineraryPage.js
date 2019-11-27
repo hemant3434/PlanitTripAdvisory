@@ -5,8 +5,10 @@ import CreateItinerary from '../navigation/CreateItinerary';
 import axios from 'axios';
 import LoadingPage from './LoadingScreen';
 
-const CHECK_ITINERARY = "http://192.168.0.189:8080/api/v1/checkItinerary";
-const VIEW_ITINERARY = "http://192.168.0.189:8080/api/v1/viewItinerary";
+const IP_CHECK_ITINERARY = "http://192.168.0.189:8080/api/v1/checkItinerary";
+const IP_VIEW_ITINERARY = "http://192.168.0.189:8080/api/v1/viewItinerary";
+const LH_CHECK_ITINERARY = "http://localhost:8080/api/v1/checkItinerary";
+const LH_VIEW_ITINERARY = "http://localhost:8080/api/v1/viewItinerary";
 
 
 export default class Itinerary extends React.Component {
@@ -25,7 +27,7 @@ export default class Itinerary extends React.Component {
   }
 
   fetch(){
-    axios.get(CHECK_ITINERARY)
+    axios.get(LH_CHECK_ITINERARY)
     .then(res => {
       console.log("CHECK_ITINERARY.data", res.data);
       this.setState({
@@ -40,7 +42,7 @@ export default class Itinerary extends React.Component {
 
   fetchItinerary(){
     console.log("FETCHING NOW");
-    axios.get(VIEW_ITINERARY)
+    axios.get(LH_VIEW_ITINERARY)
     .then(res => {
       console.log("FETCHED ITINERARY", res.data);
       this.setState({

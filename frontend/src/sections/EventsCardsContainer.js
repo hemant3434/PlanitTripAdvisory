@@ -8,13 +8,16 @@ import {
 import ExploreCard from '../components/common/Cards/ExploreCard';
 import LoadingPage from '../pages/LoadingScreen';
 
+const LH_GETEVENTS = 'http://localhost:8080/api/v1/getExploreEvents';
+const IP_GETEVENTS = 'http://192.168.0.189:8080/api/v1/getExploreEvents';
+
 export default class CardsContainer extends React.Component{
   componentDidMount() {
     this.fetchData();
   }
 
   fetchData(){
-    axios.get('http://192.168.0.189:8080/api/v1/getExploreEvents')
+    axios.get(LH_GETEVENTS)
       .then(res => {
         console.log("res", res);
         const data = res.data;

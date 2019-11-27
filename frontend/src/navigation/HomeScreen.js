@@ -9,10 +9,11 @@ import RegisterScreen from '../pages/RegisterScreen';
 import App from '../App.js';
 import axios from 'axios';
 
-const ENDPT = "http://192.168.0.102:8080/api/v1/"
-const LOGIN = ENDPT + "login";
-const CHECK = ENDPT + "checkPw";
-const REGISTER = ENDPT + "register";
+const IP_ENDPT = "http://192.168.0.102:8080/api/v1/";
+const LH_ENDPT = "http://localhost:8080/api/v1/";
+const LOGIN = LH_ENDPT + "login";
+const CHECK = LH_ENDPT + "checkPw";
+const REGISTER = LH_ENDPT + "register";
 
 class HomeScreen extends React.Component {
     constructor(props) {
@@ -55,7 +56,7 @@ class HomeScreen extends React.Component {
         });
         return -1;
     };
-    
+
     onRegisterPressed = (name, email, password) => {
         console.log("register:", name, email, password);
         axios.post(REGISTER, {"username": name, "email": email, "password": password})
