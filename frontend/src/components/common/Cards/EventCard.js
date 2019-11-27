@@ -25,7 +25,9 @@ export default class EventCard extends React.Component{
           text={this.props.common.description}
           map={this.props.common.id}
           cost={this.props.common.price}
-          time={this.props.common.expectedLength}/>;
+          time={this.props.common.expectedLength}
+          id={this.props.common.id}
+          update={this.props.update}/>;
     }
   }
 }

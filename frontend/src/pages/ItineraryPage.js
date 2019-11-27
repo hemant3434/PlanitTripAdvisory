@@ -17,6 +17,7 @@ export default class Itinerary extends React.Component {
       loading: true,
       ItineraryData: null
     }
+    this.updateItinerary = this.updateItinerary.bind(this);
   }
 
   componentDidMount(){
@@ -50,6 +51,13 @@ export default class Itinerary extends React.Component {
     .catch(e => console.log(e))
   }
 
+  updateItinerary(){
+    console.log("function called in ItineraryPage");
+    this.fetchItinerary();
+    this.forceUpdate();
+  }
+
+
   render(){
     switch(this.state.Itinerary){
       case null:
@@ -63,7 +71,7 @@ export default class Itinerary extends React.Component {
           );
         }
         console.log("RENDER STATE", this.state);
-        return <CardsContainer common={this.state.ItineraryData}/>
+        return <CardsContainer common={this.state.ItineraryData} update={this.updateItinerary}/>
       default:
        return <CreateItinerary/>
     }
