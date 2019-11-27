@@ -55,3 +55,52 @@
 }
 ```
 (no response)
+## PUT: deleteVisitedEvent
+### endpoint: http://localhost:8080/api/v1/deleteVisitedEvent
+#### sample request body:
+```
+{
+	"eventId": "12345"
+}
+```
+(no response)
+## PUT: changeMaxBudget
+### endpoint: http://localhost:8080/api/v1/changeMaxBudget
+#### sample request body:
+```
+{
+	"budget": 1234.5
+}
+```
+(no response)
+## PUT: changeMaxDistance
+### endpoint: http://localhost:8080/api/v1/changeMaxDistance
+#### sample request body:
+```
+{
+	"maxDist": 683.2
+}
+```
+(no response)
+## PUT: addTransportation
+### endpoint: http://localhost:8080/api/v1/addTransportation
+#### sample request body:
+```
+{
+	"Transportation": [
+		"Drive",
+		"Transit"
+	]
+}
+```
+(no response)
+## GET: costPerPerson
+### endpoint: http://localhost:8080/api/v1/costPerPerson
+#### request body:
+`{}`
+#### sample response body:
+```
+{
+    "costPerPerson": "$5.0"
+}
+```
