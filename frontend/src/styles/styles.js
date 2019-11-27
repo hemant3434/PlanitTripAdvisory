@@ -1,10 +1,16 @@
 import { Stylesheet } from 'react-native';
 
-const styles = Stylesheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center'
-    }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
+  }
 })
+
 
 export default styles;

@@ -3,9 +3,10 @@ import { View, Text } from 'react-native';
 import CardsContainer from '../sections/CardsContainer';
 import CreateItinerary from '../navigation/CreateItinerary';
 import axios from 'axios';
+import LoadingPage from './LoadingScreen';
 
-const CHECK_ITINERARY = "http://100.80.21.98:8080/api/v1/checkItinerary";
-const VIEW_ITINERARY = "http://100.80.21.98:8080/api/v1/viewItinerary";
+const CHECK_ITINERARY = "http://192.168.0.189:8080/api/v1/checkItinerary";
+const VIEW_ITINERARY = "http://192.168.0.189:8080/api/v1/viewItinerary";
 
 
 export default class Itinerary extends React.Component {
@@ -53,16 +54,12 @@ export default class Itinerary extends React.Component {
     switch(this.state.Itinerary){
       case null:
         return (
-          <View>
-            <Text>Loading 1</Text>
-          </View>
+          <LoadingPage />
         );
       case true:
         while(this.state.loading){
           return (
-            <View>
-              <Text>Loading 2</Text>
-            </View>
+            <LoadingPage />
           );
         }
         console.log("RENDER STATE", this.state);

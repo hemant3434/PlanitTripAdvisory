@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import ItineraryFilters from '../pages/ItineraryFilters';
+import LoadingPage from '../pages/LoadingScreen';
 import MapPicker from '../components/common/MapPicker/MapPicker';
 import CardsContainer from '../sections/CardsContainer';
 import ItineraryPage from '../pages/ItineraryPage';
 import axios from 'axios';
-import { awaitExpression } from '@babel/types';
 
-const CREATE_ITINERARY = 'http://100.80.21.98:8080/api/v1/createItinerary'
+const CREATE_ITINERARY = 'http://192.168.0.189:8080/api/v1/createItinerary'
 
 export class CreateItinerary extends Component {
   async fetchData(){
@@ -36,7 +36,7 @@ export class CreateItinerary extends Component {
         homeLong: null,
         methodOfTrans: [],
         activities: [],
-        isLoading: true,
+        isLoading: false,
         Itinerary: null
       };
       this.nextStep = this.nextStep.bind(this);
@@ -93,10 +93,12 @@ export class CreateItinerary extends Component {
         homeLat: obj.latitude,
         homeLong: obj.longitude,
       }
-      this.fetchData();
-      console.log("sleeping");
-      await this.sleep(6000)
-      console.log("done sleeping");
+      this.setState({
+        isLoading: true
+      })
+      await this.fetchData();
+      await this.sleep(5000);
+      this.setState({ isLoading: false })
       this.setState({step: this.state.step + 1});
     }
 
@@ -146,6 +148,9 @@ export class CreateItinerary extends Component {
 
     render(){
       const { step } = this.state;
+      if(this.state.isLoading){
+        return <LoadingPage />
+      }
       switch(step){
         case 1:
           return(

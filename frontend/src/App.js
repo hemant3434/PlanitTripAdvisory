@@ -4,6 +4,7 @@ import MapPage from './pages/MapPage';
 import ExplorePage from './pages/ExplorePage';
 import ItineraryPage from './pages/ItineraryPage';
 import CreateItinerary from './navigation/CreateItinerary';
+import LoadingScreen from './pages/LoadingScreen';
 import MapRoute from './components/common/MapRoute/MapRoute';
 
 import { createAppContainer } from 'react-navigation';
@@ -51,7 +52,7 @@ class ProfileScreen extends React.Component {
 const bottomTabNavigator = createBottomTabNavigator(
   {
     Explore: {
-      screen: ExploreScreen,
+      screen: ExplorePage,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="search" size={25} color={tintColor} />

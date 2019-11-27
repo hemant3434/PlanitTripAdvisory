@@ -6,14 +6,15 @@ import {
   Text,
 } from "native-base";
 import ExploreCard from '../components/common/Cards/ExploreCard';
+import LoadingPage from '../pages/LoadingScreen';
 
 export default class CardsContainer extends React.Component{
   componentDidMount() {
-    //this.fetchData();
+    this.fetchData();
   }
 
   fetchData(){
-    axios.get('http://100.80.21.98:8082/api/v1/getItinerary')
+    axios.get('http://192.168.0.189:8080/api/v1/getExploreEvents')
       .then(res => {
         console.log("res", res);
         const data = res.data;
@@ -29,7 +30,7 @@ export default class CardsContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: true,
       Events: {},
       search: "",
     }
@@ -39,7 +40,7 @@ export default class CardsContainer extends React.Component{
     this.setState({ search });
   };
 
-  render(props){
+  render(){
     const { search } = this.state;
     return (
         <ScrollView
@@ -51,7 +52,7 @@ export default class CardsContainer extends React.Component{
           value={search}
           lightTheme={true}
           onCancel={this.state.search=""}/>
-        //{ !this.state.isLoading ? this.state.Events.map(o => <ExploreCard common={o}/>):<Text>Loading</Text> }
+        { !this.state.isLoading ? this.state.Events.map(o => <ExploreCard common={o}/>):<LoadingPage /> }
         </ScrollView>
     );
   }
