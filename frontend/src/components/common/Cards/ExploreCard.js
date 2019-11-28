@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements'
 import axios from 'axios';
-
-const LH_ADD = 'http://localhost:8080/api/v1/addEvent';
-const IP_ADD = 'http://138.51.3.108:8080/api/v1/addEvent';
+import * as constClass from '../../../constants/index';
 
 class ImageCard extends Component{
   constructor(props){
@@ -12,7 +10,7 @@ class ImageCard extends Component{
   }
 
   fetchData(){
-    axios.get(LH_ADD, {
+    axios.get(constClass.ADDEVENT_EP, {
 
     })
     .catch(error => console.log(error));;
