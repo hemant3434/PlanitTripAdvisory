@@ -26,6 +26,11 @@ export default class CardsContainer extends React.Component{
         }
       }
     })
+    this.forceUpdate = this.forceUpdate.bind(this);
+  }
+
+  updateContainer(){
+    this.forceUpdate();
   }
 
   getMap(){
@@ -46,7 +51,7 @@ export default class CardsContainer extends React.Component{
             style={StyleSheet.absoluteFill}
             contentContainerStyle={styles.scrollview}>
             <Button style={{paddingTop: 50}}title='MAP' onPress={this.getMap}/>
-            { !this.state.isLoading ? this.props.common.map(o => <EventCard common={o} update={this.props.update}/>):<Text>Loading</Text> }
+            { !this.state.isLoading ? this.props.common.map(o => <EventCard common={o} update={this.props.update} updateContainer={this.updateContainer}/>):<Text>Loading</Text> }
             <Card>
             <Text>Estimated Total Cost: ${this.state.cost}</Text>
             </Card>
