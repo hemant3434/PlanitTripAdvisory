@@ -214,8 +214,7 @@ public class MainController {
     trans.add("Transit");
     trans.add("Ride Services");
     List<String> activities = new ArrayList<>();
-    activities.add("nature and parks");
-    activities.add("malls");
+    activities.add("Food/Restaurants");
     //itin.setMethodsOfTrans(trans);
     //itin.setActivities(activities);
     itin.setMethodsOfTrans(body.getMethodsOfTrans());
