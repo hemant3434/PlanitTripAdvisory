@@ -18,12 +18,14 @@ const LoginScreen = (props) => {
     const passwordError = passwordValidator(password.value);
 
     if (emailError || passwordError) {
+      console.log("email/password validator failed");
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
       return;
     }
 
     if (props.onLoginPressed(email.value, password.value) == -1) {
+      console.log("login, home returned -1");
       setEmail({ ...email, error: "Invalid account details!" });
       setPassword({ ...password, error: "Invalid account details!" });
       return;

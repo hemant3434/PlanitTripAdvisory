@@ -56,11 +56,12 @@ class HomeScreen extends React.Component {
         console.log("register:", name, email, password);
         axios.post(constClass.REGISTER_EP, {"username": name, "email": email, "password": password})
         .then(res => {
-            if (res.data) {
-                console.log("register returns: " + res.data);
-                this.setState({step: 4})
-                return 1;
-            }
+            // if (res.data) {
+            //     console.log("register returns: " + res.data);
+            //     this.setState({step: 4})
+            //     return 1;
+            // }
+            console.log("register done");
         });
         return -1;
     };
