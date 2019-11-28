@@ -84,7 +84,7 @@ public class MainController {
   public ResponseEntity<?> getDummy2(@RequestBody Map<String, Object> body) throws Exception {
 
     Time start = new Time(2019, 11, 29, 10, 00, true);
-    Time end = new Time(2019, 11, 29, 24, 00, true);
+    Time end = new Time(2019, 11, 29, 19, 48, true);
     double lat = 43.690450;
     double ltd = -79.588279;
     float budget = 300f;
