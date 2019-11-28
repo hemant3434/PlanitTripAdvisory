@@ -61,9 +61,11 @@ class HomeScreen extends React.Component {
             //     this.setState({step: 4})
             //     return 1;
             // }
+            this.setState({step: 4});
             console.log("register done");
+            return 1;
         });
-        return 1;
+        return -1;
     };
 
     toHomePage = () => {
