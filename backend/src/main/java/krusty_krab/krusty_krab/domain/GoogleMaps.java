@@ -582,9 +582,8 @@ public class GoogleMaps {
               int first = filterByPrice(budget, getPriceLevel(r.priceLevel, r.types, userAct));
               int second = filterByTime(startTime, endTime, times);
 
-
               if ((first + second) == 0) {
-                Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
+                Event e = new Event(r.name, r.formattedAddress, r.geometry.location.lat, r.geometry.location.lng,
                     Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
                     getPriceLevel(r.priceLevel, r.types, userAct), times[0], times[1],
                     getExpectedLength(userAct), getPhoto(r.photos), r.url.toString(), i);

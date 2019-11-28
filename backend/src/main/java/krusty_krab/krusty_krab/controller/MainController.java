@@ -83,16 +83,15 @@ public class MainController {
   @GetMapping("/getDummy2")
   public ResponseEntity<?> getDummy2(@RequestBody Map<String, Object> body) throws Exception {
 
-    Time start = new Time(2019, 11, 25, 8, 00, true);
-    Time end = new Time(2019, 11, 25, 24, 00, true);
-    double lat = 43.645474;
-    double ltd = -79.380922;
-    float budget = 150f;
-    float distance = 5f;
+    Time start = new Time(2019, 11, 29, 10, 00, true);
+    Time end = new Time(2019, 11, 29, 24, 00, true);
+    double lat = 43.690450;
+    double ltd = -79.588279;
+    float budget = 300f;
+    float distance = 20f;
 
     List<String> activities = new ArrayList<String>();
-    activities.add("Historical Sites");
-    activities.add("Shopping");
+    activities.add("Food/Restaurants");
 
     List<String> trans = new ArrayList<String>();
     trans.add("Drive");
