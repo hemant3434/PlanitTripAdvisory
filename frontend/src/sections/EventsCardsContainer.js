@@ -17,9 +17,8 @@ export default class CardsContainer extends React.Component{
   fetchData(){
     axios.get(constClass.GETEXPLOREEVENTS_EP)
       .then(res => {
-        console.log("res", res);
         const data = res.data;
-        console.log("res.data", data);
+        console.log("EXPLORE PAGE EVENTS", data);
         this.setState({
           isLoading: false,
           Events: data

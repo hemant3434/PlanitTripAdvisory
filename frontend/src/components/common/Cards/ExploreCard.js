@@ -7,13 +7,13 @@ import * as constClass from '../../../constants/index';
 class ImageCard extends Component{
   constructor(props){
     super(props)
+    this.fetchData = this.fetchData.bind(this);
   }
 
   fetchData(){
-    axios.get(constClass.ADDEVENT_EP, {
-
-    })
-    .catch(error => console.log(error));;
+    axios.post(constClass.ADDEVENT_EP, this.props.common)
+    .then(res => {console.log(res)})
+    .catch(error => console.log(error));
   }
 
   render(){
@@ -24,7 +24,7 @@ class ImageCard extends Component{
         <Text style={{marginBottom: 10}}>{this.props.common.text}</Text>
         <Button
         icon={<Icon name='code' color='#ffffff'/>}
-        title='DELETE EVENT' onPress={this.fetchData()}/>
+        title='ADD EVENT' onPress={this.fetchData}/>
       </Card>
     );
   }

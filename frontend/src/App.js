@@ -96,7 +96,7 @@ const bottomTabNavigator = createBottomTabNavigator(
   {
     initialRouteName: 'Explore',
     tabBarOptions: {
-      activeTintColor: '#F6828C'
+      activeTintColor: '#600EE6'
     }
   }
 );
