@@ -8,11 +8,7 @@ import LoginScreen from '../pages/LoginScreen';
 import RegisterScreen from '../pages/RegisterScreen';
 import App from '../App.js';
 import axios from 'axios';
-
-const ENDPT = "http://192.168.0.102:8080/api/v1/"
-const LOGIN = ENDPT + "login";
-const CHECK = ENDPT + "checkPw";
-const REGISTER = ENDPT + "register";
+import * as constClass from '../constants/index';
 
 class HomeScreen extends React.Component {
     constructor(props) {
@@ -37,12 +33,12 @@ class HomeScreen extends React.Component {
             return 1;
         }
 
-        axios.post(CHECK, {"email": email, "password": password})
+        axios.post(constClass.CHECKPASSWORD_EP, {"email": email, "password": password})
         .then(res => {
             if (res.data) {
                 console.log("pw check returns: " + res.data);
                 if (res.data == "valid") {
-                    axios.put(LOGIN, {"email": email})
+                    axios.put(constClass.LOGIN_EP, {"email": email})
                     .then(resp => console.log(resp));
                     this.setState({step: 4})
                     return 1;
@@ -55,16 +51,17 @@ class HomeScreen extends React.Component {
         });
         return -1;
     };
-    
+
     onRegisterPressed = (name, email, password) => {
         console.log("register:", name, email, password);
-        axios.post(REGISTER, {"username": name, "email": email, "password": password})
+        axios.post(constClass.REGISTER_EP, {"username": name, "email": email, "password": password})
         .then(res => {
-            if (res.data) {
-                console.log("register returns: " + res.data);
-                this.setState({step: 4})
-                return 1;
-            }
+            // if (res.data) {
+            //     console.log("register returns: " + res.data);
+            //     this.setState({step: 4})
+            //     return 1;
+            // }
+            console.log("register done");
         });
         return -1;
     };

@@ -6,13 +6,12 @@ import MapPicker from '../components/common/MapPicker/MapPicker';
 import CardsContainer from '../sections/CardsContainer';
 import ItineraryPage from '../pages/ItineraryPage';
 import axios from 'axios';
-
-const CREATE_ITINERARY = 'http://192.168.0.189:8080/api/v1/createItinerary'
+import * as constClass from '../constants/index';
 
 export class CreateItinerary extends Component {
   async fetchData(){
     console.log("CREATE ITINERARY BODY!", this.state)
-    axios.post(CREATE_ITINERARY, this.state)
+    axios.post(constClass.CREATEITINERARY_EP, this.state)
     .then(response => console.log(response))
   }
 

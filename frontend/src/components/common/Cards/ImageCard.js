@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements';
 import axios from 'axios';
-
-const DELETE = "http://192.168.0.189:8080/api/v1/deleteEvent";
+import * as constClass from '../../../constants/index';
 
 class ImageCard extends Component{
   constructor(props){
@@ -14,7 +13,7 @@ class ImageCard extends Component{
   }
 
   delete(id){
-    axios.put(DELETE, { eventId: id })
+    axios.put(constClass.DELETEEVENT_EP, { eventId: id })
     .then(res => {console.log(res.data)});
   }
 

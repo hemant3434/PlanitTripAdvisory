@@ -21,12 +21,12 @@ public class MongoDBUserDAO {
         this.col.insert(doc);
     }
 
-    public User readUser(String username) {
+    public User readUser(String email) {
         DBCursor cursor = col.find();
         while (cursor.hasNext()) {
             DBObject doc = cursor.next();
             User p = UserConverter.toUser(doc);
-            if(p.getUsername().equals(username)){
+            if(p.getEmail().equals(email)){
                 return p;
             }
         }

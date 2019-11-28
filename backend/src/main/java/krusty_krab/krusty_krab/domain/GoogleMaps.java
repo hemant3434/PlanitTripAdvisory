@@ -154,35 +154,58 @@ public class GoogleMaps {
   public Transportation getTransportation(String loc1, String loc2, Time startTime,
       List<String> methods) {
     List<Transportation> obj = new ArrayList<Transportation>();
-
     /*
-     * for (String i : methods) { if (i.equals("Bike")) { DirectionsApiRequest req =
-     * DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
-     * .destinationPlaceId(loc2).mode(TravelMode.BICYCLING); DirectionsResult res = null; try { res
-     * = req.await(); } catch (Exception e) { // TODO Auto-generated catch block
-     * e.printStackTrace(); }
-     * 
-     * DirectionsRoute[] rou = res.routes; obj.add(getTransObject(rou, startTime, i)); } if
-     * (i.equals("Drive")) { DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "",
-     * "").originPlaceId(loc1) .destinationPlaceId(loc2).mode(TravelMode.DRIVING); DirectionsResult
-     * res = null; try { res = req.await(); } catch (Exception e) { // TODO Auto-generated catch
-     * block e.printStackTrace(); }
-     * 
-     * DirectionsRoute[] rou = res.routes; obj.add(getTransObject(rou, startTime, i)); } if
-     * (i.equals("Transit")) { DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "",
-     * "").originPlaceId(loc1)
-     * .destinationPlaceId(loc2).mode(TravelMode.TRANSIT).departureTime(getInstant(startTime))
-     * .transitMode(TransitMode.BUS); DirectionsResult res = null; try { res = req.await(); } catch
-     * (Exception e) { // TODO Auto-generated catch block e.printStackTrace(); } DirectionsRoute[]
-     * rou = res.routes; obj.add(getTransObject(rou, startTime, i)); } if (i.equals("Walk")) {
-     * DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
-     * .destinationPlaceId(loc2).mode(TravelMode.WALKING); DirectionsResult res = null; try { res =
-     * req.await(); } catch (Exception e) { // TODO Auto-generated catch block e.printStackTrace();
-     * }
-     * 
-     * DirectionsRoute[] rou = res.routes; obj.add(getTransObject(rou, startTime, i)); } } return
-     * chooseTransportation(obj);
-     */
+     for (String i : methods) {
+       if (i.equals("Bike")) {
+         DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.BICYCLING);
+         DirectionsResult res = null;
+         try {
+           res = req.await();
+         } catch (Exception e) {
+           // TODO Auto-generated catch blocke.printStackTrace();
+         }
+
+         DirectionsRoute[] rou = res.routes;
+         obj.add(getTransObject(rou, startTime, i));
+       }
+       if (i.equals("Drive")) {
+         DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "",
+                 "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.DRIVING);
+         DirectionsResult res = null;
+         try {
+           res = req.await();
+         } catch (Exception e) {
+           // TODO Auto-generated catch block e.printStackTrace();
+         }
+
+         DirectionsRoute[] rou = res.routes;
+         obj.add(getTransObject(rou, startTime, i));
+       }
+       if (i.equals("Transit")) {
+         DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
+        .destinationPlaceId(loc2).mode(TravelMode.TRANSIT).departureTime(getInstant(startTime))
+        .transitMode(TransitMode.BUS);
+         DirectionsResult res = null;
+         try { res = req.await(); }
+         catch (Exception e) { // TODO Auto-generated catch block e.printStackTrace();
+         }
+         DirectionsRoute[] rou = res.routes;
+         obj.add(getTransObject(rou, startTime, i));
+       }
+       if (i.equals("Walk")) {
+        DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1)
+        .destinationPlaceId(loc2).mode(TravelMode.WALKING);
+        DirectionsResult res = null;
+        try { res = req.await(); }
+        catch (Exception e) { // TODO Auto-generated catch block e.printStackTrace();
+        }
+
+        DirectionsRoute[] rou = res.routes;
+        obj.add(getTransObject(rou, startTime, i));
+       }
+    }
+  return chooseTransportation(obj);
+*/
     return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)),
         new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
   }
@@ -212,9 +235,14 @@ public class GoogleMaps {
   }
 
   public static int filterByActivity(String[] eventActivities, List<String> userActivities) {
-    for (String eventActivity : eventActivities) {
-      if (userActivities.contains(eventActivity)) {
-        return 0;
+    for(String userActivityCat:userActivities){
+      List<PlaceType> category_entries = act_map.get(userActivityCat);
+      for (String eventActivity : eventActivities) {
+        for(PlaceType userActivity:category_entries){
+          if (userActivity.toString().equals(eventActivity)) {
+            return 0;
+          }
+        }
       }
     }
     return 100;
@@ -441,7 +469,7 @@ public class GoogleMaps {
 
 
               if ((first + second) == 0) {
-                Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
+                Event e = new Event(r.name, r.formattedAddress, r.geometry.location.lat, r.geometry.location.lng,
                     Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
                     getPriceLevel(r.priceLevel, r.types, userAct), times[0], times[1],
                     getExpectedLength(userAct), getPhoto(r.photos), r.url.toString(), i);
@@ -554,9 +582,8 @@ public class GoogleMaps {
               int first = filterByPrice(budget, getPriceLevel(r.priceLevel, r.types, userAct));
               int second = filterByTime(startTime, endTime, times);
 
-
               if ((first + second) == 0) {
-                Event e = new Event(r.name, r.formattedAddress, 47.2, 47.2,
+                Event e = new Event(r.name, r.formattedAddress, r.geometry.location.lat, r.geometry.location.lng,
                     Arrays.toString(r.types).replace("[", "").replace("]", ""), (int) r.rating,
                     getPriceLevel(r.priceLevel, r.types, userAct), times[0], times[1],
                     getExpectedLength(userAct), getPhoto(r.photos), r.url.toString(), i);
@@ -612,7 +639,7 @@ public class GoogleMaps {
       int second = 0;
       int fourth = filterByActivity(e.getActivity().split(","), activities);
 
-      if (first == 0 && second == 0 && third == 0) {
+      if (first == 0 && second == 0 && third == 0 && fourth == 0) {
         filteredEvents.add(e);
       }
     }

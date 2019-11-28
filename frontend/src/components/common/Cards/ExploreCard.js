@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements'
 import axios from 'axios';
+import * as constClass from '../../../constants/index';
 
 class ImageCard extends Component{
   constructor(props){
@@ -9,7 +10,7 @@ class ImageCard extends Component{
   }
 
   fetchData(){
-    axios.get('http://138.51.3.108:8080/somesht', {
+    axios.get(constClass.ADDEVENT_EP, {
 
     })
     .catch(error => console.log(error));;

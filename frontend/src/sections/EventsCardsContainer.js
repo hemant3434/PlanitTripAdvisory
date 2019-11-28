@@ -7,6 +7,7 @@ import {
 } from "native-base";
 import ExploreCard from '../components/common/Cards/ExploreCard';
 import LoadingPage from '../pages/LoadingScreen';
+import * as constClass from '../constants/index';
 
 export default class CardsContainer extends React.Component{
   componentDidMount() {
@@ -14,7 +15,7 @@ export default class CardsContainer extends React.Component{
   }
 
   fetchData(){
-    axios.get('http://192.168.0.189:8080/api/v1/getExploreEvents')
+    axios.get(constClass.GETEXPLOREEVENTS_EP)
       .then(res => {
         console.log("res", res);
         const data = res.data;

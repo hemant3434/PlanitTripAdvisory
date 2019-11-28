@@ -16,6 +16,7 @@ export default class BackButton extends Component {
         <Button
           title="Back"
           onPress={this.props.previous}
+          color='white'
         />
       </View>
     );
@@ -26,6 +27,9 @@ export default class BackButton extends Component {
 
 const styles = StyleSheet.create({
   button: {
-    paddingBottom: 30,
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: 'black',
+    width: '110%'
   },
 });

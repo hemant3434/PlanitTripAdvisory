@@ -6,6 +6,7 @@ import {
 import { Card, Button, Icon } from 'react-native-elements'
 import EventCard from './../components/common/Cards/EventCard';
 import MapRoute from './../components/common/MapRoute/MapRoute';
+import MapRoutePage from '../pages/MapRoutePage';
 
 export default class CardsContainer extends React.Component{
 
@@ -17,6 +18,7 @@ export default class CardsContainer extends React.Component{
       cost: 0,
       showMap: false
     }
+    this.previous = this.previous.bind(this)
     this.getMap = this.getMap.bind(this);
     this.props.common.forEach(Event => {
       if(Event.type === "event"){
@@ -39,11 +41,18 @@ export default class CardsContainer extends React.Component{
     });
   }
 
+  previous(){
+    console.log("GOT TO PREVIOUS");
+    this.setState({
+      showMap: false
+    });
+  }
+
   render(){
       switch(this.state.showMap){
         case true:
           return (
-            <MapRoute common={this.props.common}/>
+            <MapRoutePage common={this.props.common} previous={this.previous}/>
           );
         case false:
             return (
