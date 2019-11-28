@@ -63,7 +63,7 @@ class HomeScreen extends React.Component {
             // }
             console.log("register done");
         });
-        return -1;
+        return 1;
     };
 
     toHomePage = () => {
