@@ -34,8 +34,7 @@ class ImageCard extends Component{
         icon={<Icon name='code' color='#ffffff'/>}
         title='DELETE EVENT'
         onPress={() => {this.delete(this.props.id)
-                        this.props.update()
-                        this.props.updateContainer();}}/></View>
+                        this.props.update();}}/></View>
       </Card>
     );
   }
