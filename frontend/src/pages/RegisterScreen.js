@@ -13,6 +13,9 @@ import {
   nameValidator,
 } from '../services/utils';
 
+import axios from 'axios';
+import * as constClass from '../constants/index';
+
 const RegisterScreen = (props) => {
   const [name, setName] = useState({ value: '', error: '' });
   const [email, setEmail] = useState({ value: '', error: '' });
@@ -29,17 +32,15 @@ const RegisterScreen = (props) => {
       setPassword({ ...password, error: passwordError });
       return;
     }
-    // console.log("going to send request");
-    // console.log(props.a("test", "test", "test"));
-    // console.log("done");
-    if (props.onRegisterPressed(name.value, email.value, password.value) == -1) {
-        // console.log("in");
-        setEmail({ ...email, error: "Invalid account details!" });
-        setPassword({ ...password, error: "Invalid account details!" });
-        console.log("failed!");
-        return;
-      }
-    console.log("successful!");
+
+    console.log("register:", name.value, email.value, password.value);
+
+    axios.post(constClass.REGISTER_EP, {"username": name.value, "email": email.value, "password": password.value})
+    .then(res => {
+        // this.setState({step: 4});
+        console.log("register done");
+        props.done();
+    });
   };
 
   return (

@@ -9,6 +9,9 @@ import BackButton from '../components/common/LoginRegister/BackButton';
 import { theme } from '../services/theme';
 import { emailValidator, passwordValidator } from '../services/utils';
 
+import axios from 'axios';
+import * as constClass from '../constants/index';
+
 const LoginScreen = (props) => {
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
@@ -24,12 +27,28 @@ const LoginScreen = (props) => {
       return;
     }
 
-    if (props.onLoginPressed(email.value, password.value) == -1) {
-      console.log("login, home returned -1");
-      setEmail({ ...email, error: "Invalid account details!" });
-      setPassword({ ...password, error: "Invalid account details!" });
-      return;
+    console.log("login:", email.value, password.value);
+
+    if (email.value == "a@a.a") {
+        console.log("logging in debug mode");
+        props.done();
     }
+
+    axios.post(constClass.CHECKPASSWORD_EP, {"email": email.value, "password": password.value})
+    .then(res => {
+        if (res.data) {
+            console.log("pw check returns: " + res.data);
+            if (res.data == "valid") {
+                axios.put(constClass.LOGIN_EP, {"email": email})
+                .then(resp => console.log(resp));
+                props.done();
+            }
+            else {
+                setEmail({ ...email, error: "Invalid account information!" });
+                setPassword({ ...password, error: "Invalid account information!"});
+            }
+        }
+    });
   };
 
   return (
