@@ -35,7 +35,7 @@ public class UserConverter {
         p.setMaxDist(((Double) doc.get("maxDist")).floatValue());
         p.setBudget(((Double) doc.get("budget")).floatValue());
         p.setActivities((List<String>)doc.get("activities"));
-        p.setMethodsOfTrans((List<String>)doc.get("methodsOfTrans"));
+        p.setMethodOfTrans((List<String>)doc.get("methodsOfTrans"));
         p.setItin(toItinFromList((List<Map<String, Object>>)doc.get("itin")));
         return p;
     }
@@ -64,7 +64,7 @@ public class UserConverter {
         p.setMaxDist(((Double) doc.get("maxDist")).floatValue());
         p.setBudget(((Double) doc.get("budget")).floatValue());
         p.setActivities((List<String>)doc.get("activities"));
-        p.setMethodsOfTrans((List<String>)doc.get("methodsOfTrans"));
+        p.setMethodOfTrans((List<String>)doc.get("methodsOfTrans"));
         p.setItin(toItinFromList((List<Map<String, Object>>)doc.get("itin")));
         return p;
     }
@@ -218,7 +218,7 @@ public class UserConverter {
         map.put("maxDist", p.getMaxDist());
         map.put("budget", p.getBudget());
         map.put("activities", p.getActivities());
-        map.put("methodsOfTrans", p.getMethodsOfTrans());
+        map.put("methodsOfTrans", p.getMethodOfTrans());
         map.put("itin",UserConverter.toListFromItin(p.getItin()));
         return map;
     }

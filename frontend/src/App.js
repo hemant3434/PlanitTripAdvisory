@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import MapPage from './pages/MapPage';
 import ExplorePage from './pages/ExplorePage';
 import ItineraryPage from './pages/ItineraryPage';
@@ -23,9 +23,15 @@ export default class HybridApp extends React.Component {
 class ExploreScreen extends React.Component {
   render() {
     return(
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text> ExploreScreen </Text>
-      </View>
+      <ExplorePage />
+    );
+  }
+}
+
+class ItineraryScreen extends React.Component {
+  render() {
+    return(
+      <ItineraryPage />
     );
   }
 }
@@ -53,7 +59,7 @@ class ProfileScreen extends React.Component {
 const bottomTabNavigator = createBottomTabNavigator(
   {
     Explore: {
-      screen: ExplorePage,
+      screen: ExploreScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="search" size={25} color={tintColor} />
@@ -77,7 +83,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Itinerary: {
-      screen: ItineraryPage,
+      screen: ItineraryScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="search" size={25} color={tintColor} />
@@ -85,7 +91,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Profile: {
-      screen: ProfilePage,
+      screen: LoadingScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="user" size={25} color={tintColor} />

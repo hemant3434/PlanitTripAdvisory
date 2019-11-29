@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.maps.errors.ApiException;
-import com.mongodb.*;
 import krusty_krab.krusty_krab.domain.*;
-import krusty_krab.krusty_krab.mongo.EventConverter;
-import krusty_krab.krusty_krab.mongo.MongoDBEventDAO;
 import com.mongodb.MongoClient;
 import krusty_krab.krusty_krab.mongo.MongoDBUserDAO;
 
@@ -106,7 +103,7 @@ public class MainController {
     itin.setHome(GoogleMaps.getHomeLocation(43.7764, -79.2318));
     itin.setHomeLat(43.7764);
     itin.setHomeLong(-79.2318);
-    itin.setMethodsOfTrans(trans);
+    itin.setMethodOfTrans(trans);
     itin.setActivities(activities);
 
     //itin.createItinerary(this.user);
@@ -168,7 +165,7 @@ public class MainController {
     itin.setHome(GoogleMaps.getHomeLocation(43.7764, -79.2318));
     itin.setHomeLat(43.7764);
     itin.setHomeLong(-79.2318);
-    itin.setMethodsOfTrans(trans);
+    itin.setMethodOfTrans(trans);
     itin.setActivities(activities);
     
     gm.initializeDatabase();
@@ -218,7 +215,7 @@ public class MainController {
     activities.add("malls");
     //itin.setMethodsOfTrans(trans);
     //itin.setActivities(activities);
-    itin.setMethodsOfTrans(body.getMethodsOfTrans());
+    itin.setMethodOfTrans(body.getMethodOfTrans());
     itin.setActivities(body.getActivities());
 
     itin.createItinerary(this.user);
@@ -248,7 +245,7 @@ public class MainController {
     List<String> activities = new ArrayList<>();
     activities.add("nature and parks");
     activities.add("malls");
-    itin.setMethodsOfTrans(trans);
+    itin.setMethodOfTrans(trans);
     itin.setActivities(activities);
 
     itin.createItinerary(this.user);
@@ -500,7 +497,7 @@ public class MainController {
     i.setHome("Scarborough");
     i.setHomeLat(43.7764);
     i.setHomeLong(-79.2318);
-    i.setMethodsOfTrans(trans);
+    i.setMethodOfTrans(trans);
     i.setActivities(activities);
     i.setItin(itin);
 

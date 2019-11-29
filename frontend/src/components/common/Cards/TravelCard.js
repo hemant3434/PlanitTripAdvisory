@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Card, ListItem } from 'react-native-elements'
 
 var travelDictionary = {
-  walk: "directions-walk",
-  bike: "directions-bike"
+  Walk: "directions-walk",
+  Bike: "directions-bike",
+  Drive: "directions-car",
+  Transit: "directions-transit"
 }
 
 class TravelCard extends Component{

@@ -154,7 +154,7 @@ public class GoogleMaps {
   public Transportation getTransportation(String loc1, String loc2, Time startTime,
       List<String> methods) {
     List<Transportation> obj = new ArrayList<Transportation>();
-    /*
+
      for (String i : methods) {
        if (i.equals("Bike")) {
          DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.BICYCLING);
@@ -205,9 +205,9 @@ public class GoogleMaps {
        }
     }
   return chooseTransportation(obj);
-*/
-    return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)),
-        new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
+
+  //  return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)),
+    //    new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
   }
 
   public static int filterByPrice(float budget, float price) {
