@@ -5,7 +5,6 @@ import {
 } from "native-base";
 import { Card, Button, Icon } from 'react-native-elements'
 import EventCard from './../components/common/Cards/EventCard';
-import MapRoute from './../components/common/MapRoute/MapRoute';
 import MapRoutePage from '../pages/MapRoutePage';
 
 export default class CardsContainer extends React.Component{
@@ -28,11 +27,7 @@ export default class CardsContainer extends React.Component{
         }
       }
     })
-    this.forceUpdate = this.forceUpdate.bind(this);
-  }
-
-  updateContainer(){
-    this.forceUpdate();
+    this.updateCard = this.updateCard.bind(this);
   }
 
   getMap(){
@@ -48,6 +43,11 @@ export default class CardsContainer extends React.Component{
     });
   }
 
+  updateCard(){
+    this.props.update();
+    this.forceUpdate();
+  }
+
   render(){
       switch(this.state.showMap){
         case true:
@@ -60,7 +60,7 @@ export default class CardsContainer extends React.Component{
             style={StyleSheet.absoluteFill}
             contentContainerStyle={styles.scrollview}>
             <Button style={{paddingTop: 50}}title='MAP' onPress={this.getMap}/>
-            { !this.state.isLoading ? this.props.common.map(o => <EventCard common={o} update={this.props.update} updateContainer={this.updateContainer}/>):<Text>Loading</Text> }
+            { !this.state.isLoading ? this.props.common.map(o => <EventCard common={o} update={this.updateCard}/>):<Text>Loading</Text> }
             <Card>
             <Text>Estimated Total Cost: ${this.state.cost}</Text>
             </Card>

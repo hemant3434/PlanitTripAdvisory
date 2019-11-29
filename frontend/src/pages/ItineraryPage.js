@@ -31,6 +31,11 @@ export default class Itinerary extends React.Component {
       if(res.data){
         this.fetchItinerary();
       }
+      else{
+        this.setState({
+          loading: false
+        })
+      }
     })
     .catch(e => console.log(e))
   }
@@ -56,6 +61,7 @@ export default class Itinerary extends React.Component {
 
 
   render(){
+    console.log("RENDER STATE", this.state);
     switch(this.state.Itinerary){
       case null:
         return (
@@ -67,7 +73,6 @@ export default class Itinerary extends React.Component {
             <LoadingPage />
           );
         }
-        console.log("RENDER STATE", this.state);
         return <CardsContainer common={this.state.ItineraryData} update={this.updateItinerary}/>
       default:
        return <CreateItinerary/>

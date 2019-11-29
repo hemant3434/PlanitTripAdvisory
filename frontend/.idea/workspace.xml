@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9dda9f30-d88b-464e-8692-bd870ec0ced4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/components/common/Cards/EventCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Cards/EventCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/Cards/ImageCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Cards/ImageCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sections/CardsContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/CardsContainer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,7 +13,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="1117" />
     <option name="y" value="251" />
     <option name="width" value="1400" />
@@ -27,9 +25,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
       <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -62,7 +60,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1117" y="251" width="1400" height="1000" extended-state="0" />
+    <frame x="1117" y="251" width="1400" height="1000" extended-state="1" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.32892805" />

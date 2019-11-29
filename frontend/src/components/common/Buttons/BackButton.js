@@ -16,7 +16,7 @@ export default class BackButton extends Component {
         <Button
           title="Back"
           onPress={this.props.previous}
-          color='white'
+          color='black'
         />
       </View>
     );

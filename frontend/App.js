@@ -18,6 +18,7 @@ export default class App extends React.Component {
     await Expo.Font.loadAsync({
       Roboto: require("./node_modules/native-base/Fonts/Roboto.ttf"),
       Roboto_medium: require("./node_modules/native-base/Fonts/Roboto_medium.ttf"),
+      ProximaNova_Light: require("./node_modules/native-base/Fonts/Roboto_medium.ttf")
     });
     this.setState({ isReady: true });
   }
