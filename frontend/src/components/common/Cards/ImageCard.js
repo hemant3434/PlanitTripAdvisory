@@ -18,12 +18,13 @@ class ImageCard extends Component{
   }
 
   render(){
-    console.log("EventCard", this.props);
     return (
       <Card
         title={this.props.title}
         image={this.props.image}>
         <Text style={{marginBottom: 10}}>{this.props.text}</Text>
+        <Text>Trip Starts: {this.props.startTime.hour + ":" + this.props.startTime.minute}</Text>
+        <Text>Trip Ends: {this.props.endTime.hour + ":" + this.props.endTime.minute}</Text>
         <Text>cost: {"$".repeat(this.props.cost)}</Text>
         <Text>People tyically spend {this.props.time.hour + " hours, " + this.props.time.minute + " minutes here"}</Text>
         <View style={{flexDirection: 'row', flex: 2, justifyContent: 'space-between'}}>

@@ -21,52 +21,54 @@ class HomeScreen extends React.Component {
             4 - rest of the app
             */
             step: 1,
+            valid: false,
         }
     }
 
-    onLoginPressed = (email, password) => {
-        console.log("login:", email, password);
+    // onLoginPressed = (email, password) => {
+    //     valid = false;
+    //     console.log("login:", email, password);
 
-        if (email == "a@a.a") {
-            console.log("logging in debug mode");
-            this.setState({step: 4});
-            return 1;
-        }
+    //     if (email == "a@a.a") {
+    //         console.log("logging in debug mode");
+    //         this.setState({step: 4});
+    //         valid = true;
+    //     }
 
-        axios.post(constClass.CHECKPASSWORD_EP, {"email": email, "password": password})
-        .then(res => {
-            if (res.data) {
-                console.log("pw check returns: " + res.data);
-                if (res.data == "valid") {
-                    axios.put(constClass.LOGIN_EP, {"email": email})
-                    .then(resp => console.log(resp));
-                    this.setState({step: 4})
-                    return 1;
-                }
-            }
-            // else {
-            //     console.log("pw check did not return :(");
-            //     console.log(res);
-            // }
-        });
-        return -1;
-    };
+    //     valid = axios.post(constClass.CHECKPASSWORD_EP, {"email": email, "password": password})
+    //     .then(res => {
+    //         if (res.data) {
+    //             console.log("pw check returns: " + res.data);
+    //             if (res.data == "valid") {
+    //                 axios.put(constClass.LOGIN_EP, {"email": email})
+    //                 .then(resp => console.log(resp));
+    //                 this.setState({step: 4})
+    //                 return true;
+    //             }
+    //         }
+    //     });
+        
+    //     console.log("login valid: ", valid);
+    //     return valid;
+    // };
 
-    onRegisterPressed = (name, email, password) => {
-        console.log("register:", name, email, password);
-        axios.post(constClass.REGISTER_EP, {"username": name, "email": email, "password": password})
-        .then(res => {
-            // if (res.data) {
-            //     console.log("register returns: " + res.data);
-            //     this.setState({step: 4})
-            //     return 1;
-            // }
-            this.setState({step: 4});
-            console.log("register done");
-            return 1;
-        });
-        return -1;
-    };
+    // onRegisterPressed = (name, email, password) => {
+    //     // valid = false;
+    //     console.log("register:", name, email, password);
+    //     axios.post(constClass.REGISTER_EP, {"username": name, "email": email, "password": password})
+    //     .then(res => {
+    //         // if (res.data) {
+    //         //     console.log("register returns: " + res.data);
+    //         //     this.setState({step: 4})
+    //         //     return 1;
+    //         // }
+    //         this.setState({step: 4});
+    //         console.log("register done");
+    //        this.state.valid = true;
+    //     });
+    //     console.log("register valid: ", this.state.valid);
+    //     return this.state.valid;
+    // };
 
     toHomePage = () => {
         // console.log("to home");
@@ -81,6 +83,15 @@ class HomeScreen extends React.Component {
     toRegisterPage = () => {
         // console.log("to register");
         this.setState({step: 3});
+    }
+    
+    done = () => {
+        console.log("done: to app");
+        this.setState({step: 4});
+    }
+
+    update = () => {
+        this.forceUpdate();
     }
 
     render() {
@@ -108,15 +119,15 @@ class HomeScreen extends React.Component {
           );
         case 2:
           return(
-              <LoginScreen back={this.toHomePage} register={this.toRegisterPage} onLoginPressed={this.onLoginPressed}/>
+              <LoginScreen back={this.toHomePage} register={this.toRegisterPage} done={this.done}/>
           );
         case 3:
           return (
-              <RegisterScreen back={this.toHomePage} login={this.toLoginPage} onRegisterPressed={this.onRegisterPressed}/>
+              <RegisterScreen back={this.toHomePage} login={this.toLoginPage} done={this.done}/>
           );
         case 4:
           return (
-              <App />
+              <App update={this.update}/>
           );
       }
     }
