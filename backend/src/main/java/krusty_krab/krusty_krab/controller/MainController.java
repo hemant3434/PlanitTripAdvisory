@@ -195,6 +195,14 @@ public class MainController {
     return !itin.getItin().isEmpty();
   }
 
+  @PostMapping("/createItineraryWA")
+  public ResponseEntity<?> createItineraryWA(@RequestBody Itinerary body) throws Exception {
+    Itinerary itin = mpd.readUser("jason@gmail.com").getItinerary();
+    user.setItinerary(itin);
+    mpd.updateUser(user);
+    return ResponseEntity.ok().body(itin.getItin());
+  }
+
   @PostMapping("/createItinerary")
   public ResponseEntity<?> createItinerary(@RequestBody Itinerary body) throws Exception {
     itin = new Itinerary();
@@ -333,8 +341,12 @@ public class MainController {
   }
 
   @PostMapping("/addEvent")
-  public ResponseEntity<?> addEvent(@RequestBody Event event) {
-    user.getItinerary().addEvent(event);
+  public ResponseEntity<?> addEvent(@RequestBody Map<String, String> body) {
+    Event e = GoogleMaps.getEventByID(body.get("eventId"));
+    e.setStartTime(new Time(body.get("startTime")));
+    e.setEndTime(e.getStartTime().add(e.getExpectedLength()));
+    user.getItinerary().addEvent(e);
+    System.out.println(user.getItinerary().getItin().get(1).getStartTime());
     mpd.updateUser(user);
     return ResponseEntity.ok().build();
   }
@@ -447,6 +459,7 @@ public class MainController {
     System.out.println(body);
     this.user = new User();
     this.itin = this.user.getItinerary();
+    this.itin = this.user.getItinerary();
     this.user.setUsername(body.get("username"));
     this.user.setPassword(body.get("password"));
     this.user.setEmail(body.get("email"));
@@ -459,7 +472,7 @@ public class MainController {
   }
 
   @PutMapping("/post")
-  public void addEvent(@RequestBody Map<String, Object> body) {
+  public void addEvent3(@RequestBody Map<String, Object> body) {
     // MongoDBUserDAO mpd = new MongoDBUserDAO(new MongoClient());
 
     Itinerary i = new Itinerary();
