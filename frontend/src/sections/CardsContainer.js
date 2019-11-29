@@ -5,7 +5,6 @@ import {
 } from "native-base";
 import { Card, Button, Icon } from 'react-native-elements'
 import EventCard from './../components/common/Cards/EventCard';
-import MapRoute from './../components/common/MapRoute/MapRoute';
 import MapRoutePage from '../pages/MapRoutePage';
 
 export default class CardsContainer extends React.Component{
