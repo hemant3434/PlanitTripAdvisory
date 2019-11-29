@@ -1,12 +1,10 @@
 package krusty_krab.krusty_krab.domain;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-import com.google.maps.errors.ApiException;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -24,7 +22,7 @@ public class Itinerary {
     private List<String> activities;
     private float budget;
     private List<ItineraryItem> itin = new ArrayList<ItineraryItem>();
-    private List<String> methodsOfTrans = new ArrayList<String>();
+    private List<String> methodOfTrans = new ArrayList<String>();
 
     public Itinerary() {
     }
@@ -56,12 +54,12 @@ public class Itinerary {
         //GoogleMaps.getEventByID("3").getScore(this.getItinCurTime(), this.getItinCurLoc(), this.gm, this.getMaxDist(), this.getBudget(), user);
         //System.out.println("a");
         for(Event e: events){
-            Transportation transpThere = gm.getTransportation(this.getItinCurLoc(), e.getId(), this.getItinCurTime(), this.getMethodsOfTrans());
+            Transportation transpThere = gm.getTransportation(this.getItinCurLoc(), e.getId(), this.getItinCurTime(), this.getMethodOfTrans());
             Time timeAfterEvent = this.getItinCurTime().add(transpThere.getExpectedLength()).add(e.getExpectedLength());
-            Transportation transpBack = gm.getTransportation(e.getId(), getHome(), timeAfterEvent, this.getMethodsOfTrans());
+            Transportation transpBack = gm.getTransportation(e.getId(), getHome(), timeAfterEvent, this.getMethodOfTrans());
             Time endTime = timeAfterEvent.add(transpBack.getExpectedLength());
             if(endTime.isLessThan(this.getEndTime())){
-                curScore = e.getScore(this.getItinCurTime(), this.getItinCurLoc(), gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans());
+                curScore = e.getScore(this.getItinCurTime(), this.getItinCurLoc(), gm, this.getMaxDist(), this.getBudget(), user, this.getMethodOfTrans());
                 if(curScore < bestScore) {
                     bestEvent = e;
                     bestScore = curScore;
@@ -87,9 +85,9 @@ public class Itinerary {
             Event nextEvent = getNextBestEvent(user);
 
             // Loops until it runs out of events, or all events remaining has a score so low that they shouldn't be on the itinerary
-            while(nextEvent.getScore(curTime, curLoc, gm, this.getMaxDist(), this.getBudget(), user, this.getMethodsOfTrans()) < maxScore){
+            while(nextEvent.getScore(curTime, curLoc, gm, this.getMaxDist(), this.getBudget(), user, this.getMethodOfTrans()) < maxScore){
                 // Gets transportation object from the next event and the current location of the user
-                Transportation transp = gm.getTransportation(curLoc, nextEvent.getId(), curTime, this.getMethodsOfTrans());
+                Transportation transp = gm.getTransportation(curLoc, nextEvent.getId(), curTime, this.getMethodOfTrans());
 
                 // Transportation object to begin at the current time
                 transp.setStartTime(curTime);
@@ -113,7 +111,7 @@ public class Itinerary {
         }
         catch(NoSuchElementException e){}
         // Gets transportation object from last event, back to home, and adds it to the itinerary
-        Transportation transp = gm.getTransportation(curLoc, getHome(), curTime, this.getMethodsOfTrans());
+        Transportation transp = gm.getTransportation(curLoc, getHome(), curTime, this.getMethodOfTrans());
         transp.setStartTime(curTime);
         this.itin.add(transp);
     }
@@ -223,14 +221,14 @@ public class Itinerary {
 		    if (i == itin.size()-1 && itin.get(i) instanceof Event) {
 				System.out.println(itin.get(i).getTitle());
 				System.out.println("transportation home");
-				itin.add(i + 1, gm.getTransportation(((Event) itin.get(i)).getId(), home, itin.get(i).getEndTime(), this.getMethodsOfTrans()));
+				itin.add(i + 1, gm.getTransportation(((Event) itin.get(i)).getId(), home, itin.get(i).getEndTime(), this.getMethodOfTrans()));
 		    }
 		    if (i == 0 && itin.get(i) instanceof Event) {
-		    	itin.add(i, gm.getTransportation(home, ((Event) itin.get(i)).getId(), startTime, this.getMethodsOfTrans()));
+		    	itin.add(i, gm.getTransportation(home, ((Event) itin.get(i)).getId(), startTime, this.getMethodOfTrans()));
 		    } else if (itin.get(i) instanceof Event && itin.get(i-1) instanceof Event) {
 		    	Event e1 = (Event) itin.get(i-1);
 		    	Event e2 = (Event) itin.get(i);
-		    	itin.add(i, gm.getTransportation(e1.getId(), e2.getId(), e1.getEndTime(), this.getMethodsOfTrans()));
+		    	itin.add(i, gm.getTransportation(e1.getId(), e2.getId(), e1.getEndTime(), this.getMethodOfTrans()));
 		    }
 		}
     }
@@ -245,9 +243,9 @@ public class Itinerary {
 	
 				// Google maps transportation doesn't work yet so this method won't work. This
 				// method works without travel time information
-				Time travelToTime = gm.getTransportation(curr.getId(), event.getId(), curr.getEndTime(), this.getMethodsOfTrans())
+				Time travelToTime = gm.getTransportation(curr.getId(), event.getId(), curr.getEndTime(), this.getMethodOfTrans())
 					.getExpectedLength();
-				Time travelFromTime = gm.getTransportation(event.getId(), next.getId(), next.getEndTime(), this.getMethodsOfTrans())
+				Time travelFromTime = gm.getTransportation(event.getId(), next.getId(), next.getEndTime(), this.getMethodOfTrans())
 					.getExpectedLength();
 		//		long travelTime = travelToTime.add(travelFromTime).toMinutes();
 				
@@ -276,16 +274,16 @@ public class Itinerary {
     private Transportation joinEvents(String startLocation, String nextLocation, Time endTime) {
         GoogleMaps gm = new GoogleMaps();
         Transportation transportation = gm.getTransportation(startLocation, nextLocation,
-		endTime, this.getMethodsOfTrans());
+		endTime, this.getMethodOfTrans());
     	return transportation;
     }
 
-    public List<String> getMethodsOfTrans() {
-    	return this.methodsOfTrans;
+    public List<String> getMethodOfTrans() {
+    	return this.methodOfTrans;
     }
 
     public void addMethodsOfTrans(String transportation) {
-    	methodsOfTrans.add(transportation);
+    	methodOfTrans.add(transportation);
     }
 
     public List<ItineraryItem> getItin() {
@@ -385,8 +383,8 @@ public class Itinerary {
 		return this.getMaxDist() - dist;
     }
 
-    public void setMethodsOfTrans(List<String> methodsOfTrans) {
-        this.methodsOfTrans = methodsOfTrans;
+    public void setMethodOfTrans(List<String> methodOfTrans) {
+        this.methodOfTrans = methodOfTrans;
     }
 
     public double getLocationLat() {

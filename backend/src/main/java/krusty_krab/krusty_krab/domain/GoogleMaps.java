@@ -154,7 +154,7 @@ public class GoogleMaps {
   public Transportation getTransportation(String loc1, String loc2, Time startTime,
       List<String> methods) {
     List<Transportation> obj = new ArrayList<Transportation>();
-    /*
+
      for (String i : methods) {
        if (i.equals("Bike")) {
          DirectionsApiRequest req = DirectionsApi.getDirections(KEY, "", "").originPlaceId(loc1).destinationPlaceId(loc2).mode(TravelMode.BICYCLING);
@@ -205,9 +205,9 @@ public class GoogleMaps {
        }
     }
   return chooseTransportation(obj);
-*/
-    return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)),
-        new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
+
+  //  return new Transportation(5, "walk", 0, startTime, startTime.add(new Time(0, 0, 0, 0, 5, true)),
+   //     new Time(0, 0, 0, 0, 5, true), "flight-takeoff", "5 minutes");
   }
 
   public static int filterByPrice(float budget, float price) {
@@ -395,16 +395,18 @@ public class GoogleMaps {
   public void initializeDatabase() throws ApiException, InterruptedException, IOException {
 
     //Data filters
-     Time startTime = new Time(2019, 11, 26, 9, 00, true);
-     Time endTime = new Time(2019, 11, 26, 24, 00, true);
+     Time startTime = new Time(2019, 11, 30, 9, 00, true);
+     Time endTime = new Time(2019, 11, 30, 24, 00, true);
      double lat = 43.645474;
      double ltd = -79.380922;
      float budget = 150f;
      float maxDist = 10f;
     
      List<String> activities = new ArrayList<String>();
-     activities.add("Shopping");
-     activities.add("Bars/Clubs");
+     activities.add("Parks/Amusement Parks");
+     activities.add("Tourist Attractions");
+    activities.add("Entertainment");
+    activities.add("Historical Sites");
     //
     
     // initialize variables
