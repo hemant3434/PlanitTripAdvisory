@@ -48,6 +48,10 @@ export default class CardsContainer extends React.Component{
     this.forceUpdate();
   }
 
+  rerender = () => {
+    this.forceUpdate();
+  }
+
   render(){
       switch(this.state.showMap){
         case true:
@@ -59,7 +63,8 @@ export default class CardsContainer extends React.Component{
             <ScrollView
             style={StyleSheet.absoluteFill}
             contentContainerStyle={styles.scrollview}>
-            <Button style={{paddingTop: 50}}title='MAP' onPress={this.getMap}/>
+            <Button style={{paddingTop: 40, padding: 10}}title='REFRESH' onPress={this.rerender}/>
+            <Button style={{padding: 10}}title='MAP' onPress={this.getMap}/>
             { !this.state.isLoading ? this.props.common.map(o => <EventCard common={o} update={this.updateCard}/>):<Text>Loading</Text> }
             <Card>
             <Text>Estimated Total Cost: ${this.state.cost}</Text>
