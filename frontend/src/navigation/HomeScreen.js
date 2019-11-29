@@ -90,6 +90,10 @@ class HomeScreen extends React.Component {
         this.setState({step: 4});
     }
 
+    update = () => {
+        this.forceUpdate();
+    }
+
     render() {
       const { step } = this.state;
       switch(step){
@@ -123,7 +127,7 @@ class HomeScreen extends React.Component {
           );
         case 4:
           return (
-              <App />
+              <App update={this.update}/>
           );
       }
     }

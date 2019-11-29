@@ -1,4 +1,4 @@
-const HOST = 'localhost';
+const HOST = '100.80.21.98';
 
 export const ADDEVENT_EP = 'http://' + HOST + ':8080/api/v1/addEvent';
 export const DELETEEVENT_EP = 'http://' + HOST + ':8080/api/v1/deleteEvent';

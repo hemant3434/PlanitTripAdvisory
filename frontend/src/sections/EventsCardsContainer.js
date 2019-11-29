@@ -52,7 +52,7 @@ export default class CardsContainer extends React.Component{
           value={search}
           lightTheme={true}
           onCancel={this.state.search=""}/>
-        { !this.state.isLoading ? this.state.Events.map(o => <ExploreCard common={o}/>):<LoadingPage /> }
+        { !this.state.isLoading ? this.state.Events.map(o => <ExploreCard common={o} refresh={this.props.refresh}/>):<LoadingPage /> }
         </ScrollView>
     );
   }

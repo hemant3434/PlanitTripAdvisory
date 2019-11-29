@@ -18,7 +18,7 @@ class ExplorePage extends React.Component {
     const { search } = this.state;
     return (
         <View style={{flex: 10, justifyContent: 'center', alignItems: 'center'}}>
-            <EventsCardsContainer/>
+            <EventsCardsContainer refresh={this.props.refresh}/>
         </View>);
   }
 }
