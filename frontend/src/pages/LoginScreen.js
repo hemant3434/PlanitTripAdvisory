@@ -29,17 +29,17 @@ const LoginScreen = (props) => {
 
     console.log("login:", email.value, password.value);
 
-    if (email.value == "a@a.a") {
+    if (email.value === "a@a.a") {
         console.log("logging in debug mode");
         props.done();
     }
 
-    axios.post(constClass.CHECKPASSWORD_EP, {"email": email.value, "password": password.value})
+    axios.post(constClass.CHECKPASSWORD_EP, {email: email.value, password: password.value})
     .then(res => {
         if (res.data) {
             console.log("pw check returns: " + res.data);
             if (res.data == "valid") {
-                axios.put(constClass.LOGIN_EP, {"email": email})
+                axios.put(constClass.LOGIN_EP, {email: email})
                 .then(resp => console.log(resp));
                 props.done();
             }

@@ -1,8 +1,8 @@
-const HOST = '100.80.21.98';
+const HOST = '192.168.0.189';
 
 export const ADDEVENT_EP = 'http://' + HOST + ':8080/api/v1/addEvent';
 export const DELETEEVENT_EP = 'http://' + HOST + ':8080/api/v1/deleteEvent';
-export const CREATEITINERARY_EP = 'http://' + HOST + ':8080/api/v1/createItinerary';
+export const CREATEITINERARY_EP = 'http://' + HOST + ':8080/api/v1/createItineraryWA';
 export const CHECKITINERARY_EP = 'http://' + HOST + ':8080/api/v1/checkItinerary';
 export const VIEWITINERARY_EP = 'http://' + HOST + ':8080/api/v1/viewItinerary';
 export const GETEXPLOREEVENTS_EP = 'http://' + HOST + ':8080/api/v1/getExplorePage';
