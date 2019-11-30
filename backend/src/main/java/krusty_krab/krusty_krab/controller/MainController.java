@@ -192,7 +192,7 @@ public class MainController {
   
   @GetMapping("/checkItinerary")
   public Boolean checkItinerary() {
-    return !itin.getItin().isEmpty();
+    return !user.getItinerary().getItin().isEmpty();
   }
 
   @PostMapping("/createItineraryWA")
